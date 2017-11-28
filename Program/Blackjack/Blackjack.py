@@ -97,7 +97,7 @@ class Blackjack:
             self.bust = True
             self.continue_game = False
 
-    # Stands, ends game. Public 
+    # Stands, ends game. Public
     def stand(self):
         self.continue_game = False
 

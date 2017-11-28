@@ -30,15 +30,20 @@ class Card:
     def __str__(self):
         return "{} {}".format(self.__suit, self.__value)
 
+    def __eq__(self, other_card):
+        if isinstance(self, other_card.__class__):
+            return (self.__dict__ == other_card.__dict__)
+        return False
+
 class Deck(Stack):
     def __init__(self):
         self.__DECK_SIZE = 52
         self.__suits = [suit for suit in Suits]
-        self.__values = [num for num in range(2, 11)] + [royal for royal in Royals]        
+        self.__values = [num for num in range(2, 11)] + [royal for royal in Royals]
         super().__init__(self.__DECK_SIZE)
         self.init_deck()
 
-    # Shuffled deck 
+    # Shuffled deck
     def init_deck(self):
         temp_deck = []
         for suit in self.__suits:
@@ -54,5 +59,4 @@ def display_and_empty(deck):
 
 if __name__ == "__main__":
     d = Deck()
-    
-    
+    print(Card(Suits.SPADES, 8) == Card(Suits.SPADES, 8))

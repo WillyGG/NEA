@@ -30,6 +30,11 @@ class Card:
     def __str__(self):
         return "{} {}".format(self.__suit, self.__value)
 
+    def __eq__(self, other_card):
+        if isinstance(self, other_card.__class__):
+            return (self.__dict__ == other_card.__dict__)
+        return False
+
 class Deck(Stack):
     def __init__(self):
         self.__DECK_SIZE = 52
@@ -48,9 +53,13 @@ class Deck(Stack):
         for card in temp_deck:
             self.push(card)
 
-def display_and_empty(deck):
-    while not deck.isEmpty:
-        print(deck.pop())
+    def draw(self):
+        return self.pop()
+
+    def display_and_empty(self):
+        while not self.isEmpty():
+            print(deck.pop())
 
 if __name__ == "__main__":
     d = Deck()
+    print(Card(Suits.SPADES, 8) == Card(Suits.SPADES, 8))

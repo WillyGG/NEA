@@ -1,49 +1,58 @@
 from Deck import Deck
 
-def dealCommunity(num, comm_cards, Deck):
-    for x in range(num):
-        comm_cards.append(Deck.pop())
+"""
+28 Nov 2017
+- Wrote the prototype for the hand and the poker interface
+- added equivalence checker for a card
 
-# TODO ADD HAND ANALYSIS AND WINNER COMPARISON
+"""
+
+# TODO Test this class
 class Hand:
-    def __init__(self, cards):
-        self.__hand = cards
+    def __init__(self, initialPot):
+        self.__hand = [] # Perhaps update to circular queue
+        self.__pot = initialPot
 
-    def displayHand(self):
-        for card in self.__hand:
-            print(card)
+    @property
+    def pot(self):
+        return self.__pot
 
-    def calcValue(self):
-        pass
+    def is_in_hand(self, card):
+        for c in self.__hand:
+            if c == card:
+                return True
+        return False
 
+    def clear_hand(self):
+        self.__hand = []
 
-HAND_SIZE = 2
-TSUNAMI = 3
-RIVER = 1
-WAVE = 1
-deals = [TSUNAMI, RIVER, WAVE]
+    def deal(self, *args):
+        if len(args) <= 2:
+            for card in args:
+                self.__hand.append(card)
+                return True
+        else:
+            return False
 
-deck = Deck()
+    def bet(self, amount):
+        if self.__pot - amount > 0:
+            self.__pot -= amount
+            return amount
+        else:
+            return 0
 
-hand1 = []
-hand2 = []
-comm_cards = []
-for x in range(HAND_SIZE):
-    hand1.append(deck.pop())
-    hand2.append(deck.pop())
+def test_hand_class():
+    d = Deck()
+    h = Hand(500)
 
-player1 = Hand(hand1)
-player2 = Hand(hand2)
-players = [player1, player2]
+    card1 = d.pop()
+    card2 = d.pop()
+    card3 = d.pop()
 
-for deal in deals:
-    pl_no = 1
-    for player in players:
-        print(pl_no)
-        pl_no += 1
-        player.displayHand()
-    print("comm:")
-    for card in comm_cards:
-        print(card)
-    print("\n")
-    dealCommunity(deal, comm_cards, deck)
+    print( h.deal(card1, card2, card3) )
+    print( h.deal(card1, card2) )
+
+    print(h.is_in_hand(card1))
+    print(h.is_in_hand(card2))
+
+test_hand_class()
