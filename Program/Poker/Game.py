@@ -7,10 +7,11 @@ from Deck import Deck
 
 """
 
-# TODO Test this class
+# TODO Build the Game class
 class Hand:
     def __init__(self, initialPot):
-        self.__hand = [] # Perhaps update to circular queue
+        self.__hand_size = 2
+        self.__hand = [None, None] # Perhaps update to circular queue
         self.__pot = initialPot
 
     @property
@@ -27,10 +28,10 @@ class Hand:
         self.__hand = []
 
     def deal(self, *args):
-        if len(args) <= 2:
-            for card in args:
-                self.__hand.append(card)
-                return True
+        if len(args) <= self.__hand_size:
+            for ind in range(len(args)):
+                self.__hand[ind] = args[ind]
+            return True
         else:
             return False
 
@@ -49,10 +50,12 @@ def test_hand_class():
     card2 = d.pop()
     card3 = d.pop()
 
-    print( h.deal(card1, card2, card3) )
-    print( h.deal(card1, card2) )
+    print("first deal", h.deal(card1, card2, card3) ) # False
+    print("second deal", h.deal(card1, card2) ) # True
 
-    print(h.is_in_hand(card1))
-    print(h.is_in_hand(card2))
+    print("first card check", h.is_in_hand(card1)) # True
+    print("second card check", h.is_in_hand(card2)) # True
+    print("third card check", h.is_in_hand(card3)) # False
 
-test_hand_class()
+if __name__ == "__main__":
+    test_hand_class()

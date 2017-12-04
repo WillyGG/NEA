@@ -62,4 +62,4 @@ class Deck(Stack):
 
 if __name__ == "__main__":
     d = Deck()
-    print(Card(Suits.SPADES, 8) == Card(Suits.SPADES, 8))
+    print(Card(Suits.SPADES, Royals.QUEEN) == Card(Suits.SPADES, Royals.QUEEN))
