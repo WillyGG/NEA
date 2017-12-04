@@ -38,22 +38,23 @@ class Blackjack:
     # Calculate the total value of the passed hand (where hand is an array of cards)
     def assess_hand(self, hand):
         total = 0
-        hasAce = False
+        noAces = 0
         for card in hand:
             cValue = card.value
             if isinstance(cValue, Royals):
                 cValue = self.Royals[cValue]
                 if cValue == Royals.ACE:
-                    hasAce = True
+                    noAces += 1
             total += cValue
-        if hasAce:
-            total = self.choose_ace(total)
+        if noAces > 0:
+            total = self.choose_ace(total, noAces)
         return total
 
     # If bust, changes the ace to a 1. TODO: TEST THIS
-    def choose_ace(self, total):
-        if total > self.blackjack:
-            total -= 10
+    def choose_ace(self, total, noAces):
+        for _ in range(noAces):
+            if total > self.blackjack:
+                total -= 10
         return total
 
     # compares the hands of the passed players
