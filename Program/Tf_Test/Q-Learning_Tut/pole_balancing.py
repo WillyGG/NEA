@@ -75,6 +75,7 @@ with tf.Session() as sess:
             a_dist = sess.run(myAgent.output,feed_dict={myAgent.state_in:[s]})
             a = np.random.choice(a_dist[0],p=a_dist[0])
             a = np.argmax(a_dist == a)
+            print("a", a)
 
             # Observation, reward, done, info
             s1,r,d,_ = env.step(a) #Get our reward for taking an action given a action.
@@ -92,7 +93,7 @@ with tf.Session() as sess:
                     gradBuffer[idx] += grad
 
                 if i % update_frequency == 0 and i != 0:
-                    feed_dict= dictionary = dict(zip(myAgent.gradient_holders, gradBuffer))
+                    feed_dict = dictionary = dict(zip(myAgent.gradient_holders, gradBuffer))
                     _ = sess.run(myAgent.update_batch, feed_dict=feed_dict)
                     for ix,grad in enumerate(gradBuffer):
                         gradBuffer[ix] = grad * 0

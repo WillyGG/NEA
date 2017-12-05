@@ -31,9 +31,13 @@ class Blackjack:
         self.dealer = []
         self.bust = False
         self.continue_game = True
+        self.win_state = 0 # -1 = loss, 0 = draw, 1 = win
         # Deals to each player
         for _ in range(2):
             self.deal(self.player, self.dealer)
+
+    def reset(self):
+        self.__init__()
 
     # Calculate the total value of the passed hand (where hand is an array of cards)
     def assess_hand(self, hand):
@@ -57,26 +61,31 @@ class Blackjack:
                 total -= 10
         return total
 
-    # compares the hands of the passed players
+    # compares the hands of the passed players TODO: adjust this to return numeric values which network can interpret
     def compare_hands(self):
         player_total = self.assess_hand(self.player)
         dealer_total = self.assess_hand(self.dealer)
         winner_msg = ""
         if not self.bust and dealer_total <= self.blackjack:
             if player_total > dealer_total:
+                self.win_state = 1
                 winner_msg = "player wins"
                 win_tot = player_total
             elif player_total < dealer_total:
+                self.win_state = -1
                 winner_msg = "dealer wins"
                 win_tot = dealer_total
             else:
+                self.win_state = 0
                 winner_msg = "draw"
         else:
             if self.bust:
+                self.wins_state = -1
                 winner_msg = "dealer wins, bust"
                 win_tot = dealer_total
             elif dealer_total > self.blackjack:
-                winner_msg = "player wins"
+                self.win_state = 1 #TODO: decide whether to include this - reward not based on agent's actions?
+                winner_msg = "player wins, dealer bust"
                 win_tot = player_total
 
         return winner_msg + " " + str(win_tot) + "\n"
@@ -112,6 +121,19 @@ class Blackjack:
             print(card, end = " ")
         p_total = self.assess_hand(self.player)
         print(str(p_total))
+
+    def get_game_state(self):
+        player_hand_size = len(self.player)
+        player_hand_value = self.assess_hand(self.player)
+        dealer_hand_size = len(self.dealer)
+        dealer_hand_value = self.assess_hand(self.dealer)
+        return [player_hand_size, player_hand_value, dealer_hand_size, dealer_hand_value]
+
+    def gen_reward(self):
+        reward = self.win_state
+        if self.bust:
+            reward -= 1
+        return reward
 
 if __name__ == "__main__":
     bj = Blackjack()
