@@ -31,6 +31,9 @@ class Blackjack:
         self.dealer = []
         self.bust = False
         self.continue_game = True
+        self.winReward = 1
+        self.lossCost = -1
+        self.bustCost = -1
         self.win_state = 0 # -1 = loss, 0 = draw, 1 = win
         # Deals to each player
         for _ in range(2):
@@ -61,30 +64,31 @@ class Blackjack:
                 total -= 10
         return total
 
-    # compares the hands of the passed players TODO: adjust this to return numeric values which network can interpret
+    # compares the hands of the passed players TODO: TURN THIS INTO A PICK WINNER FUNCTION AND RETURN REWARD
     def compare_hands(self):
         player_total = self.assess_hand(self.player)
         dealer_total = self.assess_hand(self.dealer)
         winner_msg = ""
         if not self.bust and dealer_total <= self.blackjack:
             if player_total > dealer_total:
-                self.win_state = 1
+                self.win_state = self.winReward
                 winner_msg = "player wins"
                 win_tot = player_total
             elif player_total < dealer_total:
-                self.win_state = -1
+                self.win_state = self.lossCost
                 winner_msg = "dealer wins"
                 win_tot = dealer_total
             else:
                 self.win_state = 0
                 winner_msg = "draw"
+                win_tot = player_total
         else:
             if self.bust:
-                self.wins_state = -1
+                self.win_state = self.lossCost + self.bustCost
                 winner_msg = "dealer wins, bust"
                 win_tot = dealer_total
             elif dealer_total > self.blackjack:
-                self.win_state = 1 #TODO: decide whether to include this - reward not based on agent's actions?
+                self.win_state = self.winReward #TODO: decide whether to include this - reward not based on agent's actions?
                 winner_msg = "player wins, dealer bust"
                 win_tot = player_total
 
@@ -130,9 +134,7 @@ class Blackjack:
         return [player_hand_size, player_hand_value, dealer_hand_size, dealer_hand_value]
 
     def gen_reward(self):
-        reward = self.win_state
-        if self.bust:
-            reward -= 1
+        reward = int(self.win_state)
         return reward
 
 if __name__ == "__main__":
