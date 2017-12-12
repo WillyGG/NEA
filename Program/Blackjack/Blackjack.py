@@ -31,10 +31,14 @@ class Blackjack:
         self.dealer = []
         self.bust = False
         self.continue_game = True
-        self.winReward = 1
-        self.lossCost = -1
-        self.bustCost = -1
+
+        self.winReward = 11
+        self.lossCost = -10
+        self.bustCost = -5
+        self.hitReward = 0 # 1 => 43.1
         self.win_state = 0 # -1 = loss, 0 = draw, 1 = win
+        self.hand_value_discount = 0
+        self.player_won = False
         # Deals to each player
         for _ in range(2):
             self.deal(self.player, self.dealer)
@@ -71,24 +75,28 @@ class Blackjack:
         winner_msg = ""
         if not self.bust and dealer_total <= self.blackjack:
             if player_total > dealer_total:
-                self.win_state = self.winReward
+                self.win_state += self.winReward
+                self.player_won = True
                 winner_msg = "player wins"
                 win_tot = player_total
             elif player_total < dealer_total:
-                self.win_state = self.lossCost
+                self.win_state += self.lossCost
+                self.player_won = False
                 winner_msg = "dealer wins"
                 win_tot = dealer_total
             else:
-                self.win_state = 0
+                self.win_state += 0
                 winner_msg = "draw"
                 win_tot = player_total
         else:
             if self.bust:
-                self.win_state = self.lossCost + self.bustCost
+                self.win_state += self.lossCost + self.bustCost
+                self.player_won = False
                 winner_msg = "dealer wins, bust"
                 win_tot = dealer_total
             elif dealer_total > self.blackjack:
-                self.win_state = self.winReward #TODO: decide whether to include this - reward not based on agent's actions?
+                self.win_state += self.winReward #TODO: decide whether to include this - reward not based on agent's actions?
+                self.player_won = True
                 winner_msg = "player wins, dealer bust"
                 win_tot = player_total
 
@@ -106,6 +114,7 @@ class Blackjack:
 
     # A hits the player's hand. If they are bust, stops the game - public
     def hit(self):
+        self.win_state += self.hitReward # TODO CONSIDER IF HITTING REWARD IMPROVES PERFORMANCE
         self.deal(self.player)
         if self.assess_hand(self.player) > self.blackjack:
             self.bust = True
@@ -134,8 +143,11 @@ class Blackjack:
         return [player_hand_size, player_hand_value, dealer_hand_size, dealer_hand_value]
 
     def gen_reward(self):
-        reward = int(self.win_state)
+        reward = int(self.win_state) + int(self.assess_hand(self.player) * self.hand_value_discount)
         return reward
+
+    def agent_won(self):
+        return (self.player_won)
 
 if __name__ == "__main__":
     bj = Blackjack()

@@ -75,12 +75,12 @@ with tf.Session() as sess:
             a_dist = sess.run(myAgent.output,feed_dict={myAgent.state_in:[s]})
             a = np.random.choice(a_dist[0],p=a_dist[0])
             a = np.argmax(a_dist == a)
-            print("a", a)
 
             # Observation, reward, done, info
             s1,r,d,_ = env.step(a) #Get our reward for taking an action given a action.
             ep_history.append([s,a,r,s1])
             s = s1
+            print(s)
             running_reward += r
             if d == True:
                 #Update the network.
@@ -113,8 +113,8 @@ with tf.Session() as sess:
             #Probabilistically pick an action given our network outputs.
             a_dist = sess.run(myAgent.output,feed_dict={myAgent.state_in:[s]})
             a = np.random.choice(a_dist[0],p=a_dist[0])
-            print(a)
-            print(a_dist)
+            print("a",a)
+            print("a_dist",a_dist)
             print(a == a_dist)
             a = np.argmax(a_dist == a)
 

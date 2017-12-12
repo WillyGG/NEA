@@ -19,7 +19,12 @@
     - agent hit no matter what
     - playing with numbers...
     - Bad implementation of the blackjack interface - forgot to deal dealers hand, and compare the new hands
-    - TODO: Update blackjack interface -> create a higher level function get a winner
+    - TODO: Update blackjack interface -> create a higher level function get a winner#
+    
+    12 Dec
+    - Added performance tester section - Network performance currently at about 40% win rate
+    - Playing with reward numbers, update frequency, hit reward, hand value reward.
+    
 """
 
 import tensorflow as tf
@@ -47,12 +52,15 @@ class Agent:
     def init_feed_forward(self, inp_size, hidden_size, output_size):
         # Establish feed-forward part of the network
         self.input_layer = tf.placeholder(shape=[None, inp_size], dtype=tf.float32)
+
         hidden_layer = slim.fully_connected(self.input_layer, hidden_size,
                                             biases_initializer=None,
                                             activation_fn=tf.nn.relu)  # Rectified linear activation func.
+
         self.output_layer = slim.fully_connected(hidden_layer, output_size,
                                                  activation_fn=tf.nn.softmax,
                                                  biases_initializer=None)  # Softmax activation func.
+
         self.action = tf.argmax(self.output_layer, 1)
 
     def gen_loss(self):
@@ -61,8 +69,7 @@ class Agent:
         self.action_holder = tf.placeholder(shape=[None], dtype=tf.int32)
 
         self.indexes = tf.range(0, tf.shape(self.output_layer)[0]) * tf.shape(self.output_layer)[1] + self.action_holder
-        self.responsible_outputs = tf.gather(tf.reshape(self.output_layer, [-1]),
-                                             self.indexes)  # Gathers and reshapes oup to a workable form
+        self.responsible_outputs = tf.gather(tf.reshape(self.output_layer, [-1]), self.indexes)  # Gathers and reshapes oup to a workable form
 
         return -tf.reduce_mean(tf.log(self.responsible_outputs) * self.reward_holder)  # loss function - vanilla policy
 
@@ -70,7 +77,7 @@ class Agent:
         tvars = tf.trainable_variables()
         self.gradient_holders = []
         for ind, var in enumerate(tvars):
-            placeholder = tf.placeholder(tf.float32, name=str(ind) + '_holder')
+            placeholder = tf.placeholder(tf.float32, name = str(ind) + '_holder')
             self.gradient_holders.append(placeholder)
 
         self.gradients = tf.gradients(self.loss, tvars)  # Calculates the gradients loss with respect to tvars
@@ -95,8 +102,9 @@ tf.reset_default_graph()
 
 BigBoiBenny = Agent(learn_rate=1e-2, inp_size = 4, hidden_size = 8, output_size = 2)
 blackjack = Blackjack()
+#Training Parameters
 num_train_ep = 10000
-update_frequency = 5
+update_frequency = 5 # 1 => 41%, 10 => 42%, 5 => 42.8%
 
 won = 0
 lost = 0
@@ -109,10 +117,12 @@ with tf.Session() as sess:
     total_reward = []
     total_length = []
 
+    # Populate the grad buffer with zeros
     gradBuffer = sess.run(tf.trainable_variables())
     for ind, grad in enumerate(gradBuffer):
         gradBuffer[ind] = grad * 0
 
+    print("Training", end = "")
     while ep_num < num_train_ep:
         blackjack.__init__() # hard reset of blackjack game
         running_reward = 0
@@ -132,7 +142,7 @@ with tf.Session() as sess:
             ep_history.append([game_state, action, reward, new_state])
 
             game_state = new_state
-            #running_reward += reward
+            running_reward += reward
             no_moves += 1
 
         # TODO FIGURE OUT HOW TO INTEGRATE THIS INTO REWARD SYSTEM
@@ -173,11 +183,58 @@ with tf.Session() as sess:
         total_reward.append(running_reward)
         total_length.append(no_moves)
 
-        if ep_num % 500 == 0:
+        if ep_num % (1000) == 0:
+            print(".", end="")
+            """
             print("won", won)
             print("lost", lost)
             print("draw", draw)
             print(np.mean(total_reward[-500:]))
+            """
         ep_num += 1
 
-# TODO TEST NETWORK PERFORMANCE AND UPDATE DOCUMENTED DESIGN
+    # TODO TEST NETWORK PERFORMANCE AND UPDATE DOCUMENTED DESIGN
+    # TODO FIDDLE WITH THE FUNCTIONALITY AND THE PERFORMANCE TO FIND OUT WHY THE NETWORK ALWAYS STANDS
+
+    print()
+    # Network performance test
+    num_test_games = 1000
+    won_games = 0
+    for _ in range(num_test_games):
+        blackjack.__init__()
+        game_state = blackjack.get_game_state()
+        while blackjack.continue_game:
+            action_dist = sess.run(BigBoiBenny.output_layer, feed_dict={BigBoiBenny.input_layer: [game_state]})
+            action = np.random.choice(action_dist[0], p=action_dist[0])
+            #print(action)
+            action = np.argmax(action_dist == action)
+            BigBoiBenny.perform_action(action)  # Perform action
+            new_state = blackjack.get_game_state()
+            game_state = new_state
+        blackjack.deal_dealer_end()
+        blackjack.compare_hands()
+        if blackjack.agent_won():
+            won_games += 1
+    print("{0}% games won over {1} games".format((won_games * 100 / num_test_games), num_test_games))
+
+    for x in range(3):
+        print()
+        blackjack.__init__()
+        game_state = blackjack.get_game_state()
+        print(game_state)
+        while blackjack.continue_game:
+            # Player size, player value, opp hand, opp value
+            action_dist = sess.run(BigBoiBenny.output_layer, feed_dict={BigBoiBenny.input_layer: [game_state]})
+            action = np.random.choice(action_dist[0], p=action_dist[0])
+            action = np.argmax(action_dist == action)
+            BigBoiBenny.perform_action(action)  # Perform action
+            game_state = blackjack.get_game_state()
+            if action == 0:
+                print("hit")
+                print(game_state)
+            elif action == 1:
+                print("stand")
+                print(game_state)
+
+        blackjack.deal_dealer_end()
+        blackjack.compare_hands()
