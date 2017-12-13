@@ -80,8 +80,8 @@ with tf.Session() as sess:
             s1,r,d,_ = env.step(a) #Get our reward for taking an action given a action.
             ep_history.append([s,a,r,s1])
             s = s1
-            print(s)
             running_reward += r
+            print(running_reward)
             if d == True:
                 #Update the network.
                 ep_history = np.array(ep_history)

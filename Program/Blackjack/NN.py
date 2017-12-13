@@ -25,6 +25,9 @@
     - Added performance tester section - Network performance currently at about 40% win rate
     - Playing with reward numbers, update frequency, hit reward, hand value reward.
     
+    13 Dec
+    - Refactored the blackjack code into the blackjack game interface and the interface for the agent into two classes, for separation of concerns
+    TODO: Add a different network structure and then test performance w/ betting, and w/o
 """
 
 import tensorflow as tf
@@ -32,16 +35,6 @@ import tensorflow.contrib.slim as slim
 import numpy as np
 from Blackjack import Blackjack
 import matplotlib.pyplot as plt
-
-discount_multiplier = 0.99 # Gamma
-
-def discount_rewards(rewards):
-    disc_rewards = np.zeros_like(rewards)
-    total = 0
-    for ind in reversed(range(0, rewards.size)):
-        total = total * discount_multiplier + rewards[ind]
-        disc_rewards[ind] = total
-    return disc_rewards
 
 class Agent:
     def __init__(self, learn_rate, inp_size, hidden_size, output_size):
@@ -92,23 +85,65 @@ class Agent:
         elif action_value == 1:
             blackjack.stand()
 
-tf.reset_default_graph()
-"""
-    TODO: decide how you're going to organieze the layers:
-    eg. node for each card and total? Node for hand structure?
-    - 1) num of cards (dealer), 2) total card value (dealer), 3) num of cards in hand (agent), 4) total card value (agent)
-    
-"""
 
-BigBoiBenny = Agent(learn_rate=1e-2, inp_size = 4, hidden_size = 8, output_size = 2)
+class Blackjack_Agent_Interface:
+    def __init__(self, blackjack_instance, rewardDict):
+        # TODO consider adding a hit reward
+        self.blackjack = blackjack_instance
+        self.winReward = rewardDict["winReward"] #2
+        self.lossCost = rewardDict["lossCost"] #-2
+        self.bustCost = rewardDict["bustCost"]
+
+        self.hand_value_discount = rewardDict["hand_value_discount"] #1 / 21
+        self.hand_size_norm_const = 1 / 10
+        self.hand_val_norm_const = 1 / 30
+
+    def get_game_state(self):  # Normalised
+        player_hand_size = len(self.blackjack.player) * self.hand_size_norm_const
+        player_hand_value = self.blackjack.assess_hand(self.blackjack.player) * self.hand_val_norm_const
+        dealer_hand_size = len(self.blackjack.dealer) * self.hand_size_norm_const
+        dealer_hand_value = self.blackjack.assess_hand(self.blackjack.dealer) * self.hand_val_norm_const
+        return [player_hand_size, player_hand_value, dealer_hand_size, dealer_hand_value]
+
+    def gen_step_reward(self):
+        return 0
+
+    def gen_end_reward(self, player_won):
+        # TODO decide if dealer going bust should be rewarded
+        reward = 0
+        hand_value_reward = int(self.blackjack.assess_hand(self.blackjack.player) * self.hand_value_discount)
+        if hand_value_reward > self.blackjack.blackjack:
+            hand_value_reward += self.bustCost
+        if player_won:
+            reward += self.winReward
+        else:
+            reward += self.lossCost
+        return reward
+
+def discount_rewards(rewards):
+    disc_rewards = np.zeros_like(rewards)
+    total = 0
+    for ind in reversed(range(0, rewards.size)):
+        total = total * discount_multiplier + rewards[ind]
+        disc_rewards[ind] = total
+    return disc_rewards
+
+tf.reset_default_graph()
+discount_multiplier = 0.99  # Gamma
+BigBoiBenny = Agent(learn_rate=1e-2, inp_size=4, hidden_size=8, output_size=2)
 blackjack = Blackjack()
+rewardDict = {
+    "winReward" : 3,
+    "lossCost" : -3,
+    "bustCost" : 0,
+    "hand_value_discount" : 1 / 2
+}
+blackjack_agent_interface = Blackjack_Agent_Interface(blackjack, rewardDict)
+
 #Training Parameters
-num_train_ep = 10000
+num_train_ep = 15000
 update_frequency = 5 # 1 => 41%, 10 => 42%, 5 => 42.8%
 
-won = 0
-lost = 0
-draw = 0
 
 init = tf.global_variables_initializer()
 with tf.Session() as sess:
@@ -128,7 +163,7 @@ with tf.Session() as sess:
         running_reward = 0
         ep_history = []
         no_moves = 0
-        game_state = blackjack.get_game_state()  # Returns num of cards in each players hand and hand value of each player
+        game_state = blackjack_agent_interface.get_game_state()  # Returns num of cards in each players hand and hand value of each player
         while blackjack.continue_game:
             # Probabilitisically pick an action from current network weighting
             # Then create a distribution and pick and action randomly if ...
@@ -137,30 +172,23 @@ with tf.Session() as sess:
             action = np.argmax(action_dist == action)
 
             BigBoiBenny.perform_action(action) # Perform action
-            reward = blackjack.gen_reward()
-            new_state = blackjack.get_game_state()
-            ep_history.append([game_state, action, reward, new_state])
+            reward = blackjack_agent_interface.gen_step_reward()
+            new_state = blackjack_agent_interface.get_game_state()
+
+            if blackjack.continue_game:
+                ep_history.append([game_state, action, reward, new_state])
 
             game_state = new_state
             running_reward += reward
             no_moves += 1
 
         # TODO FIGURE OUT HOW TO INTEGRATE THIS INTO REWARD SYSTEM
-        blackjack.deal_dealer_end()
-        blackjack.compare_hands()
-        reward = blackjack.gen_reward()
-        new_state = blackjack.get_game_state()
+        agent_won = blackjack.end_game()
+        reward += blackjack_agent_interface.gen_end_reward(agent_won)
+        new_state = blackjack_agent_interface.get_game_state()
         ep_history.append([game_state, action, reward, new_state])
 
-        game_state = new_state
         running_reward += reward
-
-        if reward > 0:
-            won += 1
-        elif reward < 0:
-            lost += 1
-        else:
-            draw += 1
 
         #Update the network after each game
         ep_history = np.array(ep_history)
@@ -185,12 +213,6 @@ with tf.Session() as sess:
 
         if ep_num % (1000) == 0:
             print(".", end="")
-            """
-            print("won", won)
-            print("lost", lost)
-            print("draw", draw)
-            print(np.mean(total_reward[-500:]))
-            """
         ep_num += 1
 
     # TODO TEST NETWORK PERFORMANCE AND UPDATE DOCUMENTED DESIGN
@@ -200,41 +222,36 @@ with tf.Session() as sess:
     # Network performance test
     num_test_games = 1000
     won_games = 0
+    no_times_stood = 0
+    no_times_good_stood = 0
+    hit = False
     for _ in range(num_test_games):
         blackjack.__init__()
-        game_state = blackjack.get_game_state()
+        game_state = blackjack_agent_interface.get_game_state()
         while blackjack.continue_game:
+            hit = False
             action_dist = sess.run(BigBoiBenny.output_layer, feed_dict={BigBoiBenny.input_layer: [game_state]})
             action = np.random.choice(action_dist[0], p=action_dist[0])
-            #print(action)
             action = np.argmax(action_dist == action)
             BigBoiBenny.perform_action(action)  # Perform action
-            new_state = blackjack.get_game_state()
+            new_state = blackjack_agent_interface.get_game_state()
             game_state = new_state
-        blackjack.deal_dealer_end()
-        blackjack.compare_hands()
-        if blackjack.agent_won():
+
+            if action == 1 and hit == False:
+                no_times_stood += 1
+                if new_state[1] * 30 >= 17 and new_state[1] <= 21:
+                    no_times_good_stood += 1
+            elif action == 0:
+                hit = True
+
+        agent_won = blackjack.end_game()
+        if agent_won:
             won_games += 1
     print("{0}% games won over {1} games".format((won_games * 100 / num_test_games), num_test_games))
 
-    for x in range(3):
-        print()
-        blackjack.__init__()
-        game_state = blackjack.get_game_state()
-        print(game_state)
-        while blackjack.continue_game:
-            # Player size, player value, opp hand, opp value
-            action_dist = sess.run(BigBoiBenny.output_layer, feed_dict={BigBoiBenny.input_layer: [game_state]})
-            action = np.random.choice(action_dist[0], p=action_dist[0])
-            action = np.argmax(action_dist == action)
-            BigBoiBenny.perform_action(action)  # Perform action
-            game_state = blackjack.get_game_state()
-            if action == 0:
-                print("hit")
-                print(game_state)
-            elif action == 1:
-                print("stand")
-                print(game_state)
+    if no_times_stood == 0:
+        print("never stood..")
+    else:
+        print("{0}% times good stood in {1} games".format((no_times_good_stood * 100 / no_times_stood), num_test_games))
 
-        blackjack.deal_dealer_end()
-        blackjack.compare_hands()
+    print("{0}% games stood, no hit".format((no_times_stood * 100 / num_test_games)))
