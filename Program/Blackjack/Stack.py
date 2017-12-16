@@ -32,7 +32,7 @@ class Stack():
             self.__pointer += 1
             self.__stack[self.__pointer] = toPush
         else:
-            print("Stack is full")
+            return None
 
     # Removes top object from stack
     def pop(self):
@@ -42,11 +42,11 @@ class Stack():
             self.__pointer -= 1
             return popped
         else:
-            print("Stack is empty")
+            return None
 
     # Reveals object at top of stack
     def peek(self):
-        if self.__pointer >= 0:
+        if not self.isEmpty():
             print(self.__stack[self.__pointer])
         else:
             print("Empty Stack")

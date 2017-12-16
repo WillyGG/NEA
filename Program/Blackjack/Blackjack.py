@@ -32,8 +32,6 @@ class Blackjack:
         self.bust = False
         self.continue_game = True
 
-        self.player_won = False
-
         # Deals to each player
         for _ in range(2):
             self.deal(self.player, self.dealer)
@@ -67,32 +65,20 @@ class Blackjack:
     def compare_hands(self):
         player_total = self.assess_hand(self.player)
         dealer_total = self.assess_hand(self.dealer)
-        winner_msg = ""
-        win_tot = 0
+        player_won = False
         if not self.bust and dealer_total <= self.blackjack:
             if player_total > dealer_total:
-                self.player_won = True
-                winner_msg = "player wins"
-                win_tot = player_total
+                player_won = True
             elif player_total < dealer_total:
-                self.player_won = False
-                winner_msg = "dealer wins"
-                win_tot = dealer_total
+                player_won = False
             else:
-                winner_msg = "draw"
-                win_tot = player_total
+                player_won = False
         else:
             if self.bust:
-                self.player_won = False
-                winner_msg = "dealer wins, bust"
-                win_tot = dealer_total
+                player_won = False
             elif dealer_total > self.blackjack:
-                self.player_won = True
-                winner_msg = "player wins, dealer bust"
-                win_tot = player_total
-
-        return winner_msg + " " + str(win_tot) + "\n"
-
+                player_won = True
+        return player_won
     # Deals a card to players passed
     def deal(self, *args):
         for player in args:
@@ -104,6 +90,7 @@ class Blackjack:
             self.deal(self.dealer)
 
     # A hits the player's hand. If they are bust, stops the game - public
+    # TODO Automatic end game if blackjack?
     def hit(self):
         self.deal(self.player)
         if self.assess_hand(self.player) > self.blackjack:
