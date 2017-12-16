@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afba8995-ecc3-4204-a2a6-cfb3b48e3563" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Program/Blackjack/Counting_AI.py" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py" afterPath="$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,7 +18,7 @@
       <file leaf-file-name="Blackjack.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Blackjack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1343">
+            <state relative-caret-position="0">
               <caret line="131" column="30" lean-forward="false" selection-start-line="131" selection-start-column="30" selection-end-line="131" selection-end-column="30" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
@@ -42,12 +42,12 @@
       <file leaf-file-name="NN.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="70">
-              <caret line="29" column="89" lean-forward="false" selection-start-line="29" selection-start-column="89" selection-end-line="29" selection-end-column="89" />
+            <state relative-caret-position="-2488">
+              <caret line="41" column="36" lean-forward="false" selection-start-line="41" selection-start-column="36" selection-end-line="41" selection-end-column="36" />
               <folding>
-                <element signature="e#1383#1406#0" expanded="true" />
-                <element signature="e#1547#4009#0" expanded="false" />
-                <element signature="e#4555#5010#0" expanded="false" />
+                <element signature="e#2017#2040#0" expanded="true" />
+                <element signature="e#2181#4643#0" expanded="false" />
+                <element signature="e#5189#5644#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -56,7 +56,7 @@
       <file leaf-file-name="pole_balancing.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/pole_balancing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1360">
+            <state relative-caret-position="589">
               <caret line="84" column="25" lean-forward="false" selection-start-line="84" selection-start-column="25" selection-end-line="84" selection-end-column="25" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
@@ -68,7 +68,7 @@
       <file leaf-file-name="model_based_pole_balancing.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/model_based_pole_balancing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
+            <state relative-caret-position="3400">
               <caret line="201" column="78" lean-forward="false" selection-start-line="201" selection-start-column="78" selection-end-line="201" selection-end-column="78" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
@@ -80,7 +80,7 @@
       <file leaf-file-name="Counting_AI.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Counting_AI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
+            <state relative-caret-position="68">
               <caret line="4" column="12" lean-forward="false" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
               <folding />
             </state>
@@ -90,19 +90,14 @@
       <file leaf-file-name="Binary_Tree.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="549">
-              <caret line="52" column="26" lean-forward="false" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="shape_base.py" pinned="false" current-in-tab="false">
-        <entry file="file://E:/Users/Zerenity/AppData/Local/Programs/Python/Python36/Lib/site-packages/numpy/core/shape_base.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4964">
-              <caret line="292" column="0" lean-forward="false" selection-start-line="292" selection-start-column="0" selection-end-line="292" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="130">
+              <caret line="92" column="27" lean-forward="false" selection-start-line="92" selection-start-column="27" selection-end-line="92" selection-end-column="27" />
+              <folding>
+                <element signature="e#126#143#0" expanded="false" />
+                <element signature="e#223#985#0" expanded="false" />
+                <element signature="e#1035#2666#0" expanded="false" />
+                <element signature="e#2787#2953#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -134,10 +129,12 @@
     <findStrings>
       <find>self.win_state = 1</find>
       <find>self.win_state = -1</find>
+      <find>self.__root</find>
     </findStrings>
     <replaceStrings>
       <replace />
       <replace>self.win_state = self.winReward</replace>
+      <replace>self._root</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -155,14 +152,14 @@
         <option value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/pole_balancing.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Blackjack_v2/Blackjack.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/NN.py" />
         <option value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/model_based_pole_balancing.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Counting_AI.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/NN.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="274" />
     <option name="y" value="-15" />
     <option name="width" value="1382" />
@@ -202,7 +199,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -225,12 +222,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="settings.editor.splitter.proportion" value="0.25097656" />
   </component>
   <component name="RecentsManager">
@@ -488,25 +485,24 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.103125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30010605" sideWeight="0.14270833" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.49707174" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2407211" sideWeight="0.85729164" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28844115" sideWeight="0.85729164" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38600212" sideWeight="0.8928047" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18557794" sideWeight="0.8928047" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.49707174" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -548,9 +544,9 @@
         <state relative-caret-position="493">
           <caret line="29" column="89" lean-forward="false" selection-start-line="29" selection-start-column="89" selection-end-line="29" selection-end-column="89" />
           <folding>
-            <element signature="e#1383#1406#0" expanded="true" />
-            <element signature="e#1547#4009#0" expanded="false" />
-            <element signature="e#4555#5010#0" expanded="false" />
+            <element signature="e#2017#2040#0" expanded="true" />
+            <element signature="e#2181#4643#0" expanded="false" />
+            <element signature="e#5189#5644#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -601,9 +597,9 @@
         <state relative-caret-position="1139">
           <caret line="71" column="142" lean-forward="false" selection-start-line="71" selection-start-column="142" selection-end-line="71" selection-end-column="142" />
           <folding>
-            <element signature="e#1383#1406#0" expanded="true" />
-            <element signature="e#1547#4009#0" expanded="false" />
-            <element signature="e#4555#5010#0" expanded="false" />
+            <element signature="e#2017#2040#0" expanded="true" />
+            <element signature="e#2181#4643#0" expanded="false" />
+            <element signature="e#5189#5644#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -678,9 +674,9 @@
         <state relative-caret-position="3349">
           <caret line="197" column="102" lean-forward="false" selection-start-line="197" selection-start-column="102" selection-end-line="197" selection-end-column="102" />
           <folding>
-            <element signature="e#1383#1406#0" expanded="true" />
-            <element signature="e#1547#4009#0" expanded="false" />
-            <element signature="e#4555#5010#0" expanded="false" />
+            <element signature="e#2017#2040#0" expanded="true" />
+            <element signature="e#2181#4643#0" expanded="false" />
+            <element signature="e#5189#5644#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -691,9 +687,9 @@
         <state relative-caret-position="1819">
           <caret line="107" column="40" lean-forward="true" selection-start-line="107" selection-start-column="40" selection-end-line="107" selection-end-column="40" />
           <folding>
-            <element signature="e#1383#1406#0" expanded="true" />
-            <element signature="e#1547#4009#0" expanded="false" />
-            <element signature="e#4555#5010#0" expanded="false" />
+            <element signature="e#2017#2040#0" expanded="true" />
+            <element signature="e#2181#4643#0" expanded="false" />
+            <element signature="e#5189#5644#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -768,9 +764,9 @@
         <state relative-caret-position="374">
           <caret line="22" column="60" lean-forward="false" selection-start-line="22" selection-start-column="60" selection-end-line="22" selection-end-column="60" />
           <folding>
-            <element signature="e#1383#1406#0" expanded="true" />
-            <element signature="e#1547#4009#0" expanded="false" />
-            <element signature="e#4555#5010#0" expanded="false" />
+            <element signature="e#2017#2040#0" expanded="true" />
+            <element signature="e#2181#4643#0" expanded="false" />
+            <element signature="e#5189#5644#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -795,9 +791,9 @@
         <state relative-caret-position="85">
           <caret line="5" column="5" lean-forward="false" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
           <folding>
-            <element signature="e#1383#1406#0" expanded="true" />
-            <element signature="e#1547#4009#0" expanded="false" />
-            <element signature="e#4555#5010#0" expanded="false" />
+            <element signature="e#2017#2040#0" expanded="true" />
+            <element signature="e#2181#4643#0" expanded="false" />
+            <element signature="e#5189#5644#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -879,27 +875,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/pole_balancing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1360">
-          <caret line="84" column="25" lean-forward="false" selection-start-line="84" selection-start-column="25" selection-end-line="84" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://E:/Users/Zerenity/AppData/Local/Programs/Python/Python36/Lib/site-packages/numpy/core/shape_base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4964">
-          <caret line="292" column="0" lean-forward="false" selection-start-line="292" selection-start-column="0" selection-end-line="292" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/model_based_pole_balancing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
+        <state relative-caret-position="3400">
           <caret line="201" column="78" lean-forward="false" selection-start-line="201" selection-start-column="78" selection-end-line="201" selection-end-column="78" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
@@ -909,7 +887,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Blackjack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1343">
+        <state relative-caret-position="0">
           <caret line="131" column="30" lean-forward="false" selection-start-line="131" selection-start-column="30" selection-end-line="131" selection-end-column="30" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
@@ -929,31 +907,54 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="70">
-          <caret line="29" column="89" lean-forward="false" selection-start-line="29" selection-start-column="89" selection-end-line="29" selection-end-column="89" />
-          <folding>
-            <element signature="e#1383#1406#0" expanded="true" />
-            <element signature="e#1547#4009#0" expanded="false" />
-            <element signature="e#4555#5010#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Counting_AI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
+        <state relative-caret-position="68">
           <caret line="4" column="12" lean-forward="false" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://E:/Users/Zerenity/AppData/Local/Programs/Python/Python36/Lib/site-packages/numpy/core/shape_base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="742">
+          <caret line="292" column="0" lean-forward="false" selection-start-line="292" selection-start-column="0" selection-end-line="292" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2488">
+          <caret line="41" column="36" lean-forward="false" selection-start-line="41" selection-start-column="36" selection-end-line="41" selection-end-column="36" />
+          <folding>
+            <element signature="e#2017#2040#0" expanded="true" />
+            <element signature="e#2181#4643#0" expanded="false" />
+            <element signature="e#5189#5644#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/pole_balancing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="84" column="25" lean-forward="false" selection-start-line="84" selection-start-column="25" selection-end-line="84" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="549">
-          <caret line="52" column="26" lean-forward="false" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
-          <folding />
+        <state relative-caret-position="130">
+          <caret line="92" column="27" lean-forward="false" selection-start-line="92" selection-start-column="27" selection-end-line="92" selection-end-column="27" />
+          <folding>
+            <element signature="e#126#143#0" expanded="false" />
+            <element signature="e#223#985#0" expanded="false" />
+            <element signature="e#1035#2666#0" expanded="false" />
+            <element signature="e#2787#2953#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

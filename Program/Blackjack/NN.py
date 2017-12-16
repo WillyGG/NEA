@@ -28,6 +28,19 @@
     13 Dec
     - Refactored the blackjack code into the blackjack game interface and the interface for the agent into two classes, for separation of concerns
     TODO: Add a different network structure and then test performance w/ betting, and w/o
+    
+    15 Dec
+    - Started working on counting AI - an Ai which bases its moves based on what it knows is left in the deck, and 
+      acts according to these probabilities. The purpose of this is to compare the NN AI to something
+    - BST used to store the deck and how many of each value is left in the deck
+    - Started working on self made BST
+    - Completed functionality apart from deletion
+    
+    16 Dec
+    - Completed deletion behaviour for all cases,
+    - refactored tree, includes inheritance for specific case where i need to track a value and a counter variable with it
+      for this deck of cards purpose
+    
 """
 
 import tensorflow as tf

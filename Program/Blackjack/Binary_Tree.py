@@ -1,14 +1,14 @@
 class Binary_Tree:
-    def __init__(self, rootValue, rootCountValue):
-        self.__root = Node(rootValue, rootCountValue)
+    def __init__(self, rootNode):
+        self._root = rootNode
 
     @property
     def root(self):
-        return self.__root
+        return self._root
 
-    # TODO Fix this
+    # TODO Fix this???? IS IT EVEN BROKEN
     def insert(self, node):
-        parentNode = self.__root
+        parentNode = self._root
         nextParent = None
         lastParentLeft = True
 
@@ -31,29 +31,50 @@ class Binary_Tree:
         else:
             parentNode.right = node
 
-    def decrement(self, node):
-        parent = self.__root
-        nextParent = None
+    def delete(self, node, nodeParent):
+        nodeIsLeft = nodeParent.left == node
 
-        while parent != node and parent != None:
-            if node.value < parent.value:
-                nextParent = parent.left
-            if node.value > parent.value:
-                nextParent = parent.right
-            parent = nextParent
+        # No children
+        if (not node.hasLeft() and not node.hasRight()):
+            if nodeIsLeft:
+                nodeParent.left = None
+            else:
+                nodeParent.right = None
+        # Has one child
+        elif (node.hasLeft() != node.hasRight()):
+            childIsLeft = node.hasLeft()
+            if nodeIsLeft:
+                if childIsLeft:
+                    nodeParent.left = node.left
+                else:
+                    nodeParent.left = node.right
+            else:
+                if childIsLeft:
+                    nodeParent.right = node.left
+                else:
+                    nodeParent.right = node.right
+        else:
+            # Find max node in left subtree and replace the node to delete with it
+            maxLeftNodeParent = node
+            maxLeftNode = node.left
+            nextNode = node.left
+            while nextNode != None:
+                if nextNode.hasRight():
+                    maxLeftNodeParent = nextNode
+                    maxLeftNode = nextNode.right
+                    nextNode = nextNode.right
+                else:
+                    nextNode = None
 
-        if parent == None:
-            return False
+            # Recursively delete the old node from its old position, since it is the max node in left tree, it cannot
+            # have a right child, therefore this will be called recursively once at max.
+            self.delete(maxLeftNode, maxLeftNodeParent)
 
-        elif parent == node:
-            parent.countValue -= 1
-            if parent.countValue == 0:
-                self.delete(parent)
-
-    # TODO complete delete
-    def delete(self, node):
-        maxLeft = 0
-
+            maxLeftNode.right = node.right
+            if nodeIsLeft:
+                nodeParent.left = maxLeftNode
+            else:
+                nodeParent.right = maxLeftNode
 
     # For a binary search tree, this should be in ascending order.
     def post_order_traversal(self, parent):
@@ -63,12 +84,46 @@ class Binary_Tree:
         print(parent.value)
         self.post_order_traversal(parent.right)
 
+class Card_Binary_Tree(Binary_Tree):
+    def __init__(self, rootNode):
+        super().__init__(rootNode)
+
+    def decrement(self, node):
+        parentParent = None
+        parent = self._root
+        nextParent = None
+
+        while parent != node and parent != None:
+            if node.value < parent.value:
+                nextParent = parent.left
+            elif node.value > parent.value:
+                nextParent = parent.right
+            # Increment the Parents
+            parentParent = parent
+            parent = nextParent
+
+        if parent == None:
+            return False
+
+        elif parent == node:
+            parent.countValue -= 1
+            if parent.countValue == 0:
+                self.delete(parent, parentParent)
+
 class Node:
-    def __init__(self, value, countValue):
+    def __init__(self, value):
         self.value = value
-        self.countValue = countValue
         self.left = None
         self.right = None
+
+    def hasLeft(self):
+        return (not self.left == None)
+
+    def hasRight(self):
+        return (not self.right == None)
+
+    def hasChildren(self):
+        return (not self.left == None) or (not self.right == None)
 
     def __eq__(self, other):
         if isinstance(other, Node):
@@ -76,12 +131,24 @@ class Node:
                 return True
         return False
 
+class Card_Node(Node):
+    def __init__(self, value, countValue):
+        super().__init__(value)
+        self.countValue = countValue
 
+
+# Testing the functionality
 if __name__ == "__main__":
-    b = Binary_Tree(3, 4)
-    b.insert(Node(1, 3))
-    b.insert(Node(5, 1))
+    b = Card_Binary_Tree(Card_Node(5, 4))
+    b.insert(Card_Node(3, 1))
+    b.insert(Card_Node(2, 1))
+    b.insert(Card_Node(1, 1))
+    b.insert(Card_Node(4, 1))
+
+    b.insert(Card_Node(6, 1))
     b.post_order_traversal(b.root)
 
-    b.decrement(Node(1, 0))
+    b.decrement(Card_Node(3, 0))
+    print()
+    b.post_order_traversal(b.root)
     #print(b.root.left.countValue)
