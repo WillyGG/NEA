@@ -125,6 +125,14 @@ class Node:
     def hasChildren(self):
         return (not self.left == None) or (not self.right == None)
 
+    def numOfChildren(self):
+        num = 0
+        if self.hasLeft():
+            num += 1
+        if self.hasRight():
+            num += 1
+        return num
+
     def __eq__(self, other):
         if isinstance(other, Node):
             if self.value == other.value:
