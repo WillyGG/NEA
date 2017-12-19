@@ -1,0 +1,8 @@
+- Use of prediction network to determine playstyle of human player 
+- Db management between multiple tables: player history, current weighting for this player, tendancies
+- Performance analysis of AI during training with different parameters: How does the Ai behave with different rewards and parameters, against established base
+- BST with card counting AI
+- Probablilitically determining moves with Blackjack card counting AI
+- Algorithm measuring value of current hand based on previous games (combination of weighting and store of previous games)
+- Algorithm measuring value of each hand at the end of the game
+- Data processing with the pot
