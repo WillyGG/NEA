@@ -6,8 +6,8 @@ class Binary_Tree:
     def root(self):
         return self._root
 
-    # TODO Fix this???? IS IT EVEN BROKEN
     def insert(self, node):
+        #print(node)
         parentNode = self._root
         nextParent = None
         lastParentLeft = True
@@ -77,12 +77,12 @@ class Binary_Tree:
                 nodeParent.right = maxLeftNode
 
     # For a binary search tree, this should be in ascending order.
-    def post_order_traversal(self, parent):
+    def in_order_traversal(self, parent): # Always pass in the root node with initial call.
         if parent == None:
             return False
-        self.post_order_traversal(parent.left)
+        self.in_order_traversal(parent.left)
         print(parent.value)
-        self.post_order_traversal(parent.right)
+        self.in_order_traversal(parent.right)
 
 class Card_Binary_Tree(Binary_Tree):
     def __init__(self, rootNode):
@@ -110,7 +110,7 @@ class Card_Binary_Tree(Binary_Tree):
             if parent.countValue == 0:
                 self.delete(parent, parentParent)
 
-class Node:
+class Node: # Association via composition
     def __init__(self, value):
         self.value = value
         self.left = None
@@ -139,6 +139,9 @@ class Node:
                 return True
         return False
 
+    def __str__(self):
+        return str(self.value)
+
 class Card_Node(Node):
     def __init__(self, value, countValue):
         super().__init__(value)
@@ -154,9 +157,9 @@ if __name__ == "__main__":
     b.insert(Card_Node(4, 1))
 
     b.insert(Card_Node(6, 1))
-    b.post_order_traversal(b.root)
+    b.in_order_traversal(b.root)
 
     b.decrement(Card_Node(3, 0))
     print()
-    b.post_order_traversal(b.root)
+    b.in_order_traversal(b.root)
     #print(b.root.left.countValue)
