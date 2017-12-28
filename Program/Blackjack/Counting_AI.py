@@ -5,12 +5,20 @@ from Binary_Tree import Card_Node
 # TODO Make blackjack interface for this AI, getting the data it needs, implement prediction functionality, and play functionality test and compare to NN based system. After that DOCUMENT.
 class Counting_AI:
     def __init__(self, range_of_values, num_of_suits):
-        middle_value = range_of_values[len(range_of_values)//2]  # Gets the middle value.
-        self.CardRecord = Card_Binary_Tree( Card_Node(middle_value, num_of_suits) )
+        self.rangeOfValues = range_of_values
+        self.num_of_suits = num_of_suits
         self.populate_tree_complete(range_of_values, num_of_suits)
 
+        self.bustChance = 0
+        self.blackjackChance = 0
+        self.exceedDealerChance = 0
+
+
+    # TODO maintain this from the tree class
     # Populate the tree in such a way that maintains a complete structure for the binary tree.
     def populate_tree_complete(self, range_of_values, num_of_suits):
+        middle_value = range_of_values[len(range_of_values) // 2]  # Gets the middle value.
+        self.CardRecord = Card_Binary_Tree(Card_Node(middle_value, num_of_suits))
         # Populate the card record with each possible value and how many of each card are in the deck, in a binary way.
         middle_ind = len(range_of_values) // 2
         start_ind = 0
@@ -35,6 +43,53 @@ class Counting_AI:
             self.CardRecord.insert( Card_Node(range_of_values[j], num_of_suits) )
             i += 1
             j += 1
+
+    def init_tree(self):
+        self.CardRecord.clearTree()
+        self.populate_tree_complete(self.rangeOfValues, self.num_of_suits)
+
+    def decrement_cards(self, gameState):
+        # Unpack the game state
+        for hand in gameState:
+            for card in hand:
+                self.CardRecord.decrement(card.value)#
+
+    """
+        - calcBust:
+            - Traverse Tree unti find "turning node", then take the chance of drawing that and everything in r subtree
+        - calcBlackjack
+            - same as calcBust, but for that single node
+        - calcExceedDealer w/o bust:
+            - same as calcBust, - bustChance
+        - calcDealerExceeds?
+    """
+    def calcChances(self, gameState):
+        pass
+
+    def calcBustChance(self, playerHand):
+        handValue = self.getHandValue(playerHand)
+        turningNode = self.CardRecord.getNode(21 - handValue)
+        # Get total number of cards in right subtree of turning node
+        numOfBustCards = self.CardRecord.cardCount(turningNode.right)
+        totalNumofCards = self.CardRecord.cardCount(self.CardRecord.root)
+
+        return numOfBustCards / totalNumofCards
+
+    def getHandValue(self, hand):
+        value = 0
+        for card in hand:
+            value += card.value
+        return value
+
+class Counting_Interface:
+    def __init__(self, blackjackInstance):
+        self.blackjack = blackjackInstance
+
+    def getGameState(self):
+        playerHand = self.blackjack.player
+        dealerHand = self.blackjack.dealer
+        return (playerHand, dealerHand)
+
 
 
 if __name__ == "__main__":

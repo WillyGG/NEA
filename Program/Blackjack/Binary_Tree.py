@@ -1,3 +1,10 @@
+"""
+28 Dec:
+    - Find a way to maintain the complete property from within the tree class
+    - find a way to abstract away the pre/in/post order traversals
+
+"""
+
 class Binary_Tree:
     def __init__(self, rootNode):
         self._root = rootNode
@@ -5,6 +12,16 @@ class Binary_Tree:
     @property
     def root(self):
         return self._root
+
+    # Recursively search via pre order traversal
+    def getNode(self, parent, nodeValue):
+        if parent.value == nodeValue:
+            return parent
+        elif parent == None:
+            return False
+
+        self.getNode(parent.left, nodeValue)
+        self.getNode(parent.right, nodeValue)
 
     def insert(self, node):
         #print(node)
@@ -84,19 +101,22 @@ class Binary_Tree:
         print(parent.value)
         self.in_order_traversal(parent.right)
 
+    def clearTree(self, nodeParent):
+        self.root = None
+
 class Card_Binary_Tree(Binary_Tree):
     def __init__(self, rootNode):
         super().__init__(rootNode)
 
-    def decrement(self, node):
+    def decrement(self, nodeValue):
         parentParent = None
         parent = self._root
         nextParent = None
 
-        while parent != node and parent != None:
-            if node.value < parent.value:
+        while parent != nodeValue and parent != None:
+            if nodeValue < parent.value:
                 nextParent = parent.left
-            elif node.value > parent.value:
+            elif nodeValue > parent.value:
                 nextParent = parent.right
             # Increment the Parents
             parentParent = parent
@@ -105,10 +125,19 @@ class Card_Binary_Tree(Binary_Tree):
         if parent == None:
             return False
 
-        elif parent == node:
+        elif parent == nodeValue:
             parent.countValue -= 1
             if parent.countValue == 0:
                 self.delete(parent, parentParent)
+
+    # Post order traversal to count number of cards in a tree
+    def cardCount(self, parent):
+        if parent == None:
+            return 0
+        leftTotal = self.postOrderTraversalCount(parent.left)
+        rightTotal = self.postOrderTraversalCount(parent.right)
+        return leftTotal + rightTotal + parent.countValue
+
 
 class Node: # Association via composition
     def __init__(self, value):

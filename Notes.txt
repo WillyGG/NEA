@@ -1,0 +1,8 @@
+28 Dec: 
+  - implemented counting AI interface
+  - designed and started to implement probablility chances (bustchance blackjack chance etc)
+  - Added search functionality and counting total number of cards in subtree functionality to imp ^
+
+  - TODO: - implement maintainance of tree from within the tree class
+	  - find a way to abstract away the post/pre/in order traversals
+	  - Test the implementation of the bust chances
