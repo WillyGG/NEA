@@ -55,10 +55,6 @@ class Counting_AI:
                 self.CardRecord.decrement(card.value)#
 
     """
-        - calcBust:
-            - Traverse Tree unti find "turning node", then take the chance of drawing that and everything in r subtree
-        - calcBlackjack
-            - same as calcBust, but for that single node
         - calcExceedDealer w/o bust:
             - same as calcBust, - bustChance
         - calcDealerExceeds?
@@ -66,14 +62,34 @@ class Counting_AI:
     def calcChances(self, gameState):
         pass
 
-    def calcBustChance(self, playerHand):
-        handValue = self.getHandValue(playerHand)
+    # Calc chance next hit will result in bust.
+    def calcBustChance(self, handValue):
         turningNode = self.CardRecord.getNode(21 - handValue)
         # Get total number of cards in right subtree of turning node
-        numOfBustCards = self.CardRecord.cardCount(turningNode.right)
-        totalNumofCards = self.CardRecord.cardCount(self.CardRecord.root)
+        numOfBustCards = self.CardRecord.cardCountGTET(turningNode.right)
+        totalNumofCards = self.CardRecord.cardCountGTET(self.CardRecord.root)
 
         return numOfBustCards / totalNumofCards
+
+    # Calculate chance next hit will result in blackjack
+    def calcBlJaChance(self, handValue):
+        turningNode = self.CardRecord.getNode(21 - handValue)
+        # get total number of cards which will result in a blackjack
+        numOfBlJaCards = turningNode.countValue
+        totalNumofCards = self.CardRecord.cardCountGTET(self.CardRecord.root) # Find a way to abstract this
+
+        return numOfBlJaCards / totalNumofCards
+
+    # Calculate the chance next hit will exceed dealer's hand
+    def calcExceedDlrNoBust(self, handValue, dlrValue):
+        # Calc Chance to exceed dealer
+        if (dlrValue - handValue) < 0: # hand already exceeds dealers
+            return 1
+        turningNode = self.CardRecord.getNode(dlrValue - handValue)
+
+
+        bustChance = self.calcBustChance(handValue)
+
 
     def getHandValue(self, hand):
         value = 0

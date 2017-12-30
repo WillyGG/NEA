@@ -6,3 +6,13 @@
   - TODO: - implement maintainance of tree from within the tree class
 	  - find a way to abstract away the post/pre/in order traversals
 	  - Test the implementation of the bust chances
+
+29 Dec:
+    - completed lower level calc chance methods
+
+    TODO:
+        - Statistical analysis of chances to be used by CC AI - run through a lot of games and graph the empirical data
+        - find a way to abstract away the post/pre/in order traversals
+	    - Test the implementation of the bust chances
+	    - UPDATE BUSTCHANCE TO INCLUDE EVERYTHING IN RIGHT SUBTREE, AND NODES ABOVE, IF TURNING NODE IS IN LEFT SUBTREE and do the same for the exceed dealer chance.
+	       - Greater than and less than card counts, create a new tree out of each node? Too inefficient?

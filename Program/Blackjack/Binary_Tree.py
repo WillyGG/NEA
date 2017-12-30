@@ -130,14 +130,23 @@ class Card_Binary_Tree(Binary_Tree):
             if parent.countValue == 0:
                 self.delete(parent, parentParent)
 
+    # Counts number of cards at current value and larger (Greater than, equal to)
+    # TODO FIX THIS FUNCTION.
+    def cardCountGTET(self, parent):
+        total = 0
+        # If the passed parent is in left subtree, include count in right subtree.
+        if parent.value < self._root.value:
+            total += self._root.countValue
+            total += self.cardCount(self._root.right) # Guarenteed to recur only once
+        total += self.cardCountTraverse(parent)
+
     # Post order traversal to count number of cards in a tree
-    def cardCount(self, parent):
+    def cardCountTraverse(self, parent):
         if parent == None:
             return 0
         leftTotal = self.postOrderTraversalCount(parent.left)
         rightTotal = self.postOrderTraversalCount(parent.right)
         return leftTotal + rightTotal + parent.countValue
-
 
 class Node: # Association via composition
     def __init__(self, value):
