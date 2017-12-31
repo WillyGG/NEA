@@ -131,14 +131,14 @@ class Card_Binary_Tree(Binary_Tree):
                 self.delete(parent, parentParent)
 
     # Counts number of cards at current value and larger (Greater than, equal to)
-    # TODO FIX THIS FUNCTION.
     def cardCountGTET(self, parent):
         total = 0
+        turningNode = parent
         # If the passed parent is in left subtree, include count in right subtree.
         if parent.value < self._root.value:
-            total += self._root.countValue
-            total += self.cardCount(self._root.right) # Guarenteed to recur only once
-        total += self.cardCountTraverse(parent)
+            tmpTree = self.createCountingTree(parent)
+            turningNode = tmpTree.root
+        total += self.cardCountTraverse(turningNode)
 
     # Post order traversal to count number of cards in a tree
     def cardCountTraverse(self, parent):
@@ -147,6 +147,23 @@ class Card_Binary_Tree(Binary_Tree):
         leftTotal = self.postOrderTraversalCount(parent.left)
         rightTotal = self.postOrderTraversalCount(parent.right)
         return leftTotal + rightTotal + parent.countValue
+
+    # When counting cards in left subtree, create a new subtree where the root is the turning node, then count everything on the right of this
+    def createCountingTree(self, countRoot):
+        countingTree = Card_Binary_Tree(countRoot)
+        self.populateCountTree(self._root, countingTree)
+        return countingTree
+
+    def populateCountTree(self, parent, countTree):
+        if parent == None:
+            return False
+        elif parent != countTree.root.value:
+            tmpParent = parent # This should not affect the node in the main tree, as python passes variables by value
+            tmpParent.left = None # Test to see if this messes with the recursion
+            tmpParent.right = None
+            countTree.insert(tmpParent)
+        self.populateCountTree(parent.left, countTree)
+        self.populateCountTree(parent.right, countTree)
 
 class Node: # Association via composition
     def __init__(self, value):

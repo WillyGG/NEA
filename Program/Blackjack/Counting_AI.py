@@ -55,12 +55,25 @@ class Counting_AI:
                 self.CardRecord.decrement(card.value)#
 
     """
-        - calcExceedDealer w/o bust:
-            - same as calcBust, - bustChance
         - calcDealerExceeds?
     """
+
+    # Calculates the probabilities of different critical scenarios. These are used to determine the next move.
     def calcChances(self, gameState):
-        pass
+        handValue = self.getHandValue(gameState[0])
+        dealerValue = self.getHandValue(gameState[1])
+
+        bustChance = self.calcBustChance(handValue)
+        blackjackChance = self.calcBlJaChance(handValue)
+        exceedDealerNoBust = self.calcExceedDlrNoBust(handValue, dealerValue)
+
+        chances = {
+            "bust" : bustChance,
+            "blackjack" : blackjackChance,
+            "exceedDlrNoBust" : exceedDealerNoBust
+        }
+
+        return chances
 
     # Calc chance next hit will result in bust.
     def calcBustChance(self, handValue):
@@ -86,10 +99,12 @@ class Counting_AI:
         if (dlrValue - handValue) < 0: # hand already exceeds dealers
             return 1
         turningNode = self.CardRecord.getNode(dlrValue - handValue)
-
-
+        numOfExceed = self.CardRecord.cardCountGTET(turningNode.right)
+        totalCards = self.CardRecord.cardCountGTET(self.CardRecord.root)
+        exceedChance = numOfExceed / totalCards
         bustChance = self.calcBustChance(handValue)
 
+        return exceedChance - bustChance
 
     def getHandValue(self, hand):
         value = 0
@@ -97,6 +112,7 @@ class Counting_AI:
             value += card.value
         return value
 
+# Interface between the game and the counting card AI.
 class Counting_Interface:
     def __init__(self, blackjackInstance):
         self.blackjack = blackjackInstance

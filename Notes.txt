@@ -16,3 +16,14 @@
 	    - Test the implementation of the bust chances
 	    - UPDATE BUSTCHANCE TO INCLUDE EVERYTHING IN RIGHT SUBTREE, AND NODES ABOVE, IF TURNING NODE IS IN LEFT SUBTREE and do the same for the exceed dealer chance.
 	       - Greater than and less than card counts, create a new tree out of each node? Too inefficient?
+
+30 Dec:
+    - completed high-level composite counting function.
+    - created individual trees, with turning node as the root, if the turning node is on the left subtree, then count everything on the right of the root of this new subtree.
+
+    TODO:
+        - Statistical analysis of thresholds to be used by CC AI - run through a lot of games and graph the empirical data
+        - find a way to abstract away the post/pre/in order traversals
+	    - Test the implementation of all the chances
+	    - Test the implementation of the card counting, and add a counting of less than or equal to the turning node
+	    - Once behaviour is tested and is as intended, begin adding thresholds and implement in game behaviour then test these thresholds
