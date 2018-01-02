@@ -27,3 +27,10 @@
 	    - Test the implementation of all the chances
 	    - Test the implementation of the card counting, and add a counting of less than or equal to the turning node
 	    - Once behaviour is tested and is as intended, begin adding thresholds and implement in game behaviour then test these thresholds
+
+02 Jan:
+    - Tested and debugged:
+        counting for root and nodes in right subtree, nodes for left subtree
+
+    - Main bugs were with node comparison - sometimes i passed an integer, sometimes I passed a node, made the decrement method compatible for both
+    - The way python makes references to variables - nodes in the main tree were being overwritten by nodes in the count tree. Fixed this by making new copies of the nodes (although inefficient)

@@ -7,12 +7,12 @@ class Counting_AI:
     def __init__(self, range_of_values, num_of_suits):
         self.rangeOfValues = range_of_values
         self.num_of_suits = num_of_suits
+        self.CardRecord = None
         self.populate_tree_complete(range_of_values, num_of_suits)
 
         self.bustChance = 0
         self.blackjackChance = 0
         self.exceedDealerChance = 0
-
 
     # TODO maintain this from the tree class
     # Populate the tree in such a way that maintains a complete structure for the binary tree.
@@ -80,7 +80,7 @@ class Counting_AI:
         turningNode = self.CardRecord.getNode(21 - handValue)
         # Get total number of cards in right subtree of turning node
         numOfBustCards = self.CardRecord.cardCountGTET(turningNode.right)
-        totalNumofCards = self.CardRecord.cardCountGTET(self.CardRecord.root)
+        totalNumofCards = self.CardRecord.totalCardCount()
 
         return numOfBustCards / totalNumofCards
 
@@ -89,7 +89,7 @@ class Counting_AI:
         turningNode = self.CardRecord.getNode(21 - handValue)
         # get total number of cards which will result in a blackjack
         numOfBlJaCards = turningNode.countValue
-        totalNumofCards = self.CardRecord.cardCountGTET(self.CardRecord.root) # Find a way to abstract this
+        totalNumofCards = self.CardRecord.totalCardCount() # Find a way to abstract this
 
         return numOfBlJaCards / totalNumofCards
 
@@ -100,7 +100,7 @@ class Counting_AI:
             return 1
         turningNode = self.CardRecord.getNode(dlrValue - handValue)
         numOfExceed = self.CardRecord.cardCountGTET(turningNode.right)
-        totalCards = self.CardRecord.cardCountGTET(self.CardRecord.root)
+        totalCards = self.CardRecord.totalCardCount()
         exceedChance = numOfExceed / totalCards
         bustChance = self.calcBustChance(handValue)
 
@@ -123,9 +123,20 @@ class Counting_Interface:
         return (playerHand, dealerHand)
 
 
-
 if __name__ == "__main__":
     range_of_values = range(1, 12)
     number_of_suits = 4
     CI = Counting_AI(range_of_values, number_of_suits)
+    totalNumofCards = CI.CardRecord.totalCardCount()
+    print(totalNumofCards)
 
+    #print(CI.CardRecord.root.left.left.left.countValue)
+    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.left.left))
+    CI.CardRecord.decrement(CI.CardRecord.root.left.left)
+    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.left.left))
+
+"""
+    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
+    CI.CardRecord.decrement( CI.CardRecord.root.right.right )
+    print( CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right) )
+"""
