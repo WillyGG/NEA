@@ -1,0 +1,31 @@
+1) Binary Tree Maintainance
+  The implementation of the binary tree for the card counting algorithm is for searching the different card values and decreasing the count of each card if it has been played, the use of a tree means that the big O complexity is O(log n), as long as the binary tree is complete and follows the rule that every node in the left subtree is less than the root, and everything in the right subtree is larger than the root. An alternative method would be to store the values in a two dimensional sorted dynamic array and use a binary serach algorithm for the same purpose.
+  When a new node is inserted, two properties must be adhered to: 
+  i) The binary tree is complete
+  ii) Nodes in the left subtree must be less than the root, and nodes in the right subtree must be larger than the root.
+
+  In order to maintain this, when a new node is inserted into the tree, the node will be inserted in the correct position to maintain the left/right subtree property, initially disregarding the complete property. After it has been inserted a subroutine will count the number of nodes in each of the left and right subtrees of nodes, starting from bottomup(?), and if there is a net difference of two nodes on one side of the subtree, the next node from the unbalanced side of the subtree will be come the root, and everything will be reinserted into the subtree.
+  The same check is to be applied when a node is being deleted.
+
+2) Detecting playstyle of opponent
+  In the interest of one of the objectives of the user - to be self sufficient against different kinds of opponents - the solution needs a way to detecting what kind of pattern the user follows, in order to adapt to their playstyle, especially if the AI is being exploited and losing a lot of games.
+  In blackjack, the playstyles are somewhat limited to conservative (standing when at a abritarily high position) and aggressive (taking more risky hits). This makes it simpler to detect and catagorise.
+  The disadvantage of an algorithm like this is that the user is not likely to play in a static manner, or maybe they could be playing in a random manner. In this sense this adaptation algorithm may not be as effective as intended, however, in this case it is still better for the AI to change up its playstyle to keep its oppoenent on its toes too.
+ 
+  For blackjack, as outlined before the playstyles more or less lie along one dimension - how aggressively you hit (this is due to the fact that there are effectively only two actions to be taken in blackjack).
+  As a result, it would be useful to utilise a subroutine which generated a single number which would be an arbritary measurement to how aggressive somebody is playing. This subroutine would take in the number of cards the user has already gained from hitting, their hand value, and whether or not they hit again, and use these to calculate (come up with this formula) how aggressively the user plays over an average of a known number of hands.
+  After playing a certain number of hands (say 3) the AI should take into account this agression measurement and change its behaviour in order to counter this - for example, if they have an extremely high aggression rating (such as hitting when on 19 or even 20) lower the threshold for standing, to play more conservatively, and let the opponent bust their way into defeat. 
+  How much this aggression number influences the AI will depend on the difficulty of the AI.
+
+  An alternative method would be to use the Q-prediction networks used in the ML solution. A prediction network is a secondary network which works alongside the normal network which predicts the expected value of a move, based on its weighting and training, essentially it predicts the environment the agent is in, which makes training faster in physical environments. If a network is trained to be aggressive, then this prediction network could be used to match against the behaviour of the user, and depending how much the expected difference is between the prediction and the user's actions would correspond to a different arbritary measurement of aggression.
+  (come up with some robust definitions for aggression)
+
+3) Comparison of Performance
+  There are three solutions at hand here - the machine learning agent, the card counting AI, and a simplier if statement agent (similar to the solution provided by the client)
+  In order to compare how effective each one is, there needs to be an algorithm to measure them against each other.
+  For blackjack, the dealer will be used as a static baseline, as its behaviour mimics that of a dealer in a casino.
+  For the first part of this algorithm, each of the different solutions will play against this dealer for 5000 games, and their winrates will later be compared. 
+  During the second part of the comparison each agent will play against each other, firstly two agents at a time and then all at one table, and their winrates will be compared again.
+  After this has been completed, the data will be analysed, and then information will be output, such as: which agent had the most consistent winrate, which agent had the best winrate against the dealer, multiple players etc.
+
+4) 
