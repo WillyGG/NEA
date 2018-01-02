@@ -27,5 +27,9 @@
   For the first part of this algorithm, each of the different solutions will play against this dealer for 5000 games, and their winrates will later be compared. 
   During the second part of the comparison each agent will play against each other, firstly two agents at a time and then all at one table, and their winrates will be compared again.
   After this has been completed, the data will be analysed, and then information will be output, such as: which agent had the most consistent winrate, which agent had the best winrate against the dealer, multiple players etc.
+  MonteCarlo simulations?
 
-4) 
+4) Basic ifs / loops
+  The most simple agent being investigated is an AI which will take into account the immediate conditions of the cards in hand, and the ones in the dealer's hand. To an extent it will be similar to the dealer always hitting until it reaches a hand value above 17, however, it will take into account more values. For example it will take into account whether or not it had an ace in hand when deciding to hit.
+
+5)  
