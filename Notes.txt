@@ -34,3 +34,10 @@
 
     - Main bugs were with node comparison - sometimes i passed an integer, sometimes I passed a node, made the decrement method compatible for both
     - The way python makes references to variables - nodes in the main tree were being overwritten by nodes in the count tree. Fixed this by making new copies of the nodes (although inefficient)
+
+03 Jan:
+    - Tested node deletion due to decrementation
+
+    TODO:
+        - Alter blackjack game interface so that it does not create a new deck each time?
+        - improve NN to include recurrent features, try different algorithms, then try to use counting AI as new features?

@@ -123,20 +123,31 @@ class Counting_Interface:
         return (playerHand, dealerHand)
 
 
+# Test Functions
+def leftDecrementTest(CI):
+    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.left.left))
+    CI.CardRecord.decrement(CI.CardRecord.root.left.left)
+    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.left.left))
+
+def rightDecrementTest(CI):
+    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
+    CI.CardRecord.decrement(CI.CardRecord.root.right.right)
+    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
+
+def decUntilDeleteTest(CI):
+    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
+    for x in range(4):
+        CI.CardRecord.decrement(CI.CardRecord.root.right.right)
+    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
+    CI.CardRecord.in_order_traversal(CI.CardRecord.root)
+
 if __name__ == "__main__":
     range_of_values = range(1, 12)
     number_of_suits = 4
     CI = Counting_AI(range_of_values, number_of_suits)
     totalNumofCards = CI.CardRecord.totalCardCount()
     print(totalNumofCards)
+    
+    decUntilDeleteTest(CI)
+    
 
-    #print(CI.CardRecord.root.left.left.left.countValue)
-    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.left.left))
-    CI.CardRecord.decrement(CI.CardRecord.root.left.left)
-    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.left.left))
-
-"""
-    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
-    CI.CardRecord.decrement( CI.CardRecord.root.right.right )
-    print( CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right) )
-"""
