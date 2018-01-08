@@ -1,6 +1,7 @@
 from Blackjack import Blackjack
 from Binary_Tree import Card_Binary_Tree
 from Binary_Tree import Card_Node
+from Blackjack import Blackjack
 
 # TODO Make blackjack interface for this AI, getting the data it needs, implement prediction functionality, and play functionality test and compare to NN based system. After that DOCUMENT.
 class Counting_AI:
@@ -10,9 +11,9 @@ class Counting_AI:
         self.CardRecord = None
         self.populate_tree_complete(range_of_values, num_of_suits)
 
-        self.bustChance = 0
-        self.blackjackChance = 0
-        self.exceedDealerChance = 0
+        # maybe find a way to not hard code these values? Or maybe it's fine
+        self.maxCard = 11
+        self.minCard = 1
 
     # TODO maintain this from the tree class
     # Populate the tree in such a way that maintains a complete structure for the binary tree.
@@ -52,7 +53,7 @@ class Counting_AI:
         # Unpack the game state
         for hand in gameState:
             for card in hand:
-                self.CardRecord.decrement(card.value)#
+                self.CardRecord.decrement(card.value)
 
     """
         - calcDealerExceeds?
@@ -60,8 +61,8 @@ class Counting_AI:
 
     # Calculates the probabilities of different critical scenarios. These are used to determine the next move.
     def calcChances(self, gameState):
-        handValue = self.getHandValue(gameState[0])
-        dealerValue = self.getHandValue(gameState[1])
+        handValue = gameState[2]
+        dealerValue = gameState[3]
 
         bustChance = self.calcBustChance(handValue)
         blackjackChance = self.calcBlJaChance(handValue)
@@ -77,16 +78,26 @@ class Counting_AI:
 
     # Calc chance next hit will result in bust.
     def calcBustChance(self, handValue):
-        turningNode = self.CardRecord.getNode(21 - handValue)
+        nodeValue = (22 - handValue)
+        if nodeValue > self.maxCard: # If cannot go bust
+            return 0
+        elif nodeValue <= 0:
+            return 1 # already bust
+        turningNode = self.CardRecord.getNode(nodeValue)
         # Get total number of cards in right subtree of turning node
-        numOfBustCards = self.CardRecord.cardCountGTET(turningNode.right)
+        numOfBustCards = self.CardRecord.cardCountGTET(turningNode)
         totalNumofCards = self.CardRecord.totalCardCount()
 
         return numOfBustCards / totalNumofCards
 
     # Calculate chance next hit will result in blackjack
     def calcBlJaChance(self, handValue):
-        turningNode = self.CardRecord.getNode(21 - handValue)
+        nodeValue = (21 - handValue)
+        if nodeValue > self.maxCard:
+            return 0 # Cannot get blackjack
+        elif nodeValue == 0:
+            return 1 #already blackjack'd
+        turningNode = self.CardRecord.getNode(nodeValue) # Sometime returns none?????
         # get total number of cards which will result in a blackjack
         numOfBlJaCards = turningNode.countValue
         totalNumofCards = self.CardRecord.totalCardCount() # Find a way to abstract this
@@ -94,16 +105,17 @@ class Counting_AI:
         return numOfBlJaCards / totalNumofCards
 
     # Calculate the chance next hit will exceed dealer's hand
-    def calcExceedDlrNoBust(self, handValue, dlrValue):
+    def calcExceedDlrNoBust(self, handValue, dlrValue, bustChance = False):
         # Calc Chance to exceed dealer
         if (dlrValue - handValue) < 0: # hand already exceeds dealers
             return 1
-        turningNode = self.CardRecord.getNode(dlrValue - handValue)
-        numOfExceed = self.CardRecord.cardCountGTET(turningNode.right)
+        exceedValue = (dlrValue + 1) - handValue # Value needed to exceed the dealer's current hand/
+        turningNode = self.CardRecord.getNode(exceedValue)
+        numOfExceed = self.CardRecord.cardCountGTET(turningNode)
         totalCards = self.CardRecord.totalCardCount()
         exceedChance = numOfExceed / totalCards
-        bustChance = self.calcBustChance(handValue)
-
+        if not bustChance: # option to pass in the bustChance, for efficiency
+            bustChance = self.calcBustChance(handValue)
         return exceedChance - bustChance
 
     def getHandValue(self, hand):
@@ -120,34 +132,53 @@ class Counting_Interface:
     def getGameState(self):
         playerHand = self.blackjack.player
         dealerHand = self.blackjack.dealer
-        return (playerHand, dealerHand)
+        playerValue = self.blackjack.assess_hand(playerHand)
+        dealerValue = self.blackjack.assess_hand(dealerHand)
+        return (playerHand, dealerHand, playerValue, dealerValue)
 
 
-# Test Functions
-def leftDecrementTest(CI):
-    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.left.left))
-    CI.CardRecord.decrement(CI.CardRecord.root.left.left)
-    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.left.left))
+# Test Functions - might as well just do unit testing???
+class Testing_Class:
+    def leftDecrementTest(self, CI):
+        print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.left.left))
+        CI.CardRecord.decrement(CI.CardRecord.root.left.left)
+        print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.left.left))
 
-def rightDecrementTest(CI):
-    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
-    CI.CardRecord.decrement(CI.CardRecord.root.right.right)
-    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
-
-def decUntilDeleteTest(CI):
-    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
-    for x in range(4):
+    def rightDecrementTest(self, CI):
+        print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
         CI.CardRecord.decrement(CI.CardRecord.root.right.right)
-    print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
-    CI.CardRecord.in_order_traversal(CI.CardRecord.root)
+        print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
+
+    def decUntilDeleteTest(self, CI):
+        print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
+        for x in range(4):
+            CI.CardRecord.decrement(CI.CardRecord.root.right.right)
+        print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
+        CI.CardRecord.in_order_traversal(CI.CardRecord.root)
+
+    def blackjackChanceTesting(self, CI, testIters):
+        blackjack = Blackjack()
+        CCAI_Interface = Counting_Interface(blackjack)
+
+        # Get the game state then clac chances
+        for x in range(testIters):
+            print()
+            blackjack.reset()
+            blackjack.display_game()
+            gameState = CCAI_Interface.getGameState()
+            chances = CI.calcChances(gameState)
+            for key in chances.keys():
+                print(key, chances[key])
 
 if __name__ == "__main__":
     range_of_values = range(1, 12)
     number_of_suits = 4
     CI = Counting_AI(range_of_values, number_of_suits)
+    test = Testing_Class()
     totalNumofCards = CI.CardRecord.totalCardCount()
-    print(totalNumofCards)
+    #print(totalNumofCards)
     
-    decUntilDeleteTest(CI)
+    #test.decUntilDeleteTest(CI)
+    test.blackjackChanceTesting(CI, 5)
     
 

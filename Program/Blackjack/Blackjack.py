@@ -31,13 +31,20 @@ class Blackjack:
         self.dealer = []
         self.bust = False
         self.continue_game = True
+        self.newDeck = True
 
         # Deals to each player
         for _ in range(2):
             self.deal(self.player, self.dealer)
 
+    # Reset the hands and the tracking variables
     def reset(self):
-        self.__init__()
+        self.player = []
+        self.dealer = []
+        self.bust = False
+        self.continue_game = True
+        for _ in range(2):
+            self.deal(self.player, self.dealer)
 
     # Calculate the total value of the passed hand (where hand is an array of cards)
     def assess_hand(self, hand):
@@ -79,6 +86,7 @@ class Blackjack:
             elif dealer_total > self.blackjack:
                 player_won = True
         return player_won
+
     # Deals a card to players passed
     def deal(self, *args):
         for player in args:

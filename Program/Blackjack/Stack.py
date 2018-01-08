@@ -47,9 +47,9 @@ class Stack():
     # Reveals object at top of stack
     def peek(self):
         if not self.isEmpty():
-            print(self.__stack[self.__pointer])
+            return self.__stack[self.__pointer]
         else:
-            print("Empty Stack")
+            return None
 
     def isEmpty(self):
         return (self.__pointer == -1)

@@ -38,10 +38,22 @@ class Card:
 class Deck(Stack):
     def __init__(self):
         self.__DECK_SIZE = 52
+        self.__deckIteration = 1
+        self.__autoShuffleWhenEmpty = True
         self.__suits = [suit for suit in Suits]
         self.__values = [num for num in range(2, 11)] + [royal for royal in Royals]
         super().__init__(self.__DECK_SIZE)
         self.init_deck()
+
+    @property
+    def deckIteration(self):
+        return self.__deckIteration
+
+    def autoShuffleOff(self):
+        self.__autoShuffleWhenEmpty = False
+
+    def autoShuffleOn(self):
+        self.__autoShuffleWhenEmpty = True
 
     # Shuffled deck
     def init_deck(self):
@@ -53,6 +65,14 @@ class Deck(Stack):
         for card in temp_deck:
             self.push(card)
 
+    # Removes top object from stack - autoshuffles deck when it is empty
+    def pop(self):
+        popped = super().pop()
+        if self.isEmpty() and self.__autoShuffleWhenEmpty:
+            self.init_deck()
+            self.__deckIteration += 1
+        return popped
+
 def display_and_empty(deck):
     while not deck.isEmpty:
         print(deck.pop)
@@ -60,3 +80,10 @@ def display_and_empty(deck):
 if __name__ == "__main__":
     d = Deck()
     print(Card(Suits.SPADES, 8) == Card(Suits.SPADES, 8))
+
+    for _ in range(10000):
+        print(d.pop())
+    print(d.shuffledLastPop)
+    print(d.pop())
+    print(d.shuffledLastPop)
+

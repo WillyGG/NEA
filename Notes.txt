@@ -41,3 +41,33 @@
     TODO:
         - Alter blackjack game interface so that it does not create a new deck each time?
         - improve NN to include recurrent features, try different algorithms, then try to use counting AI as new features?
+
+
+05 Jan:
+    - Changed the deck class so that it autoshuffles when it is empty.
+    - Changed a tracker boolean variable to int which keeps track of which iteration the deck is on
+    - Changed the blackjack game so that it does not create a new deck after each game.
+    - Changed the getNode tree method into getNode (initial function) and getNode Traversal (recursive function)
+    - Debugged the getNode Traversal (nonetype attribute error -> changed the order of checking at start of function to if none -> if == nodeValue)
+    - Debugged chance calculating algo.s - checked if cannot or already bust/blackjack'd
+    - Issue -> getting next node greater than turning node, when turning node is in left subtree. (cannot just get node on right, root and all of right subtree is larger)
+    - ^ Debugged by getting calling getNode on next largest value (maybe implement a getNextNode function in BT or getPrevNode?)
+    - Issue -> GT Turning node sometimes returns None
+
+    TODO:
+    - Package traversal functionality in a static class
+    - Begin working on basic ifs and loops version
+    - Comparison tool will be the MEAT of the marks in this paradigm
+
+
+06 Jan:
+    - Debugged the getNode recursive function to return the correct node rather than returning none.
+    - Debugged the exceed dealer chance funciton ==> cannot just get the right node of the turning node, to find next node up, have to getNode seperately. Also calculated the turning node's value correctly (now gets value needed to EXCEED)
+    - bug -> blackjack chance calculator still returns none sometimes??
+    - bug?? -> exceedDlrNoBust sometimes returns a negative value
+
+    - fixed blja and bust chances by correcting condition checks for already bust/blackjack/cannot
+
+    TODO:
+    - find a way to adjust the maxcard if all the aces have been drawn
+    - implement a way to check if the counting has to be reset during the game.

@@ -172,7 +172,7 @@ with tf.Session() as sess:
 
     print("Training", end = "")
     while ep_num < num_train_ep:
-        blackjack.__init__() # hard reset of blackjack game
+        blackjack.reset() # hard reset of blackjack game
         running_reward = 0
         ep_history = []
         no_moves = 0
@@ -239,7 +239,7 @@ with tf.Session() as sess:
     no_times_good_stood = 0
     hit = False
     for _ in range(num_test_games):
-        blackjack.__init__()
+        blackjack.reset()
         game_state = blackjack_agent_interface.get_game_state()
         while blackjack.continue_game:
             hit = False

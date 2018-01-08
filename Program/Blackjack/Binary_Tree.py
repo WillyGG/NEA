@@ -13,15 +13,27 @@ class Binary_Tree:
     def root(self):
         return self._root
 
-    # Recursively search via pre order traversal
-    def getNode(self, parent, nodeValue):
-        if parent.value == nodeValue:
-            return parent
-        elif parent == None:
-            return False
+    def getNode(self, nodeValue):
+        toPass = nodeValue
+        if isinstance(nodeValue, Node):
+            toPass = nodeValue.value
+        returnNode = self.getNodeTraversal(self._root, toPass)
+        return returnNode
 
-        self.getNode(parent.left, nodeValue)
-        self.getNode(parent.right, nodeValue)
+    # Recursively search via pre order traversal
+    def getNodeTraversal(self, parent, nodeValue):
+        if parent == None:
+            return None
+        elif parent.value == nodeValue:
+            return parent
+
+        leftResult = self.getNodeTraversal(parent.left, nodeValue)
+        rightResult = self.getNodeTraversal(parent.right, nodeValue)
+
+        if leftResult != None:
+            return leftResult
+        elif rightResult != None:
+            return rightResult
 
     def insert(self, node):
         #print(node)
@@ -138,7 +150,7 @@ class Card_Binary_Tree(Binary_Tree):
 
     # Counts number of cards at current value and larger (Greater than, equal to)
     def cardCountGTET(self, parent):
-        total = 0
+        total = parent.countValue
         GTturningNode = parent
         # If the passed parent is in left subtree, include count in right subtree.
         if parent.value < self._root.value:
