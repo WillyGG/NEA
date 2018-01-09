@@ -42,7 +42,6 @@
         - Alter blackjack game interface so that it does not create a new deck each time?
         - improve NN to include recurrent features, try different algorithms, then try to use counting AI as new features?
 
-
 05 Jan:
     - changed blackjack to keep deck after each game, until empty
     - Changed the deck class so that it autoshuffles when it is empty.
