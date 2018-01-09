@@ -190,6 +190,14 @@ class Card_Binary_Tree(Binary_Tree):
         self.populateCountTree(parent.left, countTree)
         self.populateCountTree(parent.right, countTree)
 
+    def in_order_traversal(self, parent):
+        if parent == None:
+            return False
+        self.in_order_traversal(parent.left)
+        print(parent.value, parent.countValue)
+        self.in_order_traversal(parent.right)
+
+
 class Node: # Association via composition
     def __init__(self, value):
         self.value = value

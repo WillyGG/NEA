@@ -74,3 +74,20 @@
     - find a way to adjust the maxcard if all the aces have been drawn
     - implement a way to check if the counting has to be reset during the game.
     - faking move the maintainence to the tree.
+
+ 08 Jan:
+    - corrected return none bug, adjusted limits and conditions for already blackjack/bust, results in getting correct node
+    - debugged getNodeTraverse by returning what the subtree recursive calls return.
+    - First implementation of simple AI
+        - Always hit if cannot go bust
+        - Hit until above dealer, and until get close to going bust.
+
+    TODO:
+    - Calc chances returns chances above 1 and below 0 sometimes - logical tests
+    - implement interface for simple AI
+    - test simple ai
+    - Start comparison tool designs
+    - implement tests for behaviour --> Test Decrement, hit/stand, reset tree, adjust tree for royals + add ace functionality
+    - implement a more nuanced behaviour for the decisions by the CCAI
+    - Change the CCAI parameters to be personality parameters (eg aggression) and then calculate the thresholds based on this.
+    - implement a sort for iputting nodes when building tree

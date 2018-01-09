@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afba8995-ecc3-4204-a2a6-cfb3b48e3563" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/Notes.txt" afterPath="$PROJECT_DIR$/Notes.txt" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py" afterPath="$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/Counting_AI.py" afterPath="$PROJECT_DIR$/Program/Blackjack/Counting_AI.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -14,21 +15,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Blackjack.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Blackjack.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Blackjack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1224">
+            <state relative-caret-position="-1278">
               <caret line="17" column="16" lean-forward="false" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Notes.txt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Notes.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Notes.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-90">
-              <caret line="43" column="0" lean-forward="true" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+            <state relative-caret-position="456">
+              <caret line="92" column="60" lean-forward="false" selection-start-line="92" selection-start-column="60" selection-end-line="92" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -37,10 +38,36 @@
       <file leaf-file-name="Counting_AI.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Counting_AI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-378">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="270">
+              <caret line="153" column="6" lean-forward="false" selection-start-line="153" selection-start-column="6" selection-end-line="153" selection-end-column="6" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
+                <element signature="e#1240#2491#0" expanded="false" />
+                <element signature="e#2526#2628#0" expanded="false" />
+                <element signature="e#2680#2818#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Binary_Tree.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="506">
+              <caret line="192" column="39" lean-forward="false" selection-start-line="192" selection-start-column="39" selection-end-line="192" selection-end-column="39" />
+              <folding>
+                <element signature="e#289#306#0" expanded="false" />
+                <element signature="e#350#534#0" expanded="false" />
+                <element signature="e#644#1016#0" expanded="false" />
+                <element signature="e#1054#1837#0" expanded="false" />
+                <element signature="e#1887#3518#0" expanded="false" />
+                <element signature="e#4065#4861#0" expanded="false" />
+                <element signature="e#4990#5395#0" expanded="false" />
+                <element signature="e#5435#5476#0" expanded="false" />
+                <element signature="e#5589#5800#0" expanded="false" />
+                <element signature="e#5998#6258#0" expanded="false" />
+                <element signature="e#6380#6845#0" expanded="false" />
+                <element signature="e#7127#7828#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -49,21 +76,9 @@
       <file leaf-file-name="Simple_AI.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Simple_AI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="545">
-              <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+            <state relative-caret-position="205">
+              <caret line="28" column="62" lean-forward="true" selection-start-line="28" selection-start-column="62" selection-end-line="28" selection-end-column="62" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Binary_Tree.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="19" column="62" lean-forward="false" selection-start-line="19" selection-start-column="62" selection-end-line="19" selection-end-column="62" />
-              <folding>
-                <element signature="e#6893#7594#0" expanded="false" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -121,14 +136,14 @@
         <option value="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Stack.py" />
         <option value="$PROJECT_DIR$/Program/5CD/Five_Card_Draw.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/Counting_AI.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Simple_AI.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py" />
         <option value="$PROJECT_DIR$/Notes.txt" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/Counting_AI.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="134" />
     <option name="y" value="55" />
     <option name="width" value="1161" />
@@ -455,13 +470,13 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="134" y="55" width="1161" height="662" extended-state="0" />
+    <frame x="67" y="25" width="1299" height="743" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11111111" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19245574" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30010605" sideWeight="0.14270833" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2791798" sideWeight="0.85729164" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.06929134" sideWeight="0.85729164" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -490,7 +505,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="21" />
+      <option name="time" value="24" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -749,46 +764,60 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py">
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Blackjack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="19" column="62" lean-forward="false" selection-start-line="19" selection-start-column="62" selection-end-line="19" selection-end-column="62" />
-          <folding>
-            <element signature="e#6893#7594#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="-1278">
+          <caret line="17" column="16" lean-forward="false" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Simple_AI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="545">
-          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+        <state relative-caret-position="205">
+          <caret line="28" column="62" lean-forward="true" selection-start-line="28" selection-start-column="62" selection-end-line="28" selection-end-column="62" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="192" column="39" lean-forward="false" selection-start-line="192" selection-start-column="39" selection-end-line="192" selection-end-column="39" />
+          <folding>
+            <element signature="e#289#306#0" expanded="false" />
+            <element signature="e#350#534#0" expanded="false" />
+            <element signature="e#644#1016#0" expanded="false" />
+            <element signature="e#1054#1837#0" expanded="false" />
+            <element signature="e#1887#3518#0" expanded="false" />
+            <element signature="e#4065#4861#0" expanded="false" />
+            <element signature="e#4990#5395#0" expanded="false" />
+            <element signature="e#5435#5476#0" expanded="false" />
+            <element signature="e#5589#5800#0" expanded="false" />
+            <element signature="e#5998#6258#0" expanded="false" />
+            <element signature="e#6380#6845#0" expanded="false" />
+            <element signature="e#7127#7828#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Counting_AI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-378">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="270">
+          <caret line="153" column="6" lean-forward="false" selection-start-line="153" selection-start-column="6" selection-end-line="153" selection-end-column="6" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
+            <element signature="e#1240#2491#0" expanded="false" />
+            <element signature="e#2526#2628#0" expanded="false" />
+            <element signature="e#2680#2818#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Notes.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-90">
-          <caret line="43" column="0" lean-forward="true" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Blackjack.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1224">
-          <caret line="17" column="16" lean-forward="false" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+        <state relative-caret-position="456">
+          <caret line="92" column="60" lean-forward="false" selection-start-line="92" selection-start-column="60" selection-end-line="92" selection-end-column="60" />
           <folding />
         </state>
       </provider>

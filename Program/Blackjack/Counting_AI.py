@@ -14,6 +14,15 @@ class Counting_AI:
         self.maxCard = 11
         self.minCard = 1
 
+        # Change these parameters to change the behaviour of the CCAI
+        # Chage these to personality parameters, then calculate these thresholds based on parameters
+        self.thresholds = {
+            "bust" : 0.5,
+            "blackjack" : 0.2,
+            "exceedDlrNoBust" : 0.3,
+            "riskTolerance" : 1.3
+        }
+
     # TODO maintain this from the tree class
     # Populate the tree in such a way that maintains a complete structure for the binary tree.
     def populate_tree_complete(self, range_of_values, num_of_suits):
@@ -53,6 +62,21 @@ class Counting_AI:
         for hand in gameState:
             for card in hand:
                 self.CardRecord.decrement(card.value)
+
+    # return True if wanting to hit
+    def getNextAction(self, chances):
+        # not exceeding the dealer, hit.
+        belowDealer = (chances["exceedDlrNoBust"] < 1)
+        belowBustThreshold = chances["bust"] <= self.thresholds["bust"]
+        highBlackjackChance = chances["backjack"] >= self.thresholds["blackjack"]
+
+        if belowDealer or belowBustThreshold:
+            return True
+        elif highBlackjackChance:
+            belowRiskyBustThreshold = chances["bust"] <= self.thresholds["bust"]*self.thresholds["riskTolerance"]
+            if belowRiskyBustThreshold:
+                return True
+        return False
 
     """
         - calcDealerExceeds?
@@ -123,10 +147,14 @@ class Counting_AI:
             value += card.value
         return value
 
+    def displayCardRecord(self):
+        self.CardRecord.in_order_traversal(self.CardRecord.root)
+
 # Interface between the game and the counting card AI.
 class Counting_Interface:
-    def __init__(self, blackjackInstance):
+    def __init__(self, blackjackInstance, countInstance):
         self.blackjack = blackjackInstance
+        self.CCAI = countInstance
 
     def getGameState(self):
         playerHand = self.blackjack.player
@@ -135,12 +163,17 @@ class Counting_Interface:
         dealerValue = self.blackjack.assess_hand(dealerHand)
         return (playerHand, dealerHand, playerValue, dealerValue)
 
+    def takeMove(self, chances = None):
+        if chances == None:
+            self.CCAI.calcChances(self.getGameState())
+
+
+
 
 # Test Functions - might as well just do unit testing???
 class Testing_Class:
     def leftDecrementTest(self, CI):
         print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.left.left))
-        CI.CardRecord.decrement(CI.CardRecord.root.left.left)
         print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.left.left))
 
     def rightDecrementTest(self, CI):
@@ -157,11 +190,12 @@ class Testing_Class:
 
     def blackjackChanceTesting(self, CI, testIters):
         blackjack = Blackjack()
-        CCAI_Interface = Counting_Interface(blackjack)
+        CCAI_Interface = Counting_Interface(blackjack, CI)
 
         # Get the game state then clac chances
         for x in range(testIters):
             print()
+            CI.displayCardRecord()
             blackjack.reset()
             blackjack.display_game()
             gameState = CCAI_Interface.getGameState()
