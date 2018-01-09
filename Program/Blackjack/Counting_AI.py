@@ -204,7 +204,7 @@ class Testing_Class:
                 print(key, chances[key])
 
 if __name__ == "__main__":
-    range_of_values = range(1, 12)
+    range_of_values = [1,2,3,4,5,6,7,8,9,10,11]
     number_of_suits = 4
     CI = Counting_AI(range_of_values, number_of_suits)
     test = Testing_Class()

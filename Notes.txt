@@ -90,4 +90,4 @@
     - implement tests for behaviour --> Test Decrement, hit/stand, reset tree, adjust tree for royals + add ace functionality
     - implement a more nuanced behaviour for the decisions by the CCAI
     - Change the CCAI parameters to be personality parameters (eg aggression) and then calculate the thresholds based on this.
-    - implement a sort for iputting nodes when building tree
+    - implement a sort for inputting nodes when building tree
