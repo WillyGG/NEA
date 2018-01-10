@@ -104,3 +104,4 @@
     TODO:
     - Add a display tree structure function to display the structure of the binary tree.
     - Continue implementing the BST Maintainence
+    - complete compare_ST_Traverse function
