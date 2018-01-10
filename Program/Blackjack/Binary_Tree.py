@@ -60,6 +60,54 @@ class Binary_Tree:
         else:
             parentNode.right = node
 
+    # TODO test
+    def compareSubtrees(self):
+        completed_comparing = False
+        while not completed_comparing:
+            self.compare_ST_Traverse(self._root, None)
+
+    # TODO test
+    def compare_ST_Traverse(self, currentNode, parent):
+        if currentNode == None:
+            return 0
+        left = self.compare_ST_Traverse(currentNode.left, parent)
+        right = self.compare_ST_Traverse(currentNode.right, parent)
+
+        if left is False or right is False:
+            return False
+
+        elif abs(left - right) == 2:
+            if left > right:
+                """
+                    replace the parent with the max in LST
+                    return False to start again
+                """
+                max_LST = self.get_max_LST(currentNode)
+                return False
+            else:
+                """
+                    replace parent with minRST
+                    return False to start again
+                """
+                min_RST = self.get_min_RST(currentNode)
+                return False
+
+        return left + right + 1
+
+    # TODO test
+    def get_max_LST(self, root):
+        current_node = root.left
+        while current_node.right is not None:
+            current_node = current_node.right
+        return current_node
+
+    # TODO test
+    def get_min_RST(self, root):
+        current_node = root.right
+        while current_node.left is not None:
+            current_node = current_node.left
+        return current_node
+
     def delete(self, node, nodeParent):
         nodeIsLeft = nodeParent.left == node
 
@@ -114,7 +162,7 @@ class Binary_Tree:
         self.in_order_traversal(parent.right)
 
     def clearTree(self, nodeParent):
-        self.root = None
+        self._root = None
 
 class Card_Binary_Tree(Binary_Tree):
     def __init__(self, rootNode):
