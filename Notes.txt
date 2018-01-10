@@ -91,3 +91,16 @@
     - implement a more nuanced behaviour for the decisions by the CCAI
     - Change the CCAI parameters to be personality parameters (eg aggression) and then calculate the thresholds based on this.
     - implement a sort for inputting nodes when building tree
+
+   09 Jan:
+   - debugged the logic of the CCAI (sometimes chances went above 1 or below 0)
+    - Implemented the decsision making behaviour, with the chance thresholds
+    - began designs for the BT Maintainence
+
+   10 Jan:
+    - Completed BTMaintainence psudocode and concept
+    - Began implementing the actual code
+
+    TODO:
+    - Add a display tree structure function to display the structure of the binary tree.
+    - Continue implementing the BST Maintainence
