@@ -114,3 +114,4 @@
     - Test the compare_ST_Traverse and Get_Max_LST and Get_Min_RST functions
     - Implement an interface for the comparison tool, to be implemented by all the different AI
 
+    Next -> Extend Blackjack to accomodate more than one player. -> split the blackjack class into hands and use compostition.

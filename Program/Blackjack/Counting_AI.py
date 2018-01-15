@@ -167,9 +167,6 @@ class Counting_Interface:
         if chances == None:
             self.CCAI.calcChances(self.getGameState())
 
-
-
-
 # Test Functions - might as well just do unit testing???
 class Testing_Class:
     def leftDecrementTest(self, CI):
