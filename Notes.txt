@@ -105,3 +105,12 @@
     - Add a display tree structure function to display the structure of the binary tree.
     - Continue implementing the BST Maintainence
     - complete compare_ST_Traverse function
+
+   15 Jan:
+    - Complete BTMaintainence 1st 1st implementation
+    - began concept and pseudocode for comparison tool
+
+    TODO:
+    - Test the compare_ST_Traverse and Get_Max_LST and Get_Min_RST functions
+    - Implement an interface for the comparison tool, to be implemented by all the different AI
+

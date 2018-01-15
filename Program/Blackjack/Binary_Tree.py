@@ -70,27 +70,37 @@ class Binary_Tree:
     def compare_ST_Traverse(self, currentNode, parent):
         if currentNode == None:
             return 0
-        left = self.compare_ST_Traverse(currentNode.left, parent)
-        right = self.compare_ST_Traverse(currentNode.right, parent)
+        left = self.compare_ST_Traverse(currentNode.left, currentNode)
+        right = self.compare_ST_Traverse(currentNode.right, currentNode)
 
         if left is False or right is False:
             return False
 
-        elif abs(left - right) == 2:
+        elif abs(left - right) == 2: # should never be larger than two, as increment in steps of 1
             if left > right:
                 """
                     replace the parent with the max in LST
+                         - newRoot.right = oldRoot (oldRoot keeps left subtree)
+                         - if newRoot is direct parent 
                     return False to start again
                 """
                 max_LST = self.get_max_LST(currentNode)
-                return False
+                parent.left = max_LST
+                max_LST.right = currentNode
+            # more in RST
             else:
                 """
                     replace parent with minRST
+                        - newRoot.left <- oldRoot
+                        - if directChild then keep RST
+                        - else then newRoot.right <- OldRoot.Right 
                     return False to start again
                 """
                 min_RST = self.get_min_RST(currentNode)
-                return False
+                parent.right = min_RST
+                min_RST.left = currentNode
+            currentNode.left, currentNode.right = None, None
+            return False
 
         return left + right + 1
 
@@ -99,6 +109,7 @@ class Binary_Tree:
         current_node = root.left
         while current_node.right is not None:
             current_node = current_node.right
+        # current_node.left, current_node.right = None, None
         return current_node
 
     # TODO test
