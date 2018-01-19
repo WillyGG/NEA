@@ -16,19 +16,16 @@ TODO:
 """
 
 class Blackjack:
-    def __init__(self):
+    def __init__(self, playersDict):
         self.deck = Deck()
         self.blackjack = 21 # The winning value
         self.winner = None
 
         # Hand for each player
-        # TODO implement a way for this to be passed to the constructor, rather than adjusting it here
-        self.player = Hand("player")
-        self.dealer = Hand("dealer")
-        self.players = {
-            "player" : self.player,
-            "dealer": self.dealer
-        }
+        self.players = playersDict
+
+        # turn this into a circular queue
+        self.playerNames = [player for player in list(self.players.keys()) if player.lower() != "dealer"]
 
         self.continue_game = True # the way this is implemented is weird - maybe method with same purpose?
         self.newDeck = True
@@ -38,8 +35,8 @@ class Blackjack:
 
     # Reset the hands and the tracking variables
     def reset(self):
-        self.player.reset()
-        self.dealer.reset()
+        for key in self.players.keys():
+            self.players[key].reset()
         self.continue_game = True
         self.init_deal()
 
@@ -80,14 +77,7 @@ class Blackjack:
         for player in args:
             player.hit(self.deck.pop())
 
-    # TODO ADJUST THIS FOR A DEALER CHILD CLASS OF HAND
-    # At the end of the game, deals cards to the dealer, until value of their hand is above 17
-    def deal_dealer_end(self):
-        while self.assess_hand(self.dealer) < 17:
-            self.deal(self.dealer)
-
     # A hits the player's hand. If they are bust, stops the game - public
-    # TODO Automatic end game if blackjack?
     def hit(self, player_id):
         self.deal(self.players[player_id])
         if self.players[player_id].bust:
@@ -110,7 +100,7 @@ class Blackjack:
 
     # Calls all the methods associated with ending the game, and return winner
     def end_game(self):
-        self.deal_dealer_end()
+        self.dealer.dealer_end()
         self.winner = self.compare_hands()
         return self.winner
 
@@ -191,18 +181,30 @@ class Hand:
     def bust_or_stood(self):
         return self.bust or self.__has_stood
 
+class Dealer_Hand(Hand):
+    def __init__(self, id):
+        super().__init__(id)
+
+    def dealer_end(self, deck):
+        while self.get_value() < 17:
+            self.hit(deck.pop())
+
+"""
+    - Have a player class which creates a hand for each player and then passes this into the blackjack class
+    - this could have game records and be used for the database side of the project
+"""
+class Player:
+    pass
+
 if __name__ == "__main__":
-    bj = Blackjack()
-    for x in range(2):
-        ui = ""
-        while bj.continue_game:
-            bj.display_game()
-            ui = input("h for hit, s for stand ")
-            if ui == "h":
-                bj.hit()
-            elif ui == "s":
-                bj.stand()
-        bj.deal_dealer_end()
-        bj.display_game()
-        print(bj.compare_hands())
-        bj.__init__()
+    player1 = Hand("player")
+    player2 = Hand("player")
+    dealer = Dealer_Hand("dealer")
+    players = {
+        "player1": player1,
+        "player2": player2,
+        "dealer": dealer
+    }
+    bj = Blackjack(players)
+
+

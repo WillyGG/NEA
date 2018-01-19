@@ -116,7 +116,7 @@
 
     Next -> Extend Blackjack to accomodate more than one player. -> split the blackjack class into hands and use compostition.
 
-   19 Jan
+   19 Jan:
     - implemented Hand class
     - changed blackjack class to accommodate for hand class
         - changed: reset, init_deal, assess_hand (may not be needed), compare_hands, deal, hit, stand, display_game, end_game
