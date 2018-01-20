@@ -127,3 +127,16 @@
     - implement dealer changes
     - pass in the players to the blackjack class
 
+   20 Jan:
+    - added a dealer child class (check if its functionality is in the right place)
+    - players are now passed into the blackjack class
+    - Added circular Queue
+    - fully implemented circular queue, and updated all methods to work with it
+    - game now contains ciruclar queue of players:
+        - everytime hit or stand is called (blackjack class) the next player to play is popped and operation is taken out on that player
+    - added a "whoseTurnisItFunction"
+
+    TODO:
+    - test faking everything!
+    - add a player class which will contain player name (so it is not contained in hand) and get info about that player from DB
+    - update blackjack to operate with Players, rather than hands? or find a way to implement it

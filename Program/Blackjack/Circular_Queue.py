@@ -36,6 +36,9 @@ class Circular_Queue:
         else:
             self.__front += 1
 
+    def peek(self):
+        return self.__circQ[self.__front]
+
     def isFull(self):
         noPopCond = self.__front == 0 and self.__rear == (self.__size -1)
         generalCond = self.__front == (self.__rear + 1)

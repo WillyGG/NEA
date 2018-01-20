@@ -1,5 +1,6 @@
 from Deck import Deck
 from Deck import Royals
+from Circular_Queue import Circular_Queue
 
 """
 1) Player gets two cards (2 u), dealer gets 2 cards (1u 1d)
@@ -21,17 +22,27 @@ class Blackjack:
         self.blackjack = 21 # The winning value
         self.winner = None
 
-        # Hand for each player
+        # Hand for each player - Do i need this??
         self.players = playersDict
 
-        # turn this into a circular queue
-        self.playerNames = [player for player in list(self.players.keys()) if player.lower() != "dealer"]
+        # queue which holds the players, keeps track of whose turn it is
+        # queue of player names (turn this into a queue of hand instances?
+        self.players_queue = self.create_player_queue()
 
         self.continue_game = True # the way this is implemented is weird - maybe method with same purpose?
-        self.newDeck = True
+        self.winner = False
+        self.deckIteration = self.deck.deckIteration
 
         # Deals to each player
         self.init_deal()
+
+    def create_player_queue(self):
+        playerList = [self.players[key] for key in self.players.keys() if self.players[key].id != "dealer"]
+        cQ = Circular_Queue(len(playerList))
+        for player in playerList:
+            cQ.push(player)
+        return cQ
+
 
     # Reset the hands and the tracking variables
     def reset(self):
@@ -39,15 +50,11 @@ class Blackjack:
             self.players[key].reset()
         self.continue_game = True
         self.init_deal()
+        self.players_queue = self.create_player_queue()
 
     def init_deal(self):
         for player in self.players:
             self.deal(player)
-
-    # Calculate the total value of the passed hand (where hand is an array of cards)
-    # TODO CHECK IF YOU NEED THIS
-    def assess_hand(self, hand):
-        return hand.get_value()
 
 # compares the hands of the passed players
     def compare_hands(self):
@@ -76,44 +83,51 @@ class Blackjack:
     def deal(self, *args):
         for player in args:
             player.hit(self.deck.pop())
+        self.dickIteration = self.deck.deckIteration
 
     # A hits the player's hand. If they are bust, stops the game - public
-    def hit(self, player_id):
-        self.deal(self.players[player_id])
-        if self.players[player_id].bust:
+    def hit(self):
+        current_player = self.players_queue.pop()
+        self.deal(current_player)
+        if current_player.bust:
             self.check_game_over()
+        else:
+            self.players_queue.push(current_player)
 
     # Stands, ends game. Public
-    def stand(self, player_id):
-        self.players[player_id].stand()
+    def stand(self):
+        current_player = self.players_queue.pop()
+        current_player.stand()
 
     # Prints the current state of the game - each hand followed by their current value.
     def display_game(self):
-        print("Dealer:", end=" ")
-        for card in self.dealer.hand:
-            print(card, end = " ")
-        print("\nPlayer:", end = " ")
-        for card in self.player.hand:
-            print(card, end = " ")
-        p_total = self.assess_hand(self.player)
-        print(str(p_total))
+        for key in self.players.keys():
+            currentPlayer = self.players[key]
+            print(currentPlayer.id, end = " ")
+            for card in currentPlayer.hand:
+                print(card, end = " ")
+            p_total = currentPlayer.get_value()
+            print(str(p_total))
 
     # Calls all the methods associated with ending the game, and return winner
     def end_game(self):
-        self.dealer.dealer_end()
+        self.players["dealer"].dealer_end(self.deck) # Should this not be handled in this class?
         self.winner = self.compare_hands()
+        return self.winner
+
+    def getWinner(self):
         return self.winner
 
     # check if everyone has bust or stood
     def check_game_over(self):
-        all_bust_or_stood = True
-        for key in self.players.keys():
-            if self.players[key].bust_or_stood() is not True:
-                all_bust_or_stood = False
-                break
-        if all_bust_or_stood:
+        if self.players_queue.isEmpty():
             self.continue_game = False
-        return all_bust_or_stood
+            self.end_game()
+            return True
+        return False
+
+    def whoseTurnIsIt(self):
+        return self.players_queue.peek().id
 
 class Hand:
     def __init__(self, id):
@@ -185,6 +199,7 @@ class Dealer_Hand(Hand):
     def __init__(self, id):
         super().__init__(id)
 
+    # should you not do this in the blackjack class?
     def dealer_end(self, deck):
         while self.get_value() < 17:
             self.hit(deck.pop())
