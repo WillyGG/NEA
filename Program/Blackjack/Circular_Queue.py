@@ -35,6 +35,7 @@ class Circular_Queue:
             self.__front = -1
         else:
             self.__front += 1
+        return toReturn
 
     def peek(self):
         return self.__circQ[self.__front]

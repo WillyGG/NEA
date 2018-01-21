@@ -53,8 +53,9 @@ class Blackjack:
         self.players_queue = self.create_player_queue()
 
     def init_deal(self):
-        for player in self.players:
-            self.deal(player)
+        for key in self.players.keys():
+            for x in range(2):
+                self.deal(players[key])
 
 # compares the hands of the passed players
     def compare_hands(self):
@@ -62,12 +63,13 @@ class Blackjack:
         best_value = 0
         for key in self.players.keys():
             current_player = self.players[key]
+            current_player_name = current_player.id
             current_player_value = current_player.get_value()
             if current_player.bust:
                 continue
             elif best_hand is []:
-                best_hand.append(current_player)
                 best_value = current_player_value
+                best_hand.append(current_player_name)
                 continue
             elif current_player_value >= best_value:
                 # if equal to, going to append anyways, so do not need to do anything if equal to.
@@ -76,7 +78,7 @@ class Blackjack:
                 elif current_player_value > best_value:
                     best_hand[:] = []
                     best_value = current_player_value
-                best_hand.append(current_player)
+                best_hand.append(current_player_name)
         return best_hand
 
     # Deals a card to players passed
@@ -98,6 +100,7 @@ class Blackjack:
     def stand(self):
         current_player = self.players_queue.pop()
         current_player.stand()
+        self.check_game_over()
 
     # Prints the current state of the game - each hand followed by their current value.
     def display_game(self):
@@ -113,6 +116,7 @@ class Blackjack:
     def end_game(self):
         self.players["dealer"].dealer_end(self.deck) # Should this not be handled in this class?
         self.winner = self.compare_hands()
+        self.reset()
         return self.winner
 
     def getWinner(self):
@@ -122,7 +126,7 @@ class Blackjack:
     def check_game_over(self):
         if self.players_queue.isEmpty():
             self.continue_game = False
-            self.end_game()
+            #self.end_game() # end game manually
             return True
         return False
 
@@ -157,7 +161,7 @@ class Hand:
 
     # Only blackjack parent class will have access to the deck, will pass it to cards
     def hit(self, card):
-        self.__hand.append(card)
+        self._hand.append(card)
         hand_value = self.get_value()
         if hand_value > self.blackjack:
             self.bust = True
@@ -169,7 +173,7 @@ class Hand:
     def get_value(self):
         total = 0
         noAces = 0
-        for card in self.__hand:
+        for card in self._hand:
             cValue = card.value
             if isinstance(cValue, Royals):
                 cValue = self.Royals[cValue]
@@ -195,6 +199,9 @@ class Hand:
     def bust_or_stood(self):
         return self.bust or self.__has_stood
 
+    def __str__(self):
+        return self.id
+
 class Dealer_Hand(Hand):
     def __init__(self, id):
         super().__init__(id)
@@ -212,8 +219,8 @@ class Player:
     pass
 
 if __name__ == "__main__":
-    player1 = Hand("player")
-    player2 = Hand("player")
+    player1 = Hand("mariusz")
+    player2 = Hand("vince")
     dealer = Dealer_Hand("dealer")
     players = {
         "player1": player1,
@@ -221,5 +228,19 @@ if __name__ == "__main__":
         "dealer": dealer
     }
     bj = Blackjack(players)
+
+    while bj.continue_game:
+        bj.display_game()
+        current_player = bj.whoseTurnIsIt()
+        c = input("\n" + current_player + ": would you like to hit (h) or (s) ")
+        if c is "h":
+            bj.hit()
+        elif c is "s":
+            bj.stand()
+        else:
+            print("please input h or s")
+    bj.display_game()
+    bj.end_game()
+    print(bj.getWinner(), "is the winner!")
 
 
