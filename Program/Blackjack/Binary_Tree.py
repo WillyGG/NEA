@@ -4,6 +4,8 @@
     - find a way to abstract away the pre/in/post order traversals
 
 """
+from Circular_Queue import Circular_Queue
+
 
 class Binary_Tree:
     def __init__(self, rootNode):
@@ -175,6 +177,38 @@ class Binary_Tree:
     def clearTree(self, nodeParent):
         self._root = None
 
+    def get_tree_size(self, parent):
+        if parent == None:
+            return 0
+        left = self.get_tree_size(parent.left)
+        right = self.get_tree_size(parent.right)
+        return left + right + 1
+
+    def display_tree_structure(self):
+        tree_size = self.get_tree_size(self._root)
+        tree_queue = Circular_Queue(tree_size)
+        tree_queue.push(self._root)
+        power = 0
+
+        while not tree_queue.isEmpty():
+            current_node = tree_queue.pop()
+
+            if tree_queue.num_elements == (2 ** power):
+                power += 1
+                print()
+
+            if current_node.left != None:
+                tree_queue.push(current_node.left)
+            if current_node.right != None:
+                tree_queue.push(current_node.right)
+            print(current_node, end=" ")
+
+    def testfunc(self):
+        print(self._root)
+        print(self._root.left)
+        print(self._root.right)
+
+
 class Card_Binary_Tree(Binary_Tree):
     def __init__(self, rootNode):
         super().__init__(rootNode)
@@ -297,16 +331,16 @@ class Card_Node(Node):
 
 # Testing the functionality
 if __name__ == "__main__":
-    b = Card_Binary_Tree(Card_Node(5, 4))
-    b.insert(Card_Node(3, 1))
-    b.insert(Card_Node(2, 1))
-    b.insert(Card_Node(1, 1))
-    b.insert(Card_Node(4, 1))
+    b = Binary_Tree( Node(6) )
+    for num in [3,9,2,1,4,5,8,7,10,11]:
+        b.insert( Node(num) )
 
-    b.insert(Card_Node(6, 1))
-    b.in_order_traversal(b.root)
+    #b.testfunc()
+    b.display_tree_structure()
 
-    b.decrement(Card_Node(3, 0))
-    print()
-    b.in_order_traversal(b.root)
+ #   b.in_order_traversal(b.root)
+
+    #b.decrement(Card_Node(3, 0))
+    #print()
+    #b.in_order_traversal(b.root)
     #print(b.root.left.countValue)

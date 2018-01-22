@@ -4,10 +4,15 @@ class Circular_Queue:
         self.__circQ = [None for _ in range(self.__size)]
         self.__front = -1
         self.__rear = -1
+        self.__num_elements = 0
 
     @property
     def size(self):
         return self.__size
+
+    @property
+    def num_elements(self):
+        return self.__num_elements
 
     def push(self, toPush):
         if self.isFull():
@@ -21,6 +26,7 @@ class Circular_Queue:
             self.__rear += 1
 
         self.__circQ[self.__rear] = toPush
+        self.__num_elements += 1
         return True
 
     def pop(self):
@@ -35,6 +41,7 @@ class Circular_Queue:
             self.__front = -1
         else:
             self.__front += 1
+        self.__num_elements -= 1
         return toReturn
 
     def peek(self):

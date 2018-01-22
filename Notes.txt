@@ -145,4 +145,11 @@
     - bj manual test with 2 players + dealer
     - fully debugged -> mostly bugs with methods not updated after player_queue still using player dict
 
-   
+  22 Jan:
+    - First implementation of display tree structure, works for 6 -> root, insert(5), insert(7)
+
+    TODO:
+    - Complete degbugging this for the full tree in use atm.
+
+
+
