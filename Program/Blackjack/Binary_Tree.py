@@ -32,40 +32,45 @@ class Binary_Tree:
         leftResult = self.getNodeTraversal(parent.left, nodeValue)
         rightResult = self.getNodeTraversal(parent.right, nodeValue)
 
-        if leftResult != None:
+        if leftResult is not None:
             return leftResult
-        elif rightResult != None:
+        elif rightResult is not None:
             return rightResult
+        return None
 
     def insert(self, node):
         if isinstance(node, int):
             node = Node(node)
-        parentNode = self._root
+        if self.getNode(node) is not None:
+            return False
+
+        nextNode = self._root
         nextParent = None
         lastParentLeft = True
 
         # Find a way to abstract this
-        if node.value == parentNode.value:
-            return False
-        elif node.value < parentNode.value:
-            nextParent = parentNode.left
+        if node.value < nextNode.value:
+            nextParent = nextNode
+            nextNode = nextNode.left
             lastParentLeft = True
-        elif node.value > parentNode.value:
-            nextParent = parentNode.right
+        elif node.value > nextNode.value:
+            nextParent = nextNode
+            nextNode = nextNode.right
             lastParentLeft = False
-        while nextParent != None:
-            if node.value == parentNode.value:
-                return False
-            elif node.value < parentNode.value:
-                nextParent = parentNode.left
+        while nextNode is not None:
+            if node.value < nextNode.value:
+                nextParent = nextNode
+                nextNode = nextNode.left
                 lastParentLeft = True
-            elif node.value > parentNode.value:
-                nextParent = parentNode.right
+            elif node.value > nextNode.value:
+                nextParent = nextNode
+                nextNode = nextNode.right
                 lastParentLeft = False
         if lastParentLeft:
-            parentNode.left = node
+            nextParent.left = node
         else:
-            parentNode.right = node
+            nextParent.right = node
+        self.compareSubtrees()
 
     def getParent(self, node):
         currentNode = self._root
@@ -78,9 +83,9 @@ class Binary_Tree:
             return parent
         left = self.getParentTraverse(parent.left, nodeToFind)
         right = self.getParentTraverse(parent.right, nodeToFind)
-        if left != None:
+        if left is not None:
             return left
-        elif right != None:
+        elif right is not None:
             return right
 
     # TODO test
@@ -106,9 +111,6 @@ class Binary_Tree:
                          - newRoot.right = oldRoot (oldRoot keeps left subtree)
                          - if newRoot is direct parent 
                     return False to start again
-                max_LST = self.get_max_LST(currentNode)
-                parent.left = max_LST
-                max_LST.right = currentNode
                 """
                 max_LST = self.get_max_LST(currentNode)
                 max_LST.right = currentNode
@@ -154,15 +156,14 @@ class Binary_Tree:
 
         return left + right + 1
 
-    # TODO test
     def get_max_LST(self, root):
         current_node = root.left
         while current_node.right is not None:
+            print(current_node)
             current_node = current_node.right
         # current_node.left, current_node.right = None, None
         return current_node
 
-    # TODO test
     def get_min_RST(self, root):
         current_node = root.right
         while current_node.left is not None:
@@ -200,7 +201,7 @@ class Binary_Tree:
             maxLeftNodeParent = node
             maxLeftNode = node.left
             nextNode = node.left
-            while nextNode != None:
+            while nextNode is not None:
                 if nextNode.hasRight():
                     maxLeftNodeParent = nextNode
                     maxLeftNode = nextNode.right
@@ -251,9 +252,9 @@ class Binary_Tree:
                 print()
             current_node = tree_queue.pop()
 
-            if current_node.left != None:
+            if current_node.left is not None:
                 tree_queue.push(current_node.left)
-            if current_node.right != None:
+            if current_node.right is not None:
                 tree_queue.push(current_node.right)
             print(current_node, end=" ")
 
@@ -271,7 +272,7 @@ class Card_Binary_Tree(Binary_Tree):
         parent = self._root
         nextParent = None
 
-        while parent.value != nodeValue and parent != None:
+        while parent.value != nodeValue and parent is not None:
             if nodeValue < parent.value:
                 nextParent = parent.left
             elif nodeValue > parent.value:
@@ -380,11 +381,24 @@ class Card_Node(Node):
 
 # Testing the functionality
 if __name__ == "__main__":
-    b = Binary_Tree( Node(6) )
-    for num in [3,9,2,1,4,5,8,7,10,11]:
+    node_value = 1
+    insertion_arr = [2,3,4,5,6,7,8,9,10,11]
+    b = Binary_Tree( Node(node_value) )
+    for num in insertion_arr:
         b.insert( Node(num) )
+    #print(b.root.left.left)
+    print(b.in_order_traversal(b.root))
 
-    print(b.getParent(8))
+    #print(b.root.right.left)
+    #b.compareSubtrees()
+    #print(b.root.left.right)
+
+
+    #print(b.get_max_LST(b.root))
+    #print(b.get_min_RST(b.root))
+    #print(b.get_max_LST(b.root))
+
+    ## print(b.getParent(8))
 
 
     #b.testfunc()

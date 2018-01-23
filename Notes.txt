@@ -160,10 +160,13 @@
     - implemented get parent method
     - refactored insert method to prevent repeated node insertions
     - completed first maintainence implementation (UNTESTED)
+    - rewrote the insert method to actually work?? not sure what happened to it
+    - tested get_min_RST and get_max_LST (maybe try one or two more cases?)
+    - tested binary tree maintainence - IT WUUURKS?? (check the structure)
 
     TODO:
     - abstract swapping away into method
     - test the maintainence methods
+    - traversals - *args, if len(args) == 0 then parent = self._root
 
- 
 
