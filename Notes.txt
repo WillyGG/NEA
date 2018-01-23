@@ -163,10 +163,13 @@
     - rewrote the insert method to actually work?? not sure what happened to it
     - tested get_min_RST and get_max_LST (maybe try one or two more cases?)
     - tested binary tree maintainence - IT WUUURKS?? (check the structure)
+    - binary tree maint. works for rst
+    - got binary tree to work for lst too (abs(left - right) >= 2, rather than abs(left - right) == 2)
 
     TODO:
     - abstract swapping away into method
     - test the maintainence methods
     - traversals - *args, if len(args) == 0 then parent = self._root
-
+#    - fix the maintainence - for left subtree
+    - make the maintainence methods actual good code
 

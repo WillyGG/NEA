@@ -88,6 +88,13 @@ class Binary_Tree:
         elif right is not None:
             return right
 
+    def count_nodes(self, node):
+        if node is None:
+            return 0
+        left = self.count_nodes(node.left)
+        right = self.count_nodes(node.right)
+        return left + right + 1
+
     # TODO test
     def compareSubtrees(self):
         completed_comparing = False
@@ -103,8 +110,7 @@ class Binary_Tree:
 
         if left is False or right is False:
             return False
-
-        elif abs(left - right) == 2: # should never be larger than two, as increment in steps of 1
+        elif abs(left - right) >= 2:
             if left > right:
                 """
                     replace the parent with the max in LST
@@ -113,7 +119,6 @@ class Binary_Tree:
                     return False to start again
                 """
                 max_LST = self.get_max_LST(currentNode)
-                max_LST.right = currentNode
 
                 if currentNode.left != max_LST:
                     self.delete(max_LST)
@@ -125,6 +130,9 @@ class Binary_Tree:
                     self._root = max_LST
                 else:
                     parent.left = max_LST
+                print("currentNOde", currentNode)
+                print("parent", parent)
+                print("maxLST", max_LST)
 
             # more in RST
             else:
@@ -136,6 +144,7 @@ class Binary_Tree:
                         - else then newRoot.right <- OldRoot.Right 
                     return False to start again
                 """
+
 
                 # get -> delete -> swap
                 min_RST = self.get_min_RST(currentNode)
@@ -386,8 +395,9 @@ if __name__ == "__main__":
     b = Binary_Tree( Node(node_value) )
     for num in insertion_arr:
         b.insert( Node(num) )
-    #print(b.root.left.left)
-    print(b.in_order_traversal(b.root))
+
+    print("yeet")
+    print(b.root.left.right.right)
 
     #print(b.root.right.left)
     #b.compareSubtrees()

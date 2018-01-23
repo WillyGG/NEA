@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afba8995-ecc3-4204-a2a6-cfb3b48e3563" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/Notes.txt" afterPath="$PROJECT_DIR$/Notes.txt" />
       <change beforePath="$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py" afterPath="$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py" />
     </list>
@@ -15,41 +14,39 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Notes.txt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Notes.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Notes.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="206">
-              <caret line="164" column="74" lean-forward="false" selection-start-line="164" selection-start-column="74" selection-end-line="164" selection-end-column="74" />
+            <state relative-caret-position="382">
+              <caret line="173" column="52" lean-forward="false" selection-start-line="173" selection-start-column="52" selection-end-line="173" selection-end-column="52" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Binary_Tree.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Binary_Tree.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="389" column="39" lean-forward="true" selection-start-line="389" selection-start-column="39" selection-end-line="389" selection-end-column="39" />
+            <state relative-caret-position="216">
+              <caret line="112" column="36" lean-forward="false" selection-start-line="112" selection-start-column="36" selection-end-line="112" selection-end-column="36" />
               <folding>
                 <element signature="e#332#349#0" expanded="false" />
                 <element signature="e#393#577#0" expanded="false" />
                 <element signature="e#687#1087#0" expanded="false" />
                 <element signature="e#2214#2295#0" expanded="false" />
                 <element signature="e#2358#2732#0" expanded="false" />
-                <element signature="e#3014#5305#0" expanded="false" />
-                <element signature="e#5809#7578#0" expanded="false" />
-                <element signature="e#7747#7909#0" expanded="false" />
-                <element signature="e#8020#8187#0" expanded="false" />
-                <element signature="e#8364#8937#0" expanded="false" />
-                <element signature="e#8980#12107#0" expanded="false" />
-                <element signature="e#9090#9890#0" expanded="false" />
-                <element signature="e#10019#10424#0" expanded="false" />
-                <element signature="e#10464#10505#0" expanded="false" />
-                <element signature="e#10618#10829#0" expanded="false" />
-                <element signature="e#11027#11287#0" expanded="false" />
-                <element signature="e#11409#11874#0" expanded="false" />
-                <element signature="e#12156#12908#0" expanded="false" />
-                <element signature="e#12937#13044#0" expanded="false" />
+                <element signature="e#6034#7803#0" expanded="false" />
+                <element signature="e#8245#8412#0" expanded="false" />
+                <element signature="e#8589#9162#0" expanded="false" />
+                <element signature="e#9205#12332#0" expanded="false" />
+                <element signature="e#9315#10115#0" expanded="false" />
+                <element signature="e#10244#10649#0" expanded="false" />
+                <element signature="e#10689#10730#0" expanded="false" />
+                <element signature="e#10843#11054#0" expanded="false" />
+                <element signature="e#11252#11512#0" expanded="false" />
+                <element signature="e#11634#12099#0" expanded="false" />
+                <element signature="e#12381#13133#0" expanded="false" />
+                <element signature="e#13162#13269#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -523,7 +520,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.49707174" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26456693" sideWeight="0.85729164" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18582678" sideWeight="0.85729164" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -824,6 +821,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Deck.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1259">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Blackjack.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="109">
@@ -836,47 +841,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Deck.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1259">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Notes.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="164" column="74" lean-forward="false" selection-start-line="164" selection-start-column="74" selection-end-line="164" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="389" column="39" lean-forward="true" selection-start-line="389" selection-start-column="39" selection-end-line="389" selection-end-column="39" />
+        <state relative-caret-position="216">
+          <caret line="112" column="36" lean-forward="false" selection-start-line="112" selection-start-column="36" selection-end-line="112" selection-end-column="36" />
           <folding>
             <element signature="e#332#349#0" expanded="false" />
             <element signature="e#393#577#0" expanded="false" />
             <element signature="e#687#1087#0" expanded="false" />
             <element signature="e#2214#2295#0" expanded="false" />
             <element signature="e#2358#2732#0" expanded="false" />
-            <element signature="e#3014#5305#0" expanded="false" />
-            <element signature="e#5809#7578#0" expanded="false" />
-            <element signature="e#7747#7909#0" expanded="false" />
-            <element signature="e#8020#8187#0" expanded="false" />
-            <element signature="e#8364#8937#0" expanded="false" />
-            <element signature="e#8980#12107#0" expanded="false" />
-            <element signature="e#9090#9890#0" expanded="false" />
-            <element signature="e#10019#10424#0" expanded="false" />
-            <element signature="e#10464#10505#0" expanded="false" />
-            <element signature="e#10618#10829#0" expanded="false" />
-            <element signature="e#11027#11287#0" expanded="false" />
-            <element signature="e#11409#11874#0" expanded="false" />
-            <element signature="e#12156#12908#0" expanded="false" />
-            <element signature="e#12937#13044#0" expanded="false" />
+            <element signature="e#6034#7803#0" expanded="false" />
+            <element signature="e#8245#8412#0" expanded="false" />
+            <element signature="e#8589#9162#0" expanded="false" />
+            <element signature="e#9205#12332#0" expanded="false" />
+            <element signature="e#9315#10115#0" expanded="false" />
+            <element signature="e#10244#10649#0" expanded="false" />
+            <element signature="e#10689#10730#0" expanded="false" />
+            <element signature="e#10843#11054#0" expanded="false" />
+            <element signature="e#11252#11512#0" expanded="false" />
+            <element signature="e#11634#12099#0" expanded="false" />
+            <element signature="e#12381#13133#0" expanded="false" />
+            <element signature="e#13162#13269#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Notes.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="382">
+          <caret line="173" column="52" lean-forward="false" selection-start-line="173" selection-start-column="52" selection-end-line="173" selection-end-column="52" />
+          <folding />
         </state>
       </provider>
     </entry>
