@@ -38,20 +38,25 @@ class Binary_Tree:
             return rightResult
 
     def insert(self, node):
-        #print(node)
+        if isinstance(node, int):
+            node = Node(node)
         parentNode = self._root
         nextParent = None
         lastParentLeft = True
 
-        if node.value < parentNode.value:
+        # Find a way to abstract this
+        if node.value == parentNode.value:
+            return False
+        elif node.value < parentNode.value:
             nextParent = parentNode.left
             lastParentLeft = True
         elif node.value > parentNode.value:
             nextParent = parentNode.right
             lastParentLeft = False
         while nextParent != None:
-            parentNode = nextParent
-            if node.value < parentNode.value:
+            if node.value == parentNode.value:
+                return False
+            elif node.value < parentNode.value:
                 nextParent = parentNode.left
                 lastParentLeft = True
             elif node.value > parentNode.value:
@@ -62,11 +67,27 @@ class Binary_Tree:
         else:
             parentNode.right = node
 
+    def getParent(self, node):
+        currentNode = self._root
+        return self.getParentTraverse(currentNode, node)
+
+    def getParentTraverse(self, parent, nodeToFind):
+        if parent is None:
+            return None
+        if parent.left == nodeToFind or parent.right == nodeToFind:
+            return parent
+        left = self.getParentTraverse(parent.left, nodeToFind)
+        right = self.getParentTraverse(parent.right, nodeToFind)
+        if left != None:
+            return left
+        elif right != None:
+            return right
+
     # TODO test
     def compareSubtrees(self):
         completed_comparing = False
         while not completed_comparing:
-            self.compare_ST_Traverse(self._root, None)
+            completed_comparing = self.compare_ST_Traverse(self._root, None)
 
     # TODO test
     def compare_ST_Traverse(self, currentNode, parent):
@@ -85,23 +106,50 @@ class Binary_Tree:
                          - newRoot.right = oldRoot (oldRoot keeps left subtree)
                          - if newRoot is direct parent 
                     return False to start again
-                """
                 max_LST = self.get_max_LST(currentNode)
                 parent.left = max_LST
                 max_LST.right = currentNode
+                """
+                max_LST = self.get_max_LST(currentNode)
+                max_LST.right = currentNode
+
+                if currentNode.left != max_LST:
+                    self.delete(max_LST)
+                    max_LST.left = currentNode.left
+                currentNode.left = None # Will this break the subtree?
+                max_LST.right = currentNode
+
+                if parent == None:
+                    self._root = max_LST
+                else:
+                    parent.left = max_LST
+
             # more in RST
             else:
                 """
+                swap nodes: 
                     replace parent with minRST
                         - newRoot.left <- oldRoot
                         - if directChild then keep RST
                         - else then newRoot.right <- OldRoot.Right 
                     return False to start again
                 """
+
+                # get -> delete -> swap
                 min_RST = self.get_min_RST(currentNode)
-                parent.right = min_RST
+
+                # if direct child, it keeps its old RST, and is not deleted before swapping
+                if currentNode.right != min_RST:
+                    self.delete(min_RST)
+                    min_RST.right = currentNode.right
+                currentNode.right = None # Will this break the subtree?
                 min_RST.left = currentNode
-            currentNode.left, currentNode.right = None, None
+
+                if parent == None:
+                    self._root = min_RST
+                else:
+                    parent.right = min_RST
+            #currentNode.left, currentNode.right = None, None # Will this break everything?
             return False
 
         return left + right + 1
@@ -121,7 +169,8 @@ class Binary_Tree:
             current_node = current_node.left
         return current_node
 
-    def delete(self, node, nodeParent):
+    def delete(self, node):
+        nodeParent = self.getParent(node)
         nodeIsLeft = nodeParent.left == node
 
         # No children
@@ -145,6 +194,9 @@ class Binary_Tree:
                     nodeParent.right = node.right
         else:
             # Find max node in left subtree and replace the node to delete with it
+
+            # Turn this into a method, with a get parent function
+            # just make a get parent method
             maxLeftNodeParent = node
             maxLeftNode = node.left
             nextNode = node.left
@@ -158,7 +210,7 @@ class Binary_Tree:
 
             # Recursively delete the old node from its old position, since it is the max node in left tree, it cannot
             # have a right child, therefore this will be called recursively once at max.
-            self.delete(maxLeftNode, maxLeftNodeParent)
+            self.delete(maxLeftNode)
 
             maxLeftNode.right = node.right
             if nodeIsLeft:
@@ -184,6 +236,9 @@ class Binary_Tree:
         right = self.get_tree_size(parent.right)
         return left + right + 1
 
+    """
+        - finish this if you need to, however, probs not worth the time rn. You can manually check the structure
+    """
     def display_tree_structure(self):
         tree_size = self.get_tree_size(self._root)
         tree_queue = Circular_Queue(tree_size)
@@ -191,23 +246,16 @@ class Binary_Tree:
         power = 0
 
         while not tree_queue.isEmpty():
-            current_node = tree_queue.pop()
-
             if tree_queue.num_elements == (2 ** power):
                 power += 1
                 print()
+            current_node = tree_queue.pop()
 
             if current_node.left != None:
                 tree_queue.push(current_node.left)
             if current_node.right != None:
                 tree_queue.push(current_node.right)
             print(current_node, end=" ")
-
-    def testfunc(self):
-        print(self._root)
-        print(self._root.left)
-        print(self._root.right)
-
 
 class Card_Binary_Tree(Binary_Tree):
     def __init__(self, rootNode):
@@ -316,8 +364,9 @@ class Node: # Association via composition
 
     def __eq__(self, other):
         if isinstance(other, Node):
-            if self.value == other.value:
-                return True
+            return self.value == other.value
+        elif isinstance(other, int):
+            return self.value == other
         return False
 
     def __str__(self):
@@ -335,8 +384,11 @@ if __name__ == "__main__":
     for num in [3,9,2,1,4,5,8,7,10,11]:
         b.insert( Node(num) )
 
+    print(b.getParent(8))
+
+
     #b.testfunc()
-    b.display_tree_structure()
+    #b.display_tree_structure()
 
  #   b.in_order_traversal(b.root)
 

@@ -146,10 +146,24 @@
     - fully debugged -> mostly bugs with methods not updated after player_queue still using player dict
 
   22 Jan:
+    - added num elements in queue attribute to circular queue
     - First implementation of display tree structure, works for 6 -> root, insert(5), insert(7)
 
     TODO:
     - Complete degbugging this for the full tree in use atm.
 
 
+  23 Jan:
+    - Decided display structure method was not worth it
+    - Finalising on maintaining tree structure from binary tree class
+    - refactored node equivalence method, by allowing comparison between ints and nodes, by comparing the node value to the int.
+    - implemented get parent method
+    - refactored insert method to prevent repeated node insertions
+    - completed first maintainence implementation (UNTESTED)
+
+    TODO:
+    - abstract swapping away into method
+    - test the maintainence methods
+
+ 
 
