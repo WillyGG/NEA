@@ -4,7 +4,7 @@
     - find a way to abstract away the pre/in/post order traversals
 
 """
-from Circular_Queue import Circular_Queue
+from Circular_Queue import Circular_Queue # may not need this
 
 
 class Binary_Tree:
@@ -95,13 +95,57 @@ class Binary_Tree:
         right = self.count_nodes(node.right)
         return left + right + 1
 
-    # TODO test
     def compareSubtrees(self):
         completed_comparing = False
         while not completed_comparing:
             completed_comparing = self.compare_ST_Traverse(self._root, None)
 
-    # TODO test
+    def swap_max_LST(self, swapRoot):
+        """
+        replace the parent with the max in LST
+        - newRoot.right = oldRoot (oldRoot keeps left subtree)
+        - if newRoot is direct parent
+        return False to start again
+        """
+        max_LST = self.get_max_LST(swapRoot)
+        parent = self.getParent(swapRoot)
+
+        if swapRoot.left != max_LST:
+            self.delete(max_LST)
+            max_LST.left = swapRoot.left
+        swapRoot.left = None # Will this break the subtree?
+        max_LST.right = swapRoot
+
+        if parent == None:
+            self._root = max_LST
+        else:
+            parent.left = max_LST
+
+    def swap_min_RST(self, swapRoot):
+        """
+        swap nodes:
+        replace parent with minRST
+                - newRoot.left <- oldRoot
+                - if directChild then keep RST
+                - else then newRoot.right <- OldRoot.Right
+            return False to start again
+        """
+        # get -> delete -> swap
+        min_RST = self.get_min_RST(swapRoot)
+        parent = self.getParent(swapRoot)
+
+        # if direct child, it keeps its old RST, and is not deleted before swapping
+        if swapRoot.right != min_RST:
+            self.delete(min_RST)
+            min_RST.right = swapRoot.right
+        swapRoot.right = None # Will this break the subtree?
+        min_RST.left = swapRoot
+
+        if parent == None:
+            self._root = min_RST
+        else:
+            parent.right = min_RST
+
     def compare_ST_Traverse(self, currentNode, parent):
         if currentNode == None:
             return 0
@@ -112,57 +156,10 @@ class Binary_Tree:
             return False
         elif abs(left - right) >= 2:
             if left > right:
-                """
-                    replace the parent with the max in LST
-                         - newRoot.right = oldRoot (oldRoot keeps left subtree)
-                         - if newRoot is direct parent 
-                    return False to start again
-                """
-                max_LST = self.get_max_LST(currentNode)
-
-                if currentNode.left != max_LST:
-                    self.delete(max_LST)
-                    max_LST.left = currentNode.left
-                currentNode.left = None # Will this break the subtree?
-                max_LST.right = currentNode
-
-                if parent == None:
-                    self._root = max_LST
-                else:
-                    parent.left = max_LST
-                print("currentNOde", currentNode)
-                print("parent", parent)
-                print("maxLST", max_LST)
-
-            # more in RST
+                self.swap_max_LST(currentNode)
             else:
-                """
-                swap nodes: 
-                    replace parent with minRST
-                        - newRoot.left <- oldRoot
-                        - if directChild then keep RST
-                        - else then newRoot.right <- OldRoot.Right 
-                    return False to start again
-                """
-
-
-                # get -> delete -> swap
-                min_RST = self.get_min_RST(currentNode)
-
-                # if direct child, it keeps its old RST, and is not deleted before swapping
-                if currentNode.right != min_RST:
-                    self.delete(min_RST)
-                    min_RST.right = currentNode.right
-                currentNode.right = None # Will this break the subtree?
-                min_RST.left = currentNode
-
-                if parent == None:
-                    self._root = min_RST
-                else:
-                    parent.right = min_RST
-            #currentNode.left, currentNode.right = None, None # Will this break everything?
+                self.swap_min_RST(currentNode)
             return False
-
         return left + right + 1
 
     def get_max_LST(self, root):
@@ -296,7 +293,7 @@ class Card_Binary_Tree(Binary_Tree):
         elif parent.value == nodeValue:
             parent.countValue -= 1
             if parent.countValue == 0:
-                self.delete(parent, parentParent)
+                self.delete(parent)
             return True
 
     # Counts number of cards at current value and larger (Greater than, equal to)
@@ -396,8 +393,9 @@ if __name__ == "__main__":
     for num in insertion_arr:
         b.insert( Node(num) )
 
-    print("yeet")
-    print(b.root.left.right.right)
+    print("6:", b.root)
+    print("3:", b.root.left)
+    print("9:", b.root.right)
 
     #print(b.root.right.left)
     #b.compareSubtrees()
