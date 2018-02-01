@@ -184,40 +184,53 @@ class Training_Interface:
 
     def train(self):
         train_iterations = self.parameters["train_steps"]
-        e = self.parameters["epsilon"]
         explore_steps = self.parameters["explore_steps"]
         update_frequency = self.parameters["update_frequency"]
         save_frequency = self.parameters["save_model_frequency"]
-        episode_buffer = []
+        exp_buffer = experience_buffer()
+        reward_record = []
         for i in range(train_iterations):
             game_state = self.BlJa_Interface.reset() # Implement this
-            reward_all = 0
-            j = 0
+            episode_reward = 0
+            episode_buffer = []
             self.rnn_state = (np.zeros([1, h_size]), np.zeros([1, h_size]))  # Reset the recurrent layer's hidden state
             while self.BlJa_Interface.continue_game():
                 action = self.choose_action(i)
                 self.process_action(action)
                 new_game_state = self.BlJa_Interface.get_game_state()
+                new_rnn_state = self.get_new_rnn_state(self.rnn_state)
                 reward = self.BlJa_Interface.gen_step_reward()
                 episode_buffer.append(np.reshape(np.array([game_state, action, reward,
                                                           new_game_state, self.BlJa_Interface.continue_game]), [1, 5]))
-                if i % update_frequency == 0:
+
+                exploring = (i <= explore_steps)
+                if i % update_frequency == 0 and not exploring:
                     self.update_networks()
 
-                reward_all += reward
+                episode_reward += reward
                 game_state = new_game_state
-                ADOISIFAJ# UPDATE RNN CELL STATE
+                self.rnn_state = new_rnn_state# UPDATE RNN CELL STATE
+
+            # PROCESS END OF GAME
+            # GET THE END OF GAME REWARD
 
             # Add the episode to the experience buffer
-            # ADAPT THESE
-            bufferArray = np.array(episodeBuffer)
+            bufferArray = np.array(episode_buffer)
             episodeBuffer = list(zip(bufferArray))
-            myBuffer.add(episodeBuffer)
-            jList.append(j)
-            rList.append(rAll)
+            exp_buffer.add(episodeBuffer)
+            reward_record.append(episode_reward)
 
             if i % save_frequency == 0:
                 self.save_model()
+
+    # figure out if this causes two steps instead of 1
+    def get_new_rnn_state(self, rnn_state):
+        new_rnn_state = sess.run(mainQN.rnn_state,
+                                      feed_dict={ mainQN.trainLength: 1,
+                                        mainQN.state_in: rnn_state,
+                                        mainQN.batch_size: 1 }
+                                      )
+        return new_rnn_state
 
     def save_model(self):
         pass
@@ -230,25 +243,22 @@ class Training_Interface:
 
     def choose_action(self, i):
         policy = self.parameters["policy"]
+        exploration_steps = self.parameters["explore_steps"]
         if policy == "e-greedy":
-            return self.choose_action_e_greedy(i)
+            exploring = i <= exploration_steps
+            return self.choose_action_e_greedy(exploring=exploring)
 
-    def choose_action_e_greedy(self, i):
+    def choose_action_e_greedy(self, exploring):
         h_size = self.parameters["h_size"]
         train_iterations = self.parameters["train_steps"]
         e = self.parameters["epsilon"]
         explore_steps = self.parameters["explore_steps"]
 
         # random exploration if explore stage or prob is less than epsilon
-        if np.random.rand(1) < e or i < explore_steps:
-            self.new_rnn_state = sess.run(mainQN.rnn_state,
-                                    feed_dict={ mainQN.trainLength: 1,
-                                      mainQN.state_in: self.rnn_state,
-                                      mainQN.batch_size: 1 }
-                                    )
+        if np.random.rand(1) < e or exploring:
             a = np.random.randint(0, 4)
         else:
-            a, self.new_rnn_state = sess.run([mainQN.predict, mainQN.rnn_state],
+            a, self.new_rnn_state = sess.run(mainQN.predict,
                                     feed_dict={ mainQN.trainLength: 1,
                                          mainQN.state_in: self.rnn_state,
                                          mainQN.batch_size: 1 }
@@ -256,14 +266,11 @@ class Training_Interface:
             a = a[0]
 
         # decrement epsilon
-        if i > explore_steps:
+        if not exploring:
             if self.parameters["epsilon"] > self.parameters["end_epsilon"]:
                 self.parameters["epsilon"] -= self.parameters["epsilon_step"]
 
         return a
-
-    def update_e(self):
-        pass
 
 #Setting the training parameters
 batch_size = 4 #How many experience traces to use for each training step.

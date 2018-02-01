@@ -191,3 +191,4 @@
     - implement update network method
     - implement save model method
     - implement with tf.session() as sess and the bits below it
+    - implment end of game processing for the training
