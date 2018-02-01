@@ -194,6 +194,8 @@ class Training_Interface:
             episode_reward = 0
             episode_buffer = []
             self.rnn_state = (np.zeros([1, h_size]), np.zeros([1, h_size]))  # Reset the recurrent layer's hidden state
+
+            # step in game, get reward and new state
             while self.BlJa_Interface.continue_game():
                 action = self.choose_action(i)
                 self.process_action(action)
@@ -235,8 +237,38 @@ class Training_Interface:
     def save_model(self):
         pass
 
+    #TODO ADAPT THESE
     def update_networks(self):
-        pass
+        batch_size = self.parameters["batch_size"]
+        hidden_size = self.parameters["hidden_size"]
+        self.Target_Network.updateTarget()# <--- PUT IN THE ARGS, TARGETOPS, SESS
+        rnn_state_update = (np.zeros([batch_size, hidden_size]), np.zeros([batch_size, hidden_size]))
+        trainBatch = myBuffer.sample(batch_size, trace_length)  # Get a random batch of experiences.
+        # Below we perform the Double-DQN update to the target Q-values
+        primary_out = sess.run(mainQN.predict, feed_dict={
+                    mainQN.trainLength: trace_length,
+                    mainQN.state_in: rnn_state_update,
+                    mainQN.batch_size: batch_size}
+                    )
+
+        target_out = sess.run(targetQN.Qout, feed_dict={
+            targetQN.trainLength: trace_length,
+            targetQN.state_in: rnn_state_update,
+            targetQN.batch_size: batch_size}
+            )
+
+        end_multiplier = -(trainBatch[:, 4] - 1)
+        doubleQ = target_out[range(batch_size * trace_length), primary_out]
+        targetQ = trainBatch[:, 2] + (y * doubleQ * end_multiplier)
+        # Update the network with our target values.
+        sess.run(mainQN.updateModel,
+                 feed_dict={
+                     mainQN.targetQ: targetQ,
+                     mainQN.actions: trainBatch[:, 1], mainQN.trainLength: trace_length,
+                     mainQN.state_in: rnn_state_update,
+                     mainQN.batch_size: batch_size}
+                 )
+
 
     def process_action(self, action):
         pass
