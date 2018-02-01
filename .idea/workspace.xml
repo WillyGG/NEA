@@ -2,7 +2,56 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afba8995-ecc3-4204-a2a6-cfb3b48e3563" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py" afterPath="$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_2.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/DDQN_RECURRENT.py" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/Notes.txt" afterPath="$PROJECT_DIR$/Notes.txt" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN.py" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/image1099.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/image1199.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/image199.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/image299.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/image399.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/image499.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/image599.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/image699.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/image799.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/image899.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/image99.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/image999.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/log1099.csv" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/log1199.csv" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/log199.csv" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/log299.csv" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/log399.csv" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/log499.csv" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/log599.csv" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/log699.csv" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/log799.csv" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/log899.csv" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/log99.csv" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/log999.csv" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/sal1099.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/sal1199.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/sal199.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/sal299.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/sal399.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/sal499.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/sal599.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/sal699.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/sal799.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/sal899.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/sal99.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/sal999.gif" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/log.csv" afterPath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/log.csv" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/DDQN_GW_2.py" afterPath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/DDQN_GW_2.py" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/dqn/model-0.ckpt.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/dqn/model-0.ckpt.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/dqn/model-0.ckpt.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/drqn/model-1000.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/drqn/model-1000.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/drqn/model-1000.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/helper.py" afterPath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/helper.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,17 +65,17 @@
       <file leaf-file-name="Notes.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Notes.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="173" column="52" lean-forward="false" selection-start-line="173" selection-start-column="52" selection-end-line="173" selection-end-column="52" />
+            <state relative-caret-position="414">
+              <caret line="184" column="36" lean-forward="false" selection-start-line="184" selection-start-column="36" selection-end-line="184" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Binary_Tree.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Binary_Tree.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2232">
+            <state relative-caret-position="1854">
               <caret line="419" column="34" lean-forward="false" selection-start-line="419" selection-start-column="34" selection-end-line="419" selection-end-column="34" />
               <folding>
                 <element signature="e#352#369#0" expanded="false" />
@@ -54,34 +103,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Blackjack.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program/Blackjack/Blackjack.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2898">
-              <caret line="235" column="20" lean-forward="false" selection-start-line="235" selection-start-column="20" selection-end-line="235" selection-end-column="20" />
-              <folding>
-                <element signature="e#0#21#0" expanded="true" />
-                <element signature="e#4509#6275#0" expanded="false" />
-                <element signature="e#6306#6514#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Deck.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program/Blackjack/Deck.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Counting_AI.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Counting_AI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1674">
+            <state relative-caret-position="439">
               <caret line="206" column="42" lean-forward="false" selection-start-line="206" selection-start-column="42" selection-end-line="206" selection-end-column="42" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
@@ -100,22 +125,39 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Circular_Queue.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program/Blackjack/Circular_Queue.py">
+      <file leaf-file-name="DDQN_RECURRENT.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/DDQN_RECURRENT.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="774">
-              <caret line="43" column="22" lean-forward="false" selection-start-line="43" selection-start-column="22" selection-end-line="43" selection-end-column="22" />
-              <folding />
+            <state relative-caret-position="1080">
+              <caret line="229" column="0" lean-forward="false" selection-start-line="229" selection-start-column="0" selection-end-line="229" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Simple_AI.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program/Blackjack/Simple_AI.py">
+      <file leaf-file-name="NN_2.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="28" column="62" lean-forward="false" selection-start-line="28" selection-start-column="62" selection-end-line="28" selection-end-column="62" />
-              <folding />
+            <state relative-caret-position="-612">
+              <caret line="222" column="12" lean-forward="false" selection-start-line="222" selection-start-column="12" selection-end-line="222" selection-end-column="12" />
+              <folding>
+                <element signature="e#0#23#0" expanded="true" />
+                <element signature="e#5618#6365#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="helper.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/helper.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="17" column="17" lean-forward="false" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -123,9 +165,12 @@
       <file leaf-file-name="NN.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3006">
-              <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="-270">
+              <caret line="100" column="0" lean-forward="false" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
+              <folding>
+                <element signature="e#262#2015#1" expanded="false" />
+                <element signature="e#2017#2040#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -148,6 +193,7 @@
       <find>cardCount</find>
       <find>!= None</find>
       <find>parentNode</find>
+      <find>rList</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -173,7 +219,6 @@
         <option value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/pole_balancing.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Blackjack_v2/Blackjack.py" />
         <option value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/model_based_pole_balancing.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/NN.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Stack.py" />
         <option value="$PROJECT_DIR$/Program/5CD/Five_Card_Draw.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Simple_AI.py" />
@@ -181,8 +226,13 @@
         <option value="$PROJECT_DIR$/Program/Blackjack/Queue.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Circular_Queue.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Counting_AI.py" />
-        <option value="$PROJECT_DIR$/Notes.txt" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py" />
+        <option value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/DDQN_GW_2.py" />
+        <option value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/DDQN_RECURRENT.py" />
+        <option value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/helper.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/NN.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/NN_2.py" />
+        <option value="$PROJECT_DIR$/Notes.txt" />
       </list>
     </option>
   </component>
@@ -245,6 +295,27 @@
               <item name="Program" type="462c0819:PsiDirectoryNode" />
               <item name="Blackjack" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="NEA" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NEA" type="462c0819:PsiDirectoryNode" />
+              <item name="Program" type="462c0819:PsiDirectoryNode" />
+              <item name="Tf_Test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NEA" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NEA" type="462c0819:PsiDirectoryNode" />
+              <item name="Program" type="462c0819:PsiDirectoryNode" />
+              <item name="Tf_Test" type="462c0819:PsiDirectoryNode" />
+              <item name="Q-Learning_Tut" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NEA" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NEA" type="462c0819:PsiDirectoryNode" />
+              <item name="Program" type="462c0819:PsiDirectoryNode" />
+              <item name="Tf_Test" type="462c0819:PsiDirectoryNode" />
+              <item name="Q-Learning_Tut" type="462c0819:PsiDirectoryNode" />
+              <item name="drqn" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -254,7 +325,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="settings.editor.splitter.proportion" value="0.25097656" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/Users/Zerenity/Desktop/NEA/Program/Blackjack/Blackjack.py" />
   </component>
@@ -280,7 +351,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Binary_Tree">
+  <component name="RunManager" selected="Python.DDQN_RECURRENT">
     <configuration name="Binary_Tree" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -335,6 +406,42 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration name="DDQN_GW_2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="NEA" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/DDQN_GW_2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="DDQN_RECURRENT" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="NEA" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/DDQN_RECURRENT.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <configuration name="Game" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -348,42 +455,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="NEA" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Program/Poker/Game.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
-    <configuration name="NN" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Program/Blackjack" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="NEA" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Program/Blackjack/NN.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
-    <configuration name="model_based_pole_balancing" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="NEA" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/model_based_pole_balancing.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -454,19 +525,19 @@
     </configuration>
     <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Python.Game" />
-      <item index="1" class="java.lang.String" itemvalue="Python.NN" />
-      <item index="2" class="java.lang.String" itemvalue="Python.Blackjack (1)" />
-      <item index="3" class="java.lang.String" itemvalue="Python.model_based_pole_balancing" />
-      <item index="4" class="java.lang.String" itemvalue="Python.Binary_Tree" />
-      <item index="5" class="java.lang.String" itemvalue="Python.Counting_AI" />
+      <item index="1" class="java.lang.String" itemvalue="Python.Blackjack (1)" />
+      <item index="2" class="java.lang.String" itemvalue="Python.Binary_Tree" />
+      <item index="3" class="java.lang.String" itemvalue="Python.Counting_AI" />
+      <item index="4" class="java.lang.String" itemvalue="Python.DDQN_GW_2" />
+      <item index="5" class="java.lang.String" itemvalue="Python.DDQN_RECURRENT" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.Binary_Tree" />
-        <item index="1" class="java.lang.String" itemvalue="Python.Counting_AI" />
-        <item index="2" class="java.lang.String" itemvalue="Python.Blackjack (1)" />
-        <item index="3" class="java.lang.String" itemvalue="Python.model_based_pole_balancing" />
-        <item index="4" class="java.lang.String" itemvalue="Python.NN" />
+        <item index="0" class="java.lang.String" itemvalue="Python.DDQN_RECURRENT" />
+        <item index="1" class="java.lang.String" itemvalue="Python.DDQN_GW_2" />
+        <item index="2" class="java.lang.String" itemvalue="Python.Binary_Tree" />
+        <item index="3" class="java.lang.String" itemvalue="Python.Counting_AI" />
+        <item index="4" class="java.lang.String" itemvalue="Python.Blackjack (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -516,10 +587,11 @@
     <frame x="67" y="27" width="1299" height="741" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.04157044" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18552732" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30010605" sideWeight="0.14270833" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18582678" sideWeight="0.85729164" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.49707174" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27401575" sideWeight="0.85729164" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -531,10 +603,29 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.49707174" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30010605" sideWeight="0.14270833" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27401575" sideWeight="0.85729164" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18552732" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.49707174" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32440946" sideWeight="0.8928047" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -553,29 +644,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Blackjack_v2/Blackjack.py" />
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1139">
-          <caret line="71" column="142" lean-forward="false" selection-start-line="71" selection-start-column="142" selection-end-line="71" selection-end-column="142" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/pole_balancing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1360">
-          <caret line="84" column="25" lean-forward="true" selection-start-line="84" selection-start-column="25" selection-end-line="84" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/model_based_pole_balancing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/DDQN_GW_2_2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1207">
@@ -609,7 +677,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3349">
           <caret line="197" column="102" lean-forward="false" selection-start-line="197" selection-start-column="102" selection-end-line="197" selection-end-column="102" />
-          <folding />
+          <folding>
+            <element signature="e#262#2015#1" expanded="false" />
+            <element signature="e#2017#2040#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -618,7 +689,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1819">
           <caret line="107" column="40" lean-forward="true" selection-start-line="107" selection-start-column="40" selection-end-line="107" selection-end-column="40" />
-          <folding />
+          <folding>
+            <element signature="e#262#2015#1" expanded="false" />
+            <element signature="e#2017#2040#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -669,7 +743,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="22" column="60" lean-forward="false" selection-start-line="22" selection-start-column="60" selection-end-line="22" selection-end-column="60" />
-          <folding />
+          <folding>
+            <element signature="e#262#2015#1" expanded="false" />
+            <element signature="e#2017#2040#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -692,7 +769,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="5" lean-forward="false" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
-          <folding />
+          <folding>
+            <element signature="e#262#2015#1" expanded="false" />
+            <element signature="e#2017#2040#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -778,40 +858,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3006">
-          <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Queue.py" />
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Simple_AI.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="504">
           <caret line="28" column="62" lean-forward="false" selection-start-line="28" selection-start-column="62" selection-end-line="28" selection-end-column="62" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Counting_AI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1674">
-          <caret line="206" column="42" lean-forward="false" selection-start-line="206" selection-start-column="42" selection-end-line="206" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-            <element signature="e#2526#2628#0" expanded="false" />
-            <element signature="e#2680#2818#0" expanded="false" />
-            <element signature="e#2902#3451#0" expanded="false" />
-            <element signature="e#3656#4085#0" expanded="false" />
-            <element signature="e#4184#4657#0" expanded="false" />
-            <element signature="e#4765#5286#0" expanded="false" />
-            <element signature="e#5434#6057#0" expanded="false" />
-            <element signature="e#6101#6189#0" expanded="false" />
-            <element signature="e#6375#6932#0" expanded="false" />
-            <element signature="e#7016#8324#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -836,24 +888,16 @@
         <state relative-caret-position="2898">
           <caret line="235" column="20" lean-forward="false" selection-start-line="235" selection-start-column="20" selection-end-line="235" selection-end-column="20" />
           <folding>
-            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#0#21#0" expanded="false" />
             <element signature="e#4509#6275#0" expanded="false" />
             <element signature="e#6306#6514#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Notes.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="173" column="52" lean-forward="false" selection-start-line="173" selection-start-column="52" selection-end-line="173" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Binary_Tree.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2232">
+        <state relative-caret-position="1854">
           <caret line="419" column="34" lean-forward="false" selection-start-line="419" selection-start-column="34" selection-end-line="419" selection-end-column="34" />
           <folding>
             <element signature="e#352#369#0" expanded="false" />
@@ -876,6 +920,86 @@
             <element signature="e#8229#8802#0" expanded="false" />
             <element signature="e#8845#11958#0" expanded="false" />
             <element signature="e#12535#12704#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/DDQN_GW_2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="37" column="16" lean-forward="false" selection-start-line="37" selection-start-column="16" selection-end-line="37" selection-end-column="16" />
+          <folding>
+            <element signature="e#1#32#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Counting_AI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="439">
+          <caret line="206" column="42" lean-forward="false" selection-start-line="206" selection-start-column="42" selection-end-line="206" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+            <element signature="e#2526#2628#0" expanded="false" />
+            <element signature="e#2680#2818#0" expanded="false" />
+            <element signature="e#2902#3451#0" expanded="false" />
+            <element signature="e#3656#4085#0" expanded="false" />
+            <element signature="e#4184#4657#0" expanded="false" />
+            <element signature="e#4765#5286#0" expanded="false" />
+            <element signature="e#5434#6057#0" expanded="false" />
+            <element signature="e#6101#6189#0" expanded="false" />
+            <element signature="e#6375#6932#0" expanded="false" />
+            <element signature="e#7016#8324#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/helper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="17" lean-forward="false" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-270">
+          <caret line="100" column="0" lean-forward="false" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
+          <folding>
+            <element signature="e#262#2015#1" expanded="false" />
+            <element signature="e#2017#2040#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Notes.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="184" column="36" lean-forward="false" selection-start-line="184" selection-start-column="36" selection-end-line="184" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/DDQN_RECURRENT.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1080">
+          <caret line="229" column="0" lean-forward="false" selection-start-line="229" selection-start-column="0" selection-end-line="229" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-612">
+          <caret line="222" column="12" lean-forward="false" selection-start-line="222" selection-start-column="12" selection-end-line="222" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#5618#6365#0" expanded="false" />
           </folding>
         </state>
       </provider>

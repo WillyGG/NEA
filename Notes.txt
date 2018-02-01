@@ -170,7 +170,24 @@
     - abstract swapping away into method
     - test the maintainence methods
     - traversals - *args, if len(args) == 0 then parent = self._root
-#    - fix the maintainence - for left subtree
     - make the maintainence methods actual good code
     - remove num elements from circular queue
 
+  28 Jan:
+    - abstracted away the swapping
+    - started working on recurrent nn ai
+
+  29 Jan:
+    - implemented prim_net, target_net, exp_buffer, bj_interface, training_interface
+
+  01 Feb:
+    - filled up most of the main training loop
+    - implmented train policy action
+
+    TODO:
+    - implement a policy package
+    - fix up the step reward
+    - implement process action method
+    - implement update network method
+    - implement save model method
+    - implement with tf.session() as sess and the bits below it

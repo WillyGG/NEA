@@ -98,7 +98,6 @@ class Agent:
         elif action_value == 1:
             blackjack.stand()
 
-
 class Blackjack_Agent_Interface:
     def __init__(self, blackjack_instance, rewardDict):
         # TODO consider adding a hit reward
