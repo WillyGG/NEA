@@ -195,3 +195,6 @@
     - update this TODO xd
 
     - Test the current implmentation
+
+  03 Feb:
+    - Implemented the training class completely -> need to finish blja interface class impl

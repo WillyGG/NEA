@@ -57,7 +57,7 @@ class Q_Net():
         self.VW = tf.Variable(tf.random_normal([hidden_size // 2, 1]))
         self.Advantage = tf.matmul(self.streamA, self.AW)
         self.Value = tf.matmul(self.streamV, self.VW)
-        self.salience = tf.gradients(self.Advantage, self.imageIn)
+        self.salience = tf.gradients(self.Advantage) #self.imageIn
 
     def predict(self):
          # Then combine them together to get our final Q-values.
@@ -102,7 +102,8 @@ class Target_Net(Q_Net):
         self.ops = op_holder
         return op_holder
 
-    def updateTarget(self, op_holder, sess):
+    def updateTarget(self, sess):
+        op_holder = self.ops
         for op in op_holder:
             sess.run(op)
         total_vars = len(tf.trainable_variables())
@@ -155,19 +156,10 @@ class Blackjack_Agent_Interface:
         return [player_hand_size, player_hand_value, dealer_hand_size, dealer_hand_value]
 
     def gen_step_reward(self):
-        return 0
+        pass
 
     def gen_end_reward(self, player_won):
-        # TODO decide if dealer going bust should be rewarded
-        reward = 0
-        hand_value_reward = int(self.blackjack.assess_hand(self.blackjack.player) * self.hand_value_discount)
-        if hand_value_reward > self.blackjack.blackjack:
-            hand_value_reward += self.bustCost
-        if player_won:
-            reward += self.winReward
-        else:
-            reward += self.lossCost
-        return reward
+        pass
 
     def reset(self):
         pass
@@ -175,32 +167,48 @@ class Blackjack_Agent_Interface:
     def continue_game(self):
         return self.blackjack.continue_game
 
+    def process_action(self, action):
+        pass
+
 class Training_Interface:
     def __init__(self, parameters, Primary_Network, Target_Network, Blackjack_Interface):
         self.parameters = parameters
         self.Primary_Network = Primary_Network
         self.Target_Network = Target_Network
         self.BlJa_Interface = Blackjack_Interface
+        self.exp_buffer = experience_buffer()
+        self.sess = None
 
-    def train(self):
+    def load_model(self):
+        if self.parameters["load_model"] == True:
+            print('Loading Model...')
+            ckpt = tf.train.get_checkpoint_state(path)
+            saver.restore(sess, ckpt.model_checkpoint_path)
+        sess.run()
+
+    def train(self, sess):
         train_iterations = self.parameters["train_steps"]
         explore_steps = self.parameters["explore_steps"]
         update_frequency = self.parameters["update_frequency"]
         save_frequency = self.parameters["save_model_frequency"]
-        exp_buffer = experience_buffer()
+        hidden_size = self.parameters["hidden_size"]
+        self.sess = sess
+        self.load_model()
+        self.Target_Network.updateTarget(sess)
         reward_record = []
         for i in range(train_iterations):
-            game_state = self.BlJa_Interface.reset() # Implement this
+            self.BlJa_Interface.reset() # Implement this
+            game_state = self.BlJa_Interface.get_game_state()
             episode_reward = 0
             episode_buffer = []
-            self.rnn_state = (np.zeros([1, h_size]), np.zeros([1, h_size]))  # Reset the recurrent layer's hidden state
+            self.rnn_state = (np.zeros([1, hidden_size]), np.zeros([1, hidden_size]))  # Reset the recurrent layer's hidden state
 
             # step in game, get reward and new state
             while self.BlJa_Interface.continue_game():
                 action = self.choose_action(i)
-                self.process_action(action)
+                self.BlJa_Interface.process_action(action) # IMPLEMENT
                 new_game_state = self.BlJa_Interface.get_game_state()
-                new_rnn_state = self.get_new_rnn_state(self.rnn_state)
+                new_rnn_state = self.get_new_rnn_state()
                 reward = self.BlJa_Interface.gen_step_reward()
                 episode_buffer.append(np.reshape(np.array([game_state, action, reward,
                                                           new_game_state, self.BlJa_Interface.continue_game]), [1, 5]))
@@ -215,21 +223,23 @@ class Training_Interface:
 
             # PROCESS END OF GAME
             # GET THE END OF GAME REWARD
+            self.BlJa_Interface.end_game()
+            self.BlJa_Interface.gen_end_reward() # or have it all as a single reward function?
 
             # Add the episode to the experience buffer
             bufferArray = np.array(episode_buffer)
             episodeBuffer = list(zip(bufferArray))
-            exp_buffer.add(episodeBuffer)
+            self.exp_buffer.add(episodeBuffer)
             reward_record.append(episode_reward)
 
             if i % save_frequency == 0:
                 self.save_model()
 
     # figure out if this causes two steps instead of 1
-    def get_new_rnn_state(self, rnn_state):
-        new_rnn_state = sess.run(mainQN.rnn_state,
+    def get_new_rnn_state(self):
+        new_rnn_state = self.sess.run(mainQN.rnn_state,
                                       feed_dict={ mainQN.trainLength: 1,
-                                        mainQN.state_in: rnn_state,
+                                        mainQN.state_in: self.rnn_state,
                                         mainQN.batch_size: 1 }
                                       )
         return new_rnn_state
@@ -241,17 +251,19 @@ class Training_Interface:
     def update_networks(self):
         batch_size = self.parameters["batch_size"]
         hidden_size = self.parameters["hidden_size"]
-        self.Target_Network.updateTarget()# <--- PUT IN THE ARGS, TARGETOPS, SESS
+        trace_length = self.parameters["trace_length"]
+        y = self.parameters["gamma"]
+        self.Target_Network.updateTarget(self.sess)
         rnn_state_update = (np.zeros([batch_size, hidden_size]), np.zeros([batch_size, hidden_size]))
-        trainBatch = myBuffer.sample(batch_size, trace_length)  # Get a random batch of experiences.
+        trainBatch = self.exp_buffer.sample(batch_size, trace_length)  # Get a random batch of experiences.
         # Below we perform the Double-DQN update to the target Q-values
-        primary_out = sess.run(mainQN.predict, feed_dict={
-                    mainQN.trainLength: trace_length,
-                    mainQN.state_in: rnn_state_update,
-                    mainQN.batch_size: batch_size}
+        primary_out = self.sess.run(mainQN.predict, feed_dict={
+            mainQN.trainLength: trace_length,
+            mainQN.state_in: rnn_state_update,
+            mainQN.batch_size: batch_size}
                     )
 
-        target_out = sess.run(targetQN.Qout, feed_dict={
+        target_out = self.sess.run(targetQN.Qout, feed_dict={
             targetQN.trainLength: trace_length,
             targetQN.state_in: rnn_state_update,
             targetQN.batch_size: batch_size}
@@ -261,17 +273,13 @@ class Training_Interface:
         doubleQ = target_out[range(batch_size * trace_length), primary_out]
         targetQ = trainBatch[:, 2] + (y * doubleQ * end_multiplier)
         # Update the network with our target values.
-        sess.run(mainQN.updateModel,
+        self.sess.run(mainQN.updateModel,
                  feed_dict={
                      mainQN.targetQ: targetQ,
                      mainQN.actions: trainBatch[:, 1], mainQN.trainLength: trace_length,
                      mainQN.state_in: rnn_state_update,
                      mainQN.batch_size: batch_size}
                  )
-
-
-    def process_action(self, action):
-        pass
 
     def choose_action(self, i):
         policy = self.parameters["policy"]
@@ -281,16 +289,14 @@ class Training_Interface:
             return self.choose_action_e_greedy(exploring=exploring)
 
     def choose_action_e_greedy(self, exploring):
-        h_size = self.parameters["h_size"]
-        train_iterations = self.parameters["train_steps"]
         e = self.parameters["epsilon"]
-        explore_steps = self.parameters["explore_steps"]
 
         # random exploration if explore stage or prob is less than epsilon
         if np.random.rand(1) < e or exploring:
+            end_range = self.parameters["no_actions"]-1
             a = np.random.randint(0, 4)
         else:
-            a, self.new_rnn_state = sess.run(mainQN.predict,
+            a, self.new_rnn_state = self.sess.run(mainQN.predict,
                                     feed_dict={ mainQN.trainLength: 1,
                                          mainQN.state_in: self.rnn_state,
                                          mainQN.batch_size: 1 }
@@ -305,32 +311,56 @@ class Training_Interface:
         return a
 
 #Setting the training parameters
-batch_size = 4 #How many experience traces to use for each training step.
-trace_length = 8 #How long each experience trace will be when training
-update_freq = 5 #How often to perform a training step.
-y = .99 #Discount factor on the target Q-values
-startE = 1 #Starting chance of random action
-endE = 0.1 #Final chance of random action
-anneling_steps = 10000 #How many steps of training to reduce startE to endE.
-num_episodes = 10000 #How many episodes of game environment to train network with.
-pre_train_steps = 10000 #How many steps of random actions before training begins.
-load_model = False #Whether to load a saved model.
-path = "./nn_data" #The path to save our model to.
-h_size = 512 #The size of the final convolutional layer before splitting it into Advantage and Value streams.
-no_features = 4 # How many features to input into the network
-no_actions = 2 # No actions the network can take
-max_epLength = 50 #The max allowed length of our episode.
-time_per_step = 1 #Length of each step used in gif creation
-summaryLength = 100 #Number of epidoes to periodically save for analysis
-tau = 0.001
+parameters = {
+    "batch_size" : 4, #How many experience traces to use for each training step.
+    "trace_length" : 8, #How long each experience trace will be when training
+    "update_freq" : 5, #How often to perform a training step.
+    "gamma" : .99, #Discount factor on the target Q-values
+    "startE" : 1, #Starting chance of random action
+    "endE" : 0.1, #Final chance of random action
+    "annealing_steps" : 10000, #How many steps of training to reduce startE to endE.
+    "num_episodes" : 10000, #How many episodes of game environment to train network with.
+    "pre_train_steps" : 10000, #How many steps of random actions before training begins.
+    "load_model" : False, #Whether to load a saved model.
+    "path" : "./nn_data", #The path to save our model to.
+    "hidden_size" : 512, #The size of the final convolutional layer before splitting it into Advantage and Value streams.
+    "no_features" : 4, # How many features to input into the network
+    "no_actions" : 2, # No actions the network can take
+    "max_epLength" : 50, #The max allowed length of our episode.
+    "time_per_step" : 1, #Length of each step used in gif creation
+    "summaryLength" : 100, #Number of epidoes to periodically save for analysis
+    "tau" : 0.001,
+    "policy" : "e-greedy",
+    "save_model_frequency" : 50,
+    "update_frequency" : 10
+}
+
+rewards = {
+    "winReward": 3,
+    "lossCost": -3,
+    "bustCost": 0,
+    "hand_value_discount": 1 / 2
+}
+
+no_features = parameters["no_features"]
+hidden_size = parameters["hidden_size"]
+no_actions = parameters["no_actions"]
+tau = parameters["tau"]
+startE = parameters["startE"]
+endE = parameters["endE"]
+annealing_steps = parameters["anneling_steps"]
+path = parameters["path"]
+load_model = parameters["load_model"]
 
 tf.reset_default_graph()
 # We define the cells for the primary and target q-networks
-rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=h_size, state_is_tuple=True)
-target_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=h_size, state_is_tuple=True)
+rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
+target_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
 
-mainQN = Q_Net(no_features, h_size, no_actions, rnn_cell, 'main')
-targetQN = Target_Net(no_features, h_size, no_actions, target_rnn_cell, 'target')
+mainQN = Q_Net(no_features, hidden_size, no_actions, rnn_cell, 'main')
+targetQN = Target_Net(no_features, hidden_size, no_actions, target_rnn_cell, 'target')
+blja = Blackjack_Agent_Interface(Blackjack(), rewards)
+trainer = Training_Interface(parameters, mainQN, targetQN, blja)
 
 init = tf.global_variables_initializer()
 saver = tf.train.Saver(max_to_keep=5)
@@ -340,8 +370,8 @@ targetOps = Target_Net.updateTargetGraph(trainables, tau)
 experience_buffer = experience_buffer()
 
 # Set the rate of random action decrease.
-e = startE
-stepDrop = (startE - endE) / anneling_steps
+parameters["epsilon"] = startE
+parameters["epsilon_step"] = (startE - endE) / annealing_steps
 
 # create lists to contain total rewards and steps per episode - turn this into a class?
 jList = []
@@ -354,15 +384,9 @@ if not os.path.exists(path):
 
 
 with tf.Session() as sess:
-    if load_model == True:
-        print('Loading Model...')
-        ckpt = tf.train.get_checkpoint_state(path)
-        saver.restore(sess, ckpt.model_checkpoint_path)
-    sess.run()
-    Target_Net.updateTarget(targetOps, sess)
 
-    for ep_number in range(num_episodes):
-        pass
+    trainer.train(sess)
+
 
 
 
