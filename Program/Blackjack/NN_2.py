@@ -3,7 +3,7 @@ import tensorflow.contrib.slim as slim
 import numpy as np
 import random
 import os
-from Blackjack import Blackjack
+import Blackjack
 import matplotlib.pyplot as plt
 
 
@@ -136,8 +136,18 @@ class experience_buffer():
         sampledTraces = np.array(sampledTraces)
         return np.reshape(sampledTraces, [batch_size * trace_length, 5])
 
+
 class Blackjack_Agent_Interface:
-    def __init__(self, blackjack_instance, rewardDict):
+    def __init__(self, rewardDict, blackjack_instance = None, hand_instance = None): # Without dealer for now?
+        # defensive programming - populating the blackjack class depending on whether one was passed or not
+        if blackjack_instance is None or hand_instance is None:
+            self.init_blackjack()
+        else:
+            if blackjack_instance is not None:
+                self.blackjack_instance = blackjack_instance
+            if hand_instance is not None:
+                self.agent_hand = hand_instance
+
         # TODO consider adding a hit reward
         self.blackjack = blackjack_instance
         self.winReward = rewardDict["winReward"] #2
@@ -148,18 +158,30 @@ class Blackjack_Agent_Interface:
         self.hand_size_norm_const = 1 / 10
         self.hand_val_norm_const = 1 / 30
 
+    def init_blackjack(self):
+        self.agent_hand = Blackjack.Hand("agent")
+        players = {
+            "dealer": Blackjack.Dealer_Hand("dealer"),
+            "agent": self.agent_hand
+        }
+        self.blackjack_instance = Blackjack.Blackjack(players)
+
     def get_game_state(self):  # Normalised
-        player_hand_size = len(self.blackjack.player) * self.hand_size_norm_const
-        player_hand_value = self.blackjack.assess_hand(self.blackjack.player) * self.hand_val_norm_const
+        player_hand_size = self.agent_hand.get_hand_size() * self.hand_size_norm_const
+        player_hand_value = self.agent_hand.get_value() * self.hand_val_norm_const
         dealer_hand_size = len(self.blackjack.dealer) * self.hand_size_norm_const
         dealer_hand_value = self.blackjack.assess_hand(self.blackjack.dealer) * self.hand_val_norm_const
-        return [player_hand_size, player_hand_value, dealer_hand_size, dealer_hand_value]
+        return [player_hand_size, player_hand_value] #dealer_hand_size, dealer_hand_value]
 
     def gen_step_reward(self):
-        pass
-
-    def gen_end_reward(self, player_won):
-        pass
+        agent_value = self.agent_hand.get_value()
+        if self.agent_hand.bust:
+            scaled_value = (-agent_value - 1) * self.hand_val_norm_const
+        elif self.agent_hand in self.blackjack_instance.winners:
+            scaled_value = (agent_value + 1) * self.hand_val_norm_const
+        else:
+            scaled_value = agent_value * self.hand_val_norm_const
+        return scaled_value
 
     def reset(self):
         pass
@@ -169,6 +191,7 @@ class Blackjack_Agent_Interface:
 
     def process_action(self, action):
         pass
+
 
 class Training_Interface:
     def __init__(self, parameters, Primary_Network, Target_Network, Blackjack_Interface):
@@ -192,14 +215,13 @@ class Training_Interface:
         update_frequency = self.parameters["update_frequency"]
         save_frequency = self.parameters["save_model_frequency"]
         hidden_size = self.parameters["hidden_size"]
+
         self.sess = sess
         self.load_model()
         self.Target_Network.updateTarget(sess)
-        reward_record = []
         for i in range(train_iterations):
             self.BlJa_Interface.reset() # Implement this
-            game_state = self.BlJa_Interface.get_game_state()
-            episode_reward = 0
+            self.game_state = self.BlJa_Interface.get_game_state()
             episode_buffer = []
             self.rnn_state = (np.zeros([1, hidden_size]), np.zeros([1, hidden_size]))  # Reset the recurrent layer's hidden state
 
@@ -210,27 +232,25 @@ class Training_Interface:
                 new_game_state = self.BlJa_Interface.get_game_state()
                 new_rnn_state = self.get_new_rnn_state()
                 reward = self.BlJa_Interface.gen_step_reward()
-                episode_buffer.append(np.reshape(np.array([game_state, action, reward,
+                episode_buffer.append(np.reshape(np.array([self.game_state, action, reward,
                                                           new_game_state, self.BlJa_Interface.continue_game]), [1, 5]))
 
                 exploring = (i <= explore_steps)
                 if i % update_frequency == 0 and not exploring:
                     self.update_networks()
 
-                episode_reward += reward
-                game_state = new_game_state
+                self.game_state = new_game_state
                 self.rnn_state = new_rnn_state# UPDATE RNN CELL STATE
 
             # PROCESS END OF GAME
             # GET THE END OF GAME REWARD
             self.BlJa_Interface.end_game()
-            self.BlJa_Interface.gen_end_reward() # or have it all as a single reward function?
+            reward = self.BlJa_Interface.gen_step_reward() # or have it all as a single reward function?
 
             # Add the episode to the experience buffer
             bufferArray = np.array(episode_buffer)
             episodeBuffer = list(zip(bufferArray))
             self.exp_buffer.add(episodeBuffer)
-            reward_record.append(episode_reward)
 
             if i % save_frequency == 0:
                 self.save_model()
@@ -238,7 +258,9 @@ class Training_Interface:
     # figure out if this causes two steps instead of 1
     def get_new_rnn_state(self):
         new_rnn_state = self.sess.run(mainQN.rnn_state,
-                                      feed_dict={ mainQN.trainLength: 1,
+                                      feed_dict={
+                                        mainQN.input_layer: self.game_state,
+                                        mainQN.trainLength: 1,
                                         mainQN.state_in: self.rnn_state,
                                         mainQN.batch_size: 1 }
                                       )
@@ -247,27 +269,29 @@ class Training_Interface:
     def save_model(self):
         pass
 
-    #TODO ADAPT THESE
     def update_networks(self):
         batch_size = self.parameters["batch_size"]
         hidden_size = self.parameters["hidden_size"]
         trace_length = self.parameters["trace_length"]
         y = self.parameters["gamma"]
+
         self.Target_Network.updateTarget(self.sess)
         rnn_state_update = (np.zeros([batch_size, hidden_size]), np.zeros([batch_size, hidden_size]))
         trainBatch = self.exp_buffer.sample(batch_size, trace_length)  # Get a random batch of experiences.
         # Below we perform the Double-DQN update to the target Q-values
         primary_out = self.sess.run(mainQN.predict, feed_dict={
+            mainQN.input_layer: self.game_state,
             mainQN.trainLength: trace_length,
             mainQN.state_in: rnn_state_update,
             mainQN.batch_size: batch_size}
-                    )
+        )
 
         target_out = self.sess.run(targetQN.Qout, feed_dict={
+            targetQN.input_layer: self.game_state,
             targetQN.trainLength: trace_length,
             targetQN.state_in: rnn_state_update,
             targetQN.batch_size: batch_size}
-            )
+        )
 
         end_multiplier = -(trainBatch[:, 4] - 1)
         doubleQ = target_out[range(batch_size * trace_length), primary_out]
@@ -275,11 +299,13 @@ class Training_Interface:
         # Update the network with our target values.
         self.sess.run(mainQN.updateModel,
                  feed_dict={
+                     mainQN.input_layer: self.game_state,
                      mainQN.targetQ: targetQ,
-                     mainQN.actions: trainBatch[:, 1], mainQN.trainLength: trace_length,
+                     mainQN.actions: trainBatch[:, 1],
+                     mainQN.trainLength: trace_length,
                      mainQN.state_in: rnn_state_update,
                      mainQN.batch_size: batch_size}
-                 )
+        )
 
     def choose_action(self, i):
         policy = self.parameters["policy"]
@@ -323,8 +349,8 @@ parameters = {
     "pre_train_steps" : 10000, #How many steps of random actions before training begins.
     "load_model" : False, #Whether to load a saved model.
     "path" : "./nn_data", #The path to save our model to.
-    "hidden_size" : 512, #The size of the final convolutional layer before splitting it into Advantage and Value streams.
-    "no_features" : 4, # How many features to input into the network
+    "hidden_size" : 16, #The size of the final convolutional layer before splitting it into Advantage and Value streams.
+    "no_features" : 2, # How many features to input into the network
     "no_actions" : 2, # No actions the network can take
     "max_epLength" : 50, #The max allowed length of our episode.
     "time_per_step" : 1, #Length of each step used in gif creation
@@ -359,7 +385,7 @@ target_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_t
 
 mainQN = Q_Net(no_features, hidden_size, no_actions, rnn_cell, 'main')
 targetQN = Target_Net(no_features, hidden_size, no_actions, target_rnn_cell, 'target')
-blja = Blackjack_Agent_Interface(Blackjack(), rewards)
+blja = Blackjack_Agent_Interface(Blackjack, rewards)
 trainer = Training_Interface(parameters, mainQN, targetQN, blja)
 
 init = tf.global_variables_initializer()

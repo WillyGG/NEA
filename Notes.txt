@@ -198,3 +198,10 @@
 
   03 Feb:
     - Implemented the training class completely -> need to finish blja interface class impl
+    - modified game state getting (only two features atm)
+    - modified step reward
+
+    TODO:
+    - modify public attributes to protected
+    - make hand id hashed
+    - figure out who to do the end game reward

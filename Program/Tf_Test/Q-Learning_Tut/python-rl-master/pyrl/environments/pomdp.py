@@ -29,8 +29,8 @@ from pyrl.rlglue.registry import register_environment
 try:
     from libPOMDP import libpomdp
 except ImportError, e:
-    print 'libpomdp not available ', e
-    print "Please build libpomdp first by running 'make' from pyrl/"
+    print( 'libpomdp not available ', e)
+    print ("Please build libpomdp first by running 'make' from pyrl/")
 
 @register_environment
 class POMDPEnvironment(Environment):

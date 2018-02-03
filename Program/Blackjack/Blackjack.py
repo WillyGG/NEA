@@ -19,8 +19,11 @@ TODO:
 class Blackjack:
     def __init__(self, playersDict):
         self.deck = Deck()
-        self.blackjack = 21 # The winning value
-        self.winner = None
+        self._blackjack = 21 # The winning value
+        self._winners = None
+
+        if bool(playersDict) is False:
+            playersDict["dealer"] = Dealer_Hand("dealer")
 
         # Hand for each player - Do i need this??
         self.players = playersDict
@@ -30,11 +33,17 @@ class Blackjack:
         self.players_queue = self.create_player_queue()
 
         self.continue_game = True # the way this is implemented is weird - maybe method with same purpose?
-        self.winner = False
         self.deckIteration = self.deck.deckIteration
 
         # Deals to each player
         self.init_deal()
+
+    @property
+    def winners(self):
+        return self._winners
+
+    def blackjack(self):
+        return self._blackjack
 
     def create_player_queue(self):
         playerList = [self.players[key] for key in self.players.keys() if self.players[key].id != "dealer"]
@@ -115,12 +124,9 @@ class Blackjack:
     # Calls all the methods associated with ending the game, and return winner
     def end_game(self):
         self.players["dealer"].dealer_end(self.deck) # Should this not be handled in this class?
-        self.winner = self.compare_hands()
+        self._winners = self.compare_hands()
         self.reset()
-        return self.winner
-
-    def getWinner(self):
-        return self.winner
+        return self._winners
 
     # check if everyone has bust or stood
     def check_game_over(self):
@@ -138,7 +144,7 @@ class Hand:
         self._id = id
         self._hand = []
         self.__has_stood = False
-        self.bust = False
+        self._bust = False
         self.blackjack = 21
         self.Royals = {  # Defines the values for the royals
             Royals.JACK: 10,
@@ -147,7 +153,7 @@ class Hand:
             Royals.ACE: 11
         }
 
-    @property
+    @property # MAKE THIS A HASHED ID TO PREVENT CONFLICTS
     def id(self):
         return self._id
 
@@ -159,12 +165,16 @@ class Hand:
     def has_stood(self):
         return self.__has_stood
 
+    @property
+    def bust(self):
+        return self._bust
+
     # Only blackjack parent class will have access to the deck, will pass it to cards
     def hit(self, card):
         self._hand.append(card)
         hand_value = self.get_value()
         if hand_value > self.blackjack:
-            self.bust = True
+            self._bust = True
 
     def stand(self):
         self.__has_stood = True
@@ -194,13 +204,21 @@ class Hand:
     def reset(self):
         self.__hand = []
         self.__has_stood = False
-        self.bust = False
+        self._bust = False
 
     def bust_or_stood(self):
         return self.bust or self.__has_stood
 
+    def get_hand_size(self):
+        return len(self._hand)
+
     def __str__(self):
         return self.id
+
+    def __eq__(self, other):
+        if not isinstance(other, Hand):
+            return False
+        return self.id == other.id
 
 class Dealer_Hand(Hand):
     def __init__(self, id):
