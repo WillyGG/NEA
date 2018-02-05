@@ -214,4 +214,4 @@
 
     - began testing training class
     TODO:
-    - Play around with the shapes until it works
+    - figure out why the nn outputs 4 actions instead of 2

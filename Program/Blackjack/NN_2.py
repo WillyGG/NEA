@@ -46,7 +46,7 @@ class Q_Net():
 
         #dropout2 = slim.dropout(hidden_layer2, scope=myScope)
 
-        self.final_hidden = slim.fully_connected(hidden_layer2, output_size,
+        self.final_hidden = slim.fully_connected(hidden_layer2, hidden_size,
                                                  activation_fn=tf.nn.softmax,
                                                  biases_initializer=None,
                                                  scope=(myScope+"final_hidden"))  # Softmax activation func.
@@ -242,6 +242,7 @@ class Training_Interface:
         self.load_model()
         self.Target_Network.updateTarget(sess)
         for i in range(train_iterations):
+            print(i)
             self.BlJa_Interface.reset() # Implement this
             self.game_state = self.BlJa_Interface.get_game_state()
             episode_buffer = []
@@ -250,6 +251,7 @@ class Training_Interface:
             # step in game, get reward and new state
             while self.BlJa_Interface.continue_game():
                 self.action = self.choose_action(i)
+                print("action", self.action)
                 self.BlJa_Interface.process_action(self.action) # IMPLEMENT
                 new_game_state = self.BlJa_Interface.get_game_state()
                 new_rnn_state = self.get_new_rnn_state()
