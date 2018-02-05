@@ -9,44 +9,47 @@ import matplotlib.pyplot as plt
 
 class Q_Net():
     def __init__(self, input_size, hidden_size, output_size, rnn_cell, myScope):
-        self.init_feed_forward(input_size, hidden_size)
+        self.init_feed_forward(input_size, hidden_size, output_size, myScope)
+        self.rnn_processing(rnn_cell, hidden_size, myScope)
         self.split_streams(hidden_size, output_size)
-        self.rnn_processing(rnn_cell, hidden_size)
         self.predict()
-        self.gen_loss()
+        self.gen_loss(output_size)
         self.train_update()
 
-    def rnn_processing(self, rnn_cell, hidden_size):
+    def rnn_processing(self, rnn_cell, hidden_size, myScope):
         self.trainLength = tf.placeholder(dtype=tf.int32)
         # We take the output from the final fully connected layer and send it to a recurrent layer.
         # The input must be reshaped into [batch x trace x units] for rnn processing,
         # and then returned to [batch x units] when sent through the upper levles.
         self.batch_size = tf.placeholder(dtype=tf.int32, shape=[])
-        #self.convFlat = tf.reshape(slim.flatten(self.conv4), [self.batch_size, self.trainLength, hidden_size])
+        output_flat = tf.reshape(slim.flatten(self.final_hidden), [self.batch_size, self.trainLength, hidden_size])
         self.state_in = rnn_cell.zero_state(self.batch_size, tf.float32)
         self.rnn, self.rnn_state = tf.nn.dynamic_rnn(
-            inputs=self.final_hidden, cell=rnn_cell, dtype=tf.float32, initial_state=self.state_in, scope=myScope + '_rnn')
+            inputs=output_flat, cell=rnn_cell, dtype=tf.float32, initial_state=self.state_in, scope=myScope + '_rnn')
         self.rnn = tf.reshape(self.rnn, shape=[-1, hidden_size])
 
-    def init_feed_forward(self, inp_size, hidden_size):
+    def init_feed_forward(self, inp_size, hidden_size, output_size, myScope):
         # Establish feed-forward part of the network
         self.input_layer = tf.placeholder(shape=[None, inp_size], dtype=tf.float32)
 
         hidden_layer1 = slim.fully_connected(self.input_layer, hidden_size,
                                             biases_initializer=None,
-                                            activation_fn=tf.nn.relu)  # Rectified linear activation func.
+                                            activation_fn=tf.nn.relu,
+                                            scope=(myScope+"hidden1"))  # Rectified linear activation func.
 
-        dropout1 = slim.dropout(hidden_layer1)
+        #dropout1 = slim.dropout(hidden_layer1, scope=myScope)
 
-        hidden_layer2 = slim.fully_connected(dropout1, hidden_size,
+        hidden_layer2 = slim.fully_connected(hidden_layer1, hidden_size,
                                              biases_initializer=None,
-                                             activation_fn=tf.nn.relu)
+                                             activation_fn=tf.nn.relu,
+                                             scope=(myScope+"hidden2"))
 
-        dropout2 = slim.dropout(hidden_layer2)
+        #dropout2 = slim.dropout(hidden_layer2, scope=myScope)
 
-        self.final_hidden = slim.fully_connected(dropout2, hidden_size,
+        self.final_hidden = slim.fully_connected(hidden_layer2, output_size,
                                                  activation_fn=tf.nn.softmax,
-                                                 biases_initializer=None)  # Softmax activation func.
+                                                 biases_initializer=None,
+                                                 scope=(myScope+"final_hidden"))  # Softmax activation func.
 
         #self.action = tf.argmax(self.output_layer, 1)
 
@@ -57,18 +60,18 @@ class Q_Net():
         self.VW = tf.Variable(tf.random_normal([hidden_size // 2, 1]))
         self.Advantage = tf.matmul(self.streamA, self.AW)
         self.Value = tf.matmul(self.streamV, self.VW)
-        self.salience = tf.gradients(self.Advantage) #self.imageIn
+        self.salience = tf.gradients(self.Advantage, self.input_layer) #self.imageIn
 
     def predict(self):
          # Then combine them together to get our final Q-values.
         self.Qout = self.Value + tf.subtract(self.Advantage, tf.reduce_mean(self.Advantage, axis=1, keep_dims=True))
         self.predict = tf.argmax(self.Qout, 1)
 
-    def gen_loss(self):
+    def gen_loss(self, output_size):
         # Below we obtain the loss by taking the sum of squares difference between the target and prediction Q values.
         self.targetQ = tf.placeholder(shape=[None], dtype=tf.float32)
         self.actions = tf.placeholder(shape=[None], dtype=tf.int32)
-        self.actions_onehot = tf.one_hot(self.actions, 4, dtype=tf.float32)
+        self.actions_onehot = tf.one_hot(self.actions, output_size, dtype=tf.float32)
 
         self.Q = tf.reduce_sum(tf.multiply(self.Qout, self.actions_onehot), axis=1)
 
@@ -144,17 +147,18 @@ class Blackjack_Agent_Interface:
             self.init_blackjack()
         else:
             if blackjack_instance is not None:
-                self.blackjack_instance = blackjack_instance
+                self.blackjack = blackjack_instance
             if hand_instance is not None:
                 self.agent_hand = hand_instance
 
         # TODO consider adding a hit reward
-        self.blackjack = blackjack_instance
-        self.winReward = rewardDict["winReward"] #2
-        self.lossCost = rewardDict["lossCost"] #-2
-        self.bustCost = rewardDict["bustCost"]
+       # self.winReward = rewardDict["winReward"] #2
+        #self.lossCost = rewardDict["lossCost"] #-2
+        #self.bustCost = rewardDict["bustCost"]
 
-        self.hand_value_discount = rewardDict["hand_value_discount"] #1 / 21
+        self.last_action = None
+
+        #self.hand_value_discount = rewardDict["hand_value_discount"] #1 / 21
         self.hand_size_norm_const = 1 / 10
         self.hand_val_norm_const = 1 / 30
 
@@ -164,23 +168,41 @@ class Blackjack_Agent_Interface:
             "dealer": Blackjack.Dealer_Hand("dealer"),
             "agent": self.agent_hand
         }
-        self.blackjack_instance = Blackjack.Blackjack(players)
+        self.blackjack = Blackjack.Blackjack(players)
 
     def get_game_state(self):  # Normalised
         player_hand_size = self.agent_hand.get_hand_size() * self.hand_size_norm_const
         player_hand_value = self.agent_hand.get_value() * self.hand_val_norm_const
-        dealer_hand_size = len(self.blackjack.dealer) * self.hand_size_norm_const
-        dealer_hand_value = self.blackjack.assess_hand(self.blackjack.dealer) * self.hand_val_norm_const
+        #dealer_hand_size = len(self.blackjack.dealer) * self.hand_size_norm_const
+       #dealer_hand_value = self.blackjack.assess_hand(self.blackjack.dealer) * self.hand_val_norm_const
         return [player_hand_size, player_hand_value] #dealer_hand_size, dealer_hand_value]
 
     def gen_step_reward(self):
         agent_value = self.agent_hand.get_value()
-        if self.agent_hand.bust:
-            scaled_value = (-agent_value - 1) * self.hand_val_norm_const
-        elif self.agent_hand in self.blackjack_instance.winners:
-            scaled_value = (agent_value + 1) * self.hand_val_norm_const
-        else:
-            scaled_value = agent_value * self.hand_val_norm_const
+        current_winners = self.blackjack.compare_hands()
+        win_value = (agent_value + 1) * self.hand_val_norm_const
+        loss_value = (-agent_value - 1) * self.hand_val_norm_const
+        normal_reward = agent_value * self.hand_val_norm_const
+        normal_cost = -agent_value * self.hand_val_norm_const
+        scaled_value = 0
+        # Win and loss rewards regardless of last action - if absolute winner/loser
+        if self.blackjack.check_game_over():
+            if self.agent_hand in current_winners:
+                scaled_value = win_value
+            else:
+                scaled_value = loss_value
+        # rewards for hit and cost for bust
+        elif self.last_action == "hit":
+            if self.agent_hand.bust:
+             scaled_value = loss_value
+            else:
+                scaled_value = normal_reward
+        # rewards for standing
+        elif self.last_action == "stand":
+            if self.agent_hand in current_winners:
+                scaled_value = normal_reward
+            else:
+                scaled_value = loss_value
         return scaled_value
 
     def reset(self):
@@ -190,7 +212,7 @@ class Blackjack_Agent_Interface:
         return self.blackjack.continue_game
 
     def process_action(self, action):
-        pass
+        self.last_action = action
 
 
 class Training_Interface:
@@ -207,7 +229,7 @@ class Training_Interface:
             print('Loading Model...')
             ckpt = tf.train.get_checkpoint_state(path)
             saver.restore(sess, ckpt.model_checkpoint_path)
-        sess.run()
+        #sess.run()
 
     def train(self, sess):
         train_iterations = self.parameters["train_steps"]
@@ -227,12 +249,12 @@ class Training_Interface:
 
             # step in game, get reward and new state
             while self.BlJa_Interface.continue_game():
-                action = self.choose_action(i)
-                self.BlJa_Interface.process_action(action) # IMPLEMENT
+                self.action = self.choose_action(i)
+                self.BlJa_Interface.process_action(self.action) # IMPLEMENT
                 new_game_state = self.BlJa_Interface.get_game_state()
                 new_rnn_state = self.get_new_rnn_state()
                 reward = self.BlJa_Interface.gen_step_reward()
-                episode_buffer.append(np.reshape(np.array([self.game_state, action, reward,
+                episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
                                                           new_game_state, self.BlJa_Interface.continue_game]), [1, 5]))
 
                 exploring = (i <= explore_steps)
@@ -245,7 +267,11 @@ class Training_Interface:
             # PROCESS END OF GAME
             # GET THE END OF GAME REWARD
             self.BlJa_Interface.end_game()
-            reward = self.BlJa_Interface.gen_step_reward() # or have it all as a single reward function?
+            reward = self.BlJa_Interface.gen_step_reward()
+            # decide if you want to append this
+            episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
+                                                       self.game_state, self.BlJa_Interface.continue_game]), [1, 5]))
+
 
             # Add the episode to the experience buffer
             bufferArray = np.array(episode_buffer)
@@ -259,7 +285,7 @@ class Training_Interface:
     def get_new_rnn_state(self):
         new_rnn_state = self.sess.run(mainQN.rnn_state,
                                       feed_dict={
-                                        mainQN.input_layer: self.game_state,
+                                        mainQN.input_layer: [self.game_state],
                                         mainQN.trainLength: 1,
                                         mainQN.state_in: self.rnn_state,
                                         mainQN.batch_size: 1 }
@@ -280,14 +306,14 @@ class Training_Interface:
         trainBatch = self.exp_buffer.sample(batch_size, trace_length)  # Get a random batch of experiences.
         # Below we perform the Double-DQN update to the target Q-values
         primary_out = self.sess.run(mainQN.predict, feed_dict={
-            mainQN.input_layer: self.game_state,
+            mainQN.input_layer: [self.game_state],
             mainQN.trainLength: trace_length,
             mainQN.state_in: rnn_state_update,
             mainQN.batch_size: batch_size}
         )
 
         target_out = self.sess.run(targetQN.Qout, feed_dict={
-            targetQN.input_layer: self.game_state,
+            targetQN.input_layer: [self.game_state],
             targetQN.trainLength: trace_length,
             targetQN.state_in: rnn_state_update,
             targetQN.batch_size: batch_size}
@@ -299,7 +325,7 @@ class Training_Interface:
         # Update the network with our target values.
         self.sess.run(mainQN.updateModel,
                  feed_dict={
-                     mainQN.input_layer: self.game_state,
+                     mainQN.input_layer: [self.game_state],
                      mainQN.targetQ: targetQ,
                      mainQN.actions: trainBatch[:, 1],
                      mainQN.trainLength: trace_length,
@@ -345,8 +371,8 @@ parameters = {
     "startE" : 1, #Starting chance of random action
     "endE" : 0.1, #Final chance of random action
     "annealing_steps" : 10000, #How many steps of training to reduce startE to endE.
-    "num_episodes" : 10000, #How many episodes of game environment to train network with.
-    "pre_train_steps" : 10000, #How many steps of random actions before training begins.
+    "train_steps" : 10000, #How many episodes of game environment to train network with.
+    "explore_steps" : 10000, #How many steps of random actions before training begins.
     "load_model" : False, #Whether to load a saved model.
     "path" : "./nn_data", #The path to save our model to.
     "hidden_size" : 16, #The size of the final convolutional layer before splitting it into Advantage and Value streams.
@@ -374,7 +400,7 @@ no_actions = parameters["no_actions"]
 tau = parameters["tau"]
 startE = parameters["startE"]
 endE = parameters["endE"]
-annealing_steps = parameters["anneling_steps"]
+annealing_steps = parameters["annealing_steps"]
 path = parameters["path"]
 load_model = parameters["load_model"]
 
@@ -385,14 +411,14 @@ target_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_t
 
 mainQN = Q_Net(no_features, hidden_size, no_actions, rnn_cell, 'main')
 targetQN = Target_Net(no_features, hidden_size, no_actions, target_rnn_cell, 'target')
-blja = Blackjack_Agent_Interface(Blackjack, rewards)
+blja = Blackjack_Agent_Interface(rewards)
 trainer = Training_Interface(parameters, mainQN, targetQN, blja)
 
 init = tf.global_variables_initializer()
 saver = tf.train.Saver(max_to_keep=5)
 trainables = tf.trainable_variables()
 
-targetOps = Target_Net.updateTargetGraph(trainables, tau)
+targetOps = targetQN.updateTargetGraph(trainables, tau)
 experience_buffer = experience_buffer()
 
 # Set the rate of random action decrease.
@@ -408,9 +434,8 @@ total_steps = 0
 if not os.path.exists(path):
     os.makedirs(path)
 
-
 with tf.Session() as sess:
-
+    sess.run(init)
     trainer.train(sess)
 
 

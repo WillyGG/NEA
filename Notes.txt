@@ -205,3 +205,13 @@
     - modify public attributes to protected
     - make hand id hashed
     - figure out who to do the end game reward
+
+  04 Feb:
+    - updated reward values
+        - winner and loss rewards if absolute winner / loser
+        - hit reward: normal reward if not bust, else: loss cost
+        - stand: normal reward if part of current winners, else: loss cost
+
+    - began testing training class
+    TODO:
+    - Play around with the shapes until it works

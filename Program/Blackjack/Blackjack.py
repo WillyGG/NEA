@@ -64,7 +64,7 @@ class Blackjack:
     def init_deal(self):
         for key in self.players.keys():
             for x in range(2):
-                self.deal(players[key])
+                self.deal(self.players[key])
 
 # compares the hands of the passed players
     def compare_hands(self):
