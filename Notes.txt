@@ -218,3 +218,7 @@
     - began testing training class
     TODO:
     - figure out why the nn outputs 4 actions instead of 2
+    
+    08 Feb:
+    	TODO:
+	- Change hand class to separate file with children of blackjack and poker hands
