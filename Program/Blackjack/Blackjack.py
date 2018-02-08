@@ -52,7 +52,9 @@ class Blackjack:
             cQ.push(player)
         return cQ
 
-
+    def get_current_player(self):		
+	      return self.players_queue.peek()
+      
     # Reset the hands and the tracking variables
     def reset(self):
         for key in self.players.keys():

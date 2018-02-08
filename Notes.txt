@@ -206,7 +206,10 @@
     - make hand id hashed
     - figure out who to do the end game reward
 
-  04 Feb:
+ 04 Feb:
+    - Got rid of num_elements from circular queue, cleaned up blackjack code a lil
+
+ 05 Feb:
     - updated reward values
         - winner and loss rewards if absolute winner / loser
         - hit reward: normal reward if not bust, else: loss cost
@@ -215,3 +218,7 @@
     - began testing training class
     TODO:
     - figure out why the nn outputs 4 actions instead of 2
+    
+    08 Feb:
+    	TODO:
+	- Change hand class to separate file with children of blackjack and poker hands
