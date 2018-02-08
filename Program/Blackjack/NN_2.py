@@ -64,6 +64,7 @@ class Q_Net():
 
     def predict(self):
          # Then combine them together to get our final Q-values.
+        print("advantage",self.Advantage)
         self.Qout = self.Value + tf.subtract(self.Advantage, tf.reduce_mean(self.Advantage, axis=1, keep_dims=True))
         self.predict = tf.argmax(self.Qout, 1)
 
@@ -410,7 +411,6 @@ tf.reset_default_graph()
 # We define the cells for the primary and target q-networks
 rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
 target_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
-
 mainQN = Q_Net(no_features, hidden_size, no_actions, rnn_cell, 'main')
 targetQN = Target_Net(no_features, hidden_size, no_actions, target_rnn_cell, 'target')
 blja = Blackjack_Agent_Interface(rewards)
