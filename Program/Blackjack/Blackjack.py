@@ -52,8 +52,8 @@ class Blackjack:
             cQ.push(player)
         return cQ
 
-    def get_current_player(self):		
-	      return self.players_queue.peek()
+    def get_current_player(self):
+        return self.players_queue.peek()
       
     # Reset the hands and the tracking variables
     def reset(self):
@@ -139,7 +139,10 @@ class Blackjack:
         return False
 
     def whoseTurnIsIt(self):
-        return self.players_queue.peek().id
+        player = self.players_queue.peek().id
+        if player is None:
+            return "game over man! game over!"
+        return player
 
 class Hand:
     def __init__(self, id):
@@ -242,6 +245,10 @@ if __name__ == "__main__":
     player1 = Hand("mariusz")
     player2 = Hand("vince")
     dealer = Dealer_Hand("dealer")
+
+    testhand = Hand("mariusz")
+    print(testhand == player1)
+
     players = {
         "player1": player1,
         "player2": player2,
@@ -261,6 +268,6 @@ if __name__ == "__main__":
             print("please input h or s")
     bj.display_game()
     bj.end_game()
-    print(bj.getWinner(), "is the winner!")
+    print(bj.winners, "are the winners!")
 
 

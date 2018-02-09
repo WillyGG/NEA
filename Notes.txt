@@ -219,6 +219,15 @@
     TODO:
     - figure out why the nn outputs 4 actions instead of 2
     
-    08 Feb:
-    	TODO:
-	- Change hand class to separate file with children of blackjack and poker hands
+ 08 Feb:
+    TODO:
+    - Change hand class to separate file with children of blackjack and poker hands
+
+
+ 09 Feb:
+    - Complted training code
+    - began writing performance testing code
+
+    TODO:
+    - Fix the win detection / find out if the NN is straight losing every game.
+

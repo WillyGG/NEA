@@ -188,7 +188,7 @@ class Blackjack_Agent_Interface:
         scaled_value = 0
         # Win and loss rewards regardless of last action - if absolute winner/loser
         if self.blackjack.check_game_over():
-            if self.agent_hand in current_winners:
+            if self.agent_hand.id in current_winners:
                 scaled_value = win_value
             else:
                 scaled_value = loss_value
@@ -206,14 +206,24 @@ class Blackjack_Agent_Interface:
                 scaled_value = loss_value
         return scaled_value
 
-    def reset(self):
-        pass
-
     def continue_game(self):
         return self.blackjack.continue_game
 
     def process_action(self, action):
-        self.last_action = action
+        if action == 0:
+            self.last_action = "hit"
+            # check if current turn (or check in the training mainloop)
+            # hit
+            self.blackjack.hit()
+        elif action == 1: # defencive programming?
+            self.last_action = "stand"
+            self.blackjack.stand()
+
+    def end_game(self):
+        self.blackjack.end_game()
+
+    def agent_is_winner(self):
+        return self.blackjack.check_game_over() and self.agent_hand.id in self.blackjack.winners
 
 
 class Training_Interface:
@@ -225,12 +235,12 @@ class Training_Interface:
         self.exp_buffer = experience_buffer()
         self.sess = None
 
-    def load_model(self):
+    def load_model(self): # update this to take in the inital variables
         if self.parameters["load_model"] == True:
             print('Loading Model...')
             ckpt = tf.train.get_checkpoint_state(path)
             saver.restore(sess, ckpt.model_checkpoint_path)
-        #sess.run()
+        #sess.run(init)
 
     def train(self, sess):
         train_iterations = self.parameters["train_steps"]
@@ -244,7 +254,7 @@ class Training_Interface:
         self.Target_Network.updateTarget(sess)
         for i in range(train_iterations):
             print(i)
-            self.BlJa_Interface.reset() # Implement this
+            #self.BlJa_Interface.reset() # Implement this
             self.game_state = self.BlJa_Interface.get_game_state()
             episode_buffer = []
             self.rnn_state = (np.zeros([1, hidden_size]), np.zeros([1, hidden_size]))  # Reset the recurrent layer's hidden state
@@ -252,7 +262,6 @@ class Training_Interface:
             # step in game, get reward and new state
             while self.BlJa_Interface.continue_game():
                 self.action = self.choose_action(i)
-                print("action", self.action)
                 self.BlJa_Interface.process_action(self.action) # IMPLEMENT
                 new_game_state = self.BlJa_Interface.get_game_state()
                 new_rnn_state = self.get_new_rnn_state()
@@ -348,8 +357,8 @@ class Training_Interface:
 
         # random exploration if explore stage or prob is less than epsilon
         if np.random.rand(1) < e or exploring:
-            end_range = self.parameters["no_actions"]-1
-            a = np.random.randint(0, 4)
+            end_range = self.parameters["no_actions"]
+            a = np.random.randint(0, end_range)
         else:
             a, self.new_rnn_state = self.sess.run(mainQN.predict,
                                     feed_dict={ mainQN.trainLength: 1,
@@ -365,6 +374,52 @@ class Training_Interface:
 
         return a
 
+    # maybe find a way to abstract this with the training code
+    def test_performance(self, sess):
+        test_iterations = self.parameters["test_steps"]
+
+        self.sess = sess
+        self.load_model()
+        total_games = 0
+        games_won = 0
+        for i in range(test_iterations):
+            # self.BlJa_Interface.reset() # Implement this
+            self.game_state = self.BlJa_Interface.get_game_state()
+            episode_buffer = []
+
+            # step in game, get reward and new state
+            while self.BlJa_Interface.continue_game():
+                self.action = self.choose_action(i)
+                self.BlJa_Interface.process_action(self.action)  # IMPLEMENT
+                new_game_state = self.BlJa_Interface.get_game_state()
+                reward = self.BlJa_Interface.gen_step_reward()
+                episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
+                                                           new_game_state, self.BlJa_Interface.continue_game]), [1, 5]))
+                self.game_state = new_game_state
+
+            # PROCESS END OF GAME
+            # GET THE END OF GAME REWARD
+            self.BlJa_Interface.end_game()
+            reward = self.BlJa_Interface.gen_step_reward()
+            # decide if you want to append this
+            episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
+                                                       self.game_state, self.BlJa_Interface.continue_game]), [1, 5]))
+
+            # Add the episode to the experience buffer
+            bufferArray = np.array(episode_buffer)
+            episodeBuffer = list(zip(bufferArray))
+
+            total_games += 1
+            if self.BlJa_Interface.agent_is_winner():
+                games_won += 1
+
+            if i % 100 == 0:
+                print(games_won)
+                print((games_won // total_games), "% games won")
+                print("after " + str(total_games) + " games")
+
+
+
 #Setting the training parameters
 parameters = {
     "batch_size" : 4, #How many experience traces to use for each training step.
@@ -373,8 +428,8 @@ parameters = {
     "gamma" : .99, #Discount factor on the target Q-values
     "startE" : 1, #Starting chance of random action
     "endE" : 0.1, #Final chance of random action
-    "annealing_steps" : 10000, #How many steps of training to reduce startE to endE.
-    "train_steps" : 10000, #How many episodes of game environment to train network with.
+    "annealing_steps" : 5000, #How many steps of training to reduce startE to endE.
+    "train_steps" : 5000, #How many episodes of game environment to train network with.
     "explore_steps" : 10000, #How many steps of random actions before training begins.
     "load_model" : False, #Whether to load a saved model.
     "path" : "./nn_data", #The path to save our model to.
@@ -386,8 +441,9 @@ parameters = {
     "summaryLength" : 100, #Number of epidoes to periodically save for analysis
     "tau" : 0.001,
     "policy" : "e-greedy",
-    "save_model_frequency" : 50,
-    "update_frequency" : 10
+    "save_model_frequency" : 50, # how often to save the model
+    "update_frequency" : 10, # how often to update the network weights
+    "test_steps" : 1000 # how many iterations to train by
 }
 
 rewards = {
@@ -439,6 +495,7 @@ if not os.path.exists(path):
 with tf.Session() as sess:
     sess.run(init)
     trainer.train(sess)
+    trainer.test_performance(sess)
 
 
 

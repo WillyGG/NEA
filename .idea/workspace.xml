@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="afba8995-ecc3-4204-a2a6-cfb3b48e3563" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/Notes.txt" afterPath="$PROJECT_DIR$/Notes.txt" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" afterPath="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" />
       <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_2.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_2.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,11 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Notes.txt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Notes.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Notes.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="216" column="58" lean-forward="false" selection-start-line="216" selection-start-column="58" selection-end-line="216" selection-end-column="58" />
+            <state relative-caret-position="335">
+              <caret line="231" column="79" lean-forward="false" selection-start-line="231" selection-start-column="79" selection-end-line="231" selection-end-column="79" />
               <folding />
             </state>
           </provider>
@@ -37,7 +39,7 @@
       <file leaf-file-name="Counting_AI.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Counting_AI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
+            <state relative-caret-position="1674">
               <caret line="206" column="42" lean-forward="false" selection-start-line="206" selection-start-column="42" selection-end-line="206" selection-end-column="42" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
@@ -59,17 +61,19 @@
       <file leaf-file-name="Blackjack.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Blackjack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="25">
-              <caret line="67" column="0" lean-forward="false" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="1307">
+              <caret line="143" column="46" lean-forward="true" selection-start-line="143" selection-start-column="46" selection-end-line="143" selection-end-column="46" />
+              <folding>
+                <element signature="e#4841#6907#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DDQN_RECURRENT.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DDQN_RECURRENT.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/DDQN_RECURRENT.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="456">
+            <state relative-caret-position="-3989">
               <caret line="60" column="104" lean-forward="false" selection-start-line="60" selection-start-column="104" selection-end-line="60" selection-end-column="104" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -81,10 +85,17 @@
       <file leaf-file-name="NN_2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+            <state relative-caret-position="180">
+              <caret line="417" column="62" lean-forward="false" selection-start-line="417" selection-start-column="62" selection-end-line="417" selection-end-column="62" />
               <folding>
-                <element signature="e#6786#9811#0" expanded="false" />
+                <element signature="e#176#4795#0" expanded="false" />
+                <element signature="e#4827#5907#0" expanded="false" />
+                <element signature="e#6041#6788#0" expanded="false" />
+                <element signature="e#10989#13364#0" expanded="false" />
+                <element signature="e#13462#13906#0" expanded="false" />
+                <element signature="e#13987#15690#0" expanded="false" />
+                <element signature="e#15732#15975#0" expanded="false" />
+                <element signature="e#16034#16864#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -93,7 +104,7 @@
       <file leaf-file-name="NN.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="792">
+            <state relative-caret-position="3762">
               <caret line="244" column="94" lean-forward="false" selection-start-line="244" selection-start-column="94" selection-end-line="244" selection-end-column="94" />
               <folding>
                 <element signature="e#262#2015#1" expanded="false" />
@@ -163,18 +174,18 @@
         <option value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/helper.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/NN.py" />
         <option value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/python-rl-master/pyrl/environments/pomdp.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" />
-        <option value="$PROJECT_DIR$/Notes.txt" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/NN_2.py" />
         <option value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/DDQN_RECURRENT.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/NN_2.py" />
+        <option value="$PROJECT_DIR$/Notes.txt" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="67" />
+    <option name="x" value="243" />
     <option name="y" value="27" />
-    <option name="width" value="1299" />
-    <option name="height" value="741" />
+    <option name="width" value="1161" />
+    <option name="height" value="662" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -238,7 +249,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="settings.editor.splitter.proportion" value="0.25097656" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/Users/Zerenity/Desktop/NEA/Program/Blackjack/Blackjack.py" />
   </component>
@@ -283,7 +294,7 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration name="Counting_AI" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="Blackjack" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -295,7 +306,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="NEA" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Program/Blackjack/Counting_AI.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -439,18 +450,18 @@
     <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Python.Game" />
       <item index="1" class="java.lang.String" itemvalue="Python.Binary_Tree" />
-      <item index="2" class="java.lang.String" itemvalue="Python.Counting_AI" />
-      <item index="3" class="java.lang.String" itemvalue="Python.DDQN_GW_2" />
-      <item index="4" class="java.lang.String" itemvalue="Python.DDQN_RECURRENT" />
-      <item index="5" class="java.lang.String" itemvalue="Python.NN_2" />
+      <item index="2" class="java.lang.String" itemvalue="Python.DDQN_GW_2" />
+      <item index="3" class="java.lang.String" itemvalue="Python.DDQN_RECURRENT" />
+      <item index="4" class="java.lang.String" itemvalue="Python.NN_2" />
+      <item index="5" class="java.lang.String" itemvalue="Python.Blackjack" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.NN_2" />
-        <item index="1" class="java.lang.String" itemvalue="Python.DDQN_RECURRENT" />
-        <item index="2" class="java.lang.String" itemvalue="Python.DDQN_GW_2" />
-        <item index="3" class="java.lang.String" itemvalue="Python.Binary_Tree" />
-        <item index="4" class="java.lang.String" itemvalue="Python.Counting_AI" />
+        <item index="1" class="java.lang.String" itemvalue="Python.Blackjack" />
+        <item index="2" class="java.lang.String" itemvalue="Python.DDQN_RECURRENT" />
+        <item index="3" class="java.lang.String" itemvalue="Python.DDQN_GW_2" />
+        <item index="4" class="java.lang.String" itemvalue="Python.Binary_Tree" />
       </list>
     </recent_temporary>
   </component>
@@ -497,25 +508,25 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="27" width="1299" height="741" extended-state="6" />
+    <frame x="243" y="27" width="1299" height="741" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16705158" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30010605" sideWeight="0.14270833" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.49707174" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3023622" sideWeight="0.85729164" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37322834" sideWeight="0.85729164" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32440946" sideWeight="0.8928047" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32440946" sideWeight="0.8928047" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.49707174" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -532,7 +543,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="37" />
+      <option name="time" value="40" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -793,7 +804,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Counting_AI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
+        <state relative-caret-position="1674">
           <caret line="206" column="42" lean-forward="false" selection-start-line="206" selection-start-column="42" selection-end-line="206" selection-end-column="42" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
@@ -811,25 +822,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Blackjack.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="67" column="0" lean-forward="false" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Notes.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="216" column="58" lean-forward="false" selection-start-line="216" selection-start-column="58" selection-end-line="216" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="792">
+        <state relative-caret-position="3762">
           <caret line="244" column="94" lean-forward="false" selection-start-line="244" selection-start-column="94" selection-end-line="244" selection-end-column="94" />
           <folding>
             <element signature="e#262#2015#1" expanded="false" />
@@ -838,23 +833,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding>
-            <element signature="e#6786#9811#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/DDQN_RECURRENT.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
+        <state relative-caret-position="-3989">
           <caret line="60" column="104" lean-forward="false" selection-start-line="60" selection-start-column="104" selection-end-line="60" selection-end-column="104" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Blackjack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1307">
+          <caret line="143" column="46" lean-forward="true" selection-start-line="143" selection-start-column="46" selection-end-line="143" selection-end-column="46" />
+          <folding>
+            <element signature="e#4841#6907#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="417" column="62" lean-forward="false" selection-start-line="417" selection-start-column="62" selection-end-line="417" selection-end-column="62" />
+          <folding>
+            <element signature="e#176#4795#0" expanded="false" />
+            <element signature="e#4827#5907#0" expanded="false" />
+            <element signature="e#6041#6788#0" expanded="false" />
+            <element signature="e#10989#13364#0" expanded="false" />
+            <element signature="e#13462#13906#0" expanded="false" />
+            <element signature="e#13987#15690#0" expanded="false" />
+            <element signature="e#15732#15975#0" expanded="false" />
+            <element signature="e#16034#16864#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Notes.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="231" column="79" lean-forward="false" selection-start-line="231" selection-start-column="79" selection-end-line="231" selection-end-column="79" />
+          <folding />
         </state>
       </provider>
     </entry>
