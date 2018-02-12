@@ -231,3 +231,11 @@
     TODO:
     - Fix the win detection / find out if the NN is straight losing every game.
 
+ 12 Feb:
+    - Fixed issue of resetting hands not occurring properly - forgetting to update attributes after changing them from private to protected
+    - fixed issue of 0% winrrate - change game reset to manual, and winners now detected
+    - parameters all messed up - fixing
+
+    TODO:
+    - NN agent winrrate is absolute dog
+    - FIX THE PARAMETERS DICTIONARY

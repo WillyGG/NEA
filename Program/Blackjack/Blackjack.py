@@ -21,6 +21,7 @@ class Blackjack:
         self.deck = Deck()
         self._blackjack = 21 # The winning value
         self._winners = None
+        self.auto_reset = False
 
         if bool(playersDict) is False:
             playersDict["dealer"] = Dealer_Hand("dealer")
@@ -127,7 +128,8 @@ class Blackjack:
     def end_game(self):
         self.players["dealer"].dealer_end(self.deck) # Should this not be handled in this class?
         self._winners = self.compare_hands()
-        self.reset()
+        if self.auto_reset:
+            self.reset()
         return self._winners
 
     # check if everyone has bust or stood
@@ -207,7 +209,7 @@ class Hand:
         return total
 
     def reset(self):
-        self.__hand = []
+        self._hand = []
         self.__has_stood = False
         self._bust = False
 
@@ -246,8 +248,8 @@ if __name__ == "__main__":
     player2 = Hand("vince")
     dealer = Dealer_Hand("dealer")
 
-    testhand = Hand("mariusz")
-    print(testhand == player1)
+    #testhand = Hand("mariusz")
+    #print(testhand == player1)
 
     players = {
         "player1": player1,
@@ -256,18 +258,20 @@ if __name__ == "__main__":
     }
     bj = Blackjack(players)
 
-    while bj.continue_game:
+    for x in range(2):
+        while bj.continue_game:
+            bj.display_game()
+            currPlayer = bj.whoseTurnIsIt()
+            c = input("\n" + currPlayer + ": would you like to hit (h) or (s) ")
+            if c is "h":
+                bj.hit()
+            elif c is "s":
+                bj.stand()
+            else:
+                print("please input h or s")
         bj.display_game()
-        current_player = bj.whoseTurnIsIt()
-        c = input("\n" + current_player + ": would you like to hit (h) or (s) ")
-        if c is "h":
-            bj.hit()
-        elif c is "s":
-            bj.stand()
-        else:
-            print("please input h or s")
-    bj.display_game()
-    bj.end_game()
-    print(bj.winners, "are the winners!")
+        bj.end_game()
+        print(bj.winners, "are the winners!")
+        bj.reset()
 
 

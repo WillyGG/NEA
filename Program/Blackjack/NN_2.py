@@ -175,7 +175,7 @@ class Blackjack_Agent_Interface:
         player_hand_size = self.agent_hand.get_hand_size() * self.hand_size_norm_const
         player_hand_value = self.agent_hand.get_value() * self.hand_val_norm_const
         #dealer_hand_size = len(self.blackjack.dealer) * self.hand_size_norm_const
-       #dealer_hand_value = self.blackjack.assess_hand(self.blackjack.dealer) * self.hand_val_norm_const
+        #dealer_hand_value = self.blackjack.assess_hand(self.blackjack.dealer) * self.hand_val_norm_const
         return [player_hand_size, player_hand_value] #dealer_hand_size, dealer_hand_value]
 
     def gen_step_reward(self):
@@ -223,7 +223,11 @@ class Blackjack_Agent_Interface:
         self.blackjack.end_game()
 
     def agent_is_winner(self):
-        return self.blackjack.check_game_over() and self.agent_hand.id in self.blackjack.winners
+        #print(self.blackjack.compare_hands())
+        return self.blackjack.check_game_over() and self.agent_hand.id in self.blackjack.compare_hands()
+
+    def reset(self):
+        self.blackjack.reset()
 
 
 class Training_Interface:
@@ -252,6 +256,8 @@ class Training_Interface:
         self.sess = sess
         self.load_model()
         self.Target_Network.updateTarget(sess)
+        total_games = 0
+        games_won = 0
         for i in range(train_iterations):
             print(i)
             #self.BlJa_Interface.reset() # Implement this
@@ -280,6 +286,7 @@ class Training_Interface:
             # GET THE END OF GAME REWARD
             self.BlJa_Interface.end_game()
             reward = self.BlJa_Interface.gen_step_reward()
+
             # decide if you want to append this
             episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
                                                        self.game_state, self.BlJa_Interface.continue_game]), [1, 5]))
@@ -292,6 +299,7 @@ class Training_Interface:
 
             if i % save_frequency == 0:
                 self.save_model()
+            self.BlJa_Interface.reset()
 
     # figure out if this causes two steps instead of 1
     def get_new_rnn_state(self):
@@ -382,6 +390,8 @@ class Training_Interface:
         self.load_model()
         total_games = 0
         games_won = 0
+        no_times_hit = 0
+        total_actions = 0
         for i in range(test_iterations):
             # self.BlJa_Interface.reset() # Implement this
             self.game_state = self.BlJa_Interface.get_game_state()
@@ -390,6 +400,11 @@ class Training_Interface:
             # step in game, get reward and new state
             while self.BlJa_Interface.continue_game():
                 self.action = self.choose_action(i)
+
+                if self.action == 0:
+                    no_times_hit += 1
+                total_actions += 1
+
                 self.BlJa_Interface.process_action(self.action)  # IMPLEMENT
                 new_game_state = self.BlJa_Interface.get_game_state()
                 reward = self.BlJa_Interface.gen_step_reward()
@@ -401,6 +416,7 @@ class Training_Interface:
             # GET THE END OF GAME REWARD
             self.BlJa_Interface.end_game()
             reward = self.BlJa_Interface.gen_step_reward()
+
             # decide if you want to append this
             episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
                                                        self.game_state, self.BlJa_Interface.continue_game]), [1, 5]))
@@ -413,12 +429,14 @@ class Training_Interface:
             if self.BlJa_Interface.agent_is_winner():
                 games_won += 1
 
-            if i % 100 == 0:
+            # outputting simple play information about the performance
+            if total_games % 100 == 0:
                 print(games_won)
-                print((games_won // total_games), "% games won")
-                print("after " + str(total_games) + " games")
+                print((games_won / total_games * 100), "% games won after",total_games,"games")
 
+                #print("no times hit",no_times_hit,"out of",no_actions,"actions")
 
+            self.BlJa_Interface.reset()
 
 #Setting the training parameters
 parameters = {
@@ -426,11 +444,12 @@ parameters = {
     "trace_length" : 8, #How long each experience trace will be when training
     "update_freq" : 5, #How often to perform a training step.
     "gamma" : .99, #Discount factor on the target Q-values
-    "startE" : 1, #Starting chance of random action
-    "endE" : 0.1, #Final chance of random action
-    "annealing_steps" : 5000, #How many steps of training to reduce startE to endE.
+    "start_epsilon" : 1, #Starting chance of random action
+    "epsilon" : 1, # tracking value for epsilon - MAKE THIS AN ATTRIBUTE?
+    "end_epsilon" : 0.1, #Final chance of random action
+    "annealing_steps" : 2500, #How many steps of training to reduce startE to endE. -- SHOUDL BE TEH SAME AS EXPLORE STEPS
     "train_steps" : 5000, #How many episodes of game environment to train network with.
-    "explore_steps" : 10000, #How many steps of random actions before training begins.
+    "explore_steps" : 2500, #How many steps of random actions before training begins.
     "load_model" : False, #Whether to load a saved model.
     "path" : "./nn_data", #The path to save our model to.
     "hidden_size" : 16, #The size of the final convolutional layer before splitting it into Advantage and Value streams.
@@ -443,7 +462,7 @@ parameters = {
     "policy" : "e-greedy",
     "save_model_frequency" : 50, # how often to save the model
     "update_frequency" : 10, # how often to update the network weights
-    "test_steps" : 1000 # how many iterations to train by
+    "test_steps" : 5000 # how many iterations to train by
 }
 
 rewards = {
@@ -457,8 +476,8 @@ no_features = parameters["no_features"]
 hidden_size = parameters["hidden_size"]
 no_actions = parameters["no_actions"]
 tau = parameters["tau"]
-startE = parameters["startE"]
-endE = parameters["endE"]
+start_epsilon = parameters["start_epsilon"]
+end_epsilon = parameters["end_epsilon"]
 annealing_steps = parameters["annealing_steps"]
 path = parameters["path"]
 load_model = parameters["load_model"]
@@ -480,8 +499,8 @@ targetOps = targetQN.updateTargetGraph(trainables, tau)
 experience_buffer = experience_buffer()
 
 # Set the rate of random action decrease.
-parameters["epsilon"] = startE
-parameters["epsilon_step"] = (startE - endE) / annealing_steps
+parameters["epsilon"] = start_epsilon
+parameters["epsilon_step"] = (start_epsilon - end_epsilon) / annealing_steps
 
 # create lists to contain total rewards and steps per episode - turn this into a class?
 jList = []
