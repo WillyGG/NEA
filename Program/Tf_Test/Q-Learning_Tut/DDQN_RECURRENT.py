@@ -58,7 +58,7 @@ class Qnetwork():
 
 
         # Then combine them together to get our final Q-values.
-        self.Qout = self.Value + tf.subtract(self.Advantage, tf.reduce_mean(self.Advantage, axis=1, keepdims=True))
+        self.Qout = self.Value + tf.subtract(self.Advantage, tf.reduce_mean(self.Advantage, axis=1, keep_dims=True))
         self.predict = tf.argmax(self.Qout, 1)
 
         # Below we obtain the loss by taking the sum of squares difference between the target and prediction Q values.
@@ -181,13 +181,19 @@ with tf.Session() as sess:
             # Choose an action by greedily (with e chance of random action) from the Q-network
             if np.random.rand(1) < e or total_steps < pre_train_steps:
                 state1 = sess.run(mainQN.rnn_state,
-                                  feed_dict={mainQN.scalarInput: [s / 255.0], mainQN.trainLength: 1,
-                                             mainQN.state_in: state, mainQN.batch_size: 1})
+                                  feed_dict={mainQN.scalarInput: [s / 255.0],
+                                             mainQN.trainLength: 1,
+                                             mainQN.state_in: state,
+                                             mainQN.batch_size: 1})
                 a = np.random.randint(0, 4)
             else:
+                if total_steps >= pre_train_steps:
+                    print("yeet")
                 a, state1 = sess.run([mainQN.predict, mainQN.rnn_state],
-                                     feed_dict={mainQN.scalarInput: [s / 255.0], mainQN.trainLength: 1,
-                                                mainQN.state_in: state, mainQN.batch_size: 1})
+                                     feed_dict={mainQN.scalarInput: [s / 255.0],
+                                                mainQN.trainLength: 1,
+                                                mainQN.state_in: state,
+                                                mainQN.batch_size: 1})
                 a = a[0]
             s1P, r, d = env.step(a)
             s1 = processState(s1P)
@@ -198,6 +204,7 @@ with tf.Session() as sess:
                     e -= stepDrop
 
                 if total_steps % (update_freq) == 0:
+                    print("updating network")
                     updateTarget(targetOps, sess)
                     # Reset the recurrent layer's hidden state
                     state_train = (np.zeros([batch_size, h_size]), np.zeros([batch_size, h_size]))

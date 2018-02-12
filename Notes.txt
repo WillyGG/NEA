@@ -235,7 +235,13 @@
     - Fixed issue of resetting hands not occurring properly - forgetting to update attributes after changing them from private to protected
     - fixed issue of 0% winrrate - change game reset to manual, and winners now detected
     - parameters all messed up - fixing
+    - fixed state of game and samples being passed incorrectly
+    - completed normal training stage: NN vs Dealer
 
     TODO:
     - NN agent winrrate is absolute dog
     - FIX THE PARAMETERS DICTIONARY
+    - DO ALGO DETERMINING BEST PARAMS
+    - extend for more policies and make ready for comparison tool
+    - change features to take calculations of CCAI
+

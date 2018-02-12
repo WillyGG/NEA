@@ -17,12 +17,12 @@ class Q_Net():
         self.train_update()
 
     def rnn_processing(self, rnn_cell, hidden_size, myScope):
-        self.trainLength = tf.placeholder(dtype=tf.int32)
         # We take the output from the final fully connected layer and send it to a recurrent layer.
         # The input must be reshaped into [batch x trace x units] for rnn processing,
         # and then returned to [batch x units] when sent through the upper levles.
+        self.trainLength = tf.placeholder(dtype=tf.int32)
         self.batch_size = tf.placeholder(dtype=tf.int32, shape=[])
-        output_flat = tf.reshape(slim.flatten(self.final_hidden), [self.batch_size, self.trainLength, hidden_size])
+        output_flat = tf.reshape(self.final_hidden, [self.batch_size, self.trainLength, hidden_size])
         self.state_in = rnn_cell.zero_state(self.batch_size, tf.float32)
         self.rnn, self.rnn_state = tf.nn.dynamic_rnn(
             inputs=output_flat, cell=rnn_cell, dtype=tf.float32, initial_state=self.state_in, scope=myScope + '_rnn')
@@ -256,8 +256,7 @@ class Training_Interface:
         self.sess = sess
         self.load_model()
         self.Target_Network.updateTarget(sess)
-        total_games = 0
-        games_won = 0
+        self.rnn_updated = False
         for i in range(train_iterations):
             print(i)
             #self.BlJa_Interface.reset() # Implement this
@@ -273,7 +272,7 @@ class Training_Interface:
                 new_rnn_state = self.get_new_rnn_state()
                 reward = self.BlJa_Interface.gen_step_reward()
                 episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
-                                                          new_game_state, self.BlJa_Interface.continue_game]), [1, 5]))
+                                                          new_game_state, self.BlJa_Interface.continue_game()]), [1, 5]))
 
                 exploring = (i <= explore_steps)
                 if i % update_frequency == 0 and not exploring:
@@ -289,7 +288,7 @@ class Training_Interface:
 
             # decide if you want to append this
             episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
-                                                       self.game_state, self.BlJa_Interface.continue_game]), [1, 5]))
+                                                       self.game_state, self.BlJa_Interface.continue_game()]), [1, 5]))
 
 
             # Add the episode to the experience buffer
@@ -324,16 +323,17 @@ class Training_Interface:
         self.Target_Network.updateTarget(self.sess)
         rnn_state_update = (np.zeros([batch_size, hidden_size]), np.zeros([batch_size, hidden_size]))
         trainBatch = self.exp_buffer.sample(batch_size, trace_length)  # Get a random batch of experiences.
+
         # Below we perform the Double-DQN update to the target Q-values
         primary_out = self.sess.run(mainQN.predict, feed_dict={
-            mainQN.input_layer: [self.game_state],
+            mainQN.input_layer: np.vstack(trainBatch[:, 3]),
             mainQN.trainLength: trace_length,
             mainQN.state_in: rnn_state_update,
-            mainQN.batch_size: batch_size}
-        )
+            mainQN.batch_size: batch_size
+        })
 
         target_out = self.sess.run(targetQN.Qout, feed_dict={
-            targetQN.input_layer: [self.game_state],
+            targetQN.input_layer: np.vstack(trainBatch[:, 3]),
             targetQN.trainLength: trace_length,
             targetQN.state_in: rnn_state_update,
             targetQN.batch_size: batch_size}
@@ -345,7 +345,7 @@ class Training_Interface:
         # Update the network with our target values.
         self.sess.run(mainQN.updateModel,
                  feed_dict={
-                     mainQN.input_layer: [self.game_state],
+                     mainQN.input_layer: np.vstack(trainBatch[:, 0]),
                      mainQN.targetQ: targetQ,
                      mainQN.actions: trainBatch[:, 1],
                      mainQN.trainLength: trace_length,
@@ -368,10 +368,12 @@ class Training_Interface:
             end_range = self.parameters["no_actions"]
             a = np.random.randint(0, end_range)
         else:
-            a, self.new_rnn_state = self.sess.run(mainQN.predict,
-                                    feed_dict={ mainQN.trainLength: 1,
+            a, new_rnn_state = self.sess.run([mainQN.predict, mainQN.rnn_state],
+                                    feed_dict={
+                                         mainQN.input_layer: [self.game_state],
+                                         mainQN.trainLength: 1,
                                          mainQN.state_in: self.rnn_state,
-                                         mainQN.batch_size: 1 }
+                                         mainQN.batch_size: 1}
                                     )
             a = a[0]
 
@@ -409,7 +411,7 @@ class Training_Interface:
                 new_game_state = self.BlJa_Interface.get_game_state()
                 reward = self.BlJa_Interface.gen_step_reward()
                 episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
-                                                           new_game_state, self.BlJa_Interface.continue_game]), [1, 5]))
+                                                           new_game_state, self.BlJa_Interface.continue_game()]), [1, 5]))
                 self.game_state = new_game_state
 
             # PROCESS END OF GAME
@@ -419,7 +421,7 @@ class Training_Interface:
 
             # decide if you want to append this
             episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
-                                                       self.game_state, self.BlJa_Interface.continue_game]), [1, 5]))
+                                                       self.game_state, self.BlJa_Interface.continue_game()]), [1, 5]))
 
             # Add the episode to the experience buffer
             bufferArray = np.array(episode_buffer)
@@ -440,19 +442,19 @@ class Training_Interface:
 
 #Setting the training parameters
 parameters = {
-    "batch_size" : 4, #How many experience traces to use for each training step.
-    "trace_length" : 8, #How long each experience trace will be when training
-    "update_freq" : 5, #How often to perform a training step.
+    "batch_size" : 8, #How many experience traces to use for each training step.
+    "trace_length" : 2, #How long each experience trace will be when training
+    "update_freq" : 2, #How often to perform a training step.
     "gamma" : .99, #Discount factor on the target Q-values
     "start_epsilon" : 1, #Starting chance of random action
     "epsilon" : 1, # tracking value for epsilon - MAKE THIS AN ATTRIBUTE?
-    "end_epsilon" : 0.1, #Final chance of random action
-    "annealing_steps" : 2500, #How many steps of training to reduce startE to endE. -- SHOUDL BE TEH SAME AS EXPLORE STEPS
-    "train_steps" : 5000, #How many episodes of game environment to train network with.
-    "explore_steps" : 2500, #How many steps of random actions before training begins.
+    "end_epsilon" : 0.001, #Final chance of random action
+    "annealing_steps" : 1000, #How many steps of training to reduce startE to endE.
+    "train_steps" : 20000, #How many episodes of game environment to train network with.
+    "explore_steps" : 1000, #How many steps of random actions before training begins.
     "load_model" : False, #Whether to load a saved model.
     "path" : "./nn_data", #The path to save our model to.
-    "hidden_size" : 16, #The size of the final convolutional layer before splitting it into Advantage and Value streams.
+    "hidden_size" : 32, #The size of the final convolutional layer before splitting it into Advantage and Value streams.
     "no_features" : 2, # How many features to input into the network
     "no_actions" : 2, # No actions the network can take
     "max_epLength" : 50, #The max allowed length of our episode.
@@ -462,7 +464,7 @@ parameters = {
     "policy" : "e-greedy",
     "save_model_frequency" : 50, # how often to save the model
     "update_frequency" : 10, # how often to update the network weights
-    "test_steps" : 5000 # how many iterations to train by
+    "test_steps" : 20000 # how many iterations to test
 }
 
 rewards = {
