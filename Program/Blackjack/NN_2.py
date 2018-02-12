@@ -258,7 +258,6 @@ class Training_Interface:
         self.Target_Network.updateTarget(sess)
         self.rnn_updated = False
         for i in range(train_iterations):
-            print(i)
             #self.BlJa_Interface.reset() # Implement this
             self.game_state = self.BlJa_Interface.get_game_state()
             episode_buffer = []
@@ -392,8 +391,10 @@ class Training_Interface:
         self.load_model()
         total_games = 0
         games_won = 0
-        no_times_hit = 0
+        games_stood = 0
+        games_good_stood = 0
         total_actions = 0
+        total_stood_value = 0
         for i in range(test_iterations):
             # self.BlJa_Interface.reset() # Implement this
             self.game_state = self.BlJa_Interface.get_game_state()
@@ -403,8 +404,11 @@ class Training_Interface:
             while self.BlJa_Interface.continue_game():
                 self.action = self.choose_action(i)
 
-                if self.action == 0:
-                    no_times_hit += 1
+                if self.action == 1:
+                    total_stood_value += self.game_state[1] * 30
+                    if self.game_state[1] * 30 > 17:
+                        games_good_stood += 1
+                    games_stood += 1
                 total_actions += 1
 
                 self.BlJa_Interface.process_action(self.action)  # IMPLEMENT
@@ -435,6 +439,8 @@ class Training_Interface:
             if total_games % 100 == 0:
                 print(games_won)
                 print((games_won / total_games * 100), "% games won after",total_games,"games")
+                print((games_good_stood / games_stood), "% games good stood out of",games_stood,"games stood")
+                print(total_stood_value/games_stood,"<- average stood value")
 
                 #print("no times hit",no_times_hit,"out of",no_actions,"actions")
 
