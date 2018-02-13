@@ -44,9 +44,8 @@ class Blackjack_Agent_Interface: # Maybe make this a static class?
         agent_value = self.agent_hand.get_value()
         current_winners = self.blackjack.compare_hands()
         win_value = (agent_value + 1) * self.hand_val_norm_const
-        loss_value = (-agent_value) * self.hand_val_norm_const
+        loss_value = (-agent_value-1) * self.hand_val_norm_const
         normal_reward = agent_value * self.hand_val_norm_const
-        normal_cost = -agent_value * self.hand_val_norm_const
         scaled_value = 0
         # Win and loss rewards regardless of last action - if absolute winner/loser
         if self.blackjack.check_game_over():

@@ -5,6 +5,8 @@
 
 """
 
+import Traversals
+
 class Binary_Tree:
     def __init__(self, rootNode):
         self._root = rootNode
@@ -17,9 +19,26 @@ class Binary_Tree:
         toPass = nodeValue
         if isinstance(nodeValue, Node):
             toPass = nodeValue.value
-        returnNode = self.getNodeTraversal(self._root, toPass)
+
+        def base_case(node):
+            if node == None:
+                return None
+            elif node.value == toPass:
+                return node
+            return -1
+
+        def return_case(left, right):
+            if left is not None:
+                return left
+            elif right is not None:
+                return right
+            return None
+
+        returnNode = Traversals.pre_order(self._root, base_case, return_case)
+        #returnNode = self.getNodeTraversal(self._root, toPass)
         return returnNode
 
+    """
     # Recursively search via pre order traversal
     def getNodeTraversal(self, parent, nodeValue):
         if parent == None:
@@ -35,6 +54,7 @@ class Binary_Tree:
         elif rightResult is not None:
             return rightResult
         return None
+    """
 
     def insert(self, node):
         if isinstance(node, int):
@@ -163,7 +183,6 @@ class Binary_Tree:
     def get_max_LST(self, root):
         current_node = root.left
         while current_node.right is not None:
-            print(current_node)
             current_node = current_node.right
         # current_node.left, current_node.right = None, None
         return current_node
@@ -199,29 +218,16 @@ class Binary_Tree:
                     nodeParent.right = node.right
         else:
             # Find max node in left subtree and replace the node to delete with it
-
-            # Turn this into a method, with a get parent function
-            # just make a get parent method
-            maxLeftNodeParent = node
-            maxLeftNode = node.left
-            nextNode = node.left
-            while nextNode is not None:
-                if nextNode.hasRight():
-                    maxLeftNodeParent = nextNode
-                    maxLeftNode = nextNode.right
-                    nextNode = nextNode.right
-                else:
-                    nextNode = None
+            max_LST = self.get_max_LST(node)
 
             # Recursively delete the old node from its old position, since it is the max node in left tree, it cannot
             # have a right child, therefore this will be called recursively once at max.
-            self.delete(maxLeftNode)
-
-            maxLeftNode.right = node.right
+            self.delete(max_LST)
+            max_LST.right = node.right
             if nodeIsLeft:
-                nodeParent.left = maxLeftNode
+                nodeParent.left = max_LST
             else:
-                nodeParent.right = maxLeftNode
+                nodeParent.right = max_LST
 
     # For a binary search tree, this should be in ascending order.
     def in_order_traversal(self, parent): # Always pass in the root node with initial call.
@@ -269,36 +275,25 @@ class Card_Binary_Tree(Binary_Tree):
     def decrement(self, nodeValue):
         if nodeValue == None:
             return False
-        elif isinstance(nodeValue, Node):
+        elif isinstance(nodeValue, Node): # defensive programming?
             nodeValue = nodeValue.value
 
-        parentParent = None
-        parent = self._root
-        nextParent = None
-
-        while parent.value != nodeValue and parent is not None:
-            if nodeValue < parent.value:
-                nextParent = parent.left
-            elif nodeValue > parent.value:
-                nextParent = parent.right
-            # Increment the Parents
-            parentParent = parent # make copy?
-            parent = nextParent
-
-        if parent == None:
+        node_to_dec = self.getNode(nodeValue)
+        if node_to_dec == None:
             return False
 
-        elif parent.value == nodeValue:
-            parent.countValue -= 1
-            if parent.countValue == 0:
-                self.delete(parent)
+        elif node_to_dec.value == nodeValue:
+            node_to_dec.countValue -= 1
+            if node_to_dec.countValue == 0:
+                self.delete(node_to_dec)
             return True
 
     # Counts number of cards at current value and larger (Greater than, equal to)
     def cardCountGTET(self, parent):
         total = parent.countValue
         GTturningNode = parent
-        # If the passed parent is in left subtree, include count in right subtree.
+        # If the passed parent is in left subtree, include count in right subtree and all of values above.
+        # this is achieved by creating temp tree where parent is the root
         if parent.value < self._root.value:
             tmpTree = self.createCountingTree(parent)
             total += tmpTree.root.countValue
@@ -330,12 +325,13 @@ class Card_Binary_Tree(Binary_Tree):
         if parent == None:
             return False
         elif parent.value != countTree.root.value:
-            # Make a copy of the node, just incase (inefficient)
+            # Make a copy of the node, just in case (inefficient)
             tmpParent = Card_Node(parent.value, parent.countValue) # This should not affect the node in the main tree, as python passes variables by value
             countTree.insert(tmpParent)
         self.populateCountTree(parent.left, countTree)
         self.populateCountTree(parent.right, countTree)
 
+    # prints count values as well as node value
     def in_order_traversal(self, parent):
         if parent == None:
             return False
@@ -391,9 +387,11 @@ if __name__ == "__main__":
     for num in insertion_arr:
         b.insert( Node(num) )
 
-    print("6:", b.root)
-    print("3:", b.root.left)
-    print("9:", b.root.right)
+    print(b.getNode(3))
+
+    #print("6:", b.root)
+    #print("3:", b.root.left)
+    #print("9:", b.root.right)
 
     #print(b.root.right.left)
     #b.compareSubtrees()

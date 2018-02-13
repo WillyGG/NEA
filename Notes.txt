@@ -245,3 +245,8 @@
     - extend for more policies and make ready for comparison tool
     - change features to take calculations of CCAI
     - adapt rewards for different outcomes
+
+ 13 Feb:
+    - Adjusted file architecture
+    - Adjusted the loss reward, didnt change much
+    - Started working on loosely coupled traversal methods
