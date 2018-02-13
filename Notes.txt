@@ -250,3 +250,7 @@
     - Adjusted file architecture
     - Adjusted the loss reward, didnt change much
     - Started working on loosely coupled traversal methods
+    - started implementing traversal static methods - need to figure out the cases
+
+    TODO:
+    - FIX THE MAINTAINENCE / insertion

@@ -1,42 +1,37 @@
-#class Traversals:
+BASE_VALUES = [None, 0]
 
 # Static higher level function for pre order traversals
-def pre_order(root, base_case, return_case):
+def pre_order(root, base_case, node_processing):
     base_result = base_case(root)
-    if base_result != -1: #need another base value (None, and False cannot be used)
+    if base_result not in Traversals.BASE_VALUES:  # need another base value (None, and False cannot be used)
         return base_result
-    left = pre_order(root.left, base_case, return_case)
-    right = pre_order(root.right, base_case, return_case)
 
-    return return_case(left, right)
+    processing_result = node_processing(root)
+    if processing_result in Traversals.BASE_VALUES:
+        return processing_result
 
+    left = Traversals.pre_order(root.left, base_case, node_processing)
+    right = Traversals.pre_order(root.right, base_case, node_processing)
 
-def pre_order_traverse(root, base_case, return_case):
-    pass
+    toReturn = None
+    if left not in Traversals.BASE_VALUES:
+        toReturn = left
+    elif right not in Traversals.BASE_VALUES:
+        toReturn = right
+    return toReturn
+
 
 def in_order(self):
     pass
 
-def post_order(self):
-    pass
+def post_order(root, base_case, node_processing):
+    base_result = base_case(root)
+    if base_result != -1:
+        return base_case
 
-
-
-# Recursively search via pre order traversal
-def getNodeTraversal(self, parent, nodeValue):
-    if parent == None:
-        return None
-    elif parent.value == nodeValue:
-        return parent
-
-    leftResult = self.getNodeTraversal(parent.left, nodeValue)
-    rightResult = self.getNodeTraversal(parent.right, nodeValue)
-
-    if leftResult is not None:
-        return leftResult
-    elif rightResult is not None:
-        return rightResult
-    return None
+    left = Traversals.post_order(root.left, base_case, node_processing)
+    right = Traversals.post_order(root.right, base_case, node_processing)
+    return node_processing(root, left, right)  # --> pass the node?
 
 # pre-order
 def getParentTraverse(self, parent, nodeToFind):
@@ -51,6 +46,13 @@ def getParentTraverse(self, parent, nodeToFind):
     elif right is not None:
         return right
 
+
+def count_nodes(self, node):
+    if node is None:
+        return 0
+    left = self.count_nodes(node.left)
+    right = self.count_nodes(node.right)
+    return left + right + 1
 
 #post-order
 def compare_ST_Traverse(self, currentNode):

@@ -2,10 +2,7 @@
 28 Dec:
     - Find a way to maintain the complete property from within the tree class
     - find a way to abstract away the pre/in/post order traversals
-
 """
-
-import Traversals
 
 class Binary_Tree:
     def __init__(self, rootNode):
@@ -45,10 +42,8 @@ class Binary_Tree:
             return None
         elif parent.value == nodeValue:
             return parent
-
         leftResult = self.getNodeTraversal(parent.left, nodeValue)
         rightResult = self.getNodeTraversal(parent.right, nodeValue)
-
         if leftResult is not None:
             return leftResult
         elif rightResult is not None:
@@ -255,19 +250,39 @@ class Binary_Tree:
         tree_queue = Circular_Queue(tree_size)
         tree_queue.push(self._root)
         power = 0
-
         while not tree_queue.isEmpty():
             if tree_queue.num_elements == (2 ** power):
                 power += 1
                 print()
             current_node = tree_queue.pop()
-
             if current_node.left is not None:
                 tree_queue.push(current_node.left)
             if current_node.right is not None:
                 tree_queue.push(current_node.right)
             print(current_node, end=" ")
     """
+
+class Traversals:
+    # Static higher level function for pre order traversals
+    @staticmethod
+    def pre_order(root, base_case, return_case):
+        base_result = base_case(root)
+        if base_result != -1:  # need another base value (None, and False cannot be used)
+            return base_result
+        left = Traversals.pre_order(root.left, base_case, return_case)
+        right = Traversals.pre_order(root.right, base_case, return_case)
+
+        return return_case(left, right)
+
+    @staticmethod
+    def in_order(self):
+        pass
+
+    @staticmethod
+    def post_order(self):
+        pass
+
+
 class Card_Binary_Tree(Binary_Tree):
     def __init__(self, rootNode):
         super().__init__(rootNode)
@@ -387,11 +402,11 @@ if __name__ == "__main__":
     for num in insertion_arr:
         b.insert( Node(num) )
 
-    print(b.getNode(3))
+    #print(b.getNode(3))
 
-    #print("6:", b.root)
-    #print("3:", b.root.left)
-    #print("9:", b.root.right)
+    print("6:", b.root)
+    print("3:", b.root.left)
+    print("9:", b.root.right)
 
     #print(b.root.right.left)
     #b.compareSubtrees()
