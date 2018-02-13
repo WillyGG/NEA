@@ -1,4 +1,4 @@
-from Stack import Stack
+from Structs.Stack import Stack
 from enum import Enum
 from random import shuffle
 
@@ -83,7 +83,4 @@ if __name__ == "__main__":
 
     for _ in range(10000):
         print(d.pop())
-    print(d.shuffledLastPop)
-    print(d.pop())
-    print(d.shuffledLastPop)
 

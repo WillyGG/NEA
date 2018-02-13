@@ -1,5 +1,5 @@
-from Binary_Tree import Card_Binary_Tree
-from Binary_Tree import Card_Node
+from Structs.Binary_Tree import Card_Binary_Tree
+from Structs.Binary_Tree import Card_Node
 from Blackjack import Blackjack
 
 # TODO Make blackjack interface for this AI, getting the data it needs, implement prediction functionality, and play functionality test and compare to NN based system. After that DOCUMENT.

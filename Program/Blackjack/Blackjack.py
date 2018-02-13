@@ -1,6 +1,6 @@
 from Deck import Deck
 from Deck import Royals
-from Circular_Queue import Circular_Queue
+from Structs.Circular_Queue import Circular_Queue
 
 """
 1) Player gets two cards (2 u), dealer gets 2 cards (1u 1d)

@@ -4,8 +4,6 @@
     - find a way to abstract away the pre/in/post order traversals
 
 """
-from Circular_Queue import Circular_Queue # may not need this
-
 
 class Binary_Tree:
     def __init__(self, rootNode):
@@ -98,7 +96,7 @@ class Binary_Tree:
     def compareSubtrees(self):
         completed_comparing = False
         while not completed_comparing:
-            completed_comparing = self.compare_ST_Traverse(self._root, None)
+            completed_comparing = self.compare_ST_Traverse(self._root)
 
     def swap_max_LST(self, swapRoot):
         """
@@ -146,11 +144,11 @@ class Binary_Tree:
         else:
             parent.right = min_RST
 
-    def compare_ST_Traverse(self, currentNode, parent):
+    def compare_ST_Traverse(self, currentNode):
         if currentNode == None:
             return 0
-        left = self.compare_ST_Traverse(currentNode.left, currentNode)
-        right = self.compare_ST_Traverse(currentNode.right, currentNode)
+        left = self.compare_ST_Traverse(currentNode.left)
+        right = self.compare_ST_Traverse(currentNode.right)
 
         if left is False or right is False:
             return False
@@ -233,7 +231,7 @@ class Binary_Tree:
         print(parent.value)
         self.in_order_traversal(parent.right)
 
-    def clearTree(self, nodeParent):
+    def clearTree(self):
         self._root = None
 
     def get_tree_size(self, parent):
@@ -245,7 +243,7 @@ class Binary_Tree:
 
     """
         - finish this if you need to, however, probs not worth the time rn. You can manually check the structure
-    """
+    
     def display_tree_structure(self):
         tree_size = self.get_tree_size(self._root)
         tree_queue = Circular_Queue(tree_size)
@@ -263,7 +261,7 @@ class Binary_Tree:
             if current_node.right is not None:
                 tree_queue.push(current_node.right)
             print(current_node, end=" ")
-
+    """
 class Card_Binary_Tree(Binary_Tree):
     def __init__(self, rootNode):
         super().__init__(rootNode)
