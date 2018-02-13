@@ -18,38 +18,18 @@ class Binary_Tree:
             toPass = nodeValue.value
 
         def base_case(node):
-            if node == None:
+            if node is None:
                 return None
-            elif node.value == toPass:
+            return -1
+
+        def node_processing(node):
+            if node.value == toPass:
                 return node
             return -1
 
-        def return_case(left, right):
-            if left is not None:
-                return left
-            elif right is not None:
-                return right
-            return None
-
-        returnNode = Traversals.pre_order(self._root, base_case, return_case)
+        returnNode = Traversals.pre_order(self._root, base_case=base_case, node_processing=node_processing)
         #returnNode = self.getNodeTraversal(self._root, toPass)
         return returnNode
-
-    """
-    # Recursively search via pre order traversal
-    def getNodeTraversal(self, parent, nodeValue):
-        if parent == None:
-            return None
-        elif parent.value == nodeValue:
-            return parent
-        leftResult = self.getNodeTraversal(parent.left, nodeValue)
-        rightResult = self.getNodeTraversal(parent.right, nodeValue)
-        if leftResult is not None:
-            return leftResult
-        elif rightResult is not None:
-            return rightResult
-        return None
-    """
 
     def insert(self, node):
         if isinstance(node, int):
@@ -85,33 +65,47 @@ class Binary_Tree:
             nextParent.right = node
         self.compareSubtrees()
 
-    def getParent(self, node):
-        currentNode = self._root
-        return self.getParentTraverse(currentNode, node)
+    def getParent(self, nodeToFind):
+        def base_case(node):
+            if node is None:
+                return None
+            return -1
+        def node_processing(node):
+            if node.left == nodeToFind or node.right == nodeToFind:
+                return node
+            return -1
 
-    def getParentTraverse(self, parent, nodeToFind):
-        if parent is None:
-            return None
-        if parent.left == nodeToFind or parent.right == nodeToFind:
-            return parent
-        left = self.getParentTraverse(parent.left, nodeToFind)
-        right = self.getParentTraverse(parent.right, nodeToFind)
-        if left is not None:
-            return left
-        elif right is not None:
-            return right
+        return Traversals.pre_order(self._root, base_case=base_case, node_processing=node_processing)
 
-    def count_nodes(self, node):
-        if node is None:
-            return 0
-        left = self.count_nodes(node.left)
-        right = self.count_nodes(node.right)
-        return left + right + 1
+    def get_tree_size(self):
+        def base_case(node):
+            if node is None:
+                return 0
+            return -1
+        def node_processing(node, left, right):
+            return (left + right + 1)
+        return Traversals.post_order(self._root, base_case=base_case, node_processing=node_processing)
 
     def compareSubtrees(self):
+        def base_case(node):
+            if node is None:
+                return 0
+            return -1
+
+        def node_processing(node, left, right):
+            if left is False or right is False:
+                return False
+            elif abs(left - right) >= 2:
+                if left > right:
+                    self.swap_max_LST(node)
+                else:
+                    self.swap_min_RST(node)
+                return False
+            return left + right + 1
+
         completed_comparing = False
         while not completed_comparing:
-            completed_comparing = self.compare_ST_Traverse(self._root)
+            completed_comparing = Traversals.post_order(self._root, base_case=base_case, node_processing=node_processing)
 
     def swap_max_LST(self, swapRoot):
         """
@@ -158,22 +152,6 @@ class Binary_Tree:
             self._root = min_RST
         else:
             parent.right = min_RST
-
-    def compare_ST_Traverse(self, currentNode):
-        if currentNode == None:
-            return 0
-        left = self.compare_ST_Traverse(currentNode.left)
-        right = self.compare_ST_Traverse(currentNode.right)
-
-        if left is False or right is False:
-            return False
-        elif abs(left - right) >= 2:
-            if left > right:
-                self.swap_max_LST(currentNode)
-            else:
-                self.swap_min_RST(currentNode)
-            return False
-        return left + right + 1
 
     def get_max_LST(self, root):
         current_node = root.left
@@ -235,13 +213,6 @@ class Binary_Tree:
     def clearTree(self):
         self._root = None
 
-    def get_tree_size(self, parent):
-        if parent == None:
-            return 0
-        left = self.get_tree_size(parent.left)
-        right = self.get_tree_size(parent.right)
-        return left + right + 1
-
     """
         - finish this if you need to, however, probs not worth the time rn. You can manually check the structure
     
@@ -265,22 +236,37 @@ class Binary_Tree:
 class Traversals:
     # Static higher level function for pre order traversals
     @staticmethod
-    def pre_order(root, base_case, return_case):
+    def pre_order(root, base_case, node_processing):
         base_result = base_case(root)
-        if base_result != -1:  # need another base value (None, and False cannot be used)
+        if base_result != -1:  # need another base value (None, and False cannot be used) (maybe a false base object?)
             return base_result
-        left = Traversals.pre_order(root.left, base_case, return_case)
-        right = Traversals.pre_order(root.right, base_case, return_case)
+        processing_result = node_processing(root)
+        if processing_result != -1:
+            return processing_result
 
-        return return_case(left, right)
+        left = Traversals.pre_order(root.left, base_case, node_processing)
+        right = Traversals.pre_order(root.right, base_case, node_processing)
+
+        if left is not None:
+            return left
+        elif right is not None:
+            return right
 
     @staticmethod
     def in_order(self):
         pass
 
     @staticmethod
-    def post_order(self):
-        pass
+    def post_order(root, base_case, node_processing):
+        base_result = base_case(root)
+        if base_result != -1:
+            return base_result
+
+        left = Traversals.post_order(root.left, base_case, node_processing)
+        right = Traversals.post_order(root.right, base_case, node_processing)
+
+        processing_result = node_processing(root, left, right)
+        return processing_result  # --> pass the node?
 
 
 class Card_Binary_Tree(Binary_Tree):
@@ -313,19 +299,21 @@ class Card_Binary_Tree(Binary_Tree):
             tmpTree = self.createCountingTree(parent)
             total += tmpTree.root.countValue
             GTturningNode = tmpTree.root.right
-        total += self.cardCountTraverse(GTturningNode)
+        total += self.totalCardCount(GTturningNode)
         return total
 
-    def totalCardCount(self):
-        return self.cardCountTraverse(self._root)
-
     # Post order traversal to count number of cards in a tree
-    def cardCountTraverse(self, parent):
-        if parent == None:
-            return 0
-        leftTotal = self.cardCountTraverse(parent.left)
-        rightTotal = self.cardCountTraverse(parent.right)
-        return leftTotal + rightTotal + parent.countValue
+    def totalCardCount(self, parent=False):
+        if parent == False:
+            parent = self._root
+        def base_case(node):
+            if node == None:
+                return 0
+            return -1
+        def node_processing(node, left, right):
+            return left + right + 1
+
+        return Traversals.post_order(parent, base_case=base_case, node_processing=node_processing)
 
     # When counting cards in left subtree, create a new subtree where the root is the turning node, then count everything on the right of this
     def createCountingTree(self, countRoot):
@@ -400,6 +388,7 @@ if __name__ == "__main__":
     insertion_arr = [2,3,4,5,6,7,8,9,10,11]
     b = Binary_Tree( Node(node_value) )
     for num in insertion_arr:
+        print(num)
         b.insert( Node(num) )
 
     #print(b.getNode(3))
