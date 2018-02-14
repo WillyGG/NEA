@@ -12,6 +12,7 @@ class Binary_Tree:
     def root(self):
         return self._root
 
+    # CHange to DFS?
     def getNode(self, nodeValue):
         toPass = nodeValue
         if isinstance(nodeValue, Node):
@@ -296,19 +297,18 @@ class Card_Binary_Tree(Binary_Tree):
                 self.delete(node_to_dec)
             return True
 
-    # Counts number of cards at current value and larger (Greater than, equal to)
-    def cardCountGTET(self, parent):
-        total = parent.countValue
-        GTturningNode = parent
-        # If the passed parent is in left subtree, include count in right subtree and all of values above.
-        # this is achieved by creating temp tree where parent is the root
-        if parent.value < self._root.value:
-            tmpTree = self.createCountingTree(parent)
-            total += tmpTree.root.countValue
-            GTturningNode = tmpTree.root.right
-        total += self.totalCardCount(GTturningNode)
-        return total
+    def cardCountGTET(self, node):
+        GTET = 0
+        if node.value < self._root.value:
+            total = self.totalCardCount(self._root)
+            lessT = self.cardCountLT(node)
+            GTET = total - lessT
+        elif node.value > self._root.value:
+            GTET = self.totalCardCount(node) # same as counting all cards in subtree
+        return GTET
 
+
+    # COUNT NUM NODES IN TREe -> OTHER METHOD
     # Post order traversal to count number of cards in a tree
     def totalCardCount(self, parent=False):
         if parent == False:
@@ -318,28 +318,19 @@ class Card_Binary_Tree(Binary_Tree):
                 return 0
             return -1
         def node_processing(node, left, right):
-            return left + right + 1
-
+            return node.countValue + left + right
         return Traversals.post_order(parent, base_case=base_case, node_processing=node_processing)
 
-    # When counting cards in left subtree, create a new subtree where the root is the turning node, then count everything on the right of this
-    def createCountingTree(self, countRoot):
-        # make a copy of the node and then make a counting tree
-        countNode = Card_Node(countRoot.value, countRoot.countValue)
-        countingTree = Card_Binary_Tree(countNode)
-        self.populateCountTree(self._root, countingTree)
-        return countingTree
-
-    # preorder traverse the tree to populate the count tree
-    def populateCountTree(self, parent, countTree):
-        if parent == None:
-            return False
-        elif parent.value != countTree.root.value:
-            # Make a copy of the node, just in case (inefficient)
-            tmpParent = Card_Node(parent.value, parent.countValue) # This should not affect the node in the main tree, as python passes variables by value
-            countTree.insert(tmpParent)
-        self.populateCountTree(parent.left, countTree)
-        self.populateCountTree(parent.right, countTree)
+    def cardCountLT(self, node=False):
+        if node == False:
+            node = self._root
+        def base_case(node):
+            if node == None:
+                return 0
+            return -1
+        def node_processing(node, left, right):
+            return node.countValue + left + right
+        return Traversals.post_order(node.left, base_case=base_case, node_processing=node_processing)
 
     # prints count values as well as node value
     def in_order_traversal(self, parent):
@@ -366,12 +357,7 @@ class Node: # Association via composition
         return (not self.left == None) or (not self.right == None)
 
     def numOfChildren(self):
-        num = 0
-        if self.hasLeft():
-            num += 1
-        if self.hasRight():
-            num += 1
-        return num
+        return self.hasLeft() + self.hasRight()
 
     def __eq__(self, other):
         if isinstance(other, Node):

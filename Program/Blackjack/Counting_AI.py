@@ -14,8 +14,8 @@ class Counting_AI:
         self.populate_tree_auto_maintain(range_of_values, num_of_suits)
 
         # maybe find a way to not hard code these values? Or maybe it's fine
-        self.maxCard = 11
-        self.minCard = 1
+        self.maxCard = range_of_values[-1]
+        self.minCard = range_of_values[0]
 
         # Change these parameters to change the behaviour of the CCAI
         # Chage these to personality parameters, then calculate these thresholds based on parameters
@@ -121,7 +121,9 @@ class Counting_AI:
             return 0 # Cannot get blackjack
         elif nodeValue == 0:
             return 1 #already blackjack'd
-        turningNode = self.CardRecord.getNode(nodeValue) # Sometime returns none?????
+        turningNode = self.CardRecord.getNode(nodeValue)
+        if turningNode is None: # card needed for blackjack not in deck
+            return 0
         # get total number of cards which will result in a blackjack
         numOfBlJaCards = turningNode.countValue
         totalNumofCards = self.CardRecord.totalCardCount() # Find a way to abstract this
@@ -131,9 +133,11 @@ class Counting_AI:
     # Calculate the chance next hit will exceed dealer's hand
     def calcExceedDlrNoBust(self, handValue, dlrValue, bustChance = False):
         # Calc Chance to exceed dealer
+        exceedValue = (dlrValue + 1) - handValue# Value needed to exceed the dealer's current hand/
         if (dlrValue - handValue) < 0: # hand already exceeds dealers
             return 1
-        exceedValue = (dlrValue + 1) - handValue # Value needed to exceed the dealer's current hand/
+        if exceedValue > self.maxCard:
+            return 0
         turningNode = self.CardRecord.getNode(exceedValue)
         numOfExceed = self.CardRecord.cardCountGTET(turningNode)
         totalCards = self.CardRecord.totalCardCount()
@@ -206,12 +210,12 @@ class Testing_Class:
         for x in range(testIters):
             print()
             CI.displayCardRecord()
-            blackjack.reset()
             blackjack.display_game()
             gameState = CCAI_Interface.getGameState()
             chances = CI.calcChances(gameState)
             for key in chances.keys():
                 print(key, chances[key])
+            blackjack.reset()
 
 if __name__ == "__main__":
     range_of_values = [1,2,3,4,5,6,7,8,9,10,11]
@@ -222,7 +226,7 @@ if __name__ == "__main__":
     print("3:", CI.CardRecord.root.left)
     print("9:", CI.CardRecord.root.right)
 
-    Testing_Class.blackjackChanceTesting(CI, 2)
+    Testing_Class.blackjackChanceTesting(CI, 100)
 
     """
     range_of_values = [1,2,3,4,5,6,7,8,9,10,11]
