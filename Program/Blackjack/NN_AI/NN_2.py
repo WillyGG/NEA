@@ -36,21 +36,21 @@ class Q_Net():
         hidden_layer1 = slim.fully_connected(self.input_layer, hidden_size,
                                             biases_initializer=None,
                                             activation_fn=tf.nn.relu,
-                                            scope=(myScope+"hidden1"))  # Rectified linear activation func.
+                                            scope=(myScope+"_hidden1"))  # Rectified linear activation func.
 
         #dropout1 = slim.dropout(hidden_layer1, scope=myScope)
 
         hidden_layer2 = slim.fully_connected(hidden_layer1, hidden_size,
                                              biases_initializer=None,
                                              activation_fn=tf.nn.relu,
-                                             scope=(myScope+"hidden2"))
+                                             scope=(myScope+"_hidden2"))
 
         #dropout2 = slim.dropout(hidden_layer2, scope=myScope)
 
         self.final_hidden = slim.fully_connected(hidden_layer2, hidden_size,
-                                                 activation_fn=tf.nn.softmax,
+                                                 activation_fn=tf.nn.relu,
                                                  biases_initializer=None,
-                                                 scope=(myScope+"final_hidden"))  # Softmax activation func.
+                                                 scope=(myScope+"_final_hidden"))  # Softmax activation func. -> changed to relu, as no longer output
 
         #self.action = tf.argmax(self.output_layer, 1)
 
@@ -65,7 +65,6 @@ class Q_Net():
 
     def predict(self):
          # Then combine them together to get our final Q-values.
-        print("advantage",self.Advantage)
         self.Qout = self.Value + tf.subtract(self.Advantage, tf.reduce_mean(self.Advantage, axis=1, keep_dims=True))
         self.predict = tf.argmax(self.Qout, 1)
 

@@ -1,14 +1,17 @@
 from Structs.Binary_Tree import Card_Binary_Tree
 from Structs.Binary_Tree import Card_Node
 from Blackjack import Blackjack
+from Blackjack import Hand
+from Blackjack import Dealer_Hand
 
 # TODO Make blackjack interface for this AI, getting the data it needs, implement prediction functionality, and play functionality test and compare to NN based system. After that DOCUMENT.
 class Counting_AI:
     def __init__(self, range_of_values, num_of_suits):
         self.rangeOfValues = range_of_values
         self.num_of_suits = num_of_suits
-        self.CardRecord = None
-        self.populate_tree_complete(range_of_values, num_of_suits)
+        self.CardRecord = Card_Binary_Tree()
+        #self.populate_tree_complete(range_of_values, num_of_suits)
+        self.populate_tree_auto_maintain(range_of_values, num_of_suits)
 
         # maybe find a way to not hard code these values? Or maybe it's fine
         self.maxCard = 11
@@ -23,45 +26,39 @@ class Counting_AI:
             "riskTolerance" : 1.3
         }
 
-    # TODO maintain this from the tree class
-    # Populate the tree in such a way that maintains a complete structure for the binary tree.
-    def populate_tree_complete(self, range_of_values, num_of_suits):
-        middle_value = range_of_values[len(range_of_values) // 2]  # Gets the middle value.
-        self.CardRecord = Card_Binary_Tree(Card_Node(middle_value, num_of_suits))
-        # Populate the card record with each possible value and how many of each card are in the deck, in a binary way.
-        middle_ind = len(range_of_values) // 2
-        start_ind = 0
-        end_ind = len(range_of_values)-1
-
-        first_half_middle = (start_ind + middle_ind) // 2
-        second_half_middle = (middle_ind + end_ind + 1) // 2  # + 1 because the middle value has already been inserted
-
-        i = first_half_middle
-        j = second_half_middle
-
-        # Figure out how to abstract this away
-        while i >= 0 and j >= (middle_ind + 1):
-            self.CardRecord.insert( Card_Node(range_of_values[i], num_of_suits) )
-            self.CardRecord.insert( Card_Node(range_of_values[j], num_of_suits) )
-            i -= 1
-            j -= 1
-        i = first_half_middle + 1
-        j = second_half_middle + 1
-        while i < middle_ind and j <= end_ind:
-            self.CardRecord.insert( Card_Node(range_of_values[i], num_of_suits) )
-            self.CardRecord.insert( Card_Node(range_of_values[j], num_of_suits) )
-            i += 1
-            j += 1
+    def populate_tree_auto_maintain(self, range_of_values, num_of_suits):
+        for value in range_of_values:
+            # implement this in a nice way
+            if value == 10:
+                self.CardRecord.insert(Card_Node(value, num_of_suits * 3))
+            else:
+                self.CardRecord.insert( Card_Node(value, num_of_suits) )
 
     def init_tree(self):
         self.CardRecord.clearTree()
-        self.populate_tree_complete(self.rangeOfValues, self.num_of_suits)
+        self.populate_tree_auto_maintain(self.rangeOfValues, self.num_of_suits)
 
-    def decrement_cards(self, gameState):
-        # Unpack the game state
-        for hand in gameState:
+    def decrement_cards(self, *args):
+        # Unpack the game state -> consider ACE
+        for hand in args:
             for card in hand:
-                self.CardRecord.decrement(card.value)
+                # if card is ace -> ace decrement()
+                # elif hand is royal -> royal decrement
+                if card.isRoyal():
+                    self.royal_decrement()
+                elif card.isAce():
+                    self.ace_decrement()
+                else:
+                    self.CardRecord.decrement(card.value)
+
+    def ace_decrement(self):
+        self.CardRecord.decrement(1)
+        self.CardRecord.decrement(11)
+
+    def royal_decrement(self):
+        self.CardRecord.decrement(10)
+
+    # Next few methods define the CCAI behaviour as well as calcualte the chances.
 
     # return True if wanting to hit
     def getNextAction(self, chances):
@@ -84,8 +81,12 @@ class Counting_AI:
 
     # Calculates the probabilities of different critical scenarios. These are used to determine the next move.
     def calcChances(self, gameState):
-        handValue = gameState[2]
+        hand = gameState[0]
+        handValue = gameState[1]
+        dealer_hand = gameState[2]
         dealerValue = gameState[3]
+
+        self.decrement_cards(hand, dealer_hand)
 
         bustChance = self.calcBustChance(handValue)
         blackjackChance = self.calcBlJaChance(handValue)
@@ -152,44 +153,56 @@ class Counting_AI:
 
 # Interface between the game and the counting card AI.
 class Counting_Interface:
-    def __init__(self, blackjackInstance, countInstance):
+    def __init__(self, blackjackInstance, countInstance, CCAI_Hand):
         self.blackjack = blackjackInstance
         self.CCAI = countInstance
+        self.CCAI_Hand = CCAI_Hand
+        self.deck_iteration = self.blackjack.deckIteration
 
     def getGameState(self):
-        playerHand = self.blackjack.player
-        dealerHand = self.blackjack.dealer
-        playerValue = self.blackjack.assess_hand(playerHand)
-        dealerValue = self.blackjack.assess_hand(dealerHand)
-        return (playerHand, dealerHand, playerValue, dealerValue)
+        playerHand = self.CCAI_Hand.hand
+        dealerHand = self.blackjack.players["dealer"].hand
+        playerValue = self.CCAI_Hand.get_value()
+        dealerValue = self.blackjack.players["dealer"].get_value()
+        return (playerHand, playerValue, dealerHand, dealerValue)
 
     def takeMove(self, chances = None):
+        if self.deck_iteration != self.blackjack.deckIteration:
+            self.CCAI.init_tree()
         if chances == None:
             self.CCAI.calcChances(self.getGameState())
 
 # Test Functions - might as well just do unit testing???
 class Testing_Class:
-    def leftDecrementTest(self, CI):
+    @staticmethod
+    def leftDecrementTest( CI):
         print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.left.left))
         print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.left.left))
 
-    def rightDecrementTest(self, CI):
+    @staticmethod
+    def rightDecrementTest(CI):
         print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
         CI.CardRecord.decrement(CI.CardRecord.root.right.right)
         print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
 
-    def decUntilDeleteTest(self, CI):
+    @staticmethod
+    def decUntilDeleteTest(CI):
         print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
         for x in range(4):
             CI.CardRecord.decrement(CI.CardRecord.root.right.right)
         print(CI.CardRecord.cardCountGTET(CI.CardRecord.root.right.right))
         CI.CardRecord.in_order_traversal(CI.CardRecord.root)
 
-    def blackjackChanceTesting(self, CI, testIters):
-        blackjack = Blackjack()
-        CCAI_Interface = Counting_Interface(blackjack, CI)
-
-        # Get the game state then clac chances
+    @staticmethod
+    def blackjackChanceTesting(CI, testIters):
+        CCAI_Hand = Hand("CC_AI")
+        players = {
+            "CC_AI" : CCAI_Hand,
+            "dealer" : Dealer_Hand("dealer")
+        }
+        blackjack = Blackjack(players)
+        CCAI_Interface = Counting_Interface(blackjack, CI, CCAI_Hand)
+        # Get the game state then calc chances
         for x in range(testIters):
             print()
             CI.displayCardRecord()
@@ -204,7 +217,12 @@ if __name__ == "__main__":
     range_of_values = [1,2,3,4,5,6,7,8,9,10,11]
     number_of_suits = 4
     CI = Counting_AI(range_of_values, number_of_suits)
-    CI.CardRecord.display_tree_structure()
+
+    print("6:", CI.CardRecord.root)
+    print("3:", CI.CardRecord.root.left)
+    print("9:", CI.CardRecord.root.right)
+
+    Testing_Class.blackjackChanceTesting(CI, 2)
 
     """
     range_of_values = [1,2,3,4,5,6,7,8,9,10,11]

@@ -17,13 +17,17 @@ TODO:
 """
 
 class Blackjack:
-    def __init__(self, playersDict):
+    def __init__(self, playersDict=None):
         self.deck = Deck()
         self._blackjack = 21 # The winning value
         self._winners = None
         self.auto_reset = False
 
-        if bool(playersDict) is False:
+        if playersDict is None:
+            playersDict = {
+                "dealer" : Dealer_Hand("dealer")
+            }
+        if bool(playersDict) is False or "dealer" not in playersDict.keys():
             playersDict["dealer"] = Dealer_Hand("dealer")
 
         # Hand for each player - Do i need this??

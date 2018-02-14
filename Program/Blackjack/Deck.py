@@ -27,6 +27,12 @@ class Card:
     def suit(self):
         return self.__suit
 
+    def isRoyal(self):
+        return isinstance(self.__value, Royals) and not self.isAce()
+
+    def isAce(self):
+        return self.__value == Royals.ACE
+
     def __str__(self):
         return "{} {}".format(self.__suit, self.__value)
 

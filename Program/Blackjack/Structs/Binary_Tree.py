@@ -5,7 +5,7 @@
 """
 
 class Binary_Tree:
-    def __init__(self, rootNode):
+    def __init__(self, rootNode=None):
         self._root = rootNode
 
     @property
@@ -36,6 +36,9 @@ class Binary_Tree:
             node = Node(node)
         if self.getNode(node) is not None:
             return False
+        if self._root is None:
+            self._root = node
+            return True
 
         nextNode = self._root
         nextParent = None
@@ -93,18 +96,21 @@ class Binary_Tree:
             return -1
 
         def node_processing(node, left, right):
-            if left is False or right is False:
-                return False
+            #print("node:",node)
+            #print("left",left)
+            #print("right",right)
+            if left == -1 or right == -1:
+                return -1
             elif abs(left - right) >= 2:
                 if left > right:
                     self.swap_max_LST(node)
                 else:
                     self.swap_min_RST(node)
-                return False
+                return -1
             return left + right + 1
 
-        completed_comparing = False
-        while not completed_comparing:
+        completed_comparing = -1
+        while completed_comparing == -1:
             completed_comparing = Traversals.post_order(self._root, base_case=base_case, node_processing=node_processing)
 
     def swap_max_LST(self, swapRoot):
@@ -118,7 +124,7 @@ class Binary_Tree:
         parent = self.getParent(swapRoot)
 
         if swapRoot.left != max_LST:
-            self.delete(max_LST)
+            self.delete(max_LST) # one child guarenteed -> one call
             max_LST.left = swapRoot.left
         swapRoot.left = None # Will this break the subtree?
         max_LST.right = swapRoot
@@ -266,11 +272,11 @@ class Traversals:
         right = Traversals.post_order(root.right, base_case, node_processing)
 
         processing_result = node_processing(root, left, right)
-        return processing_result  # --> pass the node?
+        return processing_result
 
 
 class Card_Binary_Tree(Binary_Tree):
-    def __init__(self, rootNode):
+    def __init__(self, rootNode=None):
         super().__init__(rootNode)
 
     def decrement(self, nodeValue):
@@ -279,6 +285,7 @@ class Card_Binary_Tree(Binary_Tree):
         elif isinstance(nodeValue, Node): # defensive programming?
             nodeValue = nodeValue.value
 
+        # if node does not exist in the tree
         node_to_dec = self.getNode(nodeValue)
         if node_to_dec == None:
             return False
@@ -385,7 +392,7 @@ class Card_Node(Node):
 # Testing the functionality
 if __name__ == "__main__":
     node_value = 1
-    insertion_arr = [2,3,4,5,6,7,8,9,10,11]
+    insertion_arr = [2,3,4,5]
     b = Binary_Tree( Node(node_value) )
     for num in insertion_arr:
         print(num)
@@ -396,6 +403,7 @@ if __name__ == "__main__":
     print("6:", b.root)
     print("3:", b.root.left)
     print("9:", b.root.right)
+    print(b.root.right.left )
 
     #print(b.root.right.left)
     #b.compareSubtrees()

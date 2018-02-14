@@ -252,5 +252,15 @@
     - Started working on loosely coupled traversal methods
     - started implementing traversal static methods - need to figure out the cases
 
+    -FIXED EVEYRTIHNG WHICH BROKE DUE TO THIS UPDATING
+
     TODO:
-    - FIX THE MAINTAINENCE / insertion
+    - FIX THE MAINTAINENCE / insertion <- DONE
+
+ 14 Feb:
+    - Updated CCAI to work with new blackjack class, and updated it for the records to work correctly with royals and aces
+    - Updated the maintainence function to use -1 instead of False as a flag -> never use False as the flag
+
+    TODO:
+    - fix the counts, sometimes this goes above 100% or below 0%
+    - Fix the calc Chances -> somtimes run time err
