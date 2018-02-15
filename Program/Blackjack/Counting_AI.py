@@ -41,21 +41,12 @@ class Counting_AI:
         self.deckIteration += 1
 
     def decrement_cards(self, *args):
-        # Unpack the game state
-        # IF TRYING TO DECREMENT A CARD WHICH DOES NOT EXIST
-        # DECK HAS UPDATED
+        # Unpack the game state and decrement records
         deckUpdated = False
         newCards = []
         for hand in args:
             for card in hand:
-                # if card is ace -> ace decrement()
-                # elif hand is royal -> royal decrement
-                if card.isRoyal():
-                    result = self.royal_decrement() # update this so result does not have to be on 3 lines
-                elif card.isAce():
-                    result = self.ace_decrement()
-                else:
-                    result = self.CardRecord.decrement(card.value)
+                result = self.decrement_card(card)
                 # if the deck has reset half way through the game, take these new cards and decrement them later
                 # so that the records are all accurate for which card has been played
                 if result == False:
@@ -65,8 +56,23 @@ class Counting_AI:
             self.init_tree()
             self.decrement_cards(newCards)
 
+        # if tree is fully empty
+        elif self.CardRecord.root == None:
+            self.init_tree()
+
+    def decrement_card(self, card):
+        if card.isRoyal():
+            result = self.royal_decrement()  # update this so result does not have to be on 3 lines
+        elif card.isAce():
+            result = self.ace_decrement()
+        else:
+            result = self.CardRecord.decrement(card.value)
+        return result
+
     def ace_decrement(self):
-        return self.CardRecord.decrement(1) or self.CardRecord.decrement(11)
+        result1 = self.CardRecord.decrement(1)
+        result2 = self.CardRecord.decrement(11)
+        return result1 or result2
 
     def royal_decrement(self):
         return self.CardRecord.decrement(10)
@@ -247,7 +253,7 @@ if __name__ == "__main__":
     print("3:", CI.CardRecord.root.left)
     print("9:", CI.CardRecord.root.right)
 
-    Testing_Class.blackjackChanceTesting(CI, 100)
+    Testing_Class.blackjackChanceTesting(CI, 20)
 
     """
     range_of_values = [1,2,3,4,5,6,7,8,9,10,11]

@@ -67,7 +67,7 @@ class Binary_Tree:
             nextParent.left = node
         else:
             nextParent.right = node
-        self.compareSubtrees()
+        self.maintainTree()
 
     def getParent(self, nodeToFind):
         def base_case(node):
@@ -90,16 +90,13 @@ class Binary_Tree:
             return (left + right + 1)
         return Traversals.post_order(self._root, base_case=base_case, node_processing=node_processing)
 
-    def compareSubtrees(self):
+    def maintainTree(self):
         def base_case(node):
             if node is None:
                 return 0
             return -1
 
         def node_processing(node, left, right):
-            #print("node:",node)
-            #print("left",left)
-            #print("right",right)
             if left == -1 or right == -1:
                 return -1
             elif abs(left - right) >= 2:
@@ -132,8 +129,10 @@ class Binary_Tree:
 
         if parent == None:
             self._root = max_LST
-        else:
+        elif parent.left == swapRoot:
             parent.left = max_LST
+        elif parent.right == swapRoot:
+            parent.right = max_LST
 
     def swap_min_RST(self, swapRoot):
         """
@@ -157,8 +156,10 @@ class Binary_Tree:
 
         if parent == None:
             self._root = min_RST
-        else:
+        elif parent.right == swapRoot:
             parent.right = min_RST
+        elif parent.left == swapRoot:
+            parent.left = min_RST
 
     def get_max_LST(self, root):
         current_node = root.left
@@ -186,7 +187,7 @@ class Binary_Tree:
                 self.delete_oneChild(node, nodeParent, nodeIsLeft)
             elif numChildren == 2:
                 self.delete_twoChildren(node, nodeParent, nodeIsLeft)
-        self.compareSubtrees()
+        #self.maintainTree()
 
     def delete_noChildren(self, node, nodeParent, nodeIsLeft=None):
         if nodeIsLeft is None:
@@ -326,6 +327,7 @@ class Card_Binary_Tree(Binary_Tree):
             node_to_dec.countValue -= 1
             if node_to_dec.countValue == 0:
                 self.delete(node_to_dec)
+                self.maintainTree()
             return True
 
     def cardCountGTET(self, node):
@@ -414,16 +416,16 @@ if __name__ == "__main__":
     for num in insertion_arr:
         print(num)
         b.insert( Node(num) )
+        b.in_order_traversal(b.root)
 
     #print(b.getNode(3))
 
     print("6:", b.root)
     print("3:", b.root.left)
     print("9:", b.root.right)
-    print(b.root.right.left )
 
     #print(b.root.right.left)
-    #b.compareSubtrees()
+    #b.maintainTree()
     #print(b.root.left.right)
 
 
