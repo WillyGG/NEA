@@ -174,40 +174,71 @@ class Binary_Tree:
         return current_node
 
     def delete(self, node):
-        nodeParent = self.getParent(node)
-        nodeIsLeft = nodeParent.left == node
-
-        # No children
-        if (not node.hasLeft() and not node.hasRight()):
-            if nodeIsLeft:
-                nodeParent.left = None
-            else:
-                nodeParent.right = None
-        # Has one child
-        elif (node.hasLeft() != node.hasRight()):
-            childIsLeft = node.hasLeft()
-            if nodeIsLeft:
-                if childIsLeft:
-                    nodeParent.left = node.left
-                else:
-                    nodeParent.left = node.right
-            else:
-                if childIsLeft:
-                    nodeParent.right = node.left
-                else:
-                    nodeParent.right = node.right
+        numChildren = node.numOfChildren()
+        if node == self._root:
+            self.delete_root()
         else:
-            # Find max node in left subtree and replace the node to delete with it
-            max_LST = self.get_max_LST(node)
+            nodeParent = self.getParent(node)
+            nodeIsLeft = nodeParent.left == node
+            if numChildren == 0:
+                self.delete_noChildren(node, nodeParent, nodeIsLeft)
+            elif numChildren == 1:
+                self.delete_oneChild(node, nodeParent, nodeIsLeft)
+            elif numChildren == 2:
+                self.delete_twoChildren(node, nodeParent, nodeIsLeft)
+        self.compareSubtrees()
 
-            # Recursively delete the old node from its old position, since it is the max node in left tree, it cannot
-            # have a right child, therefore this will be called recursively once at max.
-            self.delete(max_LST)
-            max_LST.right = node.right
-            if nodeIsLeft:
-                nodeParent.left = max_LST
+    def delete_noChildren(self, node, nodeParent, nodeIsLeft=None):
+        if nodeIsLeft is None:
+            nodeIsLeft = nodeParent.left == node
+        if nodeIsLeft:
+            nodeParent.left = None
+        else:
+            nodeParent.right = None
+
+    def delete_oneChild(self, node, nodeParent, nodeIsLeft=None):
+        if nodeIsLeft is None:
+            nodeIsLeft = nodeParent.left == node
+        childIsLeft = node.hasLeft()
+        if nodeIsLeft:
+            if childIsLeft:
+                nodeParent.left = node.left
             else:
-                nodeParent.right = max_LST
+                nodeParent.left = node.right
+        else:
+            if childIsLeft:
+                nodeParent.right = node.left
+            else:
+                nodeParent.right = node.right
+
+    def delete_twoChildren(self, node, nodeParent, nodeIsLeft=None):
+        if nodeIsLeft is None:
+            nodeIsLeft = nodeParent.left == node
+        # Find max node in left subtree and replace the node to delete with it
+        max_LST = self.get_max_LST(node)
+
+        # Recursively delete the old node from its old position, since it is the max node in left tree, it cannot
+        # have a right child, therefore this will be called recursively once at max (one child MAX).
+        self.delete(max_LST)
+        max_LST.right = node.right
+        max_LST.left = node.left
+        if nodeIsLeft:
+            nodeParent.left = max_LST
+        else:
+            nodeParent.right = max_LST
+
+    def delete_root(self):
+        if self._root.left is None and self._root.right is None:
+            self.clearTree()
+        else:
+            if self._root.left is not None:
+                swapNode = self.get_max_LST(self._root)
+            else:
+                swapNode = self.get_min_RST(self._root)
+            self.delete(swapNode)
+            swapNode.left = self._root.left
+            swapNode.right = self._root.right
+            self._root = swapNode
 
     # For a binary search tree, this should be in ascending order.
     def in_order_traversal(self, parent): # Always pass in the root node with initial call.
@@ -378,7 +409,7 @@ class Card_Node(Node):
 # Testing the functionality
 if __name__ == "__main__":
     node_value = 1
-    insertion_arr = [2,3,4,5]
+    insertion_arr = [2,3,4,5,6,7,8,9,10,11]
     b = Binary_Tree( Node(node_value) )
     for num in insertion_arr:
         print(num)

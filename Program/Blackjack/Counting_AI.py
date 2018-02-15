@@ -9,8 +9,8 @@ class Counting_AI:
     def __init__(self, range_of_values, num_of_suits):
         self.rangeOfValues = range_of_values
         self.num_of_suits = num_of_suits
+        self.deckIteration = 1
         self.CardRecord = Card_Binary_Tree()
-        #self.populate_tree_complete(range_of_values, num_of_suits)
         self.populate_tree_auto_maintain(range_of_values, num_of_suits)
 
         # maybe find a way to not hard code these values? Or maybe it's fine
@@ -29,34 +29,47 @@ class Counting_AI:
     def populate_tree_auto_maintain(self, range_of_values, num_of_suits):
         for value in range_of_values:
             # implement this in a nice way
+            #print(value)
             if value == 10:
-                self.CardRecord.insert(Card_Node(value, num_of_suits * 3))
+                self.CardRecord.insert(Card_Node(value, num_of_suits * 4))
             else:
                 self.CardRecord.insert( Card_Node(value, num_of_suits) )
 
     def init_tree(self):
         self.CardRecord.clearTree()
         self.populate_tree_auto_maintain(self.rangeOfValues, self.num_of_suits)
+        self.deckIteration += 1
 
     def decrement_cards(self, *args):
-        # Unpack the game state -> consider ACE
+        # Unpack the game state
+        # IF TRYING TO DECREMENT A CARD WHICH DOES NOT EXIST
+        # DECK HAS UPDATED
+        deckUpdated = False
+        newCards = []
         for hand in args:
             for card in hand:
                 # if card is ace -> ace decrement()
                 # elif hand is royal -> royal decrement
                 if card.isRoyal():
-                    self.royal_decrement()
+                    result = self.royal_decrement() # update this so result does not have to be on 3 lines
                 elif card.isAce():
-                    self.ace_decrement()
+                    result = self.ace_decrement()
                 else:
-                    self.CardRecord.decrement(card.value)
+                    result = self.CardRecord.decrement(card.value)
+                # if the deck has reset half way through the game, take these new cards and decrement them later
+                # so that the records are all accurate for which card has been played
+                if result == False:
+                    deckUpdated = True
+                    newCards.append(card)
+        if deckUpdated:
+            self.init_tree()
+            self.decrement_cards(newCards)
 
     def ace_decrement(self):
-        self.CardRecord.decrement(1)
-        self.CardRecord.decrement(11)
+        return self.CardRecord.decrement(1) or self.CardRecord.decrement(11)
 
     def royal_decrement(self):
-        self.CardRecord.decrement(10)
+        return self.CardRecord.decrement(10)
 
     # Next few methods define the CCAI behaviour as well as calcualte the chances.
 
@@ -107,38 +120,48 @@ class Counting_AI:
             return 0
         elif nodeValue <= 0:
             return 1 # already bust
+
+        minExceedValue = int(nodeValue)
         turningNode = self.CardRecord.getNode(nodeValue)
+        # if turning node is not available, will look for the next card up, until it finds one, or not possible
+        while turningNode is None and minExceedValue <= self.maxCard:
+            minExceedValue += 1
+            turningNode = self.CardRecord.getNode(minExceedValue)
+
         # Get total number of cards in right subtree of turning node
         numOfBustCards = self.CardRecord.cardCountGTET(turningNode)
         totalNumofCards = self.CardRecord.totalCardCount()
-
         return numOfBustCards / totalNumofCards
 
     # Calculate chance next hit will result in blackjack
     def calcBlJaChance(self, handValue):
         nodeValue = (21 - handValue)
-        if nodeValue > self.maxCard:
-            return 0 # Cannot get blackjack
+        turningNode = self.CardRecord.getNode(nodeValue)
+        if nodeValue > self.maxCard or turningNode is None:
+            return 0 # Cannot get blackjack - either card needed is too large, or card needed is not in deck
         elif nodeValue == 0:
             return 1 #already blackjack'd
-        turningNode = self.CardRecord.getNode(nodeValue)
-        if turningNode is None: # card needed for blackjack not in deck
-            return 0
         # get total number of cards which will result in a blackjack
         numOfBlJaCards = turningNode.countValue
         totalNumofCards = self.CardRecord.totalCardCount() # Find a way to abstract this
-
         return numOfBlJaCards / totalNumofCards
 
     # Calculate the chance next hit will exceed dealer's hand
     def calcExceedDlrNoBust(self, handValue, dlrValue, bustChance = False):
         # Calc Chance to exceed dealer
         exceedValue = (dlrValue + 1) - handValue# Value needed to exceed the dealer's current hand/
-        if (dlrValue - handValue) < 0: # hand already exceeds dealers
+        if (dlrValue - handValue) <= 0: # hand already exceeds dealers, or is equal to dealer's
             return 1
         if exceedValue > self.maxCard:
             return 0
+
+        minExceedValue = int(exceedValue)
         turningNode = self.CardRecord.getNode(exceedValue)
+        # if turning node is not available, will look for the next card up, until it finds one, or not possible
+        while turningNode is None and minExceedValue <= self.maxCard:
+            minExceedValue += 1
+            turningNode = self.CardRecord.getNode(minExceedValue)
+
         numOfExceed = self.CardRecord.cardCountGTET(turningNode)
         totalCards = self.CardRecord.totalCardCount()
         exceedChance = numOfExceed / totalCards
@@ -161,7 +184,6 @@ class Counting_Interface:
         self.blackjack = blackjackInstance
         self.CCAI = countInstance
         self.CCAI_Hand = CCAI_Hand
-        self.deck_iteration = self.blackjack.deckIteration
 
     def getGameState(self):
         playerHand = self.CCAI_Hand.hand
@@ -171,10 +193,9 @@ class Counting_Interface:
         return (playerHand, playerValue, dealerHand, dealerValue)
 
     def takeMove(self, chances = None):
-        if self.deck_iteration != self.blackjack.deckIteration:
-            self.CCAI.init_tree()
         if chances == None:
             self.CCAI.calcChances(self.getGameState())
+
 
 # Test Functions - might as well just do unit testing???
 class Testing_Class:

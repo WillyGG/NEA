@@ -264,3 +264,11 @@
     TODO:
     - fix the counts, sometimes this goes above 100% or below 0%
     - Fix the calc Chances -> somtimes run time err
+
+ 15 Feb:
+    - updated delete method to be more clean
+    - addded edge cases for calculations when specific nodes are no longer present in the tree
+    - added edge case to update deck half way through calculations
+
+    TODO:
+    - the delete changes have messed up the insertion or the maintainence - fix this
