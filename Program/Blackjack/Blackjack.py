@@ -242,7 +242,7 @@ class Hand:
         return self.id == other.id
 
 class Dealer_Hand(Hand):
-    def __init__(self, id):
+    def __init__(self, id="dealer"):
         super().__init__(id)
 
     # should you not do this in the blackjack class?

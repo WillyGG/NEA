@@ -5,7 +5,7 @@ from Blackjack import Hand
 from Blackjack import Dealer_Hand
 
 # TODO Make blackjack interface for this AI, getting the data it needs, implement prediction functionality, and play functionality test and compare to NN based system. After that DOCUMENT.
-class Counting_AI:
+class Card_Counter:
     def __init__(self, range_of_values, num_of_suits):
         self.rangeOfValues = range_of_values
         self.num_of_suits = num_of_suits
@@ -99,11 +99,19 @@ class Counting_AI:
     """
 
     # Calculates the probabilities of different critical scenarios. These are used to determine the next move.
-    def calcChances(self, hand, handValue, winning_hand, winning_value):
+    def calcChances(self, hand, handValue, winning_hand, winning_value, AI_is_Winning):
         bustChance = self.calcBustChance(handValue)
         blackjackChance = self.calcBlJaChance(handValue)
-        exceedWinningPlayer = self.calcExceedWinningPlayer(handValue, winning_value)
-        alreadyExceeding = self.getExceedingWinningPlayer(handValue, winning_value)
+
+        # if the ai tied to this card counter is winning
+        if AI_is_Winning:
+            exceedWinningPlayer = 1
+            alreadyExceeding = True
+        else:
+            exceedWinningPlayer = self.calcExceedWinningPlayer(handValue, winning_value)
+            alreadyExceeding = self.getExceedingWinningPlayer(handValue, winning_value)
+
+
         chances = {
             "bust": bustChance,
             "blackjack": blackjackChance,
@@ -249,7 +257,7 @@ class Testing_Class:
 if __name__ == "__main__":
     range_of_values = [1,2,3,4,5,6,7,8,9,10,11]
     number_of_suits = 4
-    CI = Counting_AI(range_of_values, number_of_suits)
+    CI = Card_Counter(range_of_values, number_of_suits)
 
     print("6:", CI.CardRecord.root)
     print("3:", CI.CardRecord.root.left)
@@ -260,7 +268,7 @@ if __name__ == "__main__":
     """
     range_of_values = [1,2,3,4,5,6,7,8,9,10,11]
     number_of_suits = 4
-    CI = Counting_AI(range_of_values, number_of_suits)
+    CI = Card_Counter(range_of_values, number_of_suits)
     test = Testing_Class()
     totalNumofCards = CI.CardRecord.totalCardCount()
     #print(totalNumofCards)

@@ -73,6 +73,63 @@ class Training_Interface:
                 self.save_model()
             self.BlJa_Interface.reset()
 
+
+    # Start out simple with one player
+    def training_CC_Interface(self, sess):
+        train_iterations = self.parameters["train_steps"]
+        explore_steps = self.parameters["explore_steps"]
+        update_frequency = self.parameters["update_frequency"]
+        save_frequency = self.parameters["save_model_frequency"]
+        hidden_size = self.parameters["hidden_size"]
+
+        self.sess = sess
+        self.load_model()
+        self.Target_Network.updateTarget(sess)
+        self.rnn_updated = False
+        for i in range(train_iterations):
+            # self.BlJa_Interface.reset() # Implement this
+            self.game_state = self.BlJa_Interface.get_game_state()
+            episode_buffer = []
+            self.rnn_state = (
+            np.zeros([1, hidden_size]), np.zeros([1, hidden_size]))  # Reset the recurrent layer's hidden state
+
+            # step in game, get reward and new state
+            while self.BlJa_Interface.continue_game():
+                self.action = self.choose_action(i)
+                self.BlJa_Interface.process_action(self.action)  # IMPLEMENT
+                new_game_state = self.BlJa_Interface.get_game_state()
+                new_rnn_state = self.get_new_rnn_state()
+                reward = self.BlJa_Interface.gen_step_reward()
+                episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
+                                                           new_game_state, self.BlJa_Interface.continue_game()]),
+                                                 [1, 5]))
+
+                exploring = (i <= explore_steps)
+                if i % update_frequency == 0 and not exploring:
+                    self.update_networks()
+
+                self.game_state = new_game_state
+                self.rnn_state = new_rnn_state  # UPDATE RNN CELL STATE
+
+            # PROCESS END OF GAME
+            # GET THE END OF GAME REWARD
+            self.BlJa_Interface.end_game()
+            reward = self.BlJa_Interface.gen_step_reward()
+
+            # decide if you want to append this
+            episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
+                                                       self.game_state, self.BlJa_Interface.continue_game()]), [1, 5]))
+
+            # Add the episode to the experience buffer
+            bufferArray = np.array(episode_buffer)
+            episodeBuffer = list(zip(bufferArray))
+            self.exp_buffer.add(episodeBuffer)
+
+            if i % save_frequency == 0:
+                self.save_model()
+
+            self.BlJa_Interface.reset()
+
     # figure out if this causes two steps instead of 1
     def get_new_rnn_state(self):
         new_rnn_state = self.sess.run(self.Primary_Network.rnn_state,
