@@ -54,7 +54,8 @@ class CC_Interface_Tests:
         number_of_suits = 4
         players = {
             "NN": BJ.Hand("NN"),
-            "dealer": BJ.Dealer_Hand()
+            "dealer": BJ.Dealer_Hand(),
+            "mariusz": BJ.Hand("mariusz")
         }
 
         CC_Inst = Card_Counter(range_of_values, number_of_suits)

@@ -252,6 +252,15 @@ class Binary_Tree:
     def clearTree(self):
         self._root = None
 
+    # gets the smallest node in the tree
+    def get_min_node(self, start_node=False):
+        if start_node == False:
+            start_node = self._root
+        node = start_node
+        while node.left is not None:
+            node = node.left
+        return node
+
     """
         - finish this if you need to, however, probs not worth the time rn. You can manually check the structure
     
@@ -330,20 +339,26 @@ class Card_Binary_Tree(Binary_Tree):
                 self.maintainTree()
             return True
 
-    def cardCountGTET(self, node):
-        GTET = 0
-        if node.value < self._root.value:
-            total = self.totalCardCount(self._root)
-            lessT = self.cardCountLT(node)
-            GTET = total - lessT
-        elif node.value > self._root.value:
-            GTET = self.totalCardCount(node) # same as counting all cards in subtree
-        return GTET
-
+    # traverse the entire tree and only add to the node processing if bigger than or greater than the node passed
+    def cardCountGTET(self, baseNode=False):
+        if baseNode == False:
+            baseNode = self._root
+        minNode = self.get_min_node()
+        if minNode == baseNode:
+            return self.totalCardCount()
+        def base_case(node):
+            if node is None:
+                return 0
+            return -1
+        def node_processing(node, left, right):
+            toAdd = 0
+            if node >= baseNode:
+                toAdd = node.countValue
+            return toAdd + left + right
+        return Traversals.post_order(self._root, base_case=base_case, node_processing=node_processing)
 
     # COUNT NUM NODES IN TREe -> OTHER METHOD
-    # Post order traversal to count number of cards in a tree, from a node
-
+    # Post order traversal to count number of cards in a tree
     def totalCardCount(self, parent=False):
         if parent == False:
             parent = self._root
@@ -353,18 +368,11 @@ class Card_Binary_Tree(Binary_Tree):
             return -1
         def node_processing(node, left, right):
             return node.countValue + left + right
-        return Traversals.post_order(parent, base_case=base_case, node_processing=node_processing)
-
-    def cardCountLT(self, node=False):
-        if node == False:
-            node = self._root
-        def base_case(node):
-            if node == None:
-                return 0
-            return -1
-        def node_processing(node, left, right):
-            return node.countValue + left + right
-        return Traversals.post_order(node.left, base_case=base_case, node_processing=node_processing)
+        tree_count = Traversals.post_order(parent, base_case=base_case, node_processing=node_processing)
+        ace_node = self.getNode(11) # could put this higher up to simplify this logical block, but less efficient as unecessary counting
+        if ace_node is not None:
+            tree_count = tree_count - self.getNode(11).countValue # prevents counting the ace twice
+        return tree_count
 
     # prints count values as well as node value
     def in_order_traversal(self, parent):
@@ -402,6 +410,34 @@ class Node: # Association via composition
 
     def __str__(self):
         return str(self.value)
+
+    def __gt__(self, other):
+        if isinstance(other, Node):
+            return self.value > other.value
+        elif isinstance(other, int):
+            return self.value > other
+        return None
+
+    def __lt__(self, other):
+        if isinstance(other, Node):
+            return self.value < other.value
+        elif isinstance(other, int):
+            return self.value > other
+        return None
+
+    def __ge__(self, other):
+        if isinstance(other, Node):
+            return self.value >= other.value
+        elif isinstance(other, int):
+            return self.value >= other
+        return None
+
+    def __le__(self, other):
+        if isinstance(other, Node):
+            return self.value <= other.value
+        elif isinstance(other, int):
+            return self.value >= other
+        return None
 
 class Card_Node(Node):
     def __init__(self, value, countValue):

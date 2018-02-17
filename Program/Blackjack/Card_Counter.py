@@ -120,6 +120,7 @@ class Card_Counter:
         }
         return chances
 
+    # maybe convert this to a margin
     def getExceedingWinningPlayer(self, handValue, wnrValue):
         return handValue > wnrValue
 
@@ -137,10 +138,15 @@ class Card_Counter:
         while turningNode is None and minExceedValue <= self.maxCard:
             minExceedValue += 1
             turningNode = self.CardRecord.getNode(minExceedValue)
+        if turningNode is None:
+            return 0 # cannot go bust, because card needed is higher than highest card in play
 
         # Get total number of cards in right subtree of turning node
         numOfBustCards = self.CardRecord.cardCountGTET(turningNode)
         totalNumofCards = self.CardRecord.totalCardCount()
+        print("TurnignNode", turningNode)
+        print("numBustCards", numOfBustCards)
+        print("totalCards", totalNumofCards)
         return numOfBustCards / totalNumofCards
 
     # Calculate chance next hit will result in blackjack
@@ -239,7 +245,7 @@ class Testing_Class:
         # Get the game state then calc chances
         for x in range(testIters):
             print()
-            CI.displayCardRecord()
+
             blackjack.display_game()
             gameState = CCAI_Interface.getGameState()
 
@@ -247,9 +253,11 @@ class Testing_Class:
             handValue = gameState[1]
             dealer_hand = gameState[2]
             dealerValue = gameState[3]
+            AI_Winning = hand == dealer_hand
 
             CI.decrement_cards(hand, dealer_hand)
-            chances = CI.calcChances(hand, handValue, dealer_hand, dealerValue)
+            CI.displayCardRecord()
+            chances = CI.calcChances(hand, handValue, dealer_hand, dealerValue, AI_Winning)
             for key in chances.keys():
                 print(key, chances[key])
             blackjack.reset()

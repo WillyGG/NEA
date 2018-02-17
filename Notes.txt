@@ -280,3 +280,10 @@
     - Seperated the CCAI design -> split into (CC, AI) to allow CC functionality use for NN
     - changed the CC so now have to decrement and unpack game state outstide of CC class
     - implemented the CC Interface
+    - debugged Card Count LT -> was just counting all nodes in subtree -> now counts nodes just LT, by passing in the left subtree to total count method
+
+ 17 Feb:
+    - realised that the counting algorithm for nodes GTET does not work by just using subtree associated with the turning node
+    - requires full traversal -> either go back to the tmp tree class, or full traversal of tree
+    - decided full traversal -> implemented, bug: if it is a full traversal then need to take off aces -> debugged
+    - fully debugged counting issue
