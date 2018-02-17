@@ -150,6 +150,16 @@ class Blackjack:
             return "game over man! game over!"
         return player
 
+    # converts player queue to array and returns the ids of all players currently in play
+    def get_all_players_playing(self):
+        players = []
+        while not self.players_queue.isEmpty():
+            current_player = self.players_queue.pop()
+            players.append(current_player)
+        for player in players:
+            self.players_queue.push(player)
+        return players
+
 class Hand:
     def __init__(self, id):
         self._id = id
@@ -247,35 +257,50 @@ class Dealer_Hand(Hand):
 class Player:
     pass
 
-if __name__ == "__main__":
-    player1 = Hand("mariusz")
-    player2 = Hand("vince")
-    dealer = Dealer_Hand("dealer")
+class Blackjack_Tests:
+    @staticmethod
+    def setUp_Blackjack_Instance():
+        player1 = Hand("mariusz")
+        player2 = Hand("vince")
+        dealer = Dealer_Hand("dealer")
 
-    #testhand = Hand("mariusz")
-    #print(testhand == player1)
+        # testhand = Hand("mariusz")
+        # print(testhand == player1)
 
-    players = {
-        "player1": player1,
-        "player2": player2,
-        "dealer": dealer
-    }
-    bj = Blackjack(players)
+        players = {
+            "player1": player1,
+            "player2": player2,
+            "dealer": dealer
+        }
+        bj = Blackjack(players)
+        return bj
 
-    for x in range(2):
-        while bj.continue_game:
+    @staticmethod
+    def manual_test():
+        bj = Blackjack_Tests.setUp_Blackjack_Instance()
+        for x in range(2):
+            while bj.continue_game:
+                bj.display_game()
+                currPlayer = bj.whoseTurnIsIt()
+                c = input("\n" + currPlayer + ": would you like to hit (h) or (s) ")
+                if c is "h":
+                    bj.hit()
+                elif c is "s":
+                    bj.stand()
+                else:
+                    print("please input h or s")
             bj.display_game()
-            currPlayer = bj.whoseTurnIsIt()
-            c = input("\n" + currPlayer + ": would you like to hit (h) or (s) ")
-            if c is "h":
-                bj.hit()
-            elif c is "s":
-                bj.stand()
-            else:
-                print("please input h or s")
-        bj.display_game()
-        bj.end_game()
-        print(bj.winners, "are the winners!")
-        bj.reset()
+            bj.end_game()
+            print(bj.winners, "are the winners!")
+            bj.reset()
+
+    @staticmethod
+    def get_players_playing_test():
+        bj = Blackjack_Tests.setUp_Blackjack_Instance()
+        for i in bj.get_all_players_playing():
+            print(i)
+
+if __name__ == "__main__":
+    Blackjack_Tests.get_players_playing_test()
 
 

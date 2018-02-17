@@ -195,7 +195,7 @@ if not os.path.exists(path):
 
 with tf.Session() as sess:
     sess.run(init)
-    trainer.train(sess)
+    trainer.train_default(sess)
     trainer.test_performance(sess)
 
 

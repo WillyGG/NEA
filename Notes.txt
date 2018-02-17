@@ -273,4 +273,10 @@
     - do not put maintain subtrees in delete, either do that or have a non maintain delete -> just call the maintain manually after deletion
 
     TODO:
-    -
+
+ 16 Feb:
+    - Adjusted exceedDealerNoBust -> ExceedWinningPlayer
+    - Added Already Exceeding
+    - Seperated the CCAI design -> split into (CC, AI) to allow CC functionality use for NN
+    - changed the CC so now have to decrement and unpack game state outstide of CC class
+    - implemented the CC Interface

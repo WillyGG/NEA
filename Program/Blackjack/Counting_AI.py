@@ -99,25 +99,21 @@ class Counting_AI:
     """
 
     # Calculates the probabilities of different critical scenarios. These are used to determine the next move.
-    def calcChances(self, gameState):
-        hand = gameState[0]
-        handValue = gameState[1]
-        dealer_hand = gameState[2]
-        dealerValue = gameState[3]
-
-        self.decrement_cards(hand, dealer_hand)
-
+    def calcChances(self, hand, handValue, winning_hand, winning_value):
         bustChance = self.calcBustChance(handValue)
         blackjackChance = self.calcBlJaChance(handValue)
-        exceedDealerNoBust = self.calcExceedDlrNoBust(handValue, dealerValue)
-
+        exceedWinningPlayer = self.calcExceedWinningPlayer(handValue, winning_value)
+        alreadyExceeding = self.getExceedingWinningPlayer(handValue, winning_value)
         chances = {
-            "bust" : bustChance,
-            "blackjack" : blackjackChance,
-            "exceedDlrNoBust" : exceedDealerNoBust
+            "bust": bustChance,
+            "blackjack": blackjackChance,
+            "exceedWinningPlayer": exceedWinningPlayer,
+            "alreadyExceedingWinningPlayer": alreadyExceeding
         }
-
         return chances
+
+    def getExceedingWinningPlayer(self, handValue, wnrValue):
+        return handValue > wnrValue
 
     # Calc chance next hit will result in bust.
     def calcBustChance(self, handValue):
@@ -152,13 +148,12 @@ class Counting_AI:
         totalNumofCards = self.CardRecord.totalCardCount() # Find a way to abstract this
         return numOfBlJaCards / totalNumofCards
 
-    # Calculate the chance next hit will exceed dealer's hand
-    def calcExceedDlrNoBust(self, handValue, dlrValue, bustChance = False):
+    def calcExceedWinningPlayer(self, handValue, wnrValue):
         # Calc Chance to exceed dealer
-        exceedValue = (dlrValue + 1) - handValue# Value needed to exceed the dealer's current hand/
-        if (dlrValue - handValue) <= 0: # hand already exceeds dealers, or is equal to dealer's
+        exceedValue = (wnrValue + 1) - handValue  # Value needed to exceed the dealer's current hand/
+        if (wnrValue - handValue) <= 0:  # hand already exceeds dealers, or is equal to dealer's
             return 1
-        if exceedValue > self.maxCard:
+        elif exceedValue > self.maxCard:
             return 0
 
         minExceedValue = int(exceedValue)
@@ -167,13 +162,13 @@ class Counting_AI:
         while turningNode is None and minExceedValue <= self.maxCard:
             minExceedValue += 1
             turningNode = self.CardRecord.getNode(minExceedValue)
+        if turningNode is None:  # no cards available to provide the value needed
+            return 0
 
         numOfExceed = self.CardRecord.cardCountGTET(turningNode)
         totalCards = self.CardRecord.totalCardCount()
         exceedChance = numOfExceed / totalCards
-        if not bustChance: # option to pass in the bustChance, for efficiency
-            bustChance = self.calcBustChance(handValue)
-        return exceedChance - bustChance
+        return exceedChance
 
     def getHandValue(self, hand):
         value = 0
@@ -239,7 +234,14 @@ class Testing_Class:
             CI.displayCardRecord()
             blackjack.display_game()
             gameState = CCAI_Interface.getGameState()
-            chances = CI.calcChances(gameState)
+
+            hand = gameState[0]
+            handValue = gameState[1]
+            dealer_hand = gameState[2]
+            dealerValue = gameState[3]
+
+            CI.decrement_cards(hand, dealer_hand)
+            chances = CI.calcChances(hand, handValue, dealer_hand, dealerValue)
             for key in chances.keys():
                 print(key, chances[key])
             blackjack.reset()

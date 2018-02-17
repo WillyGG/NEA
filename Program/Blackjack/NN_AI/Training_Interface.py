@@ -20,7 +20,7 @@ class Training_Interface:
             saver.restore(self.sess, ckpt.model_checkpoint_path)
         #sess.run(init)
 
-    def train(self, sess):
+    def train_default(self, sess):
         train_iterations = self.parameters["train_steps"]
         explore_steps = self.parameters["explore_steps"]
         update_frequency = self.parameters["update_frequency"]

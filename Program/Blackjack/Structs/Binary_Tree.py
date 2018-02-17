@@ -342,7 +342,8 @@ class Card_Binary_Tree(Binary_Tree):
 
 
     # COUNT NUM NODES IN TREe -> OTHER METHOD
-    # Post order traversal to count number of cards in a tree
+    # Post order traversal to count number of cards in a tree, from a node
+
     def totalCardCount(self, parent=False):
         if parent == False:
             parent = self._root
