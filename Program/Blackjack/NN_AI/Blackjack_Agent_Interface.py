@@ -8,11 +8,10 @@ class Blackjack_Agent_Interface: # Maybe make this a static class?
         # defensive programming - populating the blackjack class depending on whether one was passed or not
         if blackjack_instance is None or hand_instance is None:
             self.init_blackjack()
-        else:
-            if blackjack_instance is not None:
-                self.blackjack = blackjack_instance
-            if hand_instance is not None:
-                self.agent_hand = hand_instance
+        if blackjack_instance is not None:
+            self.blackjack = blackjack_instance
+        elif hand_instance is not None:
+            self.agent_hand = hand_instance
 
         # TODO consider adding a hit reward
        # self.winReward = rewardDict["winReward"] #2
@@ -20,6 +19,8 @@ class Blackjack_Agent_Interface: # Maybe make this a static class?
         #self.bustCost = rewardDict["bustCost"]
 
         self.last_action = None
+        self.hit = 0
+        self.stand = 1
 
         #self.hand_value_discount = rewardDict["hand_value_discount"] #1 / 21
         self.hand_size_norm_const = 1 / 10
@@ -71,12 +72,12 @@ class Blackjack_Agent_Interface: # Maybe make this a static class?
         return self.blackjack.continue_game
 
     def process_action(self, action):
-        if action == 0:
+        if action == self.hit:
             self.last_action = "hit"
             # check if current turn (or check in the training mainloop)
             # hit
             self.blackjack.hit()
-        elif action == 1: # defencive programming?
+        elif action == self.stand: # defencive programming?
             self.last_action = "stand"
             self.blackjack.stand()
 

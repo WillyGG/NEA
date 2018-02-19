@@ -3,16 +3,17 @@ sys.path.append(os.path.realpath(".."))
 
 from Card_Counter import Card_Counter
 import Blackjack as BJ
+from Blackjack_Agent_Interface import Blackjack_Agent_Interface
 
-class CC_Interface:
-    def __init__(self, NN_Instance, CC_Instance, Blackjack_Instance):
-        self.NN = NN_Instance
-        self.CC = CC_Instance
-        self.Blackjack = Blackjack_Instance
-        self.NN_ID = "NN"
+class CC_Interface(Blackjack_Agent_Interface):
+    def __init__(self, Blackjack_Instance=None):
+        self.NN_ID = "agent"
+        super().__init__(None, Blackjack_Instance, BJ.Hand(self.NN_ID))
+        self.CC = Card_Counter()
 
-    def get_chances(self):
-        state = self.get_game_state()
+    def get_chances(self, state=None):
+        if state is None:
+            state = self.get_game_state_CC()
         NN_Winning = state[0] == state[1]
 
         AI_hand = state[0]
@@ -23,19 +24,35 @@ class CC_Interface:
         chances = self.CC.calcChances(AI_hand, AI_hand_val, best_hand, best_hand_val, NN_Winning)
         return chances
 
-    def get_game_state(self):
-        dealer_hand = self.Blackjack.players["dealer"]
-        player_hands_all = self.Blackjack.get_all_players_playing() + [dealer_hand]
+    def get_game_state_CC(self):
+        dealer_hand = self.blackjack.players["dealer"]
+        player_hands_all = self.blackjack.get_all_players_playing() + [dealer_hand]
         needed_player_hands = []
         needed_player_hands.append(self.get_AI_hand(player_hands_all)) # gets the AIs hand
         needed_player_hands.append(self.get_best_hand(player_hands_all)) # get the best players hand
         return needed_player_hands
 
-    def get_AI_hand(self, player_hands_all):
-        for hand in player_hands_all:
-            if hand.id == self.NN_ID:
-                return hand
+    # Returns the AI hand, best player hand, and the chances as a single array
+    # called with each iteration of the game
+    def get_game_state(self):
+        toReturn = []
+        AI_and_best_hand = self.get_game_state_CC()
+        chances = self.get_chances(AI_and_best_hand)
+        for hand in AI_and_best_hand: # adds the hand to the return array
+            hand_value_normalised = hand.get_value() * self.hand_val_norm_const
+            toReturn.append(hand_value_normalised)
+        for key in sorted(chances): # sorted so that it is returned in the same order every time
+            toReturn.append(chances[key])
+        return toReturn
 
+    def get_AI_hand(self, player_hands_all):
+        return self.blackjack.players[self.NN_ID]
+
+    # decrements the new cards from the cc
+    def decrement_CC(self, new_cards):
+        self.CC.decrement_cards(new_cards)
+
+    # change this to best player not including AI, then find the disparity?
     def get_best_hand(self, player_hands_all):
         best_hand = None
         best_hand_val = 0
@@ -46,6 +63,11 @@ class CC_Interface:
                 best_hand_val = current_hand_val
         return best_hand
 
+    # method to end the game and reset everything
+    def end_game(self):
+        new_cards = self.blackjack.new_cards
+        self.decrement_CC(new_cards)
+        self.blackjack.end_game()
 
 class CC_Interface_Tests:
     @staticmethod

@@ -6,25 +6,23 @@ from Blackjack import Dealer_Hand
 
 # TODO Make blackjack interface for this AI, getting the data it needs, implement prediction functionality, and play functionality test and compare to NN based system. After that DOCUMENT.
 class Card_Counter:
-    def __init__(self, range_of_values, num_of_suits):
-        self.rangeOfValues = range_of_values
-        self.num_of_suits = num_of_suits
+    def __init__(self, range_of_values=None, num_of_suits=None):
+        if range_of_values is None:
+            self.rangeOfValues = [1,2,3,4,5,6,7,8,9,10,11]
+        else:
+            self.rangeOfValues = range_of_values
+        if num_of_suits is None:
+            self.num_of_suits = 4
+        else:
+            self.num_of_suits = num_of_suits
         self.deckIteration = 1
         self.CardRecord = Card_Binary_Tree()
-        self.populate_tree_auto_maintain(range_of_values, num_of_suits)
+        self.populate_tree_auto_maintain(self.rangeOfValues, self.num_of_suits)
 
         # maybe find a way to not hard code these values? Or maybe it's fine
-        self.maxCard = range_of_values[-1]
-        self.minCard = range_of_values[0]
+        self.maxCard = self.rangeOfValues[-1]
+        self.minCard = self.rangeOfValues[0]
 
-        # Change these parameters to change the behaviour of the CCAI
-        # Chage these to personality parameters, then calculate these thresholds based on parameters
-        self.thresholds = {
-            "bust" : 0.5,
-            "blackjack" : 0.2,
-            "exceedDlrNoBust" : 0.3,
-            "riskTolerance" : 1.3
-        }
 
     def populate_tree_auto_maintain(self, range_of_values, num_of_suits):
         for value in range_of_values:
@@ -144,9 +142,6 @@ class Card_Counter:
         # Get total number of cards in right subtree of turning node
         numOfBustCards = self.CardRecord.cardCountGTET(turningNode)
         totalNumofCards = self.CardRecord.totalCardCount()
-        print("TurnignNode", turningNode)
-        print("numBustCards", numOfBustCards)
-        print("totalCards", totalNumofCards)
         return numOfBustCards / totalNumofCards
 
     # Calculate chance next hit will result in blackjack

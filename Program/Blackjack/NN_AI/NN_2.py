@@ -6,6 +6,8 @@ import os
 import sys
 from Blackjack_Agent_Interface import Blackjack_Agent_Interface
 from Training_Interface import Training_Interface
+from CC_Interface import CC_Interface
+
 import matplotlib.pyplot as plt
 
 class Q_Net():
@@ -135,7 +137,7 @@ parameters = {
     "load_model" : False, #Whether to load a saved model.
     "path" : "./nn_data", #The path to save our model to.
     "hidden_size" : 32, #The size of the final convolutional layer before splitting it into Advantage and Value streams.
-    "no_features" : 2, # How many features to input into the network
+    "no_features" : 6, # How many features to input into the network
     "no_actions" : 2, # No actions the network can take
     "max_epLength" : 50, #The max allowed length of our episode.
     "time_per_step" : 1, #Length of each step used in gif creation
@@ -170,7 +172,8 @@ rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=Tr
 target_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
 mainQN = Q_Net(no_features, hidden_size, no_actions, rnn_cell, 'main')
 targetQN = Target_Net(no_features, hidden_size, no_actions, target_rnn_cell, 'target')
-blja = Blackjack_Agent_Interface(rewards)
+#blja = Blackjack_Agent_Interface(rewards)
+blja = CC_Interface()
 trainer = Training_Interface(parameters, mainQN, targetQN, blja)
 
 init = tf.global_variables_initializer()
@@ -184,10 +187,6 @@ targetOps = targetQN.updateTargetGraph(trainables, tau)
 parameters["epsilon"] = start_epsilon
 parameters["epsilon_step"] = (start_epsilon - end_epsilon) / annealing_steps
 
-# create lists to contain total rewards and steps per episode - turn this into a class?
-jList = []
-rList = []
-total_steps = 0
 
 # Make a path for our model to be saved in.
 if not os.path.exists(path):
@@ -195,9 +194,5 @@ if not os.path.exists(path):
 
 with tf.Session() as sess:
     sess.run(init)
-    trainer.train_default(sess)
+    trainer.training_CC_Interface(sess)
     trainer.test_performance(sess)
-
-
-
-

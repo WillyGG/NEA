@@ -287,3 +287,13 @@
     - requires full traversal -> either go back to the tmp tree class, or full traversal of tree
     - decided full traversal -> implemented, bug: if it is a full traversal then need to take off aces -> debugged
     - fully debugged counting issue
+
+ 19 Feb:
+    - changed the number of features on the NN to include the CC chances => NO WRONG METHOD WAS CALLED
+    - winrate goes up to about 46
+    - started on separated CCAI class
+    - Oddly enough the winnrate stays about the same, when put in the right class
+
+    TODO:
+    - make base player class which all the agents can inherit from to get basic things like names
+    - get all new cards from game to decrement cards

@@ -39,6 +39,7 @@ class Blackjack:
 
         self.continue_game = True # the way this is implemented is weird - maybe method with same purpose?
         self.deckIteration = self.deck.deckIteration
+        self.new_cards = [] # each time a new card is added to the game this it is appended to here
 
         # Deals to each player
         self.init_deal()
@@ -67,6 +68,7 @@ class Blackjack:
         self.continue_game = True
         self.init_deal()
         self.players_queue = self.create_player_queue()
+        self.new_cards = []
 
     def init_deal(self):
         for key in self.players.keys():
@@ -99,8 +101,11 @@ class Blackjack:
 
     # Deals a card to players passed
     def deal(self, *args):
+        cardsHit = []
         for player in args:
-            player.hit(self.deck.pop())
+            next_card = self.deck.pop()
+            cardsHit.append(next_card)
+            player.hit(next_card)
         self.dickIteration = self.deck.deckIteration
 
     # A hits the player's hand. If they are bust, stops the game - public

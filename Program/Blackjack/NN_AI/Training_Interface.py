@@ -1,6 +1,7 @@
 import numpy as np
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
+from CC_Interface import CC_Interface
 from experience_buffer import experience_buffer
 
 class Training_Interface:
@@ -94,15 +95,14 @@ class Training_Interface:
             np.zeros([1, hidden_size]), np.zeros([1, hidden_size]))  # Reset the recurrent layer's hidden state
 
             # step in game, get reward and new state
-            while self.BlJa_Interface.continue_game():
+            while self.BlJa_Interface.continue_game(): # change this to just take a move when it's the AIs turn
                 self.action = self.choose_action(i)
-                self.BlJa_Interface.process_action(self.action)  # IMPLEMENT
+                self.BlJa_Interface.process_action(self.action)
                 new_game_state = self.BlJa_Interface.get_game_state()
                 new_rnn_state = self.get_new_rnn_state()
                 reward = self.BlJa_Interface.gen_step_reward()
                 episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
-                                                           new_game_state, self.BlJa_Interface.continue_game()]),
-                                                 [1, 5]))
+                                                           new_game_state, self.BlJa_Interface.continue_game()]), [1, 5]))
 
                 exploring = (i <= explore_steps)
                 if i % update_frequency == 0 and not exploring:
