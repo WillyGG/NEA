@@ -1,271 +1,228 @@
-"""
-    - OUTDATED -- DO NOT USE!!!
-
-    - Define neural network using TF and train with BlackJ game
-    - Include performance statistics
-    - Use exploration vs exploitation techniques and configure for different personalities
-    - Utilise recurrence and have an experience buffer
-    -
-"""
-
-"""
-    - Created a simple policy based agent to test libraries and prototype playing blackjack
-    - Changed blackjack interface to return state of the game, and to return reward based on every action.
-    
-    10 Dec
-    - Tested training performance
-    - Agent always stood, was an issue with the reward return
-    - updated reward method in blackjack file
-    - agent always stood
-    - increased win reward
-    - agent hit no matter what
-    - playing with numbers...
-    - Bad implementation of the blackjack interface - forgot to deal dealers hand, and compare the new hands
-    - TODO: Update blackjack interface -> create a higher level function get a winner#
-    
-    12 Dec
-    - Added performance tester section - Network performance currently at about 40% win rate
-    - Playing with reward numbers, update frequency, hit reward, hand value reward.
-    
-    13 Dec
-    - Refactored the blackjack code into the blackjack game interface and the interface for the agent into two classes, for separation of concerns
-    TODO: Add a different network structure and then test performance w/ betting, and w/o
-    
-    15 Dec
-    - Started working on counting AI - an Ai which bases its moves based on what it knows is left in the deck, and 
-      acts according to these probabilities. The purpose of this is to compare the NN AI to something
-    - BST used to store the deck and how many of each value is left in the deck
-    - Started working on self made BST
-    - Completed functionality apart from deletion
-    
-    16 Dec
-    - Completed deletion behaviour for all cases,
-    - refactored tree, includes inheritance for specific case where i need to track a value and a counter variable with it
-      for this deck of cards purpose
-    
-"""
-
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import numpy as np
-from Blackjack import Blackjack
+import random
+import os
+import sys
+from Blackjack_Agent_Interface import Blackjack_Agent_Interface
+from Training_Interface import Training_Interface
+from CC_Interface import CC_Interface
+
 import matplotlib.pyplot as plt
 
-class Agent:
-    def __init__(self, learn_rate, inp_size, hidden_size, output_size):
-        self.init_feed_forward(inp_size, hidden_size, output_size)
-        self.loss = self.gen_loss()
-        self.gen_updated_gradients(learn_rate)
+class Q_Net():
+    def __init__(self, input_size, hidden_size, output_size, rnn_cell, myScope):
+        self.init_feed_forward(input_size, hidden_size, output_size, myScope)
+        self.rnn_processing(rnn_cell, hidden_size, myScope)
+        self.split_streams(hidden_size, output_size)
+        self.predict()
+        self.gen_loss(output_size)
+        self.train_update()
 
-    def init_feed_forward(self, inp_size, hidden_size, output_size):
+    def rnn_processing(self, rnn_cell, hidden_size, myScope):
+        # We take the output from the final fully connected layer and send it to a recurrent layer.
+        # The input must be reshaped into [batch x trace x units] for rnn processing,
+        # and then returned to [batch x units] when sent through the upper levles.
+        self.trainLength = tf.placeholder(dtype=tf.int32)
+        self.batch_size = tf.placeholder(dtype=tf.int32, shape=[])
+        output_flat = tf.reshape(self.final_hidden, [self.batch_size, self.trainLength, hidden_size])
+        self.state_in = rnn_cell.zero_state(self.batch_size, tf.float32)
+        self.rnn, self.rnn_state = tf.nn.dynamic_rnn(
+            inputs=output_flat, cell=rnn_cell, dtype=tf.float32, initial_state=self.state_in, scope=myScope + '_rnn')
+        self.rnn = tf.reshape(self.rnn, shape=[-1, hidden_size])
+
+    def init_feed_forward(self, inp_size, hidden_size, output_size, myScope):
         # Establish feed-forward part of the network
         self.input_layer = tf.placeholder(shape=[None, inp_size], dtype=tf.float32)
 
-        hidden_layer = slim.fully_connected(self.input_layer, hidden_size,
+        hidden_layer1 = slim.fully_connected(self.input_layer, hidden_size,
                                             biases_initializer=None,
-                                            activation_fn=tf.nn.relu)  # Rectified linear activation func.
+                                            activation_fn=tf.nn.relu,
+                                            scope=(myScope+"_hidden1"))  # Rectified linear activation func.
 
-        self.output_layer = slim.fully_connected(hidden_layer, output_size,
-                                                 activation_fn=tf.nn.softmax,
-                                                 biases_initializer=None)  # Softmax activation func.
+        #dropout1 = slim.dropout(hidden_layer1, scope=myScope)
 
-        self.action = tf.argmax(self.output_layer, 1)
+        hidden_layer2 = slim.fully_connected(hidden_layer1, hidden_size,
+                                             biases_initializer=None,
+                                             activation_fn=tf.nn.relu,
+                                             scope=(myScope+"_hidden2"))
 
-    def gen_loss(self):
-        # Backpropagate the chosen action and the reward to compute loss and update agent.
-        self.reward_holder = tf.placeholder(shape=[None], dtype=tf.float32)
-        self.action_holder = tf.placeholder(shape=[None], dtype=tf.int32)
+        #dropout2 = slim.dropout(hidden_layer2, scope=myScope)
 
-        self.indexes = tf.range(0, tf.shape(self.output_layer)[0]) * tf.shape(self.output_layer)[1] + self.action_holder
-        self.responsible_outputs = tf.gather(tf.reshape(self.output_layer, [-1]), self.indexes)  # Gathers and reshapes oup to a workable form
+        self.final_hidden = slim.fully_connected(hidden_layer2, hidden_size,
+                                                 activation_fn=tf.nn.relu,
+                                                 biases_initializer=None,
+                                                 scope=(myScope+"_final_hidden"))  # Softmax activation func. -> changed to relu, as no longer output
 
-        return -tf.reduce_mean(tf.log(self.responsible_outputs) * self.reward_holder)  # loss function - vanilla policy
+        #self.action = tf.argmax(self.output_layer, 1)
 
-    def gen_updated_gradients(self, learn_rate):
-        tvars = tf.trainable_variables()
-        self.gradient_holders = []
-        for ind, var in enumerate(tvars):
-            placeholder = tf.placeholder(tf.float32, name = str(ind) + '_holder')
-            self.gradient_holders.append(placeholder)
+    def split_streams(self, hidden_size, output_size):
+        # The output from the recurrent player is then split into separate Value and Advantage streams
+        self.streamA, self.streamV = tf.split(self.rnn, 2, 1)
+        self.AW = tf.Variable(tf.random_normal([hidden_size // 2, output_size]))
+        self.VW = tf.Variable(tf.random_normal([hidden_size // 2, 1]))
+        self.Advantage = tf.matmul(self.streamA, self.AW)
+        self.Value = tf.matmul(self.streamV, self.VW)
+        self.salience = tf.gradients(self.Advantage, self.input_layer) #self.imageIn
 
-        self.gradients = tf.gradients(self.loss, tvars)  # Calculates the gradients loss with respect to tvars
+    def predict(self):
+         # Then combine them together to get our final Q-values.
+        self.Qout = self.Value + tf.subtract(self.Advantage, tf.reduce_mean(self.Advantage, axis=1, keep_dims=True))
+        self.predict = tf.argmax(self.Qout, 1)
 
-        optimizer = tf.train.AdamOptimizer(learning_rate=learn_rate)  # Adam Optimization algorithm
-        self.update_batch = optimizer.apply_gradients(
-            zip(self.gradient_holders, tvars))  # Generates batch of updated weights
+    def gen_loss(self, output_size):
+        # Below we obtain the loss by taking the sum of squares difference between the target and prediction Q values.
+        self.targetQ = tf.placeholder(shape=[None], dtype=tf.float32)
+        self.actions = tf.placeholder(shape=[None], dtype=tf.int32)
+        self.actions_onehot = tf.one_hot(self.actions, output_size, dtype=tf.float32)
 
-    def perform_action(self, action_value):
-        if action_value == 0:
-            blackjack.hit()
-        elif action_value == 1:
-            blackjack.stand()
+        self.Q = tf.reduce_sum(tf.multiply(self.Qout, self.actions_onehot), axis=1)
 
-class Blackjack_Agent_Interface:
-    def __init__(self, blackjack_instance, rewardDict):
-        # TODO consider adding a hit reward
-        self.blackjack = blackjack_instance
-        self.winReward = rewardDict["winReward"] #2
-        self.lossCost = rewardDict["lossCost"] #-2
-        self.bustCost = rewardDict["bustCost"]
+        self.td_error = tf.square(self.targetQ - self.Q)
 
-        self.hand_value_discount = rewardDict["hand_value_discount"] #1 / 21
-        self.hand_size_norm_const = 1 / 10
-        self.hand_val_norm_const = 1 / 30
+        # In order to only propogate accurate gradients through the network, we will mask the first
+        # half of the losses for each trace as per Lample & Chatlot 2016
+        self.maskA = tf.zeros([self.batch_size, self.trainLength // 2])
+        self.maskB = tf.ones([self.batch_size, self.trainLength // 2])
+        self.mask = tf.concat([self.maskA, self.maskB], 1)
+        self.mask = tf.reshape(self.mask, [-1])
+        self.loss = tf.reduce_mean(self.td_error * self.mask)
 
-    def get_game_state(self):  # Normalised
-        player_hand_size = len(self.blackjack.player) * self.hand_size_norm_const
-        player_hand_value = self.blackjack.assess_hand(self.blackjack.player) * self.hand_val_norm_const
-        dealer_hand_size = len(self.blackjack.dealer) * self.hand_size_norm_const
-        dealer_hand_value = self.blackjack.assess_hand(self.blackjack.dealer) * self.hand_val_norm_const
-        return [player_hand_size, player_hand_value, dealer_hand_size, dealer_hand_value]
 
-    def gen_step_reward(self):
-        return 0
+    def train_update(self):
+        self.trainer = tf.train.AdamOptimizer(learning_rate=0.0001)
+        self.updateModel = self.trainer.minimize(self.loss)
 
-    def gen_end_reward(self, player_won):
-        # TODO decide if dealer going bust should be rewarded
-        reward = 0
-        hand_value_reward = int(self.blackjack.assess_hand(self.blackjack.player) * self.hand_value_discount)
-        if hand_value_reward > self.blackjack.blackjack:
-            hand_value_reward += self.bustCost
-        if player_won:
-            reward += self.winReward
+
+class Target_Net(Q_Net):
+    def __init__(self, input_size, hidden_size, output_size, rnn_cell, myScope):
+        super().__init__(input_size, hidden_size, output_size, rnn_cell, myScope)
+        self.ops = None
+
+    #These functions allows us to update the parameters of our target network with those of the primary network.
+    def updateTargetGraph(self, tfVars, tau):
+        total_vars = len(tfVars)
+        op_holder = []
+        for idx,var in enumerate(tfVars[0:total_vars//2]):
+            op_holder.append(tfVars[idx+total_vars//2].assign((var.value()*tau) + ((1-tau)*tfVars[idx+total_vars//2].value())))
+        self.ops = op_holder
+        return op_holder
+
+    def updateTarget(self, sess):
+        op_holder = self.ops
+        for op in op_holder:
+            sess.run(op)
+        total_vars = len(tf.trainable_variables())
+        a = tf.trainable_variables()[0].eval(session=sess)
+        b = tf.trainable_variables()[total_vars//2].eval(session=sess)
+        if a.all() == b.all():
+            pass
+            #print("Target Set Success")
         else:
-            reward += self.lossCost
-        return reward
+            print("Target Set Failed")
 
-def discount_rewards(rewards):
-    disc_rewards = np.zeros_like(rewards)
-    total = 0
-    for ind in reversed(range(0, rewards.size)):
-        total = total * discount_multiplier + rewards[ind]
-        disc_rewards[ind] = total
-    return disc_rewards
+class NN:
+    def __init__(self, parameters=None):
+        if parameters is None:
+            self.set_parameters_default()
+        self.train_type = None
 
-tf.reset_default_graph()
-discount_multiplier = 0.99  # Gamma
-BigBoiBenny = Agent(learn_rate=1e-2, inp_size=4, hidden_size=8, output_size=2)
-blackjack = Blackjack()
-rewardDict = {
-    "winReward" : 3,
-    "lossCost" : -3,
-    "bustCost" : 0,
-    "hand_value_discount" : 1 / 2
-}
-blackjack_agent_interface = Blackjack_Agent_Interface(blackjack, rewardDict)
+    def set_parameters_default(self):
+        #Setting the training parameters
+        self.parameters = {
+            "batch_size" : 8, #How many experience traces to use for each training step.
+            "trace_length" : 2, #How long each experience trace will be when training
+            "update_freq" : 2, #How often to perform a training step.
+            "gamma" : .99, #Discount factor on the target Q-values
+            "start_epsilon" : 1, #Starting chance of random action
+            "epsilon" : 1, # tracking value for epsilon - MAKE THIS AN ATTRIBUTE?
+            "end_epsilon" : 0.001, #Final chance of random action
+            "annealing_steps" : 1000, #How many steps of training to reduce startE to endE.
+            "train_steps" : 20000, #How many episodes of game environment to train network with.
+            "explore_steps" : 1000, #How many steps of random actions before training begins.
+            "load_model" : False, #Whether to load a saved model.
+            "path" : "./nn_data", #The path to save our model to.
+            "hidden_size" : 32, #The size of the final convolutional layer before splitting it into Advantage and Value streams.
+            "no_features" : 6, # How many features to input into the network
+            "no_actions" : 2, # No actions the network can take
+            "max_epLength" : 50, #The max allowed length of our episode.
+            "time_per_step" : 1, #Length of each step used in gif creation
+            "summaryLength" : 100, #Number of epidoes to periodically save for analysis
+            "tau" : 0.001,
+            "policy" : "e-greedy",
+            "save_model_frequency" : 50, # how often to save the model
+            "update_frequency" : 10, # how often to update the network weights
+            "test_steps" : 20000 # how many iterations to test
+        }
+        start_epsilon = self.parameters["start_epsilon"]
+        end_epsilon = self.parameters["end_epsilon"]
+        annealing_steps = self.parameters["annealing_steps"]
 
-#Training Parameters
-num_train_ep = 15000
-update_frequency = 5 # 1 => 41%, 10 => 42%, 5 => 42.8%
+        # Set the rate of random action decrease.
+        self.parameters["epsilon"] = start_epsilon
+        self.parameters["epsilon_step"] = (start_epsilon - end_epsilon) / annealing_steps
 
-
-init = tf.global_variables_initializer()
-with tf.Session() as sess:
-    sess.run(init)
-    ep_num = 0
-    total_reward = []
-    total_length = []
-
-    # Populate the grad buffer with zeros
-    gradBuffer = sess.run(tf.trainable_variables())
-    for ind, grad in enumerate(gradBuffer):
-        gradBuffer[ind] = grad * 0
-
-    print("Training", end = "")
-    while ep_num < num_train_ep:
-        blackjack.reset() # hard reset of blackjack game
-        running_reward = 0
-        ep_history = []
-        no_moves = 0
-        game_state = blackjack_agent_interface.get_game_state()  # Returns num of cards in each players hand and hand value of each player
-        while blackjack.continue_game:
-            # Probabilitisically pick an action from current network weighting
-            # Then create a distribution and pick and action randomly if ...
-            action_dist = sess.run(BigBoiBenny.output_layer, feed_dict={BigBoiBenny.input_layer:[game_state]})
-            action = np.random.choice(action_dist[0], p=action_dist[0])
-            action = np.argmax(action_dist == action)
-
-            BigBoiBenny.perform_action(action) # Perform action
-            reward = blackjack_agent_interface.gen_step_reward()
-            new_state = blackjack_agent_interface.get_game_state()
-
-            if blackjack.continue_game:
-                ep_history.append([game_state, action, reward, new_state])
-
-            game_state = new_state
-            running_reward += reward
-            no_moves += 1
-
-        # TODO FIGURE OUT HOW TO INTEGRATE THIS INTO REWARD SYSTEM
-        agent_won = blackjack.end_game()
-        reward += blackjack_agent_interface.gen_end_reward(agent_won)
-        new_state = blackjack_agent_interface.get_game_state()
-        ep_history.append([game_state, action, reward, new_state])
-
-        running_reward += reward
-
-        #Update the network after each game
-        ep_history = np.array(ep_history)
-        ep_history[:, 2] = discount_rewards(ep_history[:, 2])
-        feed_dict = {
-            BigBoiBenny.reward_holder : ep_history[:,2],
-            BigBoiBenny.action_holder : ep_history[:,1],
-            BigBoiBenny.input_layer : np.vstack(ep_history[:,0])
+        rewards = {
+            "winReward": 3,
+            "lossCost": -3,
+            "bustCost": 0,
+            "hand_value_discount": 1 / 2
         }
 
-        grads = sess.run(BigBoiBenny.gradients, feed_dict=feed_dict)
-        for ind, grad in enumerate(grads):
-            gradBuffer[ind] += grad
-        if ep_num % update_frequency == 0 and ep_num != 0:
-            feed_dict = dictionary = dict(zip(BigBoiBenny.gradient_holders, gradBuffer))
-            _ = sess.run(BigBoiBenny.update_batch, feed_dict=feed_dict)
-            for ind, grad in enumerate(gradBuffer):
-                gradBuffer[ind] = grad * 0
 
-        total_reward.append(running_reward)
-        total_length.append(no_moves)
+    def initalise_NN(self):
+        no_features = self.parameters["no_features"]
+        hidden_size = self.parameters["hidden_size"]
+        no_actions = self.parameters["no_actions"]
+        tau = self.parameters["tau"]
 
-        if ep_num % (1000) == 0:
-            print(".", end="")
-        ep_num += 1
+        tf.reset_default_graph()
+        # We define the cells for the primary and target q-networks
+        rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
+        target_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
+        mainQN = Q_Net(no_features, hidden_size, no_actions, rnn_cell, 'main')
+        targetQN = Target_Net(no_features, hidden_size, no_actions, target_rnn_cell, 'target')
+        #blja = Blackjack_Agent_Interface(rewards)
+        blja = CC_Interface()
+        self.trainer = Training_Interface(self.parameters, mainQN, targetQN, blja)
 
-    # TODO TEST NETWORK PERFORMANCE AND UPDATE DOCUMENTED DESIGN
-    # TODO FIDDLE WITH THE FUNCTIONALITY AND THE PERFORMANCE TO FIND OUT WHY THE NETWORK ALWAYS STANDS
+        self.init = tf.global_variables_initializer()
+        self.saver = tf.train.Saver(max_to_keep=5)
+        trainables = tf.trainable_variables()
 
-    print()
-    # Network performance test
-    num_test_games = 1000
-    won_games = 0
-    no_times_stood = 0
-    no_times_good_stood = 0
-    hit = False
-    for _ in range(num_test_games):
-        blackjack.reset()
-        game_state = blackjack_agent_interface.get_game_state()
-        while blackjack.continue_game:
-            hit = False
-            action_dist = sess.run(BigBoiBenny.output_layer, feed_dict={BigBoiBenny.input_layer: [game_state]})
-            action = np.random.choice(action_dist[0], p=action_dist[0])
-            action = np.argmax(action_dist == action)
-            BigBoiBenny.perform_action(action)  # Perform action
-            new_state = blackjack_agent_interface.get_game_state()
-            game_state = new_state
+        self.targetOps = targetQN.updateTargetGraph(trainables, tau)
+        #experience_buffer = experience_buffer()
 
-            if action == 1 and hit == False:
-                no_times_stood += 1
-                if new_state[1] * 30 >= 17 and new_state[1] <= 21:
-                    no_times_good_stood += 1
-            elif action == 0:
-                hit = True
+    # start the session, run the assigned training type
+    def init_training(self):
+        path = self.parameters["path"]
+        load_model = self.parameters["load_model"]
 
-        agent_won = blackjack.end_game()
-        if agent_won:
-            won_games += 1
-    print("{0}% games won over {1} games".format((won_games * 100 / num_test_games), num_test_games))
+        # Make a path for our model to be saved in.
+        if not os.path.exists(path):
+            os.makedirs(path)
 
-    if no_times_stood == 0:
-        print("never stood..")
-    else:
-        print("{0}% times good stood in {1} games".format((no_times_good_stood * 100 / no_times_stood), num_test_games))
+        # no context manager so that session does not have to be restarted every time a new move is needed
+        self.start_session()
+        self.sess.run(self.init)
+        self.trainer.training_CC_Interface(self.sess)
 
-    print("{0}% games stood, no hit".format((no_times_stood * 100 / num_test_games)))
+    def test_performance(self):
+        self.trainer.test_performance(self.sess)
+
+    def start_session(self):
+        self.sess = tf.Session()
+
+    def stop_session(self):
+        self.sess.close()
+
+    def load_model_default(self):
+        path = self.parameters["path"]
+        ckpt = tf.train.get_checkpoint_state(path)
+        self.saver.restore(self.sess, ckpt.model_checkpoint_path)
+
+    def load_model_passive(self):
+        pass
+
+    def load_model_aggressive(self):
+        pass

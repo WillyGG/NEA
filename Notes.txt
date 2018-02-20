@@ -293,7 +293,13 @@
     - winrate goes up to about 46
     - started on separated CCAI class
     - Oddly enough the winnrate stays about the same, when put in the right class
+    - went up to 50% for one run
 
     TODO:
     - make base player class which all the agents can inherit from to get basic things like names
     - get all new cards from game to decrement cards
+
+ 20 Feb:
+    - completed converting CC_AI
+    - started converting NN to a class, now builing interface whihc allows for different interactions for the comparison tool
+    - began working on comparison tool  

@@ -76,22 +76,6 @@ class Card_Counter:
         return self.CardRecord.decrement(10)
 
     # Next few methods define the CCAI behaviour as well as calcualte the chances.
-
-    # return True if wanting to hit
-    def getNextAction(self, chances):
-        # not exceeding the dealer, hit.
-        belowDealer = (chances["exceedDlrNoBust"] < 1)
-        belowBustThreshold = chances["bust"] <= self.thresholds["bust"]
-        highBlackjackChance = chances["backjack"] >= self.thresholds["blackjack"]
-
-        if belowDealer or belowBustThreshold:
-            return True
-        elif highBlackjackChance:
-            belowRiskyBustThreshold = chances["bust"] <= self.thresholds["bust"]*self.thresholds["riskTolerance"]
-            if belowRiskyBustThreshold:
-                return True
-        return False
-
     """
         - calcDealerExceeds?
     """

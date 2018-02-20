@@ -13,13 +13,7 @@ class Training_Interface:
         self.exp_buffer = experience_buffer()
         self.sess = None
 
-    def load_model(self): # update this to take in the inital variables
-        path = self.parameters["path"]
-        if self.parameters["load_model"] == True:
-            print('Loading Model...')
-            ckpt = tf.train.get_checkpoint_state(path)
-            saver.restore(self.sess, ckpt.model_checkpoint_path)
-        #sess.run(init)
+
 
     def train_default(self, sess):
         train_iterations = self.parameters["train_steps"]
@@ -29,7 +23,6 @@ class Training_Interface:
         hidden_size = self.parameters["hidden_size"]
 
         self.sess = sess
-        self.load_model()
         self.Target_Network.updateTarget(sess)
         self.rnn_updated = False
         for i in range(train_iterations):
