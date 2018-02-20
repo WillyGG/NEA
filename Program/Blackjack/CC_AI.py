@@ -34,15 +34,20 @@ class CC_AI:
         return False
 
     # Sets the default parameters of the CCAI
-    def set_parameters_default(self):
+    def set_parameters(self, setting="default"):
         # Change these parameters to change the behaviour of the CCAI
         # Chage these to personality parameters, then calculate these thresholds based on parameters
-        self.parameteres = {
-            "bust_tol" : 0.5,
-            "blackjack_thresh" : 0.2,
-            "exceedBestPlayer" : 0.3,
-            "riskTolerance" : 1.3
-        }
+        if setting == "default":
+            self.parameteres = {
+                "bust_tol" : 0.5,
+                "blackjack_thresh" : 0.2,
+                "exceedBestPlayer" : 0.3,
+                "riskTolerance" : 1.3
+            }
+        elif setting == "aggressive":
+            pass
+        elif setting == "passive":
+            pass
 
     # pass in the game state and generate the chances to win
     def get_chances(self, state):

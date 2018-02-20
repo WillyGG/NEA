@@ -297,9 +297,15 @@
 
     TODO:
     - make base player class which all the agents can inherit from to get basic things like names
-    - get all new cards from game to decrement cards
+    - get all new cards from game to decrement cards -> DONE FOR NN
 
  20 Feb:
     - completed converting CC_AI
-    - started converting NN to a class, now builing interface whihc allows for different interactions for the comparison tool
-    - began working on comparison tool  
+    - started converting NN to a class, now building interface which allows for different interactions for the comparison tool
+    - began working on comparison tool
+    - completed comparison tool class design
+
+    TODO:
+    - implement comparison tool
+    - implement play style detection algorithm
+    - convert aggression settings to a number scale, rather than discrete values

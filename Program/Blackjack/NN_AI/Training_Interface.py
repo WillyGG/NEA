@@ -13,8 +13,6 @@ class Training_Interface:
         self.exp_buffer = experience_buffer()
         self.sess = None
 
-
-
     def train_default(self, sess):
         train_iterations = self.parameters["train_steps"]
         explore_steps = self.parameters["explore_steps"]
@@ -77,7 +75,6 @@ class Training_Interface:
         hidden_size = self.parameters["hidden_size"]
 
         self.sess = sess
-        self.load_model()
         self.Target_Network.updateTarget(sess)
         self.rnn_updated = False
         for i in range(train_iterations):
@@ -212,7 +209,6 @@ class Training_Interface:
         test_iterations = self.parameters["test_steps"]
 
         self.sess = sess
-        self.load_model()
         total_games = 0
         games_won = 0
         games_stood = 0
@@ -261,11 +257,9 @@ class Training_Interface:
 
             # outputting simple play information about the performance
             if total_games % 100 == 0:
-                print(games_won)
                 print((games_won / total_games * 100), "% games won after",total_games,"games")
                 print((games_good_stood / games_stood), "% games good stood out of",games_stood,"games stood")
                 print(total_stood_value/games_stood,"<- average stood value")
-
                 #print("no times hit",no_times_hit,"out of",no_actions,"actions")
 
             self.BlJa_Interface.reset()

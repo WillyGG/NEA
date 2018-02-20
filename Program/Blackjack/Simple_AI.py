@@ -1,43 +1,49 @@
 from Blackjack import Blackjack
+from Blackjack import Hand
 
-class Simple_Agent:
-    def __init__(self, instance):
-        self.instance = instance
-        self.blackjack = 21
+class Simple_AI:
+    def __init__(self, hand=None):
+        self.ID = "Simple"
+        self.blackjack_value = 21
         self.maxCard = 11
-        self.hand = []
-        self.dealer = []
-        self.handValue = 0
-        self.dealerValue = 0
+        self.bust_value = self.blackjack_value + 1
+        self.hand = hand
+        self.bust_threshold = 5
+
+        if hand is None:
+            self.hand = Hand(self.ID)
+
+    def set_parameters(self, setting="default"):
+        if setting == "default":
+            self.bust_threshold = 5
+        elif setting == "aggressive":
+            self.bust_threshold = 3
+        elif setting == "passive":
+            self.bust_threshold = 7
 
     # returns decision to hit or not -> true => hit, false => stand
-    def chooseNextMove(self):
-        self.handValue = self.getHandValue(self.hand)
-        self.dealerValue = self.getHandValue(self.dealer)
+    def get_move(self, best_player_hand):
+        hand_value = self.hand.get_value()
+        best_value = best_player_hand.get_value()
 
         # if blackjack'd
-        if self.handValue == self.blackjack:
-            return True
+        if hand_value == self.blackjack_value:
+            return False
 
         # If cannot go bust then hit
-        elif self.handValue <= (self.blackjack - self.maxCard) or self.chooseDlrBustDifferenceHit():
+        elif (hand_value < (self.bust_value - self.maxCard)
+              or self.edge_move_calc(hand_value, best_value)):
             return True
 
         return False
 
-    def chooseDlrBustDifferenceHit(self):
-        dealerBustDiff = abs(self.dealerValue - (self.blackjack+1))
-        bustDiff = abs(self.handValue - (self.blackjack+1))
-        aboveDealer = bustDiff < dealerBustDiff
-        if aboveDealer:
-            if self.dealerValue >= 17 or bustDiff >= 5:
-                return True
+    def edge_move_calc(self, hand_value, best_value):
+        bustDiff = abs(hand_value - self.bust_value) # how far off being bust SAI is
+        LTBestPlayer = hand_value < best_value
+        if LTBestPlayer or bustDiff <= self.bust_threshold:
+            return True
         return False
-
-    def getHandValue(self, hand):
-        return self.instance.assess_hand(hand)
 
 class Simple_Agent_Interface:
     def __init__(self):
         pass
-

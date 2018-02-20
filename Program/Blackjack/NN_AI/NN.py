@@ -1,7 +1,5 @@
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
-import numpy as np
-import random
 import os
 import sys
 from Blackjack_Agent_Interface import Blackjack_Agent_Interface
@@ -67,7 +65,7 @@ class Q_Net():
 
     def predict(self):
          # Then combine them together to get our final Q-values.
-        self.Qout = self.Value + tf.subtract(self.Advantage, tf.reduce_mean(self.Advantage, axis=1, keep_dims=True))
+        self.Qout = self.Value + tf.subtract(self.Advantage, tf.reduce_mean(self.Advantage, axis=1, keepdims=True))
         self.predict = tf.argmax(self.Qout, 1)
 
     def gen_loss(self, output_size):
@@ -121,11 +119,15 @@ class Target_Net(Q_Net):
         else:
             print("Target Set Failed")
 
+
+# implement a group training
+# implement the saver
 class NN:
     def __init__(self, parameters=None):
         if parameters is None:
             self.set_parameters_default()
         self.train_type = None
+        self.initalise_NN()
 
     def set_parameters_default(self):
         #Setting the training parameters
@@ -140,18 +142,15 @@ class NN:
             "annealing_steps" : 1000, #How many steps of training to reduce startE to endE.
             "train_steps" : 20000, #How many episodes of game environment to train network with.
             "explore_steps" : 1000, #How many steps of random actions before training begins.
-            "load_model" : False, #Whether to load a saved model.
-            "path" : "./nn_data", #The path to save our model to.
+            "path_default" : "./nn_data", #The path to save our model to.
             "hidden_size" : 32, #The size of the final convolutional layer before splitting it into Advantage and Value streams.
             "no_features" : 6, # How many features to input into the network
             "no_actions" : 2, # No actions the network can take
-            "max_epLength" : 50, #The max allowed length of our episode.
-            "time_per_step" : 1, #Length of each step used in gif creation
             "summaryLength" : 100, #Number of epidoes to periodically save for analysis
             "tau" : 0.001,
             "policy" : "e-greedy",
             "save_model_frequency" : 50, # how often to save the model
-            "update_frequency" : 10, # how often to update the network weights
+            "update_frequency" : 5, # how often to update the network weights
             "test_steps" : 20000 # how many iterations to test
         }
         start_epsilon = self.parameters["start_epsilon"]
@@ -195,13 +194,6 @@ class NN:
 
     # start the session, run the assigned training type
     def init_training(self):
-        path = self.parameters["path"]
-        load_model = self.parameters["load_model"]
-
-        # Make a path for our model to be saved in.
-        if not os.path.exists(path):
-            os.makedirs(path)
-
         # no context manager so that session does not have to be restarted every time a new move is needed
         self.start_session()
         self.sess.run(self.init)
@@ -217,7 +209,10 @@ class NN:
         self.sess.close()
 
     def load_model_default(self):
-        path = self.parameters["path"]
+        path = self.parameters["path_default"]
+        # Make a path for our model to be saved in.
+        if not os.path.exists(path):
+            os.makedirs(path)
         ckpt = tf.train.get_checkpoint_state(path)
         self.saver.restore(self.sess, ckpt.model_checkpoint_path)
 
@@ -226,3 +221,10 @@ class NN:
 
     def load_model_aggressive(self):
         pass
+
+
+if __name__ == "__main__":
+    nn = NN()
+    nn.initalise_NN()
+    nn.init_training()
+    nn.test_performance()
