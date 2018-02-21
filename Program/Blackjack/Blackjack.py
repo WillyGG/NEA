@@ -20,7 +20,7 @@ class Blackjack:
     def __init__(self, playersDict=None):
         self.deck = Deck()
         self._blackjack = 21 # The winning value
-        self._winners = None
+        self._winners = [] # List of ids of the winners of the previous game
         self.auto_reset = False
 
         if playersDict is None:
@@ -306,6 +306,6 @@ class Blackjack_Tests:
             print(i)
 
 if __name__ == "__main__":
-    Blackjack_Tests.get_players_playing_test()
+    Blackjack_Tests.manual_test()
 
 

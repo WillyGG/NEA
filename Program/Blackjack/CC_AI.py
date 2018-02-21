@@ -2,21 +2,20 @@ from Card_Counter import Card_Counter
 from Blackjack import Hand
 
 class CC_AI:
-    def __init__(self, parameters=None, hand=None, blackjack_instance=None):
+    def __init__(self, parameters=None, hand=None):
         self.parameters = parameters
         self.CC = Card_Counter()
         self.Hand = hand
         self.ID = "CC_AI"
-        self.blackjack = blackjack_instance
         if parameters is None:
-            self.set_parameters_default()
+            self.set_parameters(setting="default")
         if hand is None:
             self.Hand = Hand(self.ID)
-        if blackjack_instance:
-            self.blackjack = blackjack_instance
 
     def get_move(self, game_state):
         chances = self.get_chances(game_state)
+        move_next = self.getNextAction(chances)
+        return move_next
 
     # return True if wanting to hit
     def getNextAction(self, chances):

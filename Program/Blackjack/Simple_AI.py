@@ -2,14 +2,15 @@ from Blackjack import Blackjack
 from Blackjack import Hand
 
 class Simple_AI:
-    def __init__(self, hand=None):
+    def __init__(self, hand=None, parameters=None):
         self.ID = "Simple"
         self.blackjack_value = 21
         self.maxCard = 11
         self.bust_value = self.blackjack_value + 1
         self.hand = hand
-        self.bust_threshold = 5
 
+        if parameters is None:
+            self.set_parameters(setting="default")
         if hand is None:
             self.hand = Hand(self.ID)
 

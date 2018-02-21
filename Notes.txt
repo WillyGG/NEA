@@ -309,3 +309,10 @@
     - implement comparison tool
     - implement play style detection algorithm
     - convert aggression settings to a number scale, rather than discrete values
+
+ 21 Feb:
+    - Implemented the get data function for the comparison tool
+
+    TODO:
+    - update the get move of all agents to take in the blackjack instance, use interface to get necessary data and generate the next move for the agent
+    - TEST tf out of the get data method for the comparison tool
