@@ -168,7 +168,6 @@ class NN:
             "hand_value_discount": 1 / 2
         }
 
-
     def initalise_NN(self):
         no_features = self.parameters["no_features"]
         hidden_size = self.parameters["hidden_size"]
@@ -177,7 +176,7 @@ class NN:
 
         tf.reset_default_graph()
         # We define the cells for the primary and target q-networks
-        rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
+        self.rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
         target_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
         mainQN = Q_Net(no_features, hidden_size, no_actions, rnn_cell, 'main')
         targetQN = Target_Net(no_features, hidden_size, no_actions, target_rnn_cell, 'target')
@@ -188,7 +187,6 @@ class NN:
         self.init = tf.global_variables_initializer()
         self.saver = tf.train.Saver(max_to_keep=5)
         trainables = tf.trainable_variables()
-
         self.targetOps = targetQN.updateTargetGraph(trainables, tau)
         #experience_buffer = experience_buffer()
 
@@ -201,6 +199,10 @@ class NN:
 
     def test_performance(self):
         self.trainer.test_performance(self.sess)
+
+    def get_move(self, blackjack_inst):
+        pass
+
 
     def start_session(self):
         self.sess = tf.Session()

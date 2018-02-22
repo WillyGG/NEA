@@ -316,3 +316,16 @@
     TODO:
     - update the get move of all agents to take in the blackjack instance, use interface to get necessary data and generate the next move for the agent
     - TEST tf out of the get data method for the comparison tool
+
+ 22 Feb:
+    - converted CCAI to take in bj instance
+
+
+    TODO:
+    - convert Agents so that they never have direct access to the other hands, only their own
+    - put the agent id's through a hashing algo?
+    - hash the agent's names to generate and id, and then hash this again to get the hand id's
+
+    - update all agents so that their hand becomes a property, and they do not need to get it from the blackjack instance
+
+    - figure out the NN structure - have the move calculations in another class, neither the NN or training IFace?

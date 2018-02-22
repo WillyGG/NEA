@@ -23,20 +23,22 @@ class Simple_AI:
             self.bust_threshold = 7
 
     # returns decision to hit or not -> true => hit, false => stand
-    def get_move(self, best_player_hand):
+    def get_move(self, best_player_value):
         hand_value = self.hand.get_value()
-        best_value = best_player_hand.get_value()
+        agent_winning = hand_value > best_player_value
 
         # if blackjack'd
-        if hand_value == self.blackjack_value:
+        if hand_value == self.blackjack_value or agent_winning:
             return False
-
         # If cannot go bust then hit
         elif (hand_value < (self.bust_value - self.maxCard)
-              or self.edge_move_calc(hand_value, best_value)):
+              or self.edge_move_calc(hand_value, best_player_value)):
             return True
-
         return False
+
+    def get_state(self, blackjack_inst):
+        all_hand_values = blackjack_inst.get_all_hand_values()
+        return all_hand_values[0] # this is the best player hand value
 
     def edge_move_calc(self, hand_value, best_value):
         bustDiff = abs(hand_value - self.bust_value) # how far off being bust SAI is

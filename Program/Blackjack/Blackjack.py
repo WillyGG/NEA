@@ -155,7 +155,7 @@ class Blackjack:
             return "game over man! game over!"
         return player
 
-    # converts player queue to array and returns the ids of all players currently in play
+    # converts player queue to array and returns the Hands of all players currently in play
     def get_all_players_playing(self):
         players = []
         while not self.players_queue.isEmpty():
@@ -164,6 +164,13 @@ class Blackjack:
         for player in players:
             self.players_queue.push(player)
         return players
+
+    def get_all_hand_values(self):
+        hand_values = []
+        for key in self.players.keys():
+            hand_val = self.players[key].get_value()
+            hand_values.append(hand_val)
+        return hand_values
 
 class Hand:
     def __init__(self, id):

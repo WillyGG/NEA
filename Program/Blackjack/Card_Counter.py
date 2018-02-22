@@ -81,7 +81,7 @@ class Card_Counter:
     """
 
     # Calculates the probabilities of different critical scenarios. These are used to determine the next move.
-    def calcChances(self, hand, handValue, winning_hand, winning_value, AI_is_Winning):
+    def calcChances(self, handValue, winning_value, AI_is_Winning):
         bustChance = self.calcBustChance(handValue)
         blackjackChance = self.calcBlJaChance(handValue)
 
@@ -98,7 +98,8 @@ class Card_Counter:
             "bust": bustChance,
             "blackjack": blackjackChance,
             "exceedWinningPlayer": exceedWinningPlayer,
-            "alreadyExceedingWinningPlayer": alreadyExceeding
+            "alreadyExceedingWinningPlayer": alreadyExceeding,
+            "AIWinning": AI_is_Winning
         }
         return chances
 

@@ -55,7 +55,6 @@ class Training_Interface:
             episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
                                                        self.game_state, self.BlJa_Interface.continue_game()]), [1, 5]))
 
-
             # Add the episode to the experience buffer
             bufferArray = np.array(episode_buffer)
             episodeBuffer = list(zip(bufferArray))
@@ -86,15 +85,14 @@ class Training_Interface:
 
             # step in game, get reward and new state
             while self.BlJa_Interface.continue_game(): # change this to just take a move when it's the AIs turn
-                self.action = self.choose_action(i)
+                exploring = (i <= explore_steps)
+                self.action = self.choose_action(exploring)
                 self.BlJa_Interface.process_action(self.action)
                 new_game_state = self.BlJa_Interface.get_game_state()
                 new_rnn_state = self.get_new_rnn_state()
                 reward = self.BlJa_Interface.gen_step_reward()
                 episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
                                                            new_game_state, self.BlJa_Interface.continue_game()]), [1, 5]))
-
-                exploring = (i <= explore_steps)
                 if i % update_frequency == 0 and not exploring:
                     self.update_networks()
 
@@ -109,7 +107,6 @@ class Training_Interface:
             # decide if you want to append this
             episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
                                                        self.game_state, self.BlJa_Interface.continue_game()]), [1, 5]))
-
             # Add the episode to the experience buffer
             bufferArray = np.array(episode_buffer)
             episodeBuffer = list(zip(bufferArray))
@@ -173,11 +170,16 @@ class Training_Interface:
                      self.Primary_Network.batch_size: batch_size}
         )
 
-    def choose_action(self, i):
+    def choose_action(self, exploring_int_or_bool):
         policy = self.parameters["policy"]
         exploration_steps = self.parameters["explore_steps"]
         if policy == "e-greedy":
-            exploring = i <= exploration_steps
+            if isinstance(exploring_int_or_bool, int):
+                exploring = exploring_int_or_bool <= exploration_steps
+            elif isinstance(exploring_int_or_bool, bool):
+                exploring = exploring_int_or_bool
+            else:
+                return None # defensive programming
             return self.choose_action_e_greedy(exploring=exploring)
 
     def choose_action_e_greedy(self, exploring):

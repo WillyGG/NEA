@@ -79,7 +79,6 @@ class CC_Interface_Tests:
             "dealer": BJ.Dealer_Hand(),
             "mariusz": BJ.Hand("mariusz")
         }
-
         CC_Inst = Card_Counter(range_of_values, number_of_suits)
         BJ_Inst = BJ.Blackjack(players)
 

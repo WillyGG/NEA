@@ -8,7 +8,7 @@ from NN import NN
 
 class Moves(Enum):
     HIT = True
-    Stand = False
+    STAND = False
 
 class Comparison_Tool:
     ID_NN = "nn"
@@ -75,7 +75,7 @@ class Comparison_Tool:
                 next_move = agent_current.get_move(self.blackjack) # pass in the blackjack instance, so they can interact with the interfaces to get the necessary information and next move
                 if next_move is Moves.HIT:
                     self.blackjack.hit()
-                elif next_move is Moves.Stand:
+                elif next_move is Moves.STAND:
                     self.blackjack.stand()
             # PROCESS END OF GAME
             # get the winners, increment their wins
