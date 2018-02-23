@@ -5,7 +5,6 @@ import sys
 from Blackjack_Agent_Interface import Blackjack_Agent_Interface
 from Training_Interface import Training_Interface
 from CC_Interface import CC_Interface
-
 import matplotlib.pyplot as plt
 
 class Q_Net():
@@ -126,6 +125,7 @@ class NN:
     def __init__(self, parameters=None):
         if parameters is None:
             self.set_parameters_default()
+        self.ID = "nn"
         self.train_type = None
         self.initalise_NN()
 
@@ -144,7 +144,7 @@ class NN:
             "explore_steps" : 1000, #How many steps of random actions before training begins.
             "path_default" : "./nn_data", #The path to save our model to.
             "hidden_size" : 32, #The size of the final convolutional layer before splitting it into Advantage and Value streams.
-            "no_features" : 6, # How many features to input into the network
+            "no_features" : 7, # How many features to input into the network
             "no_actions" : 2, # No actions the network can take
             "summaryLength" : 100, #Number of epidoes to periodically save for analysis
             "tau" : 0.001,
@@ -176,7 +176,7 @@ class NN:
 
         tf.reset_default_graph()
         # We define the cells for the primary and target q-networks
-        self.rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
+        rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
         target_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
         mainQN = Q_Net(no_features, hidden_size, no_actions, rnn_cell, 'main')
         targetQN = Target_Net(no_features, hidden_size, no_actions, target_rnn_cell, 'target')
@@ -200,9 +200,34 @@ class NN:
     def test_performance(self):
         self.trainer.test_performance(self.sess)
 
+    # All the stuff needed is in the CC_Interface class, maybe just use that?
     def get_move(self, blackjack_inst):
+        # get chances
+        # get move
         pass
 
+
+    def get_game_state(self, blackjack_inst):
+        dealer_hand = blackjack_inst.players["dealer"]
+        player_hands_all = blackjack_inst.get_all_players_playing() + [dealer_hand]
+        needed_player_hands = []
+        AI_hand = blackjack_inst.players[self.ID]
+        needed_player_hands.append(AI_hand)  # gets the AIs hand
+        needed_player_hands.append(self.get_best_hand(player_hands_all))  # get the best players hand
+        return needed_player_hands
+
+    # will get best hand not including agents
+    def get_best_hand(self, player_hands_all):
+        best_hand = None
+        best_hand_val = 0
+        for hand in player_hands_all:
+            if hand.id == self.ID:
+                continue
+            current_hand_val = hand.get_value()
+            if (best_hand_val == 0 and best_hand is None) or (current_hand_val > best_hand_val):
+                best_hand = hand
+                best_hand_val = current_hand_val
+        return best_hand
 
     def start_session(self):
         self.sess = tf.Session()

@@ -7,7 +7,7 @@ from Blackjack_Agent_Interface import Blackjack_Agent_Interface
 
 class CC_Interface(Blackjack_Agent_Interface):
     def __init__(self, Blackjack_Instance=None):
-        self.NN_ID = "agent"
+        self.NN_ID = "nn"
         super().__init__(None, Blackjack_Instance, BJ.Hand(self.NN_ID))
         self.CC = Card_Counter()
 
@@ -21,7 +21,7 @@ class CC_Interface(Blackjack_Agent_Interface):
         best_hand = state[1]
         best_hand_val = best_hand.get_value()
 
-        chances = self.CC.calcChances(AI_hand, AI_hand_val, best_hand, best_hand_val, NN_Winning)
+        chances = self.CC.calcChances(AI_hand_val, best_hand_val, NN_Winning)
         return chances
 
     def get_game_state_CC(self):
@@ -57,6 +57,8 @@ class CC_Interface(Blackjack_Agent_Interface):
         best_hand = None
         best_hand_val = 0
         for hand in player_hands_all:
+            if hand.id == self.ID:
+                continue
             current_hand_val = hand.get_value()
             if (best_hand_val == 0 and best_hand is None) or (current_hand_val > best_hand_val):
                 best_hand = hand

@@ -318,7 +318,7 @@
     - TEST tf out of the get data method for the comparison tool
 
  22 Feb:
-    - converted CCAI to take in bj instance
+    - converted CCAI and simple to take in bj instance
 
 
     TODO:
@@ -329,3 +329,11 @@
     - update all agents so that their hand becomes a property, and they do not need to get it from the blackjack instance
 
     - figure out the NN structure - have the move calculations in another class, neither the NN or training IFace?
+
+ 23 Feb:
+    - created NN_Move class which processes the network moves based on the policies
+
+    TODO:
+    - Complete converting NN to take blackjack inst
+    - convert CC so that it takes best hand not including the agent
+    - chance some of the features of the chances to include things like win margin

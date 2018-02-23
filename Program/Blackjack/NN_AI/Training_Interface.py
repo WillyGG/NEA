@@ -3,6 +3,8 @@ import tensorflow as tf
 import tensorflow.contrib.slim as slim
 from CC_Interface import CC_Interface
 from experience_buffer import experience_buffer
+from NN_Move import NN_Move
+
 
 class Training_Interface:
     def __init__(self, parameters, Primary_Network, Target_Network, Blackjack_Interface):
@@ -31,7 +33,8 @@ class Training_Interface:
 
             # step in game, get reward and new state
             while self.BlJa_Interface.continue_game():
-                self.action = self.choose_action(i)
+                exploring = (i <= explore_steps)
+                self.action = self.choose_action(exploring)
                 self.BlJa_Interface.process_action(self.action) # IMPLEMENT
                 new_game_state = self.BlJa_Interface.get_game_state()
                 new_rnn_state = self.get_new_rnn_state()
@@ -39,7 +42,7 @@ class Training_Interface:
                 episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
                                                           new_game_state, self.BlJa_Interface.continue_game()]), [1, 5]))
 
-                exploring = (i <= explore_steps)
+
                 if i % update_frequency == 0 and not exploring:
                     self.update_networks()
 
@@ -75,13 +78,12 @@ class Training_Interface:
 
         self.sess = sess
         self.Target_Network.updateTarget(sess)
-        self.rnn_updated = False
+
         for i in range(train_iterations):
             # self.BlJa_Interface.reset() # Implement this
             self.game_state = self.BlJa_Interface.get_game_state()
             episode_buffer = []
-            self.rnn_state = (
-            np.zeros([1, hidden_size]), np.zeros([1, hidden_size]))  # Reset the recurrent layer's hidden state
+            self.rnn_state = np.zeros([1, hidden_size]), np.zeros([1, hidden_size])  # Reset the recurrent layer's hidden state
 
             # step in game, get reward and new state
             while self.BlJa_Interface.continue_game(): # change this to just take a move when it's the AIs turn
@@ -170,46 +172,17 @@ class Training_Interface:
                      self.Primary_Network.batch_size: batch_size}
         )
 
-    def choose_action(self, exploring_int_or_bool):
-        policy = self.parameters["policy"]
-        exploration_steps = self.parameters["explore_steps"]
-        if policy == "e-greedy":
-            if isinstance(exploring_int_or_bool, int):
-                exploring = exploring_int_or_bool <= exploration_steps
-            elif isinstance(exploring_int_or_bool, bool):
-                exploring = exploring_int_or_bool
-            else:
-                return None # defensive programming
-            return self.choose_action_e_greedy(exploring=exploring)
-
-    def choose_action_e_greedy(self, exploring):
-        e = self.parameters["epsilon"]
-
-        # random exploration if explore stage or prob is less than epsilon
-        if np.random.rand(1) < e or exploring:
-            end_range = self.parameters["no_actions"]
-            a = np.random.randint(0, end_range)
-        else:
-            a, new_rnn_state = self.sess.run([self.Primary_Network.predict, self.Primary_Network.rnn_state],
-                                    feed_dict={
-                                        self.Primary_Network.input_layer: [self.game_state],
-                                        self.Primary_Network.trainLength: 1,
-                                        self.Primary_Network.state_in: self.rnn_state,
-                                        self.Primary_Network.batch_size: 1}
-                                    )
-            a = a[0]
-
-        # decrement epsilon
-        if not exploring:
-            if self.parameters["epsilon"] > self.parameters["end_epsilon"]:
-                self.parameters["epsilon"] -= self.parameters["epsilon_step"]
-
-        return a
+    def choose_action(self, exploring=False):
+        return NN_Move.choose_action(self.parameters,
+                                     self.Primary_Network,
+                                     self.game_state,
+                                     self.rnn_state,
+                                     self.sess,
+                                     exploring=exploring)
 
     # maybe find a way to abstract this with the training code
     def test_performance(self, sess):
         test_iterations = self.parameters["test_steps"]
-
         self.sess = sess
         total_games = 0
         games_won = 0
@@ -224,8 +197,7 @@ class Training_Interface:
 
             # step in game, get reward and new state
             while self.BlJa_Interface.continue_game():
-                self.action = self.choose_action(i)
-
+                self.action = self.choose_action(exploring=False)
                 if self.action == 1:
                     total_stood_value += self.game_state[1] * 30
                     if self.game_state[1] * 30 > 17:
@@ -235,10 +207,13 @@ class Training_Interface:
 
                 self.BlJa_Interface.process_action(self.action)  # IMPLEMENT
                 new_game_state = self.BlJa_Interface.get_game_state()
+                new_rnn_state = self.get_new_rnn_state()
+
                 reward = self.BlJa_Interface.gen_step_reward()
                 episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
                                                            new_game_state, self.BlJa_Interface.continue_game()]), [1, 5]))
                 self.game_state = new_game_state
+                self.rnn_state = new_rnn_state  # UPDATE RNN CELL STATE
 
             # PROCESS END OF GAME
             # GET THE END OF GAME REWARD
