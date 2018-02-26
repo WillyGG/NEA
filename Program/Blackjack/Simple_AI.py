@@ -4,6 +4,7 @@ from Blackjack import Hand
 class Simple_AI:
     def __init__(self, hand=None, parameters=None):
         self.ID = "Simple"
+        self.type = "Simple"
         self.blackjack_value = 21
         self.maxCard = 11
         self.bust_value = self.blackjack_value + 1

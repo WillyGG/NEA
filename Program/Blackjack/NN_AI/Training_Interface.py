@@ -120,6 +120,7 @@ class Training_Interface:
             self.BlJa_Interface.reset()
 
     # figure out if this causes two steps instead of 1
+    # should not matter because the weights do not change and the game state does not change between here and getting move
     def get_new_rnn_state(self):
         new_rnn_state = self.sess.run(self.Primary_Network.rnn_state,
                                       feed_dict={
@@ -183,6 +184,7 @@ class Training_Interface:
     # maybe find a way to abstract this with the training code
     def test_performance(self, sess):
         test_iterations = self.parameters["test_steps"]
+        hidden_size = self.parameters["hidden_size"]
         self.sess = sess
         total_games = 0
         games_won = 0
@@ -194,7 +196,7 @@ class Training_Interface:
             # self.BlJa_Interface.reset() # Implement this
             self.game_state = self.BlJa_Interface.get_game_state()
             episode_buffer = []
-
+            self.rnn_state = np.zeros([1, hidden_size]), np.zeros([1, hidden_size])  # Reset the recurrent layer's hidden state
             # step in game, get reward and new state
             while self.BlJa_Interface.continue_game():
                 self.action = self.choose_action(exploring=False)

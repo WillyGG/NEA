@@ -337,3 +337,14 @@
     - Complete converting NN to take blackjack inst
     - convert CC so that it takes best hand not including the agent
     - chance some of the features of the chances to include things like win margin
+
+ 26 Feb:
+    - Started DB designs (onenote)
+    - decremented the card counters at the end of every game -> decide if you want to have them decrement card
+      mid way through games too
+    - made it so that cards are actually added to new cards at the end of each game
+    - added an abstract CC_Agent class, which all Card Counting agents will inherit from
+
+    TODO:
+    - find a way to be able to reset and update the rnn cell at the start of each game of blackjack
+    - add rnn state behaviours to NN class

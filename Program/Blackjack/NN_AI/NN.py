@@ -5,7 +5,11 @@ import sys
 from Blackjack_Agent_Interface import Blackjack_Agent_Interface
 from Training_Interface import Training_Interface
 from CC_Interface import CC_Interface
+import numpy as np
 import matplotlib.pyplot as plt
+import sys,os
+sys.path.append(os.path.realpath(".."))
+from CC_Agent import CC_Agent
 
 class Q_Net():
     def __init__(self, input_size, hidden_size, output_size, rnn_cell, myScope):
@@ -121,12 +125,12 @@ class Target_Net(Q_Net):
 
 # implement a group training
 # implement the saver
-class NN:
+class NN(CC_Agent):
     def __init__(self, parameters=None):
+        super().__init__()
         if parameters is None:
             self.set_parameters_default()
         self.ID = "nn"
-        self.train_type = None
         self.initalise_NN()
 
     def set_parameters_default(self):
@@ -180,15 +184,19 @@ class NN:
         target_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
         mainQN = Q_Net(no_features, hidden_size, no_actions, rnn_cell, 'main')
         targetQN = Target_Net(no_features, hidden_size, no_actions, target_rnn_cell, 'target')
-        #blja = Blackjack_Agent_Interface(rewards)
-        blja = CC_Interface()
-        self.trainer = Training_Interface(self.parameters, mainQN, targetQN, blja)
+        self.rnn_state = np.zeros([1, hidden_size]), np.zeros([1, hidden_size])
+
+        self.trainer = Training_Interface(self.parameters, mainQN, targetQN, CC_Interface())
 
         self.init = tf.global_variables_initializer()
         self.saver = tf.train.Saver(max_to_keep=5)
         trainables = tf.trainable_variables()
         self.targetOps = targetQN.updateTargetGraph(trainables, tau)
         #experience_buffer = experience_buffer()
+
+    def initialise_rnn_state(self):
+        hidden_size = self.parameters["hidden_size"]
+        self.rnn_state = np.zeros([1, hidden_size]), np.zeros([1, hidden_size])
 
     # start the session, run the assigned training type
     def init_training(self):
@@ -200,34 +208,9 @@ class NN:
     def test_performance(self):
         self.trainer.test_performance(self.sess)
 
-    # All the stuff needed is in the CC_Interface class, maybe just use that?
-    def get_move(self, blackjack_inst):
-        # get chances
-        # get move
+    def getNextMove(self, chances):
+        # pass through NN model, and get the next move
         pass
-
-
-    def get_game_state(self, blackjack_inst):
-        dealer_hand = blackjack_inst.players["dealer"]
-        player_hands_all = blackjack_inst.get_all_players_playing() + [dealer_hand]
-        needed_player_hands = []
-        AI_hand = blackjack_inst.players[self.ID]
-        needed_player_hands.append(AI_hand)  # gets the AIs hand
-        needed_player_hands.append(self.get_best_hand(player_hands_all))  # get the best players hand
-        return needed_player_hands
-
-    # will get best hand not including agents
-    def get_best_hand(self, player_hands_all):
-        best_hand = None
-        best_hand_val = 0
-        for hand in player_hands_all:
-            if hand.id == self.ID:
-                continue
-            current_hand_val = hand.get_value()
-            if (best_hand_val == 0 and best_hand is None) or (current_hand_val > best_hand_val):
-                best_hand = hand
-                best_hand_val = current_hand_val
-        return best_hand
 
     def start_session(self):
         self.sess = tf.Session()
@@ -248,6 +231,10 @@ class NN:
 
     def load_model_aggressive(self):
         pass
+
+    # decrements the new cards from the cc
+    def decrement_CC(self, new_cards):
+        self.CC.decrement_cards(new_cards)
 
 
 if __name__ == "__main__":

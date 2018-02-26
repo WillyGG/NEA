@@ -137,9 +137,17 @@ class Blackjack:
     def end_game(self):
         self.players["dealer"].dealer_end(self.deck) # Should this not be handled in this class?
         self._winners = self.compare_hands()
+        self.update_new_cards()
         if self.auto_reset:
             self.reset()
         return self._winners
+
+    # appends all cards dealt that game to the new_cards array
+    # opt 2: append each card as it is being dealt
+    def update_new_cards(self):
+        for player_id, player_hand in self.players.items():
+            for card in player_hand.hand:
+                self.new_cards.append(card)
 
     # check if everyone has bust or stood
     def check_game_over(self):
@@ -165,6 +173,8 @@ class Blackjack:
             self.players_queue.push(player)
         return players
 
+    # returns array of ints
+    # each element is the hand value of a player
     def get_all_hand_values(self):
         hand_values = []
         for key in self.players.keys():

@@ -58,12 +58,11 @@ class Comparison_Tool:
     # run X games of blackjack, get the winner then return it
     # create and manage a mainloop game of blackjack
     # TODO TEST TF OUT OF THIS
-    def get_data(self, no_games=5000):
-        win_records = {
-            Comparison_Tool.ID_NN: 0,
-            Comparison_Tool.ID_SIMPLE: 0,
-            Comparison_Tool.ID_CC_AI: 0
-        }
+    def get_data(self, players, no_games=5000):
+        # initialise and populate the winrate structure
+        win_records = {}
+        for player_id in players.keys():
+            win_records[player_id] = 0
 
         for i in range(no_games):
             ID_current_player = self.blackjack.get_current_player()
@@ -71,8 +70,9 @@ class Comparison_Tool:
             # get the next move from that player
             # repeat
             while self.blackjack.continue_game():
+                current_players = self.blackjack.get_all_players_playing()
                 agent_current = self.agents[ID_current_player]
-                next_move = agent_current.get_move(self.blackjack) # pass in the blackjack instance, so they can interact with the interfaces to get the necessary information and next move
+                next_move = agent_current.get_move(current_players) # pass in all player's hands
                 if next_move is Moves.HIT:
                     self.blackjack.hit()
                 elif next_move is Moves.STAND:
@@ -85,11 +85,21 @@ class Comparison_Tool:
                 if winner is "dealer":
                     continue
                 win_records[winner] += 1
+
+            self.update_agents(players)
         # convert win records to % and return the win rates
         win_rates = {}
         for key in win_records.keys():
             win_rates[key] = win_records[key] / no_games
         return win_rates
+
+    def update_agents(self, players):
+        new_cards = self.blackjack.new_cards
+        deck_iteration = self.blackjack.deckIteration
+        # pass new cards to card counters
+        for player_id, player in players:
+            if player.type == "Card Counter":
+                player.decrement_CC(new_cards)
 
     # pass in the data from X games and then process the game to show different stats
     # overall winner, winrates of each player,
