@@ -29,8 +29,6 @@ class Comparison_Tool:
         self.populate_players()
         self.blackjack = BJ.Blackjack(self.players_dict)
 
-
-
     def populate_players(self):
         self.players_dict = {
             Comparison_Tool.ID_NN: BJ.Hand(Comparison_Tool.ID_NN),

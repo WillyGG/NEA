@@ -35,7 +35,7 @@ class CC_Interface(Blackjack_Agent_Interface):
     # Returns the AI hand, best player hand, and the chances as a single array
     # called with each iteration of the game
     def get_game_state(self):
-        toReturn = []
+        toReturn = [] # [agent_hand_val_normalised, best_player_hand_val_normalised, chances (in order)]
         AI_and_best_hand = self.get_game_state_CC()
         chances = self.get_chances(AI_and_best_hand)
         for hand in AI_and_best_hand: # adds the hand to the return array

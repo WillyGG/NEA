@@ -2,6 +2,11 @@ import sys,os
 sys.path.append(os.path.realpath(".."))
 
 import Blackjack
+from enum import Enum
+
+class Moves(Enum):
+    HIT = True
+    STAND = False
 
 class Blackjack_Agent_Interface: # Maybe make this a static class?
     def __init__(self, rewardDict, blackjack_instance = None, hand_instance = None): # Without dealer for now?
@@ -19,8 +24,6 @@ class Blackjack_Agent_Interface: # Maybe make this a static class?
         #self.bustCost = rewardDict["bustCost"]
 
         self.last_action = None
-        self.hit = 0
-        self.stand = 1
 
         #self.hand_value_discount = rewardDict["hand_value_discount"] #1 / 21
         self.hand_size_norm_const = 1 / 10
@@ -55,14 +58,14 @@ class Blackjack_Agent_Interface: # Maybe make this a static class?
             else:
                 scaled_value = loss_value
         # rewards for hit and cost for bust
-        elif self.last_action == "hit":
+        elif self.last_action == Moves.HIT:
             if self.agent_hand.bust:
              scaled_value = loss_value
             else:
                 scaled_value = normal_reward
         # rewards for standing
-        elif self.last_action == "stand":
-            if self.agent_hand in current_winners:
+        elif self.last_action == Moves.STAND:
+            if self.agent_hand.id in current_winners:
                 scaled_value = normal_reward
             else:
                 scaled_value = loss_value
@@ -72,13 +75,13 @@ class Blackjack_Agent_Interface: # Maybe make this a static class?
         return self.blackjack.continue_game
 
     def process_action(self, action):
-        if action == self.hit:
-            self.last_action = "hit"
+        if action == Moves.HIT:
+            self.last_action = Moves.HIT
             # check if current turn (or check in the training mainloop)
             # hit
             self.blackjack.hit()
-        elif action == self.stand: # defencive programming?
-            self.last_action = "stand"
+        elif action == Moves.STAND: # defencive programming?
+            self.last_action = Moves.Stand
             self.blackjack.stand()
 
     def end_game(self):

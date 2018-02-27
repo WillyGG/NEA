@@ -77,7 +77,7 @@ class Blackjack:
 
 # compares the hands of the passed players
     def compare_hands(self):
-        best_hand = []
+        best_hand = [] # array of player ids
         best_value = 0
         for key in self.players.keys():
             current_player = self.players[key]

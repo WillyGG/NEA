@@ -3,13 +3,16 @@
     - provides basic functionality and interface for the card counter class
 """
 from Card_Counter import Card_Counter
+from Agent import Agent
+from abc import abstractmethod
 
 # TODO: Test if this class works
-class CC_Agent:
-    def __init__(self):
-        self.type = ["Card Counter"]
+class CC_Agent(Agent):
+    def __init__(self, ID, extra_type=None):
+        if extra_type is None:
+            extra_type = []
+        super().__init__(ID=ID, type=["Card Counter"] + extra_type)
         self.CC = Card_Counter()
-        self.ID = "" # OVERRIDE IN CHILD CLASSES
 
     # pass in the game state and generate the chances to win
     # state = [AIHAND, Best hand (not including CCAI)]
@@ -29,11 +32,11 @@ class CC_Agent:
     def get_move(self, current_players):
         game_state = self.get_state(current_players)
         chances = self.get_chances(game_state)
-        move_next = self.getNextAction(chances)
+        move_next = self.getNextAction(chances, game_state)
         return move_next
 
-    # OVERRIDE THIS IN CHILD CLASSES
-    def getNextAction(self, chances):
+    @abstractmethod
+    def getNextAction(self, chances, game_state):
         pass
 
     def decrement_CC(self, new_cards):

@@ -3,24 +3,23 @@ from Blackjack import Hand
 
 class CC_AI(CC_Agent):
     def __init__(self, parameters=None, hand=None):
-        CC_Agent().__init__()
+        CC_Agent().__init__(ID="cc_ai")
         self.parameters = parameters
         self.Hand = hand
-        self.ID = "cc_ai"
         if parameters is None:
             self.set_parameters(setting="default")
         if hand is None:
             self.Hand = Hand(self.ID)
 
     # return True if wanting to hit
-    def getNextAction(self, chances):
+    def getNextAction(self, chances, game_state):
         # not exceeding the dealer, hit.
         belowBestPlayer = not chances["AIWinning"]
         belowBustThreshold = chances["bust"] <= self.parameteres["bust_tol"]
         highBlackjackChance = chances["backjack"] >= self.parameteres["blackjack_thresh"]
 
         # BEHAVIOUR: Hit IF:
-        # - losing or below the bus threshold
+        # - losing or below the bust threshold
         # - or winning, above the bust threshold and below the risky bust threshold
         if belowBestPlayer or belowBustThreshold:
             return True

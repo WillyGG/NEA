@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 import sys,os
 sys.path.append(os.path.realpath(".."))
 from CC_Agent import CC_Agent
+from Blackjack import Hand
+from NN_Move import NN_Move
 
 class Q_Net():
     def __init__(self, input_size, hidden_size, output_size, rnn_cell, myScope):
@@ -126,54 +128,56 @@ class Target_Net(Q_Net):
 # implement a group training
 # implement the saver
 class NN(CC_Agent):
-    def __init__(self, parameters=None):
-        super().__init__()
-        if parameters is None:
-            self.set_parameters_default()
-        self.ID = "nn"
-        self.type = self.type + ["nn"]
+    def __init__(self, parameters=None, hand=None):
+        super().__init__(ID="nn", type=["nn"])
         self.rnn_state = None
         self.game_state = []
+        if parameters is None:
+            self.set_parameters_default()
+        if hand is None:
+            self.Hand = Hand(self.ID)
         self.initalise_NN()
 
-    def set_parameters_default(self):
-        #Setting the training parameters
-        self.parameters = {
-            "batch_size" : 8, #How many experience traces to use for each training step.
-            "trace_length" : 2, #How long each experience trace will be when training
-            "update_freq" : 2, #How often to perform a training step.
-            "gamma" : .99, #Discount factor on the target Q-values
-            "start_epsilon" : 1, #Starting chance of random action
-            "epsilon" : 1, # tracking value for epsilon - MAKE THIS AN ATTRIBUTE?
-            "end_epsilon" : 0.001, #Final chance of random action
-            "annealing_steps" : 1000, #How many steps of training to reduce startE to endE.
-            "train_steps" : 20000, #How many episodes of game environment to train network with.
-            "explore_steps" : 1000, #How many steps of random actions before training begins.
-            "path_default" : "./nn_data", #The path to save our model to.
-            "hidden_size" : 32, #The size of the final convolutional layer before splitting it into Advantage and Value streams.
-            "no_features" : 7, # How many features to input into the network
-            "no_actions" : 2, # No actions the network can take
-            "summaryLength" : 100, #Number of epidoes to periodically save for analysis
-            "tau" : 0.001,
-            "policy" : "e-greedy",
-            "save_model_frequency" : 50, # how often to save the model
-            "update_frequency" : 5, # how often to update the network weights
-            "test_steps" : 20000 # how many iterations to test
-        }
-        start_epsilon = self.parameters["start_epsilon"]
-        end_epsilon = self.parameters["end_epsilon"]
-        annealing_steps = self.parameters["annealing_steps"]
+    def set_parameters(self, setting="default"):
+        if setting is "default":
+            #Setting the training parameters
+            self.parameters = {
+                "batch_size" : 8, #How many experience traces to use for each training step.
+                "trace_length" : 2, #How long each experience trace will be when training
+                "update_freq" : 2, #How often to perform a training step.
+                "gamma" : .99, #Discount factor on the target Q-values
+                "start_epsilon" : 1, #Starting chance of random action
+                "epsilon" : 1, # tracking value for epsilon - MAKE THIS AN ATTRIBUTE?
+                "end_epsilon" : 0.001, #Final chance of random action
+                "annealing_steps" : 1000, #How many steps of training to reduce startE to endE.
+                "train_steps" : 20000, #How many episodes of game environment to train network with.
+                "explore_steps" : 1000, #How many steps of random actions before training begins.
+                "path_default" : "./nn_data", #The path to save our model to.
+                "hidden_size" : 32, #The size of the final convolutional layer before splitting it into Advantage and Value streams.
+                "no_features" : 7, # How many features to input into the network
+                "no_actions" : 2, # No actions the network can take
+                "summaryLength" : 100, #Number of epidoes to periodically save for analysis
+                "tau" : 0.001,
+                "policy" : "e-greedy",
+                "save_model_frequency" : 50, # how often to save the model
+                "update_frequency" : 5, # how often to update the network weights
+                "test_steps" : 20000, # how many iterations to test
+                "hand_val_norm_const": 1/30 # value to normalise hand values by
+            }
+            start_epsilon = self.parameters["start_epsilon"]
+            end_epsilon = self.parameters["end_epsilon"]
+            annealing_steps = self.parameters["annealing_steps"]
 
-        # Set the rate of random action decrease.
-        self.parameters["epsilon"] = start_epsilon
-        self.parameters["epsilon_step"] = (start_epsilon - end_epsilon) / annealing_steps
+            # Set the rate of random action decrease.
+            self.parameters["epsilon"] = start_epsilon
+            self.parameters["epsilon_step"] = (start_epsilon - end_epsilon) / annealing_steps
 
-        rewards = {
-            "winReward": 3,
-            "lossCost": -3,
-            "bustCost": 0,
-            "hand_value_discount": 1 / 2
-        }
+            rewards = {
+                "winReward": 3,
+                "lossCost": -3,
+                "bustCost": 0,
+                "hand_value_discount": 1 / 2
+            }
 
     def initalise_NN(self):
         no_features = self.parameters["no_features"]
@@ -221,9 +225,23 @@ class NN(CC_Agent):
     def test_performance(self):
         self.trainer.test_performance(self.sess)
 
-    def getNextMove(self, chances):
+    def getNextMove(self, chances, game_state):
         # pass through NN model, and get the next move
-        pass
+        self.game_state = self.get_features(chances, game_state)
+        move = NN.Move(self.parameters, self.Primary_Network, self.game_state, self.rnn_state, self.sess, exploring=False)
+        return move
+
+    def get_features(self, chances, game_state):
+        hand_val_norm_const = self.parameters["hand_val_norm_const"]
+        features = []
+        # append the hand values of agent hand and best player hand to the features array
+        # should always be [agent_hand, best_player_hand]
+        for hand in game_state:
+            hand_val_normalised = hand.get_value() * hand_val_norm_const
+            features.append(hand_val_normalised)
+        for key in sorted(chances):
+            features.append(chances[key])
+        return features
 
     def start_session(self):
         self.sess = tf.Session()
@@ -231,6 +249,7 @@ class NN(CC_Agent):
     def stop_session(self):
         self.sess.close()
 
+    # maybe put all load models into one method and just pass the type
     def load_model_default(self):
         path = self.parameters["path_default"]
         # Make a path for our model to be saved in.
@@ -288,7 +307,6 @@ class NN(CC_Agent):
                           self.Primary_Network.state_in: rnn_state_update,
                           self.Primary_Network.batch_size: batch_size}
                       )
-
 
     def update_end_game(self, new_cards):
         self.decrement_CC(new_cards)

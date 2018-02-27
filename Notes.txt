@@ -353,3 +353,10 @@
     - implemented a virtual method in get_data -> update_agent -> end turn and end_game:
         - to update the agents at the end of the turn, and teh end of the game respectively
     - implemented rnn_state updating and resetting for the nn agent
+    - implemented next_mvoe for nn agent
+    - updated the CC_AI agent and the Simple agent to implement the agent abstract classes
+    - implemented Agent Abstract class and CC_Agent abstract class -> TEST THIS
+
+    TODO:
+    - Update the training interfaces and how the nn is trained -> move it all into training interface?
+
