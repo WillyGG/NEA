@@ -357,6 +357,13 @@
     - updated the CC_AI agent and the Simple agent to implement the agent abstract classes
     - implemented Agent Abstract class and CC_Agent abstract class -> TEST THIS
 
+    PM:
+    - Updated the comparison tool to take agents dynamically
+    - Debugged comparison tool -> working for simple ai and CC_AI, but is reaaaallllyyy slow
+    - Also every ai loses every game
+
     TODO:
     - Update the training interfaces and how the nn is trained -> move it all into training interface?
-
+    - Figure out why comparison tool is so faking slow
+    - and why everyone loses all the time
+    - sometimes queue has None in the middle of it -> figure this out

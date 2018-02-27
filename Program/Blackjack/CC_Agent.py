@@ -25,7 +25,7 @@ class CC_Agent(Agent):
         AI_hand_val = AI_hand.get_value()  # this is recalcualted a lot, maybe find a way to not have to do that as much?
         best_hand = state[1]
         best_hand_val = best_hand.get_value()
-        NN_Winning = AI_hand >= best_hand_val
+        NN_Winning = AI_hand_val >= best_hand_val
         chances = self.CC.calcChances(AI_hand_val, best_hand_val, NN_Winning)
         return chances
 

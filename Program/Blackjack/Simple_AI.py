@@ -1,6 +1,7 @@
 from Blackjack import Blackjack
 from Blackjack import Hand
 from Agent import Agent
+from Moves import Moves
 
 class Simple_AI(Agent):
     def __init__(self, hand=None, parameters=None):
@@ -24,20 +25,21 @@ class Simple_AI(Agent):
             self.bust_threshold = 7
 
     # returns decision to hit or not -> true => hit, false => stand
-    def get_move(self, best_player_value):
+    def get_move(self, current_players):
+        best_player_value = self.get_best_hand_value(current_players)
         hand_value = self.hand.get_value()
         agent_winning = hand_value > best_player_value
 
         # if blackjack'd
         if hand_value == self.blackjack_value or agent_winning:
-            return False
-        # If cannot go bust then hit
+            return Moves.STAND
+        # If cannot go bust, or edge case satisfied then hit
         elif (hand_value < (self.bust_value - self.maxCard)
               or self.edge_move_calc(hand_value, best_player_value)):
-            return True
-        return False
+            return Moves.HIT
+        return Moves.STAND
 
-    def get_state(self, current_players):
+    def get_best_hand_value(self, current_players):
         all_hand_values = self.get_hand_values(current_players)
         return all_hand_values[0] # this is the best player hand value
 

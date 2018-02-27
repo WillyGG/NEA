@@ -1,12 +1,7 @@
 import sys,os
 sys.path.append(os.path.realpath(".."))
-
 import Blackjack
-from enum import Enum
-
-class Moves(Enum):
-    HIT = True
-    STAND = False
+from Moves import Moves
 
 class Blackjack_Agent_Interface: # Maybe make this a static class?
     def __init__(self, rewardDict, blackjack_instance = None, hand_instance = None): # Without dealer for now?

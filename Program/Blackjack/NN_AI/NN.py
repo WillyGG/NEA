@@ -12,6 +12,7 @@ sys.path.append(os.path.realpath(".."))
 from CC_Agent import CC_Agent
 from Blackjack import Hand
 from NN_Move import NN_Move
+from Moves import Moves
 
 class Q_Net():
     def __init__(self, input_size, hidden_size, output_size, rnn_cell, myScope):
@@ -70,7 +71,7 @@ class Q_Net():
 
     def predict(self):
          # Then combine them together to get our final Q-values.
-        self.Qout = self.Value + tf.subtract(self.Advantage, tf.reduce_mean(self.Advantage, axis=1, keepdims=True))
+        self.Qout = self.Value + tf.subtract(self.Advantage, tf.reduce_mean(self.Advantage, axis=1, keep_dims=True))
         self.predict = tf.argmax(self.Qout, 1)
 
     def gen_loss(self, output_size):
@@ -129,11 +130,11 @@ class Target_Net(Q_Net):
 # implement the saver
 class NN(CC_Agent):
     def __init__(self, parameters=None, hand=None):
-        super().__init__(ID="nn", type=["nn"])
+        super().__init__(ID="nn", extra_type=["nn"])
         self.rnn_state = None
         self.game_state = []
         if parameters is None:
-            self.set_parameters_default()
+            self.set_parameters(setting="default")
         if hand is None:
             self.Hand = Hand(self.ID)
         self.initalise_NN()
@@ -189,16 +190,16 @@ class NN(CC_Agent):
         # We define the cells for the primary and target q-networks
         Primary_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
         Target_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
-        Primary_Network = Q_Net(no_features, hidden_size, no_actions, Primary_rnn_cell, 'main')
-        Target_Network = Target_Net(no_features, hidden_size, no_actions, Target_rnn_cell, 'target')
+        self.Primary_Network = Q_Net(no_features, hidden_size, no_actions, Primary_rnn_cell, 'main')
+        self.Target_Network = Target_Net(no_features, hidden_size, no_actions, Target_rnn_cell, 'target')
         self.rnn_state = np.zeros([1, hidden_size]), np.zeros([1, hidden_size])
 
-        self.trainer = Training_Interface(self.parameters, Primary_Network, Target_Network, CC_Interface())
+        self.trainer = Training_Interface(self.parameters, self.Primary_Network, self.Target_Network, CC_Interface())
 
         self.init = tf.global_variables_initializer()
         self.saver = tf.train.Saver(max_to_keep=5)
         trainables = tf.trainable_variables()
-        self.targetOps = Target_Network.updateTargetGraph(trainables, tau)
+        self.targetOps = self.Target_Network.updateTargetGraph(trainables, tau)
 
     # resets the rnn_state
     def rnn_state_reset(self):
@@ -225,10 +226,14 @@ class NN(CC_Agent):
     def test_performance(self):
         self.trainer.test_performance(self.sess)
 
-    def getNextMove(self, chances, game_state):
+    def getNextAction(self, chances, game_state):
         # pass through NN model, and get the next move
         self.game_state = self.get_features(chances, game_state)
-        move = NN.Move(self.parameters, self.Primary_Network, self.game_state, self.rnn_state, self.sess, exploring=False)
+        move = NN_Move.choose_action(self.parameters, self.Primary_Network, self.game_state, self.rnn_state, self.sess, exploring=False)
+        if move == True:
+            move = Moves.HIT
+        elif move == False:
+            move = Moves.Stand
         return move
 
     def get_features(self, chances, game_state):

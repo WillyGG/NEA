@@ -1,9 +1,10 @@
 from CC_Agent import CC_Agent
 from Blackjack import Hand
+from Moves import Moves
 
 class CC_AI(CC_Agent):
     def __init__(self, parameters=None, hand=None):
-        CC_Agent().__init__(ID="cc_ai")
+        super().__init__(ID="cc_ai")
         self.parameters = parameters
         self.Hand = hand
         if parameters is None:
@@ -16,18 +17,18 @@ class CC_AI(CC_Agent):
         # not exceeding the dealer, hit.
         belowBestPlayer = not chances["AIWinning"]
         belowBustThreshold = chances["bust"] <= self.parameteres["bust_tol"]
-        highBlackjackChance = chances["backjack"] >= self.parameteres["blackjack_thresh"]
+        highBlackjackChance = chances["blackjack"] >= self.parameteres["blackjack_thresh"]
 
         # BEHAVIOUR: Hit IF:
         # - losing or below the bust threshold
         # - or winning, above the bust threshold and below the risky bust threshold
         if belowBestPlayer or belowBustThreshold:
-            return True
+            return Moves.HIT
         elif highBlackjackChance:
             belowRiskyBustThreshold = chances["bust"] <= self.parameteres["bust_tol"] * self.parameteres["riskTolerance"]
             if belowRiskyBustThreshold:
-                return True
-        return False
+                return Moves.HIT
+        return Moves.STAND
 
     # Sets the default parameters of the CCAI
     def set_parameters(self, setting="default"):
@@ -44,3 +45,9 @@ class CC_AI(CC_Agent):
             pass
         elif setting == "passive":
             pass
+
+    def update_end_game(self, new_cards):
+        self.decrement_CC(new_cards)
+
+    def update_end_turn(self):
+        pass

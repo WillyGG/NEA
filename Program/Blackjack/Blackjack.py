@@ -168,6 +168,7 @@ class Blackjack:
         players = []
         while not self.players_queue.isEmpty():
             current_player = self.players_queue.pop()
+            print("gapp, currentplayer", current_player)
             players.append(current_player)
         for player in players:
             self.players_queue.push(player)
