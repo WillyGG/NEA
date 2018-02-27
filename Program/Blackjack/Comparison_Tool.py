@@ -17,29 +17,30 @@ class Comparison_Tool:
     param_types = ["default", "passive", "aggressive"]  # maybe convert this to an aggressive scale?
 
     def __init__(self):
-        nn = NN()
-        Simple = Simple_AI()
-        cc_ai = CC_AI()
+        # The instances of all the angents
         self.agents = {
-            Comparison_Tool.ID_NN: nn,
-            Comparison_Tool.ID_SIMPLE: Simple,
-            Comparison_Tool.ID_CC_AI: cc_ai
+            Comparison_Tool.ID_NN: NN(),
+            Comparison_Tool.ID_SIMPLE: Simple_AI(),
+            Comparison_Tool.ID_CC_AI: CC_AI()
         }
-        self.players_dict = dict()
-        self.populate_players()
-        self.blackjack = BJ.Blackjack(self.players_dict)
 
-    def populate_players(self):
-        self.players_dict = {
+        # Dictionary holding all the hands of the agents
+        self.agents_hands = dict()
+        self.populate_agent_hands()
+        self.blackjack = BJ.Blackjack(self.agents_hands)
+
+    def populate_agent_hands(self):
+        self.agents_hands = {
             Comparison_Tool.ID_NN: BJ.Hand(Comparison_Tool.ID_NN),
             Comparison_Tool.ID_SIMPLE: BJ.Hand(Comparison_Tool.ID_SIMPLE),
             Comparison_Tool.ID_CC_AI : BJ.Hand(Comparison_Tool.ID_CC_AI),
             "dealer" : BJ.Hand("dealer")
         }
-        # sets the hands in the agent class to the same ones in the players dictionary
+
+        # sets the hands in the agent class to the same ones in the agent hands dictionary
         for agent_id in self.agents.keys():
             agent = self.agents[agent_id]
-            agent.hand = self.players_dict[agent_id]
+            agent.hand = self.agents_hands[agent_id]
 
     # sets the parametrs, takes in a dictionary as an argument to set the parameters
     def set_params(self, **kwargs):
@@ -56,7 +57,10 @@ class Comparison_Tool:
     # run X games of blackjack, get the winner then return it
     # create and manage a mainloop game of blackjack
     # TODO TEST TF OUT OF THIS
-    def get_data(self, players, no_games=5000):
+    def get_data(self, players=None, no_games=5000):
+        if players is None:
+            players = self.agents
+
         # initialise and populate the winrate structure
         win_records = {}
         for player_id in players.keys():
@@ -80,6 +84,8 @@ class Comparison_Tool:
             # get the winners, increment their wins
             self.blackjack.end_game()
             winners = self.blackjack.winners
+
+            # increment the win_rates
             for winner in winners:
                 if winner is "dealer":
                     continue
@@ -89,7 +95,7 @@ class Comparison_Tool:
         # convert win records to % and return the win rates
         win_rates = {}
         for key in win_records.keys():
-            win_rates[key] = win_records[key] / no_games
+            win_rates[key] = win_records[key] / no_games * 100
         return win_rates
 
     def update_agents(self, players):
@@ -120,3 +126,8 @@ class Comparison_Tool:
 
 if __name__ == "__main__":
     ct = Comparison_Tool()
+    players = {
+        ct.ID_CC_AI: ct.agents[ct.ID_CC_AI],
+        ct.ID_SIMPLE: ct.agents[ct.ID_SIMPLE]
+    }
+    ct.get_data(players=players)
