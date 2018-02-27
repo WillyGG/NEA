@@ -348,3 +348,8 @@
     TODO:
     - find a way to be able to reset and update the rnn cell at the start of each game of blackjack
     - add rnn state behaviours to NN class
+
+ 27 Feb:
+    - implemented a virtual method in get_data -> update_agent -> end turn and end_game:
+        - to update the agents at the end of the turn, and teh end of the game respectively
+    - implemented rnn_state updating and resetting for the nn agent

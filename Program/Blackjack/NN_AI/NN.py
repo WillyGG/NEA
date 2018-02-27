@@ -131,6 +131,9 @@ class NN(CC_Agent):
         if parameters is None:
             self.set_parameters_default()
         self.ID = "nn"
+        self.type = self.type + ["nn"]
+        self.rnn_state = None
+        self.game_state = []
         self.initalise_NN()
 
     def set_parameters_default(self):
@@ -180,23 +183,32 @@ class NN(CC_Agent):
 
         tf.reset_default_graph()
         # We define the cells for the primary and target q-networks
-        rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
-        target_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
-        mainQN = Q_Net(no_features, hidden_size, no_actions, rnn_cell, 'main')
-        targetQN = Target_Net(no_features, hidden_size, no_actions, target_rnn_cell, 'target')
+        Primary_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
+        Target_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
+        Primary_Network = Q_Net(no_features, hidden_size, no_actions, Primary_rnn_cell, 'main')
+        Target_Network = Target_Net(no_features, hidden_size, no_actions, Target_rnn_cell, 'target')
         self.rnn_state = np.zeros([1, hidden_size]), np.zeros([1, hidden_size])
 
-        self.trainer = Training_Interface(self.parameters, mainQN, targetQN, CC_Interface())
+        self.trainer = Training_Interface(self.parameters, Primary_Network, Target_Network, CC_Interface())
 
         self.init = tf.global_variables_initializer()
         self.saver = tf.train.Saver(max_to_keep=5)
         trainables = tf.trainable_variables()
-        self.targetOps = targetQN.updateTargetGraph(trainables, tau)
-        #experience_buffer = experience_buffer()
+        self.targetOps = Target_Network.updateTargetGraph(trainables, tau)
 
-    def initialise_rnn_state(self):
+    # resets the rnn_state
+    def rnn_state_reset(self):
         hidden_size = self.parameters["hidden_size"]
         self.rnn_state = np.zeros([1, hidden_size]), np.zeros([1, hidden_size])
+
+    def rnn_state_update(self):
+        self.rnn_state = self.sess.run(self.Primary_Network.rnn_state,
+                                      feed_dict={
+                                          self.Primary_Network.input_layer: [self.game_state],
+                                          self.Primary_Network.trainLength: 1,
+                                          self.Primary_Network.state_in: self.rnn_state,
+                                          self.Primary_Network.batch_size: 1}
+                                      )
 
     # start the session, run the assigned training type
     def init_training(self):
@@ -204,6 +216,7 @@ class NN(CC_Agent):
         self.start_session()
         self.sess.run(self.init)
         self.trainer.training_CC_Interface(self.sess)
+        self.stop_session()
 
     def test_performance(self):
         self.trainer.test_performance(self.sess)
@@ -235,6 +248,54 @@ class NN(CC_Agent):
     # decrements the new cards from the cc
     def decrement_CC(self, new_cards):
         self.CC.decrement_cards(new_cards)
+
+    # updates the target and the primary network - should be called after nn reaches its train frequency
+    def update_networks(self):
+        batch_size = self.parameters["batch_size"]
+        hidden_size = self.parameters["hidden_size"]
+        trace_length = self.parameters["trace_length"]
+        y = self.parameters["gamma"]
+
+        self.Target_Network.updateTarget(self.sess)
+        rnn_state_update = (np.zeros([batch_size, hidden_size]), np.zeros([batch_size, hidden_size]))
+        trainBatch = self.exp_buffer.sample(batch_size, trace_length)  # Get a random batch of experiences.
+
+        # Below we perform the Double-DQN update to the target Q-values
+        primary_out = self.sess.run(self.Primary_Network.predict, feed_dict={
+            self.Primary_Network.input_layer: np.vstack(trainBatch[:, 3]),
+            self.Primary_Network.trainLength: trace_length,
+            self.Primary_Network.state_in: rnn_state_update,
+            self.Primary_Network.batch_size: batch_size
+        })
+
+        target_out = self.sess.run(self.Target_Network.Qout, feed_dict={
+            self.Target_Network.input_layer: np.vstack(trainBatch[:, 3]),
+            self.Target_Network.trainLength: trace_length,
+            self.Target_Network.state_in: rnn_state_update,
+            self.Target_Network.batch_size: batch_size}
+                                   )
+
+        end_multiplier = -(trainBatch[:, 4] - 1)
+        doubleQ = target_out[range(batch_size * trace_length), primary_out]
+        targetQ = trainBatch[:, 2] + (y * doubleQ * end_multiplier)
+        # Update the network with our target values.
+        self.sess.run(self.Primary_Network.updateModel,
+                      feed_dict={
+                          self.Primary_Network.input_layer: np.vstack(trainBatch[:, 0]),
+                          self.Primary_Network.targetQ: targetQ,
+                          self.Primary_Network.actions: trainBatch[:, 1],
+                          self.Primary_Network.trainLength: trace_length,
+                          self.Primary_Network.state_in: rnn_state_update,
+                          self.Primary_Network.batch_size: batch_size}
+                      )
+
+
+    def update_end_game(self, new_cards):
+        self.decrement_CC(new_cards)
+        self.rnn_state_reset()
+
+    def update_end_turn(self):
+        self.rnn_state_update()
 
 
 if __name__ == "__main__":

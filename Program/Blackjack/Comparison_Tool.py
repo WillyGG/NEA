@@ -69,7 +69,7 @@ class Comparison_Tool:
             # get the current player
             # get the next move from that player
             # repeat
-            while self.blackjack.continue_game():
+            while self.blackjack.continue_game:
                 current_players = self.blackjack.get_all_players_playing()
                 agent_current = self.agents[ID_current_player]
                 next_move = agent_current.get_move(current_players) # pass in all player's hands
@@ -77,6 +77,7 @@ class Comparison_Tool:
                     self.blackjack.hit()
                 elif next_move is Moves.STAND:
                     self.blackjack.stand()
+                agent_current.update_end_turn()
             # PROCESS END OF GAME
             # get the winners, increment their wins
             self.blackjack.end_game()
@@ -85,8 +86,8 @@ class Comparison_Tool:
                 if winner is "dealer":
                     continue
                 win_records[winner] += 1
-
             self.update_agents(players)
+
         # convert win records to % and return the win rates
         win_rates = {}
         for key in win_records.keys():
@@ -97,9 +98,17 @@ class Comparison_Tool:
         new_cards = self.blackjack.new_cards
         deck_iteration = self.blackjack.deckIteration
         # pass new cards to card counters
-        for player_id, player in players:
-            if player.type == "Card Counter":
+        for player_id, player in players.items():
+            player.update_end_game(new_cards)
+
+
+        """
+        for player_id, player in players.items():
+            if "Card Counter" in player.type:
                 player.decrement_CC(new_cards)
+            if "nn" in player.type:
+                player.rnn_cell_reset()
+        """
 
     # pass in the data from X games and then process the game to show different stats
     # overall winner, winrates of each player,

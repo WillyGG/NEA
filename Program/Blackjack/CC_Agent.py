@@ -7,7 +7,7 @@ from Card_Counter import Card_Counter
 # TODO: Test if this class works
 class CC_Agent:
     def __init__(self):
-        self.type = "Card Counter"
+        self.type = ["Card Counter"]
         self.CC = Card_Counter()
         self.ID = "" # OVERRIDE IN CHILD CLASSES
 
