@@ -4,6 +4,8 @@ import tensorflow.contrib.slim as slim
 from CC_Interface import CC_Interface
 from experience_buffer import experience_buffer
 from NN_Move import NN_Move
+import os
+from datetime import datetime
 
 
 class Training_Interface:
@@ -14,6 +16,7 @@ class Training_Interface:
         self.BlJa_Interface = Blackjack_Interface
         self.exp_buffer = experience_buffer()
         self.sess = None
+        self.saver = tf.train.Saver(max_to_keep=5)
 
     def train_default(self, sess):
         train_iterations = self.parameters["train_steps"]
@@ -66,7 +69,6 @@ class Training_Interface:
             if i % save_frequency == 0:
                 self.save_model()
             self.BlJa_Interface.reset()
-
 
     # Start out simple with one player
     def training_CC_Interface(self, sess):
@@ -132,7 +134,14 @@ class Training_Interface:
         return new_rnn_state
 
     def save_model(self):
-        pass
+        path = self.parameters["path"]
+        # Make a path for our model to be saved in.
+        if not os.path.exists(path):
+            os.makedirs(path)
+        # eg. 28-02-2018,15-30-10
+        model_version = datetime.now().strftime("%d-%m-%Y,%H-%M-%S")
+        model_type = "/model-default-"
+        self.saver.save(self.sess, (path + model_type + model_version + ".cptk"))
 
     def update_networks(self):
         batch_size = self.parameters["batch_size"]

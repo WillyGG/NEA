@@ -92,7 +92,6 @@ class Q_Net():
         self.mask = tf.reshape(self.mask, [-1])
         self.loss = tf.reduce_mean(self.td_error * self.mask)
 
-
     def train_update(self):
         self.trainer = tf.train.AdamOptimizer(learning_rate=0.0001)
         self.updateModel = self.trainer.minimize(self.loss)
@@ -197,7 +196,6 @@ class NN(CC_Agent):
         self.trainer = Training_Interface(self.parameters, self.Primary_Network, self.Target_Network, CC_Interface())
 
         self.init = tf.global_variables_initializer()
-        self.saver = tf.train.Saver(max_to_keep=5)
         trainables = tf.trainable_variables()
         self.targetOps = self.Target_Network.updateTargetGraph(trainables, tau)
 
@@ -257,10 +255,7 @@ class NN(CC_Agent):
     # maybe put all load models into one method and just pass the type
     def load_model_default(self):
         path = self.parameters["path_default"]
-        # Make a path for our model to be saved in.
-        if not os.path.exists(path):
-            os.makedirs(path)
-        ckpt = tf.train.get_checkpoint_state(path)
+        ckpt = tf.train.get_checkpoint_state(path) # gets the checkpoint from the last checkpoint file
         self.saver.restore(self.sess, ckpt.model_checkpoint_path)
 
     def load_model_passive(self):

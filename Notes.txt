@@ -373,7 +373,13 @@
     - changed the get_move arg to all players -> if a hand is bust, return -1 for the hand value, if everyone is bust then have ai as best hand
     - implemeneted a get_value of -1 for when a hand is bust
     - comparison tool, normal mode working (not implemented nn)
+    - implemented checkpoint and default model saver -> test
+    - implemented model restorer -> test
 
     TODO:
     - BUG -> if a player is dealt 2 aces as their first cards, they auto go bust -> should be going down to 12
         -> Fixed -> Issue relating to how equality with enums was evaluated
+
+    - TO implement NN -> implement model saver, implement a way to start and end the session
+        - up and down methods for all agents?
+        - implement a group training mode
