@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="afba8995-ecc3-4204-a2a6-cfb3b48e3563" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/Notes.txt" afterPath="$PROJECT_DIR$/Notes.txt" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/Training_Interface.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_AI/Training_Interface.py" />
-      <change beforePath="$PROJECT_DIR$/WriteUp/NEA.docx" afterPath="$PROJECT_DIR$/WriteUp/NEA.docx" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,8 +16,8 @@
       <file leaf-file-name="Notes.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Notes.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="507">
-              <caret line="375" column="60" lean-forward="false" selection-start-line="375" selection-start-column="60" selection-end-line="375" selection-end-column="60" />
+            <state relative-caret-position="632">
+              <caret line="382" column="93" lean-forward="false" selection-start-line="382" selection-start-column="93" selection-end-line="382" selection-end-column="93" />
               <folding />
             </state>
           </provider>
@@ -121,7 +118,7 @@
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Card_Counter.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-595">
-              <caret line="46" column="50" lean-forward="true" selection-start-line="46" selection-start-column="50" selection-end-line="46" selection-end-column="50" />
+              <caret line="46" column="50" lean-forward="false" selection-start-line="46" selection-start-column="50" selection-end-line="46" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -131,7 +128,7 @@
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Deck.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="374">
-              <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+              <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -1057,7 +1054,7 @@
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Deck.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
-          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1097,7 +1094,7 @@
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Card_Counter.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-595">
-          <caret line="46" column="50" lean-forward="true" selection-start-line="46" selection-start-column="50" selection-end-line="46" selection-end-column="50" />
+          <caret line="46" column="50" lean-forward="false" selection-start-line="46" selection-start-column="50" selection-end-line="46" selection-end-column="50" />
           <folding />
         </state>
       </provider>
@@ -1173,8 +1170,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Notes.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="507">
-          <caret line="375" column="60" lean-forward="false" selection-start-line="375" selection-start-column="60" selection-end-line="375" selection-end-column="60" />
+        <state relative-caret-position="632">
+          <caret line="382" column="93" lean-forward="false" selection-start-line="382" selection-start-column="93" selection-end-line="382" selection-end-column="93" />
           <folding />
         </state>
       </provider>

@@ -380,6 +380,6 @@
     - BUG -> if a player is dealt 2 aces as their first cards, they auto go bust -> should be going down to 12
         -> Fixed -> Issue relating to how equality with enums was evaluated
 
-    - TO implement NN -> implement model saver, implement a way to start and end the session
+    - TO implement NN -> implement model saver, implement a way to start and end the session 
         - up and down methods for all agents?
         - implement a group training mode
