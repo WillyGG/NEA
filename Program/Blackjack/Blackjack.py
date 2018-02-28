@@ -30,7 +30,7 @@ class Blackjack:
         if bool(playersDict) is False or "dealer" not in playersDict.keys():
             playersDict["dealer"] = Dealer_Hand("dealer")
 
-        # Hand for each player - Do i need this??
+        # Hand for each player - Do i need this?? BIG YES MY FRIEND
         self.players = playersDict
 
         # queue which holds the players, keeps track of whose turn it is
@@ -101,10 +101,8 @@ class Blackjack:
 
     # Deals a card to players passed
     def deal(self, *args):
-        cardsHit = []
         for player in args:
             next_card = self.deck.pop()
-            cardsHit.append(next_card)
             player.hit(next_card)
         self.dickIteration = self.deck.deckIteration
 
@@ -164,11 +162,11 @@ class Blackjack:
         return player
 
     # converts player queue to array and returns the Hands of all players currently in play
-    def get_all_players_playing(self):
+    def get_all_hands_playing(self):
         players = []
         while not self.players_queue.isEmpty():
+            #print("gapp", self.players_queue.peek())
             current_player = self.players_queue.pop()
-            print("gapp, currentplayer", current_player)
             players.append(current_player)
         for player in players:
             self.players_queue.push(player)
@@ -182,6 +180,14 @@ class Blackjack:
             hand_val = self.players[key].get_value()
             hand_values.append(hand_val)
         return hand_values
+
+    # returns all hands in self.players dictionary as an array, in no particular order
+    def get_all_hands(self):
+        toReturn = []
+        for key, hand in self.players.items():
+            toReturn.append(hand)
+        return toReturn
+
 
 class Hand:
     def __init__(self, id):
@@ -225,13 +231,15 @@ class Hand:
 
     # Calculate the total value of the passed hand (where hand is an array of cards)
     def get_value(self):
+        if self.bust:
+            return -1
         total = 0
         noAces = 0
         for card in self._hand:
             cValue = card.value
             if isinstance(cValue, Royals):
                 cValue = self.Royals[cValue]
-                if cValue == Royals.ACE:
+                if card.value == Royals.ACE:
                     noAces += 1
             total += cValue
         if noAces > 0:
@@ -270,7 +278,7 @@ class Dealer_Hand(Hand):
 
     # should you not do this in the blackjack class?
     def dealer_end(self, deck):
-        while self.get_value() < 17:
+        while self.get_value() < 17 and not self.bust:
             self.hit(deck.pop())
 
 """
@@ -324,6 +332,7 @@ class Blackjack_Tests:
             print(i)
 
 if __name__ == "__main__":
-    Blackjack_Tests.manual_test()
+    print(Royals)
+    #Blackjack_Tests.manual_test()
 
 

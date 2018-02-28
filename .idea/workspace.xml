@@ -2,18 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afba8995-ecc3-4204-a2a6-cfb3b48e3563" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/Program/Blackjack/Moves.py" />
-      <change beforePath="$PROJECT_DIR$/.idea/NEA.iml" afterPath="$PROJECT_DIR$/.idea/NEA.iml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/Notes.txt" afterPath="$PROJECT_DIR$/Notes.txt" />
       <change beforePath="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" afterPath="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/CC_AI.py" afterPath="$PROJECT_DIR$/Program/Blackjack/CC_AI.py" />
       <change beforePath="$PROJECT_DIR$/Program/Blackjack/CC_Agent.py" afterPath="$PROJECT_DIR$/Program/Blackjack/CC_Agent.py" />
       <change beforePath="$PROJECT_DIR$/Program/Blackjack/Comparison_Tool.py" afterPath="$PROJECT_DIR$/Program/Blackjack/Comparison_Tool.py" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/Blackjack_Agent_Interface.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_AI/Blackjack_Agent_Interface.py" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/TEST/dict_inc_test.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_AI/TEST/dict_inc_test.py" />
       <change beforePath="$PROJECT_DIR$/Program/Blackjack/Simple_AI.py" afterPath="$PROJECT_DIR$/Program/Blackjack/Simple_AI.py" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/Structs/Circular_Queue.py" afterPath="$PROJECT_DIR$/Program/Blackjack/Structs/Circular_Queue.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -27,8 +23,8 @@
       <file leaf-file-name="Notes.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Notes.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="793">
-              <caret line="368" column="69" lean-forward="false" selection-start-line="368" selection-start-column="69" selection-end-line="368" selection-end-column="69" />
+            <state relative-caret-position="515">
+              <caret line="378" column="75" lean-forward="false" selection-start-line="378" selection-start-column="75" selection-end-line="378" selection-end-column="75" />
               <folding />
             </state>
           </provider>
@@ -37,11 +33,11 @@
       <file leaf-file-name="Comparison_Tool.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Comparison_Tool.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="78" column="51" lean-forward="true" selection-start-line="78" selection-start-column="51" selection-end-line="78" selection-end-column="51" />
+            <state relative-caret-position="475">
+              <caret line="122" column="35" lean-forward="false" selection-start-line="122" selection-start-column="35" selection-end-line="122" selection-end-column="35" />
               <folding>
                 <element signature="e#0#22#0" expanded="true" />
-                <element signature="e#1415#1721#0" expanded="false" />
+                <element signature="e#1358#1664#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -50,91 +46,99 @@
       <file leaf-file-name="Blackjack.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Blackjack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="120" column="0" lean-forward="false" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
+            <state relative-caret-position="322">
+              <caret line="242" column="31" lean-forward="false" selection-start-line="242" selection-start-column="31" selection-end-line="242" selection-end-column="31" />
               <folding>
+                <element signature="e#0#21#0" expanded="true" />
                 <element signature="e#97#274#1" expanded="false" />
                 <element signature="e#276#388#1" expanded="false" />
-                <element signature="e#457#1501#0" expanded="false" />
                 <element signature="e#679#757#0" expanded="false" />
                 <element signature="e#693#757#0" expanded="false" />
-                <element signature="e#988#1052#0" expanded="false" />
-                <element signature="e#1548#1568#0" expanded="false" />
-                <element signature="e#1603#1625#0" expanded="false" />
-                <element signature="e#1938#1970#0" expanded="false" />
-                <element signature="e#2056#2268#0" expanded="false" />
-                <element signature="e#2303#2410#0" expanded="false" />
-                <element signature="e#2347#2410#0" expanded="false" />
-                <element signature="e#2492#3435#0" expanded="false" />
-                <element signature="e#2604#3410#0" expanded="false" />
-                <element signature="e#2864#2976#0" expanded="false" />
-                <element signature="e#3046#3410#0" expanded="false" />
-                <element signature="e#3285#3356#0" expanded="false" />
-                <element signature="e#3509#3716#0" expanded="false" />
-                <element signature="e#3563#3663#0" expanded="false" />
-                <element signature="e#4319#4606#0" expanded="false" />
-                <element signature="e#4363#4606#0" expanded="false" />
-                <element signature="e#4972#5030#0" expanded="false" />
-                <element signature="e#5122#5259#0" expanded="false" />
-                <element signature="e#5186#5259#0" expanded="false" />
-                <element signature="e#5342#5507#0" expanded="false" />
-                <element signature="e#5387#5486#0" expanded="false" />
-                <element signature="e#5546#5679#0" expanded="false" />
-                <element signature="e#6138#6161#0" expanded="false" />
-                <element signature="e#6254#6431#0" expanded="false" />
-                <element signature="e#6323#6404#0" expanded="false" />
-                <element signature="e#6449#8514#0" expanded="false" />
-                <element signature="e#6481#6792#0" expanded="false" />
-                <element signature="e#6629#6792#0" expanded="false" />
-                <element signature="e#6879#6894#0" expanded="false" />
-                <element signature="e#6938#6955#0" expanded="false" />
-                <element signature="e#7004#7027#0" expanded="false" />
-                <element signature="e#7071#7088#0" expanded="false" />
-                <element signature="e#7209#7340#0" expanded="false" />
-                <element signature="e#7371#7394#0" expanded="false" />
-                <element signature="e#7514#7892#0" expanded="false" />
-                <element signature="e#7587#7795#0" expanded="false" />
-                <element signature="e#7666#7767#0" expanded="false" />
-                <element signature="e#7984#8095#0" expanded="false" />
-                <element signature="e#8020#8074#0" expanded="false" />
-                <element signature="e#8126#8201#0" expanded="false" />
-                <element signature="e#8240#8276#0" expanded="false" />
-                <element signature="e#8315#8337#0" expanded="false" />
-                <element signature="e#8370#8384#0" expanded="false" />
-                <element signature="e#8545#8762#0" expanded="false" />
-                <element signature="e#8586#8606#0" expanded="false" />
-                <element signature="e#8701#8762#0" expanded="false" />
-                <element signature="e#8764#8964#1" expanded="false" />
-                <element signature="e#8983#8987#0" expanded="false" />
-                <element signature="e#9016#10246#0" expanded="false" />
-                <element signature="e#9074#9419#0" expanded="false" />
-                <element signature="e#9180#9208#0" expanded="false" />
-                <element signature="e#9265#9369#0" expanded="false" />
-                <element signature="e#9470#10067#0" expanded="false" />
-                <element signature="e#9557#10067#0" expanded="false" />
-                <element signature="e#9597#9938#0" expanded="false" />
-                <element signature="e#10131#10246#0" expanded="false" />
+                <element signature="e#1006#1070#0" expanded="false" />
+                <element signature="e#1566#1586#0" expanded="false" />
+                <element signature="e#1621#1643#0" expanded="false" />
+                <element signature="e#1688#1912#0" expanded="false" />
+                <element signature="e#1956#1988#0" expanded="false" />
+                <element signature="e#2074#2286#0" expanded="false" />
+                <element signature="e#2321#2428#0" expanded="false" />
+                <element signature="e#2365#2428#0" expanded="false" />
+                <element signature="e#2510#3453#0" expanded="false" />
+                <element signature="e#2622#3428#0" expanded="false" />
+                <element signature="e#2882#2994#0" expanded="false" />
+                <element signature="e#3064#3428#0" expanded="false" />
+                <element signature="e#3303#3374#0" expanded="false" />
+                <element signature="e#3776#3984#0" expanded="false" />
+                <element signature="e#4047#4150#0" expanded="false" />
+                <element signature="e#4276#4563#0" expanded="false" />
+                <element signature="e#4320#4563#0" expanded="false" />
+                <element signature="e#4676#4923#0" expanded="false" />
+                <element signature="e#4929#4987#0" expanded="false" />
+                <element signature="e#5299#5464#0" expanded="false" />
+                <element signature="e#5344#5443#0" expanded="false" />
+                <element signature="e#5503#5636#0" expanded="false" />
+                <element signature="e#5775#6084#0" expanded="false" />
+                <element signature="e#6090#6113#0" expanded="false" />
+                <element signature="e#6206#6383#0" expanded="false" />
+                <element signature="e#6275#6356#0" expanded="false" />
+                <element signature="e#6509#6627#0" expanded="false" />
+                <element signature="e#7076#7091#0" expanded="false" />
+                <element signature="e#7135#7152#0" expanded="false" />
+                <element signature="e#7201#7224#0" expanded="false" />
+                <element signature="e#7268#7285#0" expanded="false" />
+                <element signature="e#7568#7591#0" expanded="false" />
+                <element signature="e#8371#8446#0" expanded="false" />
+                <element signature="e#8485#8521#0" expanded="false" />
+                <element signature="e#8560#8582#0" expanded="false" />
+                <element signature="e#8615#8629#0" expanded="false" />
+                <element signature="e#8790#9025#0" expanded="false" />
+                <element signature="e#8831#8851#0" expanded="false" />
+                <element signature="e#9027#9227#1" expanded="false" />
+                <element signature="e#9246#9250#0" expanded="false" />
+                <element signature="e#9279#10509#0" expanded="false" />
+                <element signature="e#9337#9682#0" expanded="false" />
+                <element signature="e#9443#9471#0" expanded="false" />
+                <element signature="e#9528#9632#0" expanded="false" />
+                <element signature="e#9733#10330#0" expanded="false" />
+                <element signature="e#9820#10330#0" expanded="false" />
+                <element signature="e#9860#10201#0" expanded="false" />
+                <element signature="e#10394#10509#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Circular_Queue.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program/Blackjack/Structs/Circular_Queue.py">
+      <file leaf-file-name="CC_Agent.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Program/Blackjack/CC_Agent.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-117">
-              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+            <state relative-caret-position="424">
+              <caret line="73" column="45" lean-forward="false" selection-start-line="73" selection-start-column="45" selection-end-line="73" selection-end-column="45" />
+              <folding>
+                <element signature="e#148#185#0" expanded="true" />
+                <element signature="e#1609#1613#0" expanded="false" />
+                <element signature="e#1662#1696#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Deck.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Program/Blackjack/Deck.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Moves.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program/Blackjack/Moves.py">
+      <file leaf-file-name="dict_inc_test.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/TEST/dict_inc_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="119">
+              <caret line="7" column="15" lean-forward="true" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
+              <folding>
+                <element signature="e#0#38#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -142,15 +146,15 @@
       <file leaf-file-name="Simple_AI.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Simple_AI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="49" column="26" lean-forward="false" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
+            <state relative-caret-position="288">
+              <caret line="42" column="59" lean-forward="true" selection-start-line="42" selection-start-column="59" selection-end-line="42" selection-end-column="59" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
                 <element signature="e#192#520#0" expanded="false" />
                 <element signature="e#579#784#0" expanded="false" />
-                <element signature="e#1983#2211#0" expanded="false" />
-                <element signature="e#2252#2256#0" expanded="false" />
-                <element signature="e#2308#2312#0" expanded="false" />
+                <element signature="e#1967#2195#0" expanded="false" />
+                <element signature="e#2236#2240#0" expanded="false" />
+                <element signature="e#2292#2296#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -159,8 +163,8 @@
       <file leaf-file-name="NN.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="234" column="27" lean-forward="true" selection-start-line="234" selection-start-column="27" selection-end-line="234" selection-end-column="27" />
+            <state relative-caret-position="17">
+              <caret line="234" column="27" lean-forward="false" selection-start-line="234" selection-start-column="27" selection-end-line="234" selection-end-column="27" />
               <folding>
                 <element signature="e#555#823#0" expanded="false" />
                 <element signature="e#895#1692#0" expanded="false" />
@@ -239,25 +243,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CC_Agent.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program/Blackjack/CC_Agent.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-              <folding>
-                <element signature="e#148#185#0" expanded="true" />
-                <element signature="e#917#1310#0" expanded="false" />
-                <element signature="e#1361#1537#0" expanded="false" />
-                <element signature="e#1617#1621#0" expanded="false" />
-                <element signature="e#1670#1704#0" expanded="false" />
-                <element signature="e#1756#1916#0" expanded="false" />
-                <element signature="e#1973#2070#0" expanded="false" />
-                <element signature="e#2128#2526#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -269,7 +254,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>self.win_state = 1</find>
       <find>self.win_state = -1</find>
       <find>self.__root</find>
       <find>self.player_won</find>
@@ -296,6 +280,10 @@
       <find>new_cards</find>
       <find>players_dict</find>
       <find>agents_hand</find>
+      <find>None</find>
+      <find>push</find>
+      <find>current_players</find>
+      <find>Royals.ACE</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -312,6 +300,7 @@
       <replace>blackjack_inst</replace>
       <replace>agents_hand</replace>
       <replace>agents_hands</replace>
+      <replace>hands</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -358,21 +347,23 @@
         <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/Agent.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/CC_Interface.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Agent.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/CC_Agent.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Moves.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/CC_AI.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/Blackjack_Agent_Interface.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/Comparison_Tool.py" />
-        <option value="$PROJECT_DIR$/Notes.txt" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/Structs/Circular_Queue.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Simple_AI.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/CC_Agent.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/TEST/dict_inc_test.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/Comparison_Tool.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" />
+        <option value="$PROJECT_DIR$/Notes.txt" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="649" />
-    <option name="width" value="1278" />
+    <option name="x" value="440" />
+    <option name="width" value="1487" />
     <option name="height" value="1047" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -409,8 +400,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -441,12 +430,22 @@
               <item name="NEA" type="462c0819:PsiDirectoryNode" />
               <item name="Program" type="462c0819:PsiDirectoryNode" />
               <item name="Blackjack" type="462c0819:PsiDirectoryNode" />
+              <item name="NN_AI" type="462c0819:PsiDirectoryNode" />
+              <item name="TEST" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NEA" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NEA" type="462c0819:PsiDirectoryNode" />
+              <item name="Program" type="462c0819:PsiDirectoryNode" />
+              <item name="Blackjack" type="462c0819:PsiDirectoryNode" />
               <item name="Structs" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -500,7 +499,7 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration name="Blackjack" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="CC_Agent" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -512,7 +511,25 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="NEA" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Program/Blackjack/CC_Agent.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="Circular_Queue" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Program/Blackjack/Structs" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="NEA" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Program/Blackjack/Structs/Circular_Queue.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -567,24 +584,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="NEA" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
-    <configuration name="NN_Move" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Program/Blackjack/NN_AI" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="NEA" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN_Move.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -655,19 +654,19 @@
     </configuration>
     <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Python.Game" />
-      <item index="1" class="java.lang.String" itemvalue="Python.Blackjack" />
-      <item index="2" class="java.lang.String" itemvalue="Python.NN_2" />
-      <item index="3" class="java.lang.String" itemvalue="Python.Comparison_Tool" />
-      <item index="4" class="java.lang.String" itemvalue="Python.NN_Move" />
-      <item index="5" class="java.lang.String" itemvalue="Python.1" />
+      <item index="1" class="java.lang.String" itemvalue="Python.NN_2" />
+      <item index="2" class="java.lang.String" itemvalue="Python.Comparison_Tool" />
+      <item index="3" class="java.lang.String" itemvalue="Python.1" />
+      <item index="4" class="java.lang.String" itemvalue="Python.Circular_Queue" />
+      <item index="5" class="java.lang.String" itemvalue="Python.CC_Agent" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.Comparison_Tool" />
         <item index="1" class="java.lang.String" itemvalue="Python.1" />
-        <item index="2" class="java.lang.String" itemvalue="Python.NN_2" />
-        <item index="3" class="java.lang.String" itemvalue="Python.NN_Move" />
-        <item index="4" class="java.lang.String" itemvalue="Python.Blackjack" />
+        <item index="2" class="java.lang.String" itemvalue="Python.CC_Agent" />
+        <item index="3" class="java.lang.String" itemvalue="Python.Circular_Queue" />
+        <item index="4" class="java.lang.String" itemvalue="Python.NN_2" />
       </list>
     </recent_temporary>
   </component>
@@ -714,15 +713,16 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="649" y="0" width="1278" height="1047" extended-state="0" />
+    <frame x="440" y="0" width="1487" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.06022187" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13664174" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30010605" sideWeight="0.14270833" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.49707174" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3308351" sideWeight="0.85729164" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3308351" sideWeight="0.85729164" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -732,7 +732,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.49707174" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -769,7 +768,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="66" />
+      <option name="time" value="68" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -921,24 +920,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Deck.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="547">
-          <caret line="39" column="41" lean-forward="false" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/TEST/test2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/TEST/dict_inc_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="22" lean-forward="false" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -953,7 +938,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="25" column="12" lean-forward="false" selection-start-line="25" selection-start-column="12" selection-end-line="25" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -961,7 +945,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-389">
           <caret line="46" column="50" lean-forward="true" selection-start-line="46" selection-start-column="50" selection-end-line="46" selection-end-column="50" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -969,26 +952,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="25" column="28" lean-forward="false" selection-start-line="25" selection-start-column="28" selection-end-line="25" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/CC_Agent.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding>
-            <element signature="e#148#185#0" expanded="true" />
-            <element signature="e#917#1310#0" expanded="false" />
-            <element signature="e#1361#1537#0" expanded="false" />
-            <element signature="e#1617#1621#0" expanded="false" />
-            <element signature="e#1670#1704#0" expanded="false" />
-            <element signature="e#1756#1916#0" expanded="false" />
-            <element signature="e#1973#2070#0" expanded="false" />
-            <element signature="e#2128#2526#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1004,13 +967,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="629">
           <caret line="92" column="69" lean-forward="true" selection-start-line="92" selection-start-column="69" selection-end-line="92" selection-end-column="69" />
-          <folding>
-            <element signature="e#608#3022#0" expanded="false" />
-            <element signature="e#5763#6277#0" expanded="false" />
-            <element signature="e#6358#8315#0" expanded="false" />
-            <element signature="e#8371#8688#0" expanded="false" />
-            <element signature="e#8799#11695#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1039,8 +995,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="234" column="27" lean-forward="true" selection-start-line="234" selection-start-column="27" selection-end-line="234" selection-end-column="27" />
+        <state relative-caret-position="17">
+          <caret line="234" column="27" lean-forward="false" selection-start-line="234" selection-start-column="27" selection-end-line="234" selection-end-column="27" />
           <folding>
             <element signature="e#555#823#0" expanded="false" />
             <element signature="e#895#1692#0" expanded="false" />
@@ -1083,6 +1039,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Structs/Circular_Queue.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="40" column="28" lean-forward="false" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Moves.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -1093,112 +1057,126 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Simple_AI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="49" column="26" lean-forward="false" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
+        <state relative-caret-position="288">
+          <caret line="42" column="59" lean-forward="true" selection-start-line="42" selection-start-column="59" selection-end-line="42" selection-end-column="59" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
             <element signature="e#192#520#0" expanded="false" />
             <element signature="e#579#784#0" expanded="false" />
-            <element signature="e#1983#2211#0" expanded="false" />
-            <element signature="e#2252#2256#0" expanded="false" />
-            <element signature="e#2308#2312#0" expanded="false" />
+            <element signature="e#1967#2195#0" expanded="false" />
+            <element signature="e#2236#2240#0" expanded="false" />
+            <element signature="e#2292#2296#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Deck.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/TEST/dict_inc_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="15" lean-forward="true" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Comparison_Tool.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="78" column="51" lean-forward="true" selection-start-line="78" selection-start-column="51" selection-end-line="78" selection-end-column="51" />
+        <state relative-caret-position="475">
+          <caret line="122" column="35" lean-forward="false" selection-start-line="122" selection-start-column="35" selection-end-line="122" selection-end-column="35" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
-            <element signature="e#1415#1721#0" expanded="false" />
+            <element signature="e#1358#1664#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Structs/Circular_Queue.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-117">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Blackjack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="120" column="0" lean-forward="false" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
+        <state relative-caret-position="322">
+          <caret line="242" column="31" lean-forward="false" selection-start-line="242" selection-start-column="31" selection-end-line="242" selection-end-column="31" />
           <folding>
+            <element signature="e#0#21#0" expanded="true" />
             <element signature="e#97#274#1" expanded="false" />
             <element signature="e#276#388#1" expanded="false" />
-            <element signature="e#457#1501#0" expanded="false" />
             <element signature="e#679#757#0" expanded="false" />
             <element signature="e#693#757#0" expanded="false" />
-            <element signature="e#988#1052#0" expanded="false" />
-            <element signature="e#1548#1568#0" expanded="false" />
-            <element signature="e#1603#1625#0" expanded="false" />
-            <element signature="e#1938#1970#0" expanded="false" />
-            <element signature="e#2056#2268#0" expanded="false" />
-            <element signature="e#2303#2410#0" expanded="false" />
-            <element signature="e#2347#2410#0" expanded="false" />
-            <element signature="e#2492#3435#0" expanded="false" />
-            <element signature="e#2604#3410#0" expanded="false" />
-            <element signature="e#2864#2976#0" expanded="false" />
-            <element signature="e#3046#3410#0" expanded="false" />
-            <element signature="e#3285#3356#0" expanded="false" />
-            <element signature="e#3509#3716#0" expanded="false" />
-            <element signature="e#3563#3663#0" expanded="false" />
-            <element signature="e#4319#4606#0" expanded="false" />
-            <element signature="e#4363#4606#0" expanded="false" />
-            <element signature="e#4972#5030#0" expanded="false" />
-            <element signature="e#5122#5259#0" expanded="false" />
-            <element signature="e#5186#5259#0" expanded="false" />
-            <element signature="e#5342#5507#0" expanded="false" />
-            <element signature="e#5387#5486#0" expanded="false" />
-            <element signature="e#5546#5679#0" expanded="false" />
-            <element signature="e#6138#6161#0" expanded="false" />
-            <element signature="e#6254#6431#0" expanded="false" />
-            <element signature="e#6323#6404#0" expanded="false" />
-            <element signature="e#6449#8514#0" expanded="false" />
-            <element signature="e#6481#6792#0" expanded="false" />
-            <element signature="e#6629#6792#0" expanded="false" />
-            <element signature="e#6879#6894#0" expanded="false" />
-            <element signature="e#6938#6955#0" expanded="false" />
-            <element signature="e#7004#7027#0" expanded="false" />
-            <element signature="e#7071#7088#0" expanded="false" />
-            <element signature="e#7209#7340#0" expanded="false" />
-            <element signature="e#7371#7394#0" expanded="false" />
-            <element signature="e#7514#7892#0" expanded="false" />
-            <element signature="e#7587#7795#0" expanded="false" />
-            <element signature="e#7666#7767#0" expanded="false" />
-            <element signature="e#7984#8095#0" expanded="false" />
-            <element signature="e#8020#8074#0" expanded="false" />
-            <element signature="e#8126#8201#0" expanded="false" />
-            <element signature="e#8240#8276#0" expanded="false" />
-            <element signature="e#8315#8337#0" expanded="false" />
-            <element signature="e#8370#8384#0" expanded="false" />
-            <element signature="e#8545#8762#0" expanded="false" />
-            <element signature="e#8586#8606#0" expanded="false" />
-            <element signature="e#8701#8762#0" expanded="false" />
-            <element signature="e#8764#8964#1" expanded="false" />
-            <element signature="e#8983#8987#0" expanded="false" />
-            <element signature="e#9016#10246#0" expanded="false" />
-            <element signature="e#9074#9419#0" expanded="false" />
-            <element signature="e#9180#9208#0" expanded="false" />
-            <element signature="e#9265#9369#0" expanded="false" />
-            <element signature="e#9470#10067#0" expanded="false" />
-            <element signature="e#9557#10067#0" expanded="false" />
-            <element signature="e#9597#9938#0" expanded="false" />
-            <element signature="e#10131#10246#0" expanded="false" />
+            <element signature="e#1006#1070#0" expanded="false" />
+            <element signature="e#1566#1586#0" expanded="false" />
+            <element signature="e#1621#1643#0" expanded="false" />
+            <element signature="e#1688#1912#0" expanded="false" />
+            <element signature="e#1956#1988#0" expanded="false" />
+            <element signature="e#2074#2286#0" expanded="false" />
+            <element signature="e#2321#2428#0" expanded="false" />
+            <element signature="e#2365#2428#0" expanded="false" />
+            <element signature="e#2510#3453#0" expanded="false" />
+            <element signature="e#2622#3428#0" expanded="false" />
+            <element signature="e#2882#2994#0" expanded="false" />
+            <element signature="e#3064#3428#0" expanded="false" />
+            <element signature="e#3303#3374#0" expanded="false" />
+            <element signature="e#3776#3984#0" expanded="false" />
+            <element signature="e#4047#4150#0" expanded="false" />
+            <element signature="e#4276#4563#0" expanded="false" />
+            <element signature="e#4320#4563#0" expanded="false" />
+            <element signature="e#4676#4923#0" expanded="false" />
+            <element signature="e#4929#4987#0" expanded="false" />
+            <element signature="e#5299#5464#0" expanded="false" />
+            <element signature="e#5344#5443#0" expanded="false" />
+            <element signature="e#5503#5636#0" expanded="false" />
+            <element signature="e#5775#6084#0" expanded="false" />
+            <element signature="e#6090#6113#0" expanded="false" />
+            <element signature="e#6206#6383#0" expanded="false" />
+            <element signature="e#6275#6356#0" expanded="false" />
+            <element signature="e#6509#6627#0" expanded="false" />
+            <element signature="e#7076#7091#0" expanded="false" />
+            <element signature="e#7135#7152#0" expanded="false" />
+            <element signature="e#7201#7224#0" expanded="false" />
+            <element signature="e#7268#7285#0" expanded="false" />
+            <element signature="e#7568#7591#0" expanded="false" />
+            <element signature="e#8371#8446#0" expanded="false" />
+            <element signature="e#8485#8521#0" expanded="false" />
+            <element signature="e#8560#8582#0" expanded="false" />
+            <element signature="e#8615#8629#0" expanded="false" />
+            <element signature="e#8790#9025#0" expanded="false" />
+            <element signature="e#8831#8851#0" expanded="false" />
+            <element signature="e#9027#9227#1" expanded="false" />
+            <element signature="e#9246#9250#0" expanded="false" />
+            <element signature="e#9279#10509#0" expanded="false" />
+            <element signature="e#9337#9682#0" expanded="false" />
+            <element signature="e#9443#9471#0" expanded="false" />
+            <element signature="e#9528#9632#0" expanded="false" />
+            <element signature="e#9733#10330#0" expanded="false" />
+            <element signature="e#9820#10330#0" expanded="false" />
+            <element signature="e#9860#10201#0" expanded="false" />
+            <element signature="e#10394#10509#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/CC_Agent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="424">
+          <caret line="73" column="45" lean-forward="false" selection-start-line="73" selection-start-column="45" selection-end-line="73" selection-end-column="45" />
+          <folding>
+            <element signature="e#148#185#0" expanded="true" />
+            <element signature="e#1609#1613#0" expanded="false" />
+            <element signature="e#1662#1696#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Notes.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="793">
-          <caret line="368" column="69" lean-forward="false" selection-start-line="368" selection-start-column="69" selection-end-line="368" selection-end-column="69" />
+        <state relative-caret-position="515">
+          <caret line="378" column="75" lean-forward="false" selection-start-line="378" selection-start-column="75" selection-end-line="378" selection-end-column="75" />
           <folding />
         </state>
       </provider>

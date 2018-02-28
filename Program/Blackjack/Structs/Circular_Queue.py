@@ -37,8 +37,8 @@ class Circular_Queue:
 
         if self.__front == self.__rear:
             self.__front, self.__rear = -1, -1
-        elif self.__front == (self.__size -1):
-            self.__front = -1
+        elif self.__front == (self.__size - 1):
+            self.__front = 0
         else:
             self.__front += 1
         self.__num_elements -= 1
@@ -54,3 +54,14 @@ class Circular_Queue:
 
     def isEmpty(self):
         return self.__front == -1 and self.__rear == -1
+
+if __name__ == "__main__":
+    q = Circular_Queue(2)
+
+    for x in range(5):
+        print()
+        for i in range(2):
+            q.push(i)
+        while not q.isEmpty():
+            print("peek", q.peek())
+            print("pop", q.pop())

@@ -29,8 +29,8 @@ class CC_Agent(Agent):
         chances = self.CC.calcChances(AI_hand_val, best_hand_val, NN_Winning)
         return chances
 
-    def get_move(self, current_players):
-        game_state = self.get_state(current_players)
+    def get_move(self, all_players):
+        game_state = self.get_state(all_players)
         chances = self.get_chances(game_state)
         move_next = self.getNextAction(chances, game_state)
         return move_next
@@ -42,25 +42,35 @@ class CC_Agent(Agent):
     def decrement_CC(self, new_cards):
         self.CC.decrement_cards(new_cards)
 
-    def get_state(self, current_players):
-        agent_hand = self.get_agent_hand(current_players)
-        best_player_hand = self.get_best_player(current_players)
+    def get_state(self, hands):
+        agent_hand = self.get_agent_hand(hands)
+        best_player_hand = self.get_best_player(hands)
         return [agent_hand, best_player_hand]
 
-    def get_agent_hand(self, current_players):
-        for player in current_players:
+    def get_agent_hand(self, hands):
+        for player in hands:
             if player.id == self.ID:
                 return player
 
-    def get_best_player(self, current_players):
+    # not necessarily going to be anyone but the current agent
+    def get_best_player(self, hands):
         best_hand_value = 0
         best_hand_hand = None
         # find the second best player
-        for player in current_players:
+        for player in hands:
             if player.id == self.ID:
                 continue
             player_value = player.get_value()
             if player_value > best_hand_value:
                 best_hand_value = player_value
                 best_hand_hand = player
+        # should never go to this section, because the dealer always plays last and cannot be bust
+        if best_hand_hand == None:
+            print("its happening again dude!")
+            for player in hands:
+                if player.id == "dealer":
+                    for card in player.hand:
+                        print(card)
+                    print(player.get_value())
+            best_hand_hand = self.get_agent_hand(hands)
         return best_hand_hand

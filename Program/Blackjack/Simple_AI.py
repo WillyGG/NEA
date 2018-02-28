@@ -25,8 +25,8 @@ class Simple_AI(Agent):
             self.bust_threshold = 7
 
     # returns decision to hit or not -> true => hit, false => stand
-    def get_move(self, current_players):
-        best_player_value = self.get_best_hand_value(current_players)
+    def get_move(self, all_players):
+        best_player_value = self.get_best_hand_value(all_players)
         hand_value = self.hand.get_value()
         agent_winning = hand_value > best_player_value
 
@@ -39,8 +39,8 @@ class Simple_AI(Agent):
             return Moves.HIT
         return Moves.STAND
 
-    def get_best_hand_value(self, current_players):
-        all_hand_values = self.get_hand_values(current_players)
+    def get_best_hand_value(self, all_players):
+        all_hand_values = self.get_hand_values(all_players)
         return all_hand_values[0] # this is the best player hand value
 
     # pass in list of hands

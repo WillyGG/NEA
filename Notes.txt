@@ -367,3 +367,13 @@
     - Figure out why comparison tool is so faking slow
     - and why everyone loses all the time
     - sometimes queue has None in the middle of it -> figure this out
+
+ 28 Feb:
+    - Debugged circular queue - for sometimes returning None (pointer not being adjusted properly for pop)
+    - changed the get_move arg to all players -> if a hand is bust, return -1 for the hand value, if everyone is bust then have ai as best hand
+    - implemeneted a get_value of -1 for when a hand is bust
+    - comparison tool, normal mode working (not implemented nn)
+
+    TODO:
+    - BUG -> if a player is dealt 2 aces as their first cards, they auto go bust -> should be going down to 12
+        -> Fixed -> Issue relating to how equality with enums was evaluated
