@@ -35,6 +35,13 @@ class DB:
                     query = ""
         return queries
 
+    # returns true if query is safe
+    def sanitize_query(self, query):
+        if "drop" in query:
+            return False
+        else:
+            return True
+
     # execute passed query or passed array of queries
     def execute_queries(self, queries):
         # turns single query into executable form - defensive programming
@@ -62,6 +69,8 @@ class DB:
 
 if __name__ == "__main__":
     db = DB("Blackjack.sqlite")
-    #db.execute_queries_from_file("Create_Agents_Table")
-    #db.execute_queries_from_file("Populate_Agents")
+    db.execute_queries_from_file("Create_Agents_Table")
+    db.execute_queries_from_file("Populate_Agents")
+    db.execute_queries_from_file("Create_Games_Record")
+    db.execute_queries('INSERT INTO "Game_Record" (winner_id, winning_hand, winning_hand_value, num_of_turns) VALUES (0,"asdf", 10, 2)')
     db.display_all_records("Agents")
