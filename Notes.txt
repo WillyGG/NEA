@@ -383,3 +383,6 @@
     - TO implement NN -> implement model saver, implement a way to start and end the session 
         - up and down methods for all agents?
         - implement a group training mode
+
+ 1 March:
+    - Added boilerplate code for sql

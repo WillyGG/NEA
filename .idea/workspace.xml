@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afba8995-ecc3-4204-a2a6-cfb3b48e3563" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/Program/Blackjack/DB/Create_Agents_Table.sql" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Program/Blackjack/DB/Create_DB.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Program/Blackjack/DB/Populate_Agents.sql" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Program/Blackjack/DB/__init__.py" />
-      <change beforePath="$PROJECT_DIR$/.idea/NEA.iml" afterPath="$PROJECT_DIR$/.idea/NEA.iml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/Notes.txt" afterPath="$PROJECT_DIR$/Notes.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,11 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Notes.txt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Notes.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Notes.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="362" column="17" lean-forward="false" selection-start-line="362" selection-start-column="17" selection-end-line="362" selection-end-column="17" />
+            <state relative-caret-position="339">
+              <caret line="387" column="36" lean-forward="false" selection-start-line="387" selection-start-column="36" selection-end-line="387" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -49,7 +43,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Populate_Agents.sql" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Populate_Agents.sql" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Populate_Agents.sql">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="90">
@@ -228,11 +222,11 @@
         <option value="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/Training_Interface.py" />
-        <option value="$PROJECT_DIR$/Notes.txt" />
         <option value="$PROJECT_DIR$/Program/Blackjack/DB/Create_Agents_Table.sql" />
         <option value="$PROJECT_DIR$/Program/Blackjack/DB/Populate_Agents.sql" />
         <option value="$PROJECT_DIR$/Program/Blackjack/DB/Create_DB.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/DB/test.py" />
+        <option value="$PROJECT_DIR$/Notes.txt" />
       </list>
     </option>
   </component>
@@ -888,14 +882,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Notes.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="362" column="17" lean-forward="false" selection-start-line="362" selection-start-column="17" selection-end-line="362" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Create_Agents_Table.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
@@ -924,6 +910,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="5" column="37" lean-forward="false" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Notes.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="387" column="36" lean-forward="false" selection-start-line="387" selection-start-column="36" selection-end-line="387" selection-end-column="36" />
           <folding />
         </state>
       </provider>
