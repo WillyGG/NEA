@@ -386,3 +386,5 @@
 
  1 March:
     - Added boilerplate code for sql
+    - updated class to auto open and close connection within methods - connection is opened and closed per each method,
+      rather than per class instance
