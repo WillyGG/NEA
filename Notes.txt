@@ -388,3 +388,10 @@
     - Added boilerplate code for sql
     - updated class to auto open and close connection within methods - connection is opened and closed per each method,
       rather than per class instance
+
+ 04 March:
+    - created sql for creating users table
+    - created users_db python wrapper
+
+    TODO:
+     - test user class

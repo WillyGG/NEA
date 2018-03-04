@@ -7,7 +7,7 @@ CREATE TABLE Game_Record (
     PRIMARY KEY(game_id)
 );
 
-CREATE Table Player_ids (
+CREATE TABLE Player_ids (
     player_1 INTEGER DEFAULT NULL,
     player_2 INTEGER DEFAULT NULL,
     player_3 INTEGER DEFAULT NULL,
@@ -19,4 +19,14 @@ CREATE Table Player_ids (
 
     FOREIGN KEY (game_id) REFERENCES Game_Record(game_id)
     PRIMARY KEY (game_id)
+);
+
+CREATE TABLE Moves (
+    player_id INTEGER NOT NULL,
+    game_id INTEGER NOT NULL,
+    turn_num INTEGER NOT NULL,
+    hand TEXT NOT NULL,
+    move BIT NOT Null, -- 1 -> Hit, 0 -> False
+    FOREIGN KEY (game_id) REFERENCES Game_Record(game_id)
+    PRIMARY KEY(player_id, game_id, turn_num)
 );
