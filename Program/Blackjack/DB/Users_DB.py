@@ -33,18 +33,17 @@ class Users_DB(DB):
     def check_acceptable_password(self, password):
         has_number = False
         has_capital = False
-        for character in password:
-            unicode_num = ord(character)
+        ind = 0
+        pword_len = len(password)  # so it does not have to be recalculated
+        while not (has_number and has_capital) and (ind < pword_len):
+            unicode_num = ord(password[ind])
             # checks if the character is a capital
             if 65 <= unicode_num <= 90:
                 has_capital = True
-                if has_number and has_capital:
-                    break
             # checks if the character is a number
             elif 48 <= unicode_num <= 57:
                 has_number = True
-                if has_number and has_capital:
-                    break
+            ind += 1
         return has_capital and has_number
 
     # hashes a passed password - currently returns the hex version of the hashing
