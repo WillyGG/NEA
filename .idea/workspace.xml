@@ -2,21 +2,394 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afba8995-ecc3-4204-a2a6-cfb3b48e3563" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" />
-      <change beforePath="$PROJECT_DIR$/Notes.txt" afterPath="$PROJECT_DIR$/Notes.txt" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" afterPath="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/Card_Counter.py" afterPath="$PROJECT_DIR$/Program/Blackjack/Card_Counter.py" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/DB/Create_Agents_Table.sql" afterPath="$PROJECT_DIR$/Program/Blackjack/DB/Create_Agents_Table.sql" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/DB/Create_Games_Record.sql" afterPath="$PROJECT_DIR$/Program/Blackjack/DB/Create_Games_Record.sql" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/DB/Create_Users_Table.sql" afterPath="$PROJECT_DIR$/Program/Blackjack/DB/Create_Users_Table.sql" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/DB/DB.py" afterPath="$PROJECT_DIR$/Program/Blackjack/DB/DB.py" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/DB/Users_DB.py" afterPath="$PROJECT_DIR$/Program/Blackjack/DB/Users_DB.py" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/Moves.py" afterPath="$PROJECT_DIR$/Program/Blackjack/Moves.py" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/Blackjack_Agent_Interface.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_AI/Blackjack_Agent_Interface.py" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/CC_Interface.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_AI/CC_Interface.py" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN_Move.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN_Move.py" />
       <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/Training_Interface.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_AI/Training_Interface.py" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/checkpoint" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-18.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-18.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-18.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-19.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-19.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-19.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-20.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-20.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-20.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-21.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-21.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-21.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-22.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-22.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-22.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-06.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-06.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-06.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-07.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-07.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-07.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-08.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-08.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-08.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-09.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-09.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-09.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-10.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-10.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-10.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-25.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-25.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-25.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-26.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-26.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-26.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-27.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-27.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-27.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-28.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-28.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-28.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-29.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-29.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-29.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-23.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-23.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-23.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-24.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-24.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-24.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-25.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-25.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-25.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-26.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-26.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-26.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-27.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-27.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-27.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-27.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-27.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-27.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-28.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-28.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-28.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-29.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-29.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-29.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-30.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-30.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-30.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-31.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-31.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-31.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-32.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-32.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-32.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-33.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-33.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-33.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-34.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-34.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-34.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-35.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-35.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-35.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-36.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-36.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-36.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-48.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-48.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-48.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-49.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-49.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-49.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-50.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-50.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-50.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-51.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-51.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-51.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-52.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-52.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-52.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-53.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-53.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-53.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-54.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-54.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-54.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-55.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-55.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-55.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-56.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-56.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-56.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-57.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-57.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-57.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-40.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-40.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-40.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-41.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-41.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-41.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-42.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-42.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-42.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-43.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-43.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-43.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-44.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-44.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-44.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-16-59.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-16-59.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-16-59.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-00.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-00.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-00.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-01.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-01.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-01.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-02.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-02.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-02.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-03.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-03.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-03.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-00.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-00.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-00.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-01.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-01.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-01.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-02.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-02.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-02.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-03.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-03.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-03.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-04.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-04.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-04.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-33.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-33.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-33.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-34.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-34.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-34.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-35.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-35.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-35.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-02.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-02.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-02.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-03.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-03.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-03.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-04.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-04.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-04.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-29.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-29.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-29.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-30.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-30.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-30.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-31.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-31.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-31.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-32.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-32.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-32.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-33.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-33.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-33.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-15.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-15.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-15.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-16.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-16.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-16.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-17.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-17.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-17.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-18.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-18.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-18.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-19.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-19.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-19.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-02.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-02.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-02.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-03.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-03.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-03.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-04.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-04.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-04.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-05.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-05.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-05.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-06.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-06.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-41.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-41.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-41.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-42.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-42.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-42.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-43.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-43.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-43.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-44.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-44.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-44.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-45.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-45.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-45.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-20.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-20.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-20.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-21.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-21.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-21.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-22.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-22.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-22.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-23.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-23.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-23.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-24.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-24.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-24.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-57.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-57.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-57.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-58.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-58.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-58.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-59.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-59.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-59.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-33-00.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-33-00.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-33-00.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-33-01.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-33-01.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-33-01.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-03.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-03.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-03.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-04.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-04.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-04.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-05.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-05.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-05.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-06.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-06.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-06.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-07.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-07.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-07.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-32.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-32.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-32.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-33.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-33.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-33.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-34.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-34.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-34.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-35.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-35.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-35.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-36.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-36.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-36.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-55.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-55.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-55.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-56.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-56.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-56.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-57.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-57.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-57.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-58.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-58.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-58.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-59.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-59.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-59.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-34.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-34.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-34.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-35.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-35.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-35.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-36.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-36.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-36.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-03.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-03.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-03.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-04.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-04.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-04.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-05.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-05.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-05.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-06.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-06.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-06.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-07.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-07.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-07.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-14.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-14.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-14.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-15.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-15.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-15.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-16.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-16.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-16.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-17.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-17.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-17.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-18.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-18.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-18.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-11.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-11.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-11.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-12.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-12.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-12.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-13.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-13.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-13.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-14.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-14.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-14.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-15.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-15.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-15.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-52.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-52.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-52.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-53.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-53.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-53.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-54.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-54.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-54.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-55.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-55.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-55.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-56.cptk.data-00000-of-00001" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-56.cptk.index" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-56.cptk.meta" afterPath="" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -27,11 +400,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Notes.txt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Notes.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Notes.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="284">
-              <caret line="405" column="42" lean-forward="false" selection-start-line="405" selection-start-column="42" selection-end-line="405" selection-end-column="42" />
+            <state relative-caret-position="230">
+              <caret line="402" column="77" lean-forward="true" selection-start-line="402" selection-start-column="77" selection-end-line="402" selection-end-column="77" />
               <folding />
             </state>
           </provider>
@@ -52,7 +425,7 @@
       <file leaf-file-name="NN.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
+            <state relative-caret-position="101">
               <caret line="215" column="28" lean-forward="false" selection-start-line="215" selection-start-column="28" selection-end-line="215" selection-end-column="28" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
@@ -94,17 +467,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Training_Interface.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Training_Interface.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/Training_Interface.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="988">
-              <caret line="278" column="9" lean-forward="false" selection-start-line="278" selection-start-column="9" selection-end-line="278" selection-end-column="9" />
+            <state relative-caret-position="277">
+              <caret line="131" column="26" lean-forward="false" selection-start-line="131" selection-start-column="26" selection-end-line="131" selection-end-column="26" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
                 <element signature="e#793#3207#0" expanded="false" />
-                <element signature="e#6402#9051#0" expanded="false" />
-                <element signature="e#9272#9786#0" expanded="false" />
-                <element signature="e#10244#12201#0" expanded="false" />
+                <element signature="e#6353#9002#0" expanded="false" />
+                <element signature="e#9223#9737#0" expanded="false" />
+                <element signature="e#10195#12152#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -331,8 +704,8 @@
         <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN_Move.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Moves.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/Training_Interface.py" />
         <option value="$PROJECT_DIR$/Notes.txt" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/Training_Interface.py" />
       </list>
     </option>
   </component>
@@ -681,7 +1054,7 @@
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30010605" sideWeight="0.14270833" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4519685" sideWeight="0.85729164" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.85729164" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32913387" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -1149,16 +1522,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/NN_Move.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-175">
-          <caret line="9" column="128" lean-forward="false" selection-start-line="9" selection-start-column="128" selection-end-line="9" selection-end-column="128" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/CC_Interface.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -1207,9 +1570,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Notes.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="402" column="77" lean-forward="true" selection-start-line="402" selection-start-column="77" selection-end-line="402" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/NN_Move.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-175">
+          <caret line="9" column="128" lean-forward="false" selection-start-line="9" selection-start-column="128" selection-end-line="9" selection-end-column="128" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
+        <state relative-caret-position="101">
           <caret line="215" column="28" lean-forward="false" selection-start-line="215" selection-start-column="28" selection-end-line="215" selection-end-column="28" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
@@ -1252,23 +1633,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/Training_Interface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="988">
-          <caret line="278" column="9" lean-forward="false" selection-start-line="278" selection-start-column="9" selection-end-line="278" selection-end-column="9" />
+        <state relative-caret-position="277">
+          <caret line="131" column="26" lean-forward="false" selection-start-line="131" selection-start-column="26" selection-end-line="131" selection-end-column="26" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
             <element signature="e#793#3207#0" expanded="false" />
-            <element signature="e#6402#9051#0" expanded="false" />
-            <element signature="e#9272#9786#0" expanded="false" />
-            <element signature="e#10244#12201#0" expanded="false" />
+            <element signature="e#6353#9002#0" expanded="false" />
+            <element signature="e#9223#9737#0" expanded="false" />
+            <element signature="e#10195#12152#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Notes.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="405" column="42" lean-forward="false" selection-start-line="405" selection-start-column="42" selection-end-line="405" selection-end-column="42" />
-          <folding />
         </state>
       </provider>
     </entry>

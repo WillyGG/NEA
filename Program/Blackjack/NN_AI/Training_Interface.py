@@ -128,11 +128,8 @@ class Training_Interface:
             bufferArray = np.array(episode_buffer)
             episodeBuffer = list(zip(bufferArray))
             self.exp_buffer.add(episodeBuffer)
-
-            if i % save_frequency == 0:
-                self.save_model()
-
             self.BlJa_Interface.reset()
+        self.save_model() 
 
     # Start out simple with one player
     def training_CC_Interface(self, sess):
