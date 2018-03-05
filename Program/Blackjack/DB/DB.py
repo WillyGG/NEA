@@ -51,31 +51,32 @@ class DB:
         if isinstance(queries, str):
             queries = [queries]
         # turns parameter place_holder into executable form
-        if (place_holder is not None) and (isinstance(place_holder, str)):
-            place_holder = [place_holder]
+        #if (isinstance(place_holder, str)):
+        #    place_holder = (place_holder)
         connection, cursor = self.connect_to_db()  # open connection
-        try:
-            for index, query in enumerate(queries):
-                # if parameter does not exist, just execute query
+        for index, query in enumerate(queries):
+            # if parameter does not exist, just execute query
+            try:
                 if (place_holder is None) or (index >= len(place_holder)) or (place_holder[index] is None):
                     cursor.execute(query)
-                else:
+                else: # TODO THIS DOES NOT WORK
                     parameter = place_holder[index]
+                    print("parameter", parameter)
                     cursor.execute(query, parameter)
+            except Exception as e:
+                print(e)
+                return e
             connection.commit()
-            if keep_open:
-                return connection, cursor
-            else:
-                connection.close()
-                return True
-        except Exception as e:
-            print(e)
-            return False
+        if keep_open:
+            return connection, cursor
+        else:
+            connection.close()
+            return True
 
     def display_all_records(self, table_name):
         connection, cursor = self.connect_to_db(self.db_path)  # open connection
-        query = "SELECT * FROM :table_name"
-        cursor.execute(query, {"table_name": table_name})
+        query = "SELECT * FROM " + table_name
+        cursor.execute(query)
         rows = cursor.fetchall()
         connection.close()
         for row in rows:

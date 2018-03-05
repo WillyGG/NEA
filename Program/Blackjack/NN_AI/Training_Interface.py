@@ -4,7 +4,9 @@ import tensorflow.contrib.slim as slim
 from CC_Interface import CC_Interface
 from experience_buffer import experience_buffer
 from NN_Move import NN_Move
-import os
+import sys,os
+sys.path.append(os.path.realpath(".."))
+from Moves import Moves
 from datetime import datetime
 
 
@@ -17,6 +19,7 @@ class Training_Interface:
         self.exp_buffer = experience_buffer()
         self.sess = None
         self.saver = tf.train.Saver(max_to_keep=5)
+        self.NN_ID = "nn"
 
     def train_default(self, sess):
         train_iterations = self.parameters["train_steps"]
@@ -70,6 +73,67 @@ class Training_Interface:
                 self.save_model()
             self.BlJa_Interface.reset()
 
+    def training_group(self, sess):
+        train_iterations = self.parameters["train_steps"]
+        explore_steps = self.parameters["explore_steps"]
+        update_frequency = self.parameters["update_frequency"]
+        save_frequency = self.parameters["save_model_frequency"]
+        hidden_size = self.parameters["hidden_size"]
+
+        self.sess = sess
+        self.Target_Network.updateTarget(sess)
+
+        for i in range(train_iterations):
+            # self.BlJa_Interface.reset() # Implement this
+            self.game_state = self.BlJa_Interface.get_game_state()
+            episode_buffer = []
+            self.rnn_state = np.zeros([1, hidden_size]), np.zeros(
+                [1, hidden_size])  # Reset the recurrent layer's hidden state
+
+            # step in game, get reward and new state
+            while self.BlJa_Interface.continue_game():  # change this to just take a move when it's the AIs turn
+                current_agent = self.BlJa_Interface.get_current_player()
+                if current_agent.id != self.BlJa_Interface.NN_ID:
+                    move = self.BlJa_Interface.get_aux_move()
+                    self.BlJa_Interface.process_action(move)
+                    new_game_state = self.BlJa_Interface.get_game_state()
+                else:  # is the nn agent's turn
+                    exploring = (i <= explore_steps)
+                    self.action = self.choose_action(exploring)
+                    self.BlJa_Interface.process_action(self.action)
+                    new_game_state = self.BlJa_Interface.get_game_state()
+                    new_rnn_state = self.get_new_rnn_state()
+                    reward = self.BlJa_Interface.gen_step_reward()
+
+                    self.action = Moves.convert_to_bool(self.action)
+                    episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
+                                                               new_game_state, self.BlJa_Interface.continue_game()]),
+                                                     [1, 5]))
+                    if i % update_frequency == 0 and not exploring:
+                        self.update_networks()
+                    self.rnn_state = new_rnn_state  # UPDATE RNN CELL STATE
+
+                self.game_state = new_game_state
+
+            # PROCESS END OF GAME
+            # GET THE END OF GAME REWARD
+            self.BlJa_Interface.end_game()
+            reward = self.BlJa_Interface.gen_step_reward()
+
+            # decide if you want to append this
+            self.action = Moves.convert_to_bool(self.action)
+            episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
+                                                       self.game_state, self.BlJa_Interface.continue_game()]), [1, 5]))
+            # Add the episode to the experience buffer
+            bufferArray = np.array(episode_buffer)
+            episodeBuffer = list(zip(bufferArray))
+            self.exp_buffer.add(episodeBuffer)
+
+            if i % save_frequency == 0:
+                self.save_model()
+
+            self.BlJa_Interface.reset()
+
     # Start out simple with one player
     def training_CC_Interface(self, sess):
         train_iterations = self.parameters["train_steps"]
@@ -95,13 +159,17 @@ class Training_Interface:
                 new_game_state = self.BlJa_Interface.get_game_state()
                 new_rnn_state = self.get_new_rnn_state()
                 reward = self.BlJa_Interface.gen_step_reward()
+
+                self.action = Moves.convert_to_bool(self.action)
+                if self.action is None:
+                    print("converted_action", self.action)
                 episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
-                                                           new_game_state, self.BlJa_Interface.continue_game()]), [1, 5]))
+                                                       new_game_state, self.BlJa_Interface.continue_game()]), [1, 5]))
                 if i % update_frequency == 0 and not exploring:
                     self.update_networks()
+                self.rnn_state = new_rnn_state  # UPDATE RNN CELL STATE
 
                 self.game_state = new_game_state
-                self.rnn_state = new_rnn_state  # UPDATE RNN CELL STATE
 
             # PROCESS END OF GAME
             # GET THE END OF GAME REWARD
@@ -109,6 +177,7 @@ class Training_Interface:
             reward = self.BlJa_Interface.gen_step_reward()
 
             # decide if you want to append this
+            self.action = Moves.convert_to_bool(self.action)
             episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
                                                        self.game_state, self.BlJa_Interface.continue_game()]), [1, 5]))
             # Add the episode to the experience buffer
@@ -134,7 +203,7 @@ class Training_Interface:
         return new_rnn_state
 
     def save_model(self):
-        path = self.parameters["path"]
+        path = self.parameters["path_default"]
         # Make a path for our model to be saved in.
         if not os.path.exists(path):
             os.makedirs(path)
@@ -183,21 +252,34 @@ class Training_Interface:
         )
 
     def choose_action(self, exploring=False):
-        return NN_Move.choose_action(self.parameters,
+        bool_move = NN_Move.choose_action(self.parameters,
                                      self.Primary_Network,
                                      self.game_state,
                                      self.rnn_state,
                                      self.sess,
                                      exploring=exploring)
+        if bool_move == True:
+            return Moves.HIT
+        elif bool_move == False:
+            return Moves.STAND
+        else:
+            print("bool_move", bool_move)
+
+    # maybe put all load models into one method and just pass the type
+    def load_model_default(self):
+        path = self.parameters["path_default"]
+        ckpt = tf.train.get_checkpoint_state(path)  # gets the checkpoint from the last checkpoint file
+        self.saver.restore(self.sess, ckpt.model_checkpoint_path)
 
     # maybe find a way to abstract this with the training code
     def test_performance(self, sess):
         test_iterations = self.parameters["test_steps"]
         hidden_size = self.parameters["hidden_size"]
         self.sess = sess
+        #self.load_model_default()
         total_games = 0
         games_won = 0
-        games_stood = 0
+        games_stood = 1 # figure out why the game hits non stop
         games_good_stood = 0
         total_actions = 0
         total_stood_value = 0
@@ -209,7 +291,7 @@ class Training_Interface:
             # step in game, get reward and new state
             while self.BlJa_Interface.continue_game():
                 self.action = self.choose_action(exploring=False)
-                if self.action == 1:
+                if self.action == Moves.STAND:
                     total_stood_value += self.game_state[1] * 30
                     if self.game_state[1] * 30 > 17:
                         games_good_stood += 1
@@ -247,7 +329,7 @@ class Training_Interface:
             if total_games % 100 == 0:
                 print((games_won / total_games * 100), "% games won after",total_games,"games")
                 print((games_good_stood / games_stood), "% games good stood out of",games_stood,"games stood")
-                print(total_stood_value/games_stood,"<- average stood value")
+                print(total_stood_value / games_stood,"<- average stood value")
                 #print("no times hit",no_times_hit,"out of",no_actions,"actions")
 
             self.BlJa_Interface.reset()

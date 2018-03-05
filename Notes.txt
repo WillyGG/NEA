@@ -395,3 +395,12 @@
 
     TODO:
      - test user class
+
+ 05 March:
+    - Tested the user wrapper for the database
+    - converted the training to a group training
+    - implemented a model saver (default only atm)
+    - fixed the issue with converting back and forth between moves enum and bool
+
+    TODO:
+    - abstract away all the training types

@@ -1,6 +1,7 @@
 from DB import DB
 import hashlib
 from uuid import uuid4
+from os import remove
 
 """
     - wrapper for users table in the database
@@ -16,9 +17,8 @@ class Users_DB(DB):
     # checks if passed username is unique
     # true => unique, false => not unique
     def check_unique_username(self, username):
-        query = "SELECT user_name FROM users WHERE username=:username"
-        param = {"username":username}
-        connection, cursor = self.execute_queries(query, place_holder=param, keep_open=True)
+        query = "SELECT username FROM users WHERE username='" + username + "'"
+        connection, cursor = self.execute_queries(query, keep_open=True)
 
         # if no value is returned from this query, the username is unique
         query_result = cursor.fetchone()
@@ -67,10 +67,10 @@ class Users_DB(DB):
         acceptable_password = self.check_acceptable_password(password)
         if not unique_username or not acceptable_password:
             return False
-        hashed_password = self.hash_password(password)
-        query = 'INSERT INTO "users" (username, password) VALUES (:username, :password)'
-        params = {"username": username, "password": hashed_password}
-        self.execute_queries(query, place_holder=params)
+        hashed_password = str(self.hash_password(password))
+        query = 'INSERT INTO "users" (username, password) VALUES ("' + username + '", "' + hashed_password + '")'
+        #params = {"username": username, "password": hashed_password}
+        self.execute_queries(query)
         return True
 
 
@@ -80,3 +80,17 @@ class Users_DB(DB):
         params = {"username": username}
         connection, cursor = self.execute_queries(query, place_holder=params, keep_open=True)
         return cursor.fetchone()
+
+if __name__ == "__main__":
+    u_name = "SwaggyShaggy99"
+    p_word = "Adlfkjgklf3"
+
+    u_db_wrapper = Users_DB("Blackjack.sqlite")
+    u_db_wrapper.execute_queries_from_file("Create_Users_Table")
+    u_db_wrapper.execute_queries("SELECT * FROM users WHERE username='SwaggyShaggy99'")
+    print("acceptable pword", u_db_wrapper.check_acceptable_password(p_word))
+    print("insertion", u_db_wrapper.create_new_user(u_name, p_word))
+    print("unique uname after insertion", u_db_wrapper.check_unique_username(u_name))
+    u_db_wrapper.display_all_records("users")
+    u_db_wrapper.execute_queries("SELECT * FROM users WHERE username='SwaggyShaggy99'")
+    remove("Blackjack.sqlite")

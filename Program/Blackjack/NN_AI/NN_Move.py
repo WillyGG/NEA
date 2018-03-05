@@ -1,11 +1,14 @@
 import numpy as np
+import sys,os
+sys.path.append(os.path.realpath(".."))
 
 class NN_Move:
     @staticmethod
     def choose_action(parameters, Primary_Network, game_state, rnn_state, sess, exploring=False):
         policy = parameters["policy"]
         if policy == "e-greedy":
-            return NN_Move.choose_action_e_greedy(parameters, Primary_Network, game_state, rnn_state, sess, exploring=exploring)
+            move = NN_Move.choose_action_e_greedy(parameters, Primary_Network, game_state, rnn_state, sess, exploring=exploring)
+            return move
 
     @staticmethod
     def choose_action_e_greedy(parameters, Primary_Network, game_state, rnn_state, sess, exploring):

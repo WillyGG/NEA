@@ -75,7 +75,7 @@ class Blackjack:
             for x in range(2):
                 self.deal(self.players[key])
 
-# compares the hands of the passed players
+    # compares the hands of the passed players
     def compare_hands(self):
         best_hand = [] # array of player ids
         best_value = 0
@@ -272,6 +272,7 @@ class Hand:
             return False
         return self.id == other.id
 
+
 class Dealer_Hand(Hand):
     def __init__(self, id="dealer"):
         super().__init__(id)
@@ -281,12 +282,14 @@ class Dealer_Hand(Hand):
         while self.get_value() < 17 and not self.bust:
             self.hit(deck.pop())
 
+
 """
     - Have a player class which creates a hand for each player and then passes this into the blackjack class
     - this could have game records and be used for the database side of the project
 """
 class Player:
     pass
+
 
 class Blackjack_Tests:
     @staticmethod

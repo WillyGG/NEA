@@ -1,7 +1,5 @@
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
-import os
-import sys
 from Blackjack_Agent_Interface import Blackjack_Agent_Interface
 from Training_Interface import Training_Interface
 from CC_Interface import CC_Interface
@@ -44,16 +42,16 @@ class Q_Net():
                                             activation_fn=tf.nn.relu,
                                             scope=(myScope+"_hidden1"))  # Rectified linear activation func.
 
-        #dropout1 = slim.dropout(hidden_layer1, scope=myScope)
+        dropout1 = slim.dropout(hidden_layer1, scope=myScope+"_dropout1")
 
-        hidden_layer2 = slim.fully_connected(hidden_layer1, hidden_size,
+        hidden_layer2 = slim.fully_connected(dropout1, hidden_size,
                                              biases_initializer=None,
                                              activation_fn=tf.nn.relu,
                                              scope=(myScope+"_hidden2"))
 
-        #dropout2 = slim.dropout(hidden_layer2, scope=myScope)
+        dropout2 = slim.dropout(hidden_layer2, scope=myScope+"_dropout2")
 
-        self.final_hidden = slim.fully_connected(hidden_layer2, hidden_size,
+        self.final_hidden = slim.fully_connected(dropout2, hidden_size,
                                                  activation_fn=tf.nn.relu,
                                                  biases_initializer=None,
                                                  scope=(myScope+"_final_hidden"))  # Softmax activation func. -> changed to relu, as no longer output
@@ -192,8 +190,7 @@ class NN(CC_Agent):
         self.Primary_Network = Q_Net(no_features, hidden_size, no_actions, Primary_rnn_cell, 'main')
         self.Target_Network = Target_Net(no_features, hidden_size, no_actions, Target_rnn_cell, 'target')
         self.rnn_state = np.zeros([1, hidden_size]), np.zeros([1, hidden_size])
-
-        self.trainer = Training_Interface(self.parameters, self.Primary_Network, self.Target_Network, CC_Interface())
+        self.trainer = Training_Interface(self.parameters, self.Primary_Network, self.Target_Network, CC_Interface(group=False))
 
         self.init = tf.global_variables_initializer()
         trainables = tf.trainable_variables()
@@ -218,11 +215,12 @@ class NN(CC_Agent):
         # no context manager so that session does not have to be restarted every time a new move is needed
         self.start_session()
         self.sess.run(self.init)
-        self.trainer.training_CC_Interface(self.sess)
-        self.stop_session()
+        #self.trainer.training_CC_Interface(self.sess)
+        self.trainer.training_group(self.sess)
 
     def test_performance(self):
         self.trainer.test_performance(self.sess)
+        self.stop_session()
 
     def getNextAction(self, chances, game_state):
         # pass through NN model, and get the next move

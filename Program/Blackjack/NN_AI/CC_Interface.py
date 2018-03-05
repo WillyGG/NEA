@@ -3,13 +3,19 @@ sys.path.append(os.path.realpath(".."))
 
 from Card_Counter import Card_Counter
 import Blackjack as BJ
+from CC_AI import CC_AI
 from Blackjack_Agent_Interface import Blackjack_Agent_Interface
 
 class CC_Interface(Blackjack_Agent_Interface):
-    def __init__(self, Blackjack_Instance=None):
-        self.NN_ID = "nn"
-        super().__init__(None, Blackjack_Instance, BJ.Hand(self.NN_ID))
+    def __init__(self, group=True):
+        super().__init__(None, group=group)
         self.CC = Card_Counter()
+        if group:
+            self.CC_AI = CC_AI(hand=self.aux_agent_hand)
+
+    def get_aux_move(self):
+        all_hands = self.blackjack.get_all_hands()
+        return self.CC_AI.get_move(all_hands)
 
     def get_chances(self, state=None):
         if state is None:
@@ -26,7 +32,7 @@ class CC_Interface(Blackjack_Agent_Interface):
 
     def get_game_state_CC(self):
         dealer_hand = self.blackjack.players["dealer"]
-        player_hands_all = self.blackjack.get_all_players_playing() + [dealer_hand]
+        player_hands_all = self.blackjack.get_all_hands_playing() + [dealer_hand]
         needed_player_hands = []
         needed_player_hands.append(self.get_AI_hand(player_hands_all)) # gets the AIs hand
         needed_player_hands.append(self.get_best_hand(player_hands_all)) # get the best players hand
@@ -57,7 +63,7 @@ class CC_Interface(Blackjack_Agent_Interface):
         best_hand = None
         best_hand_val = 0
         for hand in player_hands_all:
-            if hand.id == self.ID:
+            if hand.id == self.NN_ID:
                 continue
             current_hand_val = hand.get_value()
             if (best_hand_val == 0 and best_hand is None) or (current_hand_val > best_hand_val):
@@ -69,7 +75,12 @@ class CC_Interface(Blackjack_Agent_Interface):
     def end_game(self):
         new_cards = self.blackjack.new_cards
         self.decrement_CC(new_cards)
+        if self.group:
+            self.CC_AI.decrement_CC(new_cards)
         self.blackjack.end_game()
+
+    def get_current_player(self):
+        return self.blackjack.get_current_player()
 
 class CC_Interface_Tests:
     @staticmethod

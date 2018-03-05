@@ -23,7 +23,6 @@ class Card_Counter:
         self.maxCard = self.rangeOfValues[-1]
         self.minCard = self.rangeOfValues[0]
 
-
     def populate_tree_auto_maintain(self, range_of_values, num_of_suits):
         for value in range_of_values:
             # implement this in a nice way
