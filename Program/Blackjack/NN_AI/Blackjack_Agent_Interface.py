@@ -10,18 +10,27 @@ class Blackjack_Agent_Interface: # Maybe make this a static class?
         self.CC_AI_ID = "cc_ai"
         self.group = group
         if blackjack_instance is None:
-            self.init_blackjack()
+            if group:
+                self.init_blackjack_group()
+            else:
+                self.init_blackjack()
 
-        # TODO consider adding a hit reward
-        # self.winReward = rewardDict["winReward"] #2
-        #self.lossCost = rewardDict["lossCost"] #-2
-        #self.bustCost = rewardDict["bustCost"]
+        if rewardDict is None:
+            self.init_reward_dict()
 
         self.last_action = None
 
         #self.hand_value_discount = rewardDict["hand_value_discount"] #1 / 21
         self.hand_size_norm_const = 1 / 10
         self.hand_val_norm_const = 1 / 30
+
+    def init_reward_dict(self, setting="default"):
+        self.reward_dict = {
+            "absolute_wnr_r": 0,
+            "current_wnr_r": 0,
+            "loss_c": 0,
+            "hit_r": 0
+        }
 
     def init_blackjack(self):
         self.agent_hand = Blackjack.Hand(self.NN_ID)
@@ -52,6 +61,10 @@ class Blackjack_Agent_Interface: # Maybe make this a static class?
     def gen_step_reward(self):
         agent_value = self.agent_hand.get_value()
         current_winners = self.blackjack.compare_hands()
+
+        if self.agent_hand.bust == True:
+            return agent_value
+
         win_value = (agent_value + 1) * self.hand_val_norm_const
         loss_value = (-agent_value-1) * self.hand_val_norm_const
         normal_reward = agent_value * self.hand_val_norm_const
@@ -74,6 +87,8 @@ class Blackjack_Agent_Interface: # Maybe make this a static class?
                 scaled_value = normal_reward
             else:
                 scaled_value = loss_value
+        elif self.agent_hand.bust:
+            scaled_value = loss_value
         return scaled_value
 
     def continue_game(self):

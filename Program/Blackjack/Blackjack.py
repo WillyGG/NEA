@@ -25,7 +25,7 @@ class Blackjack:
 
         if playersDict is None:
             playersDict = {
-                "dealer" : Dealer_Hand("dealer")
+                "dealer": Dealer_Hand("dealer")
             }
         if bool(playersDict) is False or "dealer" not in playersDict.keys():
             playersDict["dealer"] = Dealer_Hand("dealer")
@@ -229,10 +229,8 @@ class Hand:
     def stand(self):
         self.__has_stood = True
 
-    # Calculate the total value of the passed hand (where hand is an array of cards)
+    # Calculate the best total value of the passed hand (where hand is an array of cards)
     def get_value(self):
-        if self.bust:
-            return -1
         total = 0
         noAces = 0
         for card in self._hand:

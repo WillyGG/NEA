@@ -48,6 +48,8 @@ class Simple_AI(Agent):
     def get_hand_values(self, hands):
         hand_vals = []
         for hand in hands:
+            if hand.bust:
+                continue
             value = hand.get_value()
             hand_vals.append(value)
         return sorted(hand_vals, reverse=True)

@@ -152,7 +152,7 @@ class NN(CC_Agent):
                 "explore_steps" : 1000, #How many steps of random actions before training begins.
                 "path_default" : "./nn_data", #The path to save our model to.
                 "hidden_size" : 32, #The size of the final convolutional layer before splitting it into Advantage and Value streams.
-                "no_features" : 7, # How many features to input into the network
+                "no_features" : 6, # How many features to input into the network
                 "no_actions" : 2, # No actions the network can take
                 "summaryLength" : 100, #Number of epidoes to periodically save for analysis
                 "tau" : 0.001,
@@ -211,13 +211,15 @@ class NN(CC_Agent):
                                       )
 
     # start the session, run the assigned training type
+    # REMOVE THIS HANDLE OUTSIDE OF NN?? OR I DUNNO
     def init_training(self):
         # no context manager so that session does not have to be restarted every time a new move is needed
         self.start_session()
         self.sess.run(self.init)
-        #self.trainer.training_CC_Interface(self.sess)
-        self.trainer.training_group(self.sess)
+        self.trainer.training_CC_Interface(self.sess)
+        #self.trainer.training_group(self.sess)
 
+    # REMOVE THIS AT ONE POINT
     def test_performance(self):
         self.trainer.test_performance(self.sess)
         self.stop_session()
@@ -225,7 +227,7 @@ class NN(CC_Agent):
     def getNextAction(self, chances, game_state):
         # pass through NN model, and get the next move
         self.game_state = self.get_features(chances, game_state)
-        move = NN_Move.choose_action(self.parameters, self.Primary_Network, self.game_state, self.rnn_state, self.sess, exploring=False)
+        move = NN_Move.choose_action(self.parameters, self.Primary_Network, game_state, self.rnn_state, self.sess, exploring=False)
         if move == True:
             move = Moves.HIT
         elif move == False:

@@ -26,7 +26,7 @@ class CC_Agent(Agent):
         best_hand = state[1]
         best_hand_val = best_hand.get_value()
         NN_Winning = AI_hand_val >= best_hand_val
-        chances = self.CC.calcChances(AI_hand_val, best_hand_val, NN_Winning)
+        chances = self.CC.calcChances(AI_hand_val, best_hand_val)
         return chances
 
     def get_move(self, all_players):
@@ -58,7 +58,7 @@ class CC_Agent(Agent):
         best_hand_hand = None
         # find the second best player
         for player in hands:
-            if player.id == self.ID:
+            if player.id == self.ID or player.bust:
                 continue
             player_value = player.get_value()
             if player_value > best_hand_value:
@@ -74,3 +74,9 @@ class CC_Agent(Agent):
                     print(player.get_value())
             best_hand_hand = self.get_agent_hand(hands)
         return best_hand_hand
+
+    def update_end_game(self, new_cards):
+        self.decrement_CC(new_cards)
+
+    def update_end_turn(self):
+        pass

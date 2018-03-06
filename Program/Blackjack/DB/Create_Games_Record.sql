@@ -8,6 +8,7 @@ CREATE TABLE Game_Record (
 );
 
 CREATE TABLE Player_ids (
+    game_id PRIMARY KEY NOT NULL,
     player_1 varchar(255) DEFAULT NULL,
     player_2 varchar(255) DEFAULT NULL,
     player_3 varchar(255) DEFAULT NULL,
@@ -18,15 +19,15 @@ CREATE TABLE Player_ids (
     player_8 varchar(255) DEFAULT NULL,
 
     FOREIGN KEY (game_id) REFERENCES Game_Record(game_id)
-    PRIMARY KEY (game_id)
 );
 
 CREATE TABLE Moves (
     player_id varchar(255) NOT NULL,
     game_id INTEGER NOT NULL,
     turn_num INTEGER NOT NULL,
-    hand TEXT NOT NULL,
+    hand_before TEXT NOT NULL,
     move BIT NOT Null, -- 1 -> Hit, 0 -> False
-    FOREIGN KEY (game_id) REFERENCES Game_Record(game_id)
+    hand_after TEXT NOT NULL,
+    FOREIGN KEY (game_id) REFERENCES Game_Record(game_id),
     PRIMARY KEY(player_id, game_id, turn_num)
 );

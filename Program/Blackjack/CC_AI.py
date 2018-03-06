@@ -15,7 +15,7 @@ class CC_AI(CC_Agent):
     # return True if wanting to hit
     def getNextAction(self, chances, game_state):
         # not exceeding the dealer, hit.
-        belowBestPlayer = not chances["AIWinning"]
+        belowBestPlayer = not chances["alreadyExceedingWinningPlayer"]
         belowBustThreshold = chances["bust"] <= self.parameteres["bust_tol"]
         highBlackjackChance = chances["blackjack"] >= self.parameteres["blackjack_thresh"]
 
@@ -46,8 +46,3 @@ class CC_AI(CC_Agent):
         elif setting == "passive":
             pass
 
-    def update_end_game(self, new_cards):
-        self.decrement_CC(new_cards)
-
-    def update_end_turn(self):
-        pass

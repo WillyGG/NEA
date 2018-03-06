@@ -39,7 +39,7 @@ class Taxi(Environment):
 		else:
 			self.landmarks = numpy.array(landmarks)
 			if len(self.landmarks) < 2:
-				print "Must include at least two landmarks"
+				print("Must include at least two landmarks")
 				sys.exit(1)
 
 		# Walls are specified by giving the x-coor. where they are located and

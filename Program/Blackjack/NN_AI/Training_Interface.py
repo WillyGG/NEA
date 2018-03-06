@@ -104,6 +104,12 @@ class Training_Interface:
                     new_game_state = self.BlJa_Interface.get_game_state()
                     new_rnn_state = self.get_new_rnn_state()
                     reward = self.BlJa_Interface.gen_step_reward()
+                    if reward == 0:
+                        print("0 gamestate",self.game_state)
+                        print("0 agent hand val", self.game_state[0]*30)
+                        print("0 best hand val", self.game_state[1]*30)
+                        print("0 new agent", new_game_state[0]*30)
+                        print("0 action", self.action)
 
                     self.action = Moves.convert_to_bool(self.action)
                     episode_buffer.append(np.reshape(np.array([self.game_state, self.action, reward,
@@ -129,9 +135,10 @@ class Training_Interface:
             episodeBuffer = list(zip(bufferArray))
             self.exp_buffer.add(episodeBuffer)
             self.BlJa_Interface.reset()
-        self.save_model() 
+        self.save_model()
 
     # Start out simple with one player
+
     def training_CC_Interface(self, sess):
         train_iterations = self.parameters["train_steps"]
         explore_steps = self.parameters["explore_steps"]
@@ -218,6 +225,7 @@ class Training_Interface:
         self.Target_Network.updateTarget(self.sess)
         rnn_state_update = (np.zeros([batch_size, hidden_size]), np.zeros([batch_size, hidden_size]))
         trainBatch = self.exp_buffer.sample(batch_size, trace_length)  # Get a random batch of experiences.
+        #print(trainBatch)
 
         # Below we perform the Double-DQN update to the target Q-values
         primary_out = self.sess.run(self.Primary_Network.predict, feed_dict={

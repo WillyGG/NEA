@@ -2,394 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afba8995-ecc3-4204-a2a6-cfb3b48e3563" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/Program/Blackjack/DB/CT_Wrapper.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_AI/Trainer.py" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/Notes.txt" afterPath="$PROJECT_DIR$/Notes.txt" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" afterPath="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/CC_AI.py" afterPath="$PROJECT_DIR$/Program/Blackjack/CC_AI.py" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/CC_Agent.py" afterPath="$PROJECT_DIR$/Program/Blackjack/CC_Agent.py" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/Card_Counter.py" afterPath="$PROJECT_DIR$/Program/Blackjack/Card_Counter.py" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/DB/Create_Games_Record.sql" afterPath="$PROJECT_DIR$/Program/Blackjack/DB/Create_Games_Record.sql" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/Blackjack_Agent_Interface.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_AI/Blackjack_Agent_Interface.py" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/CC_Interface.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_AI/CC_Interface.py" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" />
       <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/Training_Interface.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_AI/Training_Interface.py" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/checkpoint" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-18.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-18.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-18.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-19.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-19.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-19.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-20.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-20.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-20.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-21.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-21.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-21.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-22.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-22.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-48-22.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-06.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-06.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-06.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-07.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-07.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-07.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-08.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-08.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-08.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-09.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-09.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-09.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-10.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-10.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-50-10.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-25.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-25.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-25.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-26.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-26.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-26.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-27.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-27.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-27.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-28.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-28.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-28.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-29.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-29.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-51-29.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-23.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-23.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-23.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-24.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-24.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-24.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-25.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-25.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-25.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-26.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-26.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-26.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-27.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-27.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-53-27.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-27.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-27.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-27.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-28.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-28.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-28.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-29.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-29.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-29.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-30.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-30.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-30.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-31.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-31.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,13-56-31.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-32.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-32.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-32.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-33.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-33.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-33.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-34.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-34.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-34.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-35.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-35.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-35.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-36.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-36.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-02-36.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-48.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-48.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-48.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-49.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-49.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-49.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-50.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-50.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-50.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-51.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-51.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-51.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-52.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-52.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-04-52.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-53.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-53.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-53.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-54.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-54.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-54.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-55.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-55.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-55.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-56.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-56.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-56.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-57.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-57.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-13-57.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-40.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-40.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-40.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-41.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-41.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-41.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-42.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-42.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-42.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-43.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-43.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-43.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-44.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-44.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-14-44.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-16-59.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-16-59.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-16-59.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-00.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-00.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-00.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-01.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-01.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-01.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-02.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-02.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-02.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-03.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-03.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-17-03.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-00.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-00.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-00.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-01.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-01.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-01.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-02.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-02.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-02.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-03.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-03.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-03.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-04.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-04.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-23-04.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-33.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-33.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-33.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-34.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-34.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-34.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-35.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-35.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-24-35.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-02.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-02.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-02.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-03.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-03.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-03.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-04.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-04.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-04.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-29.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-29.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-29.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-30.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-30.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-30.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-31.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-31.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-31.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-32.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-32.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-32.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-33.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-33.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-27-33.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-15.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-15.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-15.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-16.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-16.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-16.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-17.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-17.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-17.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-18.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-18.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-18.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-19.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-19.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-29-19.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-02.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-02.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-02.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-03.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-03.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-03.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-04.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-04.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-04.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-05.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-05.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-05.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-06.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-06.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-41.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-41.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-41.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-42.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-42.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-42.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-43.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-43.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-43.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-44.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-44.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-44.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-45.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-45.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-30-45.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-20.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-20.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-20.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-21.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-21.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-21.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-22.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-22.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-22.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-23.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-23.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-23.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-24.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-24.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-24.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-57.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-57.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-57.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-58.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-58.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-58.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-59.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-59.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-32-59.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-33-00.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-33-00.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-33-00.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-33-01.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-33-01.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-33-01.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-03.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-03.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-03.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-04.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-04.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-04.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-05.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-05.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-05.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-06.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-06.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-06.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-07.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-07.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-34-07.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-32.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-32.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-32.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-33.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-33.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-33.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-34.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-34.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-34.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-35.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-35.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-35.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-36.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-36.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-35-36.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-55.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-55.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-55.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-56.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-56.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-56.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-57.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-57.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-57.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-58.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-58.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-58.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-59.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-59.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-50-59.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-34.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-34.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-34.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-35.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-35.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-35.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-36.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-36.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-52-36.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-03.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-03.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-03.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-04.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-04.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-04.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-05.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-05.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-05.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-06.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-06.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-06.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-07.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-07.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-55-07.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-14.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-14.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-14.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-15.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-15.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-15.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-16.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-16.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-16.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-17.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-17.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-17.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-18.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-18.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,14-58-18.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-11.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-11.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-11.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-12.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-12.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-12.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-13.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-13.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-13.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-14.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-14.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-14.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-15.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-15.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-02-15.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-52.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-52.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-52.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-53.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-53.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-53.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-54.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-54.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-54.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-55.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-55.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-55.cptk.meta" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-56.cptk.data-00000-of-00001" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-56.cptk.index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/model-default-05-03-2018,15-04-56.cptk.meta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/Simple_AI.py" afterPath="$PROJECT_DIR$/Program/Blackjack/Simple_AI.py" />
+      <change beforePath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/python-rl-master/pyrl/environments/taxi.py" afterPath="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/python-rl-master/pyrl/environments/taxi.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -403,82 +30,83 @@
       <file leaf-file-name="Notes.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Notes.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="402" column="77" lean-forward="true" selection-start-line="402" selection-start-column="77" selection-end-line="402" selection-end-column="77" />
+            <state relative-caret-position="486">
+              <caret line="418" column="54" lean-forward="false" selection-start-line="418" selection-start-column="54" selection-end-line="418" selection-end-column="54" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NN_Move.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/NN_Move.py">
+      <file leaf-file-name="DB.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/DB.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-175">
-              <caret line="9" column="128" lean-forward="false" selection-start-line="9" selection-start-column="128" selection-end-line="9" selection-end-column="128" />
+            <state relative-caret-position="-443">
+              <caret line="39" column="0" lean-forward="true" selection-start-line="39" selection-start-column="0" selection-end-line="44" selection-end-column="23" />
               <folding>
-                <element signature="e#0#18#0" expanded="true" />
+                <element signature="e#74#96#0" expanded="false" />
+                <element signature="e#102#124#0" expanded="false" />
+                <element signature="e#206#364#0" expanded="false" />
+                <element signature="e#370#415#0" expanded="false" />
+                <element signature="e#535#832#0" expanded="false" />
+                <element signature="e#838#892#0" expanded="false" />
+                <element signature="e#992#1287#0" expanded="false" />
+                <element signature="e#1073#1264#0" expanded="false" />
+                <element signature="e#1146#1264#0" expanded="false" />
+                <element signature="e#1212#1264#0" expanded="false" />
+                <element signature="e#1458#1507#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NN.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py">
+      <file leaf-file-name="CT_Wrapper.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/CT_Wrapper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="101">
-              <caret line="215" column="28" lean-forward="false" selection-start-line="215" selection-start-column="28" selection-end-line="215" selection-end-column="28" />
+            <state relative-caret-position="461">
+              <caret line="32" column="12" lean-forward="false" selection-start-line="32" selection-start-column="12" selection-end-line="32" selection-end-column="12" />
               <folding>
-                <element signature="e#0#23#0" expanded="true" />
-                <element signature="e#534#802#0" expanded="false" />
-                <element signature="e#874#1671#0" expanded="false" />
-                <element signature="e#874#965#0" expanded="false" />
-                <element signature="e#3138#3643#0" expanded="false" />
-                <element signature="e#3677#3896#0" expanded="false" />
-                <element signature="e#3943#4906#0" expanded="false" />
-                <element signature="e#4430#4521#0" expanded="false" />
-                <element signature="e#4944#5063#0" expanded="false" />
-                <element signature="e#5095#6175#0" expanded="false" />
-                <element signature="e#5180#5277#0" expanded="false" />
-                <element signature="e#5446#5734#0" expanded="false" />
-                <element signature="e#5778#6175#0" expanded="false" />
-                <element signature="e#6077#6122#0" expanded="false" />
-                <element signature="e#6178#6206#0" expanded="false" />
-                <element signature="e#6309#6585#0" expanded="false" />
-                <element signature="e#6644#9002#0" expanded="false" />
-                <element signature="e#8847#9002#0" expanded="false" />
-                <element signature="e#10191#10315#0" expanded="false" />
-                <element signature="e#10357#10850#0" expanded="false" />
-                <element signature="e#10468#10810#0" expanded="false" />
-                <element signature="e#11377#11758#0" expanded="false" />
-                <element signature="e#11817#12303#0" expanded="false" />
-                <element signature="e#12342#12366#0" expanded="false" />
-                <element signature="e#12404#12421#0" expanded="false" />
-                <element signature="e#12787#12791#0" expanded="false" />
-                <element signature="e#12838#12842#0" expanded="false" />
-                <element signature="e#12934#12968#0" expanded="false" />
-                <element signature="e#13114#15147#0" expanded="false" />
-                <element signature="e#13714#13977#0" expanded="false" />
-                <element signature="e#14051#14301#0" expanded="false" />
-                <element signature="e#14674#15123#0" expanded="false" />
-                <element signature="e#15199#15258#0" expanded="false" />
-                <element signature="e#15299#15322#0" expanded="false" />
+                <element signature="e#162#179#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Training_Interface.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/Training_Interface.py">
+      <file leaf-file-name="Create_Games_Record.sql" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Create_Games_Record.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="131" column="26" lean-forward="false" selection-start-line="131" selection-start-column="26" selection-end-line="131" selection-end-column="26" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-                <element signature="e#793#3207#0" expanded="false" />
-                <element signature="e#6353#9002#0" expanded="false" />
-                <element signature="e#9223#9737#0" expanded="false" />
-                <element signature="e#10195#12152#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="291">
+              <caret line="23" column="14" lean-forward="true" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Create_Users_Table.sql" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Create_Users_Table.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="54">
+              <caret line="3" column="3" lean-forward="true" selection-start-line="3" selection-start-column="3" selection-end-line="4" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Users_DB.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Users_DB.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="19" column="78" lean-forward="true" selection-start-line="19" selection-start-column="78" selection-end-line="19" selection-end-column="78" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Create_Agents_Table.sql" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Create_Agents_Table.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="5" column="43" lean-forward="true" selection-start-line="5" selection-start-column="43" selection-end-line="5" selection-end-column="43" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -486,8 +114,8 @@
       <file leaf-file-name="Comparison_Tool.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Comparison_Tool.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="111" column="35" lean-forward="false" selection-start-line="111" selection-start-column="35" selection-end-line="111" selection-end-column="35" />
+            <state relative-caret-position="53">
+              <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="4" selection-end-column="44" />
               <folding>
                 <element signature="e#416#831#0" expanded="false" />
                 <element signature="e#476#703#0" expanded="false" />
@@ -495,10 +123,6 @@
                 <element signature="e#877#1227#0" expanded="false" />
                 <element signature="e#1358#1664#0" expanded="false" />
                 <element signature="e#1670#1727#0" expanded="false" />
-                <element signature="e#1877#3534#0" expanded="false" />
-                <element signature="e#2423#3323#0" expanded="false" />
-                <element signature="e#2470#2943#0" expanded="false" />
-                <element signature="e#2956#2977#0" expanded="false" />
                 <element signature="e#3657#3842#0" expanded="false" />
                 <element signature="e#3729#3818#0" expanded="false" />
                 <element signature="e#3917#4160#0" expanded="false" />
@@ -512,72 +136,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Moves.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program/Blackjack/Moves.py">
+      <file leaf-file-name="Trainer.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/Trainer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="10" column="10" lean-forward="false" selection-start-line="10" selection-start-column="10" selection-end-line="10" selection-end-column="10" />
+            <state relative-caret-position="306">
+              <caret line="62" column="82" lean-forward="false" selection-start-line="62" selection-start-column="82" selection-end-line="62" selection-end-column="82" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CC_Interface.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/CC_Interface.py">
+      <file leaf-file-name="Training_Interface.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/Training_Interface.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="50" column="41" lean-forward="false" selection-start-line="50" selection-start-column="41" selection-end-line="50" selection-end-column="41" />
+            <state relative-caret-position="-270">
+              <caret line="125" column="36" lean-forward="true" selection-start-line="125" selection-start-column="36" selection-end-line="125" selection-end-column="36" />
               <folding>
-                <element signature="e#614#1044#0" expanded="false" />
-                <element signature="e#1087#1475#0" expanded="false" />
-                <element signature="e#2868#2933#0" expanded="false" />
-                <element signature="e#3475#3601#0" expanded="false" />
+                <element signature="e#0#18#0" expanded="true" />
+                <element signature="e#793#3207#0" expanded="false" />
+                <element signature="e#6717#9366#0" expanded="false" />
+                <element signature="e#9587#10101#0" expanded="false" />
+                <element signature="e#10137#10518#0" expanded="false" />
+                <element signature="e#10559#12543#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Blackjack_Agent_Interface.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/Blackjack_Agent_Interface.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-615">
-              <caret line="10" column="26" lean-forward="false" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
-              <folding>
-                <element signature="e#1613#2054#0" expanded="false" />
-                <element signature="e#1783#1857#0" expanded="false" />
-                <element signature="e#2796#2922#0" expanded="false" />
-                <element signature="e#3012#3158#0" expanded="false" />
-                <element signature="e#3225#3260#0" expanded="false" />
-                <element signature="e#3308#3634#0" expanded="false" />
-                <element signature="e#3668#3693#0" expanded="false" />
-                <element signature="e#3734#3877#0" expanded="false" />
-                <element signature="e#3908#3930#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CC_Agent.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program/Blackjack/CC_Agent.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="68" column="23" lean-forward="false" selection-start-line="68" selection-start-column="23" selection-end-line="68" selection-end-column="23" />
-              <folding>
-                <element signature="e#917#1310#0" expanded="false" />
-                <element signature="e#1357#1529#0" expanded="false" />
-                <element signature="e#1662#1696#0" expanded="false" />
-                <element signature="e#1925#2012#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CC_AI.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program/Blackjack/CC_AI.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-437">
-              <caret line="17" column="30" lean-forward="false" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -594,9 +175,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>parentNode</find>
-      <find>rList</find>
-      <find>=</find>
       <find>self.players</find>
       <find>keepdims</find>
       <find>Circula</find>
@@ -623,7 +201,10 @@
       <find>integer</find>
       <find>varchar</find>
       <find>happening again dude</find>
+      <find>last_action</find>
+      <find>get_value() &gt; -1</find>
       <find>process</find>
+      <find>-1</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -655,9 +236,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/pole_balancing.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/Blackjack_v2/Blackjack.py" />
-        <option value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/model_based_pole_balancing.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Stack.py" />
         <option value="$PROJECT_DIR$/Program/5CD/Five_Card_Draw.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Queue.py" />
@@ -684,28 +262,31 @@
         <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/Agent.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Agent.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Structs/Circular_Queue.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/Simple_AI.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/CC_Agent.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/TEST/dict_inc_test.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Comparison_Tool.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/DB/Create_DB.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/DB/test.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/DB/Populate_Agents.sql" />
         <option value="$PROJECT_DIR$/Program/Blackjack/DB/Create_Agents_Table.sql" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/DB/Create_Games_Record.sql" />
         <option value="$PROJECT_DIR$/Program/Blackjack/DB/Create_Users_Table.sql" />
         <option value="$PROJECT_DIR$/Program/Blackjack/DB/DB.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/DB/Users_DB.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/Card_Counter.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/CC_AI.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/Blackjack_Agent_Interface.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/CC_Interface.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN_Move.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Moves.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" />
-        <option value="$PROJECT_DIR$/Notes.txt" />
+        <option value="$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/python-rl-master/pyrl/environments/taxi.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/Card_Counter.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/CC_Interface.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/Training_Interface.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/Blackjack_Agent_Interface.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/CC_AI.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/CC_Agent.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/Simple_AI.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/Trainer.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/DB/Create_Games_Record.sql" />
+        <option value="$PROJECT_DIR$/Notes.txt" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/DB/CT_Wrapper.py" />
       </list>
     </option>
   </component>
@@ -772,7 +353,20 @@
               <item name="NEA" type="462c0819:PsiDirectoryNode" />
               <item name="Program" type="462c0819:PsiDirectoryNode" />
               <item name="Blackjack" type="462c0819:PsiDirectoryNode" />
+              <item name="DB" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NEA" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NEA" type="462c0819:PsiDirectoryNode" />
+              <item name="Program" type="462c0819:PsiDirectoryNode" />
+              <item name="Blackjack" type="462c0819:PsiDirectoryNode" />
               <item name="NN_AI" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NEA" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NEA" type="462c0819:PsiDirectoryNode" />
+              <item name="Program" type="462c0819:PsiDirectoryNode" />
+              <item name="Tf_Test" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -1059,7 +653,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32913387" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="FAQ Robot" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21093148" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23941493" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Project Explorer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Job Explorer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1114,26 +708,11 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="79" />
+      <option name="time" value="84" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Program/Poker/Game.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="27" lean-forward="false" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Poker/Deck.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="63" column="14" lean-forward="false" selection-start-line="63" selection-start-column="14" selection-end-line="63" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/frames/image99.gif" />
     <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/Center/log.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1255,13 +834,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Simple_AI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="42" column="59" lean-forward="true" selection-start-line="42" selection-start-column="59" selection-end-line="42" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/TEST/dict_inc_test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -1285,73 +857,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Create_Agents_Table.sql">
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/checkpoint">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="24" lean-forward="false" selection-start-line="1" selection-start-column="24" selection-end-line="1" selection-end-column="24" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Create_Games_Record.sql">
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Moves.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="20" lean-forward="false" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
+        <state relative-caret-position="180">
+          <caret line="10" column="10" lean-forward="false" selection-start-line="10" selection-start-column="10" selection-end-line="10" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Create_Users_Table.sql">
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/NN_Move.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="20" lean-forward="false" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/DB.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="76" column="66" lean-forward="false" selection-start-line="76" selection-start-column="66" selection-end-line="76" selection-end-column="66" />
+        <state relative-caret-position="-192">
+          <caret line="9" column="128" lean-forward="false" selection-start-line="9" selection-start-column="128" selection-end-line="9" selection-end-column="128" />
           <folding>
-            <element signature="e#74#96#0" expanded="false" />
-            <element signature="e#102#124#0" expanded="false" />
-            <element signature="e#206#364#0" expanded="false" />
-            <element signature="e#370#415#0" expanded="false" />
-            <element signature="e#535#832#0" expanded="false" />
-            <element signature="e#838#892#0" expanded="false" />
-            <element signature="e#992#1287#0" expanded="false" />
-            <element signature="e#1073#1264#0" expanded="false" />
-            <element signature="e#1146#1264#0" expanded="false" />
-            <element signature="e#1212#1264#0" expanded="false" />
-            <element signature="e#1370#1452#0" expanded="false" />
-            <element signature="e#1458#1507#0" expanded="false" />
-            <element signature="e#3107#3472#0" expanded="false" />
+            <element signature="e#0#18#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Users_DB.py">
+    <entry file="file://$PROJECT_DIR$/Program/Tf_Test/Q-Learning_Tut/python-rl-master/pyrl/environments/taxi.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="89" column="84" lean-forward="false" selection-start-line="89" selection-start-column="84" selection-end-line="89" selection-end-column="84" />
-          <folding>
-            <element signature="e#0#17#0" expanded="false" />
-            <element signature="e#79#258#1" expanded="false" />
-            <element signature="e#321#346#0" expanded="false" />
-            <element signature="e#352#389#0" expanded="false" />
-            <element signature="e#871#934#0" expanded="false" />
-            <element signature="e#1271#1576#0" expanded="false" />
-            <element signature="e#1624#1701#0" expanded="false" />
-            <element signature="e#3236#3479#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="72">
+          <caret line="41" column="21" lean-forward="false" selection-start-line="41" selection-start-column="21" selection-end-line="41" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Card_Counter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-18">
-          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+        <state relative-caret-position="150">
+          <caret line="96" column="42" lean-forward="false" selection-start-line="96" selection-start-column="13" selection-end-line="96" selection-end-column="42" />
           <folding>
             <element signature="e#467#1067#0" expanded="false" />
             <element signature="e#1151#1443#0" expanded="false" />
@@ -1368,232 +911,171 @@
             <element signature="e#2752#2872#0" expanded="false" />
             <element signature="e#2913#2949#0" expanded="false" />
             <element signature="e#3038#3078#1" expanded="false" />
-            <element signature="e#3267#4001#0" expanded="false" />
-            <element signature="e#3464#3523#0" expanded="false" />
-            <element signature="e#3550#3714#0" expanded="false" />
-            <element signature="e#3735#3978#0" expanded="false" />
-            <element signature="e#4110#4137#0" expanded="false" />
-            <element signature="e#4236#5157#0" expanded="false" />
-            <element signature="e#4700#4785#0" expanded="false" />
-            <element signature="e#5265#5844#0" expanded="false" />
-            <element signature="e#5914#6907#0" expanded="false" />
-            <element signature="e#6523#6608#0" expanded="false" />
-            <element signature="e#6951#7039#0" expanded="false" />
-            <element signature="e#7082#7138#0" expanded="false" />
-            <element signature="e#7225#7836#0" expanded="false" />
-            <element signature="e#7298#7401#0" expanded="false" />
-            <element signature="e#7439#7712#0" expanded="false" />
-            <element signature="e#7762#7836#0" expanded="false" />
-            <element signature="e#7921#9726#0" expanded="false" />
-            <element signature="e#7975#8112#0" expanded="false" />
-            <element signature="e#8172#8377#0" expanded="false" />
-            <element signature="e#8437#8734#0" expanded="false" />
-            <element signature="e#8809#9726#0" expanded="false" />
-            <element signature="e#8853#8942#0" expanded="false" />
-            <element signature="e#9146#9726#0" expanded="false" />
-            <element signature="e#9759#10382#0" expanded="false" />
-            <element signature="e#10058#10382#1" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/CC_AI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-437">
-          <caret line="17" column="30" lean-forward="false" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/nn_data/checkpoint">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/CC_Agent.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="68" column="23" lean-forward="false" selection-start-line="68" selection-start-column="23" selection-end-line="68" selection-end-column="23" />
-          <folding>
-            <element signature="e#917#1310#0" expanded="false" />
-            <element signature="e#1357#1529#0" expanded="false" />
-            <element signature="e#1662#1696#0" expanded="false" />
-            <element signature="e#1925#2012#0" expanded="false" />
+            <element signature="e#4142#5063#0" expanded="false" />
+            <element signature="e#4606#4691#0" expanded="false" />
+            <element signature="e#5171#5750#0" expanded="false" />
+            <element signature="e#5820#6813#0" expanded="false" />
+            <element signature="e#6429#6514#0" expanded="false" />
+            <element signature="e#6857#6945#0" expanded="false" />
+            <element signature="e#6988#7044#0" expanded="false" />
+            <element signature="e#7131#7742#0" expanded="false" />
+            <element signature="e#7204#7307#0" expanded="false" />
+            <element signature="e#7345#7618#0" expanded="false" />
+            <element signature="e#7668#7742#0" expanded="false" />
+            <element signature="e#7827#9632#0" expanded="false" />
+            <element signature="e#7881#8018#0" expanded="false" />
+            <element signature="e#8078#8283#0" expanded="false" />
+            <element signature="e#8343#8640#0" expanded="false" />
+            <element signature="e#8715#9632#0" expanded="false" />
+            <element signature="e#8759#8848#0" expanded="false" />
+            <element signature="e#9052#9632#0" expanded="false" />
+            <element signature="e#9665#10288#0" expanded="false" />
+            <element signature="e#9964#10288#1" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/Blackjack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-412">
-          <caret line="60" column="33" lean-forward="false" selection-start-line="60" selection-start-column="33" selection-end-line="60" selection-end-column="33" />
+        <state relative-caret-position="388">
+          <caret line="231" column="24" lean-forward="false" selection-start-line="231" selection-start-column="24" selection-end-line="231" selection-end-column="24" />
           <folding>
             <element signature="e#97#274#1" expanded="false" />
             <element signature="e#276#388#1" expanded="false" />
-            <element signature="e#457#1519#0" expanded="false" />
-            <element signature="e#679#757#0" expanded="false" />
-            <element signature="e#693#757#0" expanded="false" />
-            <element signature="e#1006#1070#0" expanded="false" />
-            <element signature="e#1566#1586#0" expanded="false" />
-            <element signature="e#1621#1643#0" expanded="false" />
-            <element signature="e#1688#1912#0" expanded="false" />
-            <element signature="e#2074#2286#0" expanded="false" />
-            <element signature="e#2321#2428#0" expanded="false" />
-            <element signature="e#2365#2428#0" expanded="false" />
-            <element signature="e#2514#3457#0" expanded="false" />
-            <element signature="e#2626#3432#0" expanded="false" />
-            <element signature="e#2886#2998#0" expanded="false" />
-            <element signature="e#3068#3432#0" expanded="false" />
-            <element signature="e#3307#3378#0" expanded="false" />
-            <element signature="e#3531#3677#0" expanded="false" />
-            <element signature="e#3563#3624#0" expanded="false" />
-            <element signature="e#3780#3988#0" expanded="false" />
-            <element signature="e#4051#4154#0" expanded="false" />
-            <element signature="e#4280#4567#0" expanded="false" />
-            <element signature="e#4324#4567#0" expanded="false" />
-            <element signature="e#4680#4927#0" expanded="false" />
-            <element signature="e#4933#4991#0" expanded="false" />
-            <element signature="e#5083#5220#0" expanded="false" />
-            <element signature="e#5147#5220#0" expanded="false" />
-            <element signature="e#5303#5468#0" expanded="false" />
-            <element signature="e#5348#5447#0" expanded="false" />
-            <element signature="e#5507#5640#0" expanded="false" />
-            <element signature="e#5779#6088#0" expanded="false" />
-            <element signature="e#5852#5990#0" expanded="false" />
-            <element signature="e#6094#6117#0" expanded="false" />
-            <element signature="e#6210#6387#0" expanded="false" />
-            <element signature="e#6279#6360#0" expanded="false" />
-            <element signature="e#6513#6631#0" expanded="false" />
-            <element signature="e#6650#8763#0" expanded="false" />
-            <element signature="e#6682#6993#0" expanded="false" />
-            <element signature="e#6830#6993#0" expanded="false" />
-            <element signature="e#7080#7095#0" expanded="false" />
-            <element signature="e#7139#7156#0" expanded="false" />
-            <element signature="e#7205#7228#0" expanded="false" />
-            <element signature="e#7272#7289#0" expanded="false" />
-            <element signature="e#7410#7541#0" expanded="false" />
-            <element signature="e#7572#7595#0" expanded="false" />
-            <element signature="e#7715#8141#0" expanded="false" />
-            <element signature="e#7832#8044#0" expanded="false" />
-            <element signature="e#7911#8016#0" expanded="false" />
-            <element signature="e#8233#8344#0" expanded="false" />
-            <element signature="e#8269#8323#0" expanded="false" />
-            <element signature="e#8375#8450#0" expanded="false" />
-            <element signature="e#8489#8525#0" expanded="false" />
-            <element signature="e#8564#8586#0" expanded="false" />
-            <element signature="e#8619#8633#0" expanded="false" />
-            <element signature="e#8672#8763#0" expanded="false" />
-            <element signature="e#8795#9030#0" expanded="false" />
-            <element signature="e#8836#8856#0" expanded="false" />
-            <element signature="e#8951#9030#0" expanded="false" />
-            <element signature="e#9033#9233#1" expanded="false" />
-            <element signature="e#9252#9256#0" expanded="false" />
-            <element signature="e#9286#10516#0" expanded="false" />
-            <element signature="e#9344#9689#0" expanded="false" />
-            <element signature="e#9450#9478#0" expanded="false" />
-            <element signature="e#9535#9639#0" expanded="false" />
-            <element signature="e#9740#10337#0" expanded="false" />
-            <element signature="e#9827#10337#0" expanded="false" />
-            <element signature="e#9867#10208#0" expanded="false" />
-            <element signature="e#10401#10516#0" expanded="false" />
-            <element signature="e#10549#10597#0" expanded="false" />
+            <element signature="e#1005#1069#0" expanded="false" />
+            <element signature="e#1565#1585#0" expanded="false" />
+            <element signature="e#1620#1642#0" expanded="false" />
+            <element signature="e#1687#1911#0" expanded="false" />
+            <element signature="e#2073#2285#0" expanded="false" />
+            <element signature="e#2320#2427#0" expanded="false" />
+            <element signature="e#2364#2427#0" expanded="false" />
+            <element signature="e#2513#3456#0" expanded="false" />
+            <element signature="e#2625#3431#0" expanded="false" />
+            <element signature="e#2885#2997#0" expanded="false" />
+            <element signature="e#3067#3431#0" expanded="false" />
+            <element signature="e#3306#3377#0" expanded="false" />
+            <element signature="e#3530#3676#0" expanded="false" />
+            <element signature="e#3562#3623#0" expanded="false" />
+            <element signature="e#3779#3987#0" expanded="false" />
+            <element signature="e#4050#4153#0" expanded="false" />
+            <element signature="e#4279#4566#0" expanded="false" />
+            <element signature="e#4323#4566#0" expanded="false" />
+            <element signature="e#4679#4926#0" expanded="false" />
+            <element signature="e#4932#4990#0" expanded="false" />
+            <element signature="e#5082#5219#0" expanded="false" />
+            <element signature="e#5146#5219#0" expanded="false" />
+            <element signature="e#5302#5467#0" expanded="false" />
+            <element signature="e#5347#5446#0" expanded="false" />
+            <element signature="e#5506#5639#0" expanded="false" />
+            <element signature="e#5778#6087#0" expanded="false" />
+            <element signature="e#5851#5989#0" expanded="false" />
+            <element signature="e#6093#6116#0" expanded="false" />
+            <element signature="e#6209#6386#0" expanded="false" />
+            <element signature="e#6681#6992#0" expanded="false" />
+            <element signature="e#6829#6992#0" expanded="false" />
+            <element signature="e#7079#7094#0" expanded="false" />
+            <element signature="e#7138#7155#0" expanded="false" />
+            <element signature="e#7204#7227#0" expanded="false" />
+            <element signature="e#7271#7288#0" expanded="false" />
+            <element signature="e#7409#7540#0" expanded="false" />
+            <element signature="e#7571#7594#0" expanded="false" />
+            <element signature="e#7792#8004#0" expanded="false" />
+            <element signature="e#7871#7976#0" expanded="false" />
+            <element signature="e#8193#8304#0" expanded="false" />
+            <element signature="e#8229#8283#0" expanded="false" />
+            <element signature="e#8335#8410#0" expanded="false" />
+            <element signature="e#8449#8485#0" expanded="false" />
+            <element signature="e#8524#8546#0" expanded="false" />
+            <element signature="e#8579#8593#0" expanded="false" />
+            <element signature="e#8632#8723#0" expanded="false" />
+            <element signature="e#8755#8990#0" expanded="false" />
+            <element signature="e#8796#8816#0" expanded="false" />
+            <element signature="e#8911#8990#0" expanded="false" />
+            <element signature="e#8993#9193#1" expanded="false" />
+            <element signature="e#9212#9216#0" expanded="false" />
+            <element signature="e#9246#10476#0" expanded="false" />
+            <element signature="e#9304#9649#0" expanded="false" />
+            <element signature="e#9410#9438#0" expanded="false" />
+            <element signature="e#9495#9599#0" expanded="false" />
+            <element signature="e#9700#10297#0" expanded="false" />
+            <element signature="e#9787#10297#0" expanded="false" />
+            <element signature="e#9827#10168#0" expanded="false" />
+            <element signature="e#10361#10476#0" expanded="false" />
+            <element signature="e#10509#10557#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/CC_AI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="48" column="4" lean-forward="false" selection-start-line="48" selection-start-column="4" selection-end-line="48" selection-end-column="4" />
+          <folding>
+            <element signature="e#496#1263#0" expanded="false" />
+            <element signature="e#1368#1873#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Simple_AI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="51" column="24" lean-forward="false" selection-start-line="51" selection-start-column="24" selection-end-line="51" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/Blackjack_Agent_Interface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-615">
-          <caret line="10" column="26" lean-forward="false" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
+        <state relative-caret-position="205">
+          <caret line="96" column="4" lean-forward="false" selection-start-line="96" selection-start-column="4" selection-end-line="104" selection-end-column="34" />
           <folding>
-            <element signature="e#1613#2054#0" expanded="false" />
-            <element signature="e#1783#1857#0" expanded="false" />
-            <element signature="e#2796#2922#0" expanded="false" />
-            <element signature="e#3012#3158#0" expanded="false" />
-            <element signature="e#3225#3260#0" expanded="false" />
-            <element signature="e#3308#3634#0" expanded="false" />
-            <element signature="e#3668#3693#0" expanded="false" />
-            <element signature="e#3734#3877#0" expanded="false" />
-            <element signature="e#3908#3930#0" expanded="false" />
+            <element signature="e#1774#2215#0" expanded="false" />
+            <element signature="e#2256#3494#0" expanded="false" />
+            <element signature="e#3533#3568#0" expanded="false" />
+            <element signature="e#3976#4001#0" expanded="false" />
+            <element signature="e#4042#4185#0" expanded="false" />
+            <element signature="e#4216#4238#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/CC_Interface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="50" column="41" lean-forward="false" selection-start-line="50" selection-start-column="41" selection-end-line="50" selection-end-column="41" />
+        <state relative-caret-position="141">
+          <caret line="42" column="8" lean-forward="true" selection-start-line="42" selection-start-column="8" selection-end-line="50" selection-end-column="23" />
           <folding>
-            <element signature="e#614#1044#0" expanded="false" />
-            <element signature="e#1087#1475#0" expanded="false" />
-            <element signature="e#2868#2933#0" expanded="false" />
-            <element signature="e#3475#3601#0" expanded="false" />
+            <element signature="e#614#990#0" expanded="false" />
+            <element signature="e#1033#1421#0" expanded="false" />
+            <element signature="e#2342#2376#0" expanded="false" />
+            <element signature="e#2509#2904#0" expanded="false" />
+            <element signature="e#2814#2879#0" expanded="false" />
+            <element signature="e#2988#3165#0" expanded="false" />
+            <element signature="e#3421#3547#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Moves.py">
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/CC_Agent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="10" lean-forward="false" selection-start-line="10" selection-start-column="10" selection-end-line="10" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Comparison_Tool.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="111" column="35" lean-forward="false" selection-start-line="111" selection-start-column="35" selection-end-line="111" selection-end-column="35" />
+        <state relative-caret-position="603">
+          <caret line="55" column="37" lean-forward="false" selection-start-line="55" selection-start-column="37" selection-end-line="55" selection-end-column="37" />
           <folding>
-            <element signature="e#416#831#0" expanded="false" />
-            <element signature="e#476#703#0" expanded="false" />
-            <element signature="e#537#703#0" expanded="false" />
-            <element signature="e#877#1227#0" expanded="false" />
-            <element signature="e#1358#1664#0" expanded="false" />
-            <element signature="e#1670#1727#0" expanded="false" />
-            <element signature="e#1877#3534#0" expanded="false" />
-            <element signature="e#2423#3323#0" expanded="false" />
-            <element signature="e#2470#2943#0" expanded="false" />
-            <element signature="e#2956#2977#0" expanded="false" />
-            <element signature="e#3657#3842#0" expanded="false" />
-            <element signature="e#3729#3818#0" expanded="false" />
-            <element signature="e#3917#4160#0" expanded="false" />
-            <element signature="e#4166#4247#0" expanded="false" />
-            <element signature="e#4423#4427#0" expanded="false" />
-            <element signature="e#4517#4521#0" expanded="false" />
-            <element signature="e#4554#4845#0" expanded="false" />
-            <element signature="e#4585#4792#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Notes.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="402" column="77" lean-forward="true" selection-start-line="402" selection-start-column="77" selection-end-line="402" selection-end-column="77" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/NN_Move.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-175">
-          <caret line="9" column="128" lean-forward="false" selection-start-line="9" selection-start-column="128" selection-end-line="9" selection-end-column="128" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#1650#1684#0" expanded="false" />
+            <element signature="e#1726#1866#0" expanded="false" />
+            <element signature="e#1913#2000#0" expanded="false" />
+            <element signature="e#2111#2953#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="101">
-          <caret line="215" column="28" lean-forward="false" selection-start-line="215" selection-start-column="28" selection-end-line="215" selection-end-column="28" />
+        <state relative-caret-position="515">
+          <caret line="266" column="42" lean-forward="true" selection-start-line="266" selection-start-column="42" selection-end-line="266" selection-end-column="42" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#449#5063#0" expanded="false" />
             <element signature="e#534#802#0" expanded="false" />
             <element signature="e#874#1671#0" expanded="false" />
             <element signature="e#874#965#0" expanded="false" />
@@ -1611,36 +1093,141 @@
             <element signature="e#6309#6585#0" expanded="false" />
             <element signature="e#6644#9002#0" expanded="false" />
             <element signature="e#8847#9002#0" expanded="false" />
+            <element signature="e#9040#10123#0" expanded="false" />
             <element signature="e#10191#10315#0" expanded="false" />
             <element signature="e#10357#10850#0" expanded="false" />
             <element signature="e#10468#10810#0" expanded="false" />
-            <element signature="e#11377#11758#0" expanded="false" />
-            <element signature="e#11817#12303#0" expanded="false" />
-            <element signature="e#12342#12366#0" expanded="false" />
-            <element signature="e#12404#12421#0" expanded="false" />
-            <element signature="e#12787#12791#0" expanded="false" />
-            <element signature="e#12838#12842#0" expanded="false" />
-            <element signature="e#12934#12968#0" expanded="false" />
-            <element signature="e#13114#15147#0" expanded="false" />
-            <element signature="e#13714#13977#0" expanded="false" />
-            <element signature="e#14051#14301#0" expanded="false" />
-            <element signature="e#14674#15123#0" expanded="false" />
-            <element signature="e#15199#15258#0" expanded="false" />
-            <element signature="e#15299#15322#0" expanded="false" />
+            <element signature="e#10997#11259#0" expanded="false" />
+            <element signature="e#11332#11400#0" expanded="false" />
+            <element signature="e#11895#12381#0" expanded="false" />
+            <element signature="e#12420#12444#0" expanded="false" />
+            <element signature="e#12482#12499#0" expanded="false" />
+            <element signature="e#12614#12821#0" expanded="false" />
+            <element signature="e#12865#12869#0" expanded="false" />
+            <element signature="e#12916#12920#0" expanded="false" />
+            <element signature="e#13012#13046#0" expanded="false" />
+            <element signature="e#13192#15225#0" expanded="false" />
+            <element signature="e#13792#14055#0" expanded="false" />
+            <element signature="e#14129#14379#0" expanded="false" />
+            <element signature="e#14752#15201#0" expanded="false" />
+            <element signature="e#15277#15336#0" expanded="false" />
+            <element signature="e#15377#15400#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/Trainer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="62" column="82" lean-forward="false" selection-start-line="62" selection-start-column="82" selection-end-line="62" selection-end-column="82" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/Training_Interface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="131" column="26" lean-forward="false" selection-start-line="131" selection-start-column="26" selection-end-line="131" selection-end-column="26" />
+        <state relative-caret-position="-270">
+          <caret line="125" column="36" lean-forward="true" selection-start-line="125" selection-start-column="36" selection-end-line="125" selection-end-column="36" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
             <element signature="e#793#3207#0" expanded="false" />
-            <element signature="e#6353#9002#0" expanded="false" />
-            <element signature="e#9223#9737#0" expanded="false" />
-            <element signature="e#10195#12152#0" expanded="false" />
+            <element signature="e#6717#9366#0" expanded="false" />
+            <element signature="e#9587#10101#0" expanded="false" />
+            <element signature="e#10137#10518#0" expanded="false" />
+            <element signature="e#10559#12543#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Create_Users_Table.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="3" lean-forward="true" selection-start-line="3" selection-start-column="3" selection-end-line="4" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Create_Games_Record.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="291">
+          <caret line="23" column="14" lean-forward="true" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Comparison_Tool.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="53">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="4" selection-end-column="44" />
+          <folding>
+            <element signature="e#416#831#0" expanded="false" />
+            <element signature="e#476#703#0" expanded="false" />
+            <element signature="e#537#703#0" expanded="false" />
+            <element signature="e#877#1227#0" expanded="false" />
+            <element signature="e#1358#1664#0" expanded="false" />
+            <element signature="e#1670#1727#0" expanded="false" />
+            <element signature="e#3657#3842#0" expanded="false" />
+            <element signature="e#3729#3818#0" expanded="false" />
+            <element signature="e#3917#4160#0" expanded="false" />
+            <element signature="e#4166#4247#0" expanded="false" />
+            <element signature="e#4423#4427#0" expanded="false" />
+            <element signature="e#4517#4521#0" expanded="false" />
+            <element signature="e#4554#4845#0" expanded="false" />
+            <element signature="e#4585#4792#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Create_Agents_Table.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="43" lean-forward="true" selection-start-line="5" selection-start-column="43" selection-end-line="5" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Users_DB.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="19" column="78" lean-forward="true" selection-start-line="19" selection-start-column="78" selection-end-line="19" selection-end-column="78" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/DB.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-443">
+          <caret line="39" column="0" lean-forward="true" selection-start-line="39" selection-start-column="0" selection-end-line="44" selection-end-column="23" />
+          <folding>
+            <element signature="e#74#96#0" expanded="false" />
+            <element signature="e#102#124#0" expanded="false" />
+            <element signature="e#206#364#0" expanded="false" />
+            <element signature="e#370#415#0" expanded="false" />
+            <element signature="e#535#832#0" expanded="false" />
+            <element signature="e#838#892#0" expanded="false" />
+            <element signature="e#992#1287#0" expanded="false" />
+            <element signature="e#1073#1264#0" expanded="false" />
+            <element signature="e#1146#1264#0" expanded="false" />
+            <element signature="e#1212#1264#0" expanded="false" />
+            <element signature="e#1458#1507#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Notes.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="418" column="54" lean-forward="false" selection-start-line="418" selection-start-column="54" selection-end-line="418" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/CT_Wrapper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="461">
+          <caret line="32" column="12" lean-forward="false" selection-start-line="32" selection-start-column="12" selection-end-line="32" selection-end-column="12" />
+          <folding>
+            <element signature="e#162#179#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -20,14 +20,13 @@ class CC_Interface(Blackjack_Agent_Interface):
     def get_chances(self, state=None):
         if state is None:
             state = self.get_game_state_CC()
-        NN_Winning = state[0] == state[1]
 
         AI_hand = state[0]
         AI_hand_val = AI_hand.get_value() # this is recalcualted a lot, maybe find a way to not have to do that as much?
         best_hand = state[1]
         best_hand_val = best_hand.get_value()
 
-        chances = self.CC.calcChances(AI_hand_val, best_hand_val, NN_Winning)
+        chances = self.CC.calcChances(AI_hand_val, best_hand_val)
         return chances
 
     def get_game_state_CC(self):
