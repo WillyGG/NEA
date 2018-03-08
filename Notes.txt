@@ -417,3 +417,6 @@
     - COMPLETE CONVERTING TRAINER
     - IMPLEMENT CT WRAPPER IN CT
     - BEGIN IMPLEMENTING THE CLASSIFICATION ALGORITHMS
+
+ 08 March:
+    - Created a login method for user DB -> users Db should be done now

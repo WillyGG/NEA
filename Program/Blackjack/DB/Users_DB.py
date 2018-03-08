@@ -73,13 +73,27 @@ class Users_DB(DB):
         self.execute_queries(query)
         return True
 
-
     # fetch the games won and the games playerd for a user -> tesSST THIS
     def get_user_game_data(self, username):
         query = "SELECT games_won, games_played FROM users WHERE username=:username"
         params = {"username": username}
         connection, cursor = self.execute_queries(query, place_holder=params, keep_open=True)
         return cursor.fetchone()
+
+    # pass a username and password
+    # returns true if the username and password is valid
+    def check_login(self, username, password):
+        # get record from db via username
+        # checkpassword from record,
+        # if username does not exist or password is incorrect, return false
+
+        query = "SELECT * FROM users WHERE username='{0}'".format(username)
+        connection, cursor = self.execute_queries(query, keep_open=True)
+        result = cursor.fetchone()
+        if result is None:
+            return False
+        hased_pw = result[1]
+        return (self.verify_password(password, hased_pw))
 
 if __name__ == "__main__":
     u_name = "SwaggyShaggy99"
@@ -92,5 +106,5 @@ if __name__ == "__main__":
     print("insertion", u_db_wrapper.create_new_user(u_name, p_word))
     print("unique uname after insertion", u_db_wrapper.check_unique_username(u_name))
     u_db_wrapper.display_all_records("users")
-    u_db_wrapper.execute_queries("SELECT * FROM users WHERE username='SwaggyShaggy99'")
+    print(u_db_wrapper.check_login(u_name, p_word))
     remove("Blackjack.sqlite")
