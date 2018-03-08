@@ -116,3 +116,20 @@ class Trainer:
             self.blackjack.stand()
         else:
             print("invalid move")
+
+    # generate reward based on how close to 21
+    # loss if bust
+    # extra reward if win
+    # normalise all rewards
+    def gen_step_reward(self):
+        pass
+
+    # decrement cc's
+    # end the blackjack game
+    def end_game(self):
+        pass
+
+    # reset rnn state
+    # reset blackjack
+    def reset(self):
+        pass

@@ -420,4 +420,4 @@
 
  08 March:
     - Created a login method for user DB -> users Db should be done now
-    - carried on with new trainer, TODO: -> implement step reward, end game, reset
+    - carried on with new trainer, TODO: -> implement step reward, end game, reset => designed in trainer.py
