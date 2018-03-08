@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="afba8995-ecc3-4204-a2a6-cfb3b48e3563" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/Notes.txt" afterPath="$PROJECT_DIR$/Notes.txt" />
-      <change beforePath="$PROJECT_DIR$/Program/Blackjack/DB/Users_DB.py" afterPath="$PROJECT_DIR$/Program/Blackjack/DB/Users_DB.py" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" />
+      <change beforePath="$PROJECT_DIR$/Program/Blackjack/NN_AI/Trainer.py" afterPath="$PROJECT_DIR$/Program/Blackjack/NN_AI/Trainer.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -14,21 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Notes.txt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Notes.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Notes.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="613">
-              <caret line="421" column="71" lean-forward="false" selection-start-line="421" selection-start-column="71" selection-end-line="421" selection-end-column="71" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Create_Users_Table.sql" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Create_Users_Table.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="3" lean-forward="false" selection-start-line="3" selection-start-column="3" selection-end-line="4" selection-end-column="43" />
+            <state relative-caret-position="579">
+              <caret line="422" column="82" lean-forward="false" selection-start-line="422" selection-start-column="82" selection-end-line="422" selection-end-column="82" />
               <folding />
             </state>
           </provider>
@@ -37,18 +28,18 @@
       <file leaf-file-name="Trainer.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/Trainer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="62" column="82" lean-forward="false" selection-start-line="62" selection-start-column="82" selection-end-line="62" selection-end-column="82" />
+            <state relative-caret-position="961">
+              <caret line="60" column="52" lean-forward="false" selection-start-line="60" selection-start-column="52" selection-end-line="60" selection-end-column="52" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NN.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="NN.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="515">
-              <caret line="266" column="42" lean-forward="true" selection-start-line="266" selection-start-column="42" selection-end-line="266" selection-end-column="42" />
+            <state relative-caret-position="264">
+              <caret line="226" column="19" lean-forward="false" selection-start-line="226" selection-start-column="19" selection-end-line="226" selection-end-column="19" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
                 <element signature="e#449#5063#0" expanded="false" />
@@ -75,19 +66,34 @@
                 <element signature="e#10468#10810#0" expanded="false" />
                 <element signature="e#10997#11259#0" expanded="false" />
                 <element signature="e#11332#11400#0" expanded="false" />
-                <element signature="e#11895#12381#0" expanded="false" />
-                <element signature="e#12420#12444#0" expanded="false" />
-                <element signature="e#12482#12499#0" expanded="false" />
-                <element signature="e#12614#12821#0" expanded="false" />
-                <element signature="e#12865#12869#0" expanded="false" />
-                <element signature="e#12916#12920#0" expanded="false" />
-                <element signature="e#13012#13046#0" expanded="false" />
-                <element signature="e#13192#15225#0" expanded="false" />
-                <element signature="e#13792#14055#0" expanded="false" />
-                <element signature="e#14129#14379#0" expanded="false" />
-                <element signature="e#14752#15201#0" expanded="false" />
-                <element signature="e#15277#15336#0" expanded="false" />
-                <element signature="e#15377#15400#0" expanded="false" />
+                <element signature="e#12202#12688#0" expanded="false" />
+                <element signature="e#12727#12751#0" expanded="false" />
+                <element signature="e#12789#12806#0" expanded="false" />
+                <element signature="e#12921#13128#0" expanded="false" />
+                <element signature="e#13172#13176#0" expanded="false" />
+                <element signature="e#13223#13227#0" expanded="false" />
+                <element signature="e#13319#13353#0" expanded="false" />
+                <element signature="e#13499#15532#0" expanded="false" />
+                <element signature="e#14099#14362#0" expanded="false" />
+                <element signature="e#14436#14686#0" expanded="false" />
+                <element signature="e#15059#15508#0" expanded="false" />
+                <element signature="e#15584#15643#0" expanded="false" />
+                <element signature="e#15684#15707#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CC_Agent.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Program/Blackjack/CC_Agent.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="32" column="8" lean-forward="false" selection-start-line="32" selection-start-column="8" selection-end-line="35" selection-end-column="24" />
+              <folding>
+                <element signature="e#1650#1684#0" expanded="false" />
+                <element signature="e#1726#1866#0" expanded="false" />
+                <element signature="e#1913#2000#0" expanded="false" />
+                <element signature="e#2111#2953#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -96,7 +102,7 @@
       <file leaf-file-name="Comparison_Tool.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Program/Blackjack/Comparison_Tool.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
+            <state relative-caret-position="-408">
               <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="4" selection-end-column="44" />
               <folding>
                 <element signature="e#416#831#0" expanded="false" />
@@ -248,11 +254,11 @@
         <option value="$PROJECT_DIR$/Program/Blackjack/Blackjack.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/CC_Agent.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/Simple_AI.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" />
-        <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/Trainer.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/DB/Create_Games_Record.sql" />
         <option value="$PROJECT_DIR$/Program/Blackjack/DB/CT_Wrapper.py" />
         <option value="$PROJECT_DIR$/Program/Blackjack/DB/Users_DB.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py" />
+        <option value="$PROJECT_DIR$/Program/Blackjack/NN_AI/Trainer.py" />
         <option value="$PROJECT_DIR$/Notes.txt" />
       </list>
     </option>
@@ -1010,13 +1016,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/CC_Agent.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="603">
-          <caret line="55" column="37" lean-forward="false" selection-start-line="55" selection-start-column="37" selection-end-line="55" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/Training_Interface.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3247">
@@ -1027,42 +1026,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Create_Users_Table.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="3" lean-forward="false" selection-start-line="3" selection-start-column="3" selection-end-line="4" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Create_Games_Record.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="23" column="14" lean-forward="false" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Comparison_Tool.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="4" selection-end-column="44" />
-          <folding>
-            <element signature="e#416#831#0" expanded="false" />
-            <element signature="e#476#703#0" expanded="false" />
-            <element signature="e#537#703#0" expanded="false" />
-            <element signature="e#877#1227#0" expanded="false" />
-            <element signature="e#1358#1664#0" expanded="false" />
-            <element signature="e#1670#1727#0" expanded="false" />
-            <element signature="e#3657#3842#0" expanded="false" />
-            <element signature="e#3729#3818#0" expanded="false" />
-            <element signature="e#3917#4160#0" expanded="false" />
-            <element signature="e#4166#4247#0" expanded="false" />
-            <element signature="e#4423#4427#0" expanded="false" />
-            <element signature="e#4517#4521#0" expanded="false" />
-            <element signature="e#4554#4845#0" expanded="false" />
-            <element signature="e#4585#4792#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1121,26 +1089,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Notes.txt">
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/CC_Agent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="613">
-          <caret line="421" column="71" lean-forward="false" selection-start-line="421" selection-start-column="71" selection-end-line="421" selection-end-column="71" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/Trainer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="62" column="82" lean-forward="false" selection-start-line="62" selection-start-column="82" selection-end-line="62" selection-end-column="82" />
-          <folding />
+        <state relative-caret-position="408">
+          <caret line="32" column="8" lean-forward="false" selection-start-line="32" selection-start-column="8" selection-end-line="35" selection-end-column="24" />
+          <folding>
+            <element signature="e#1650#1684#0" expanded="false" />
+            <element signature="e#1726#1866#0" expanded="false" />
+            <element signature="e#1913#2000#0" expanded="false" />
+            <element signature="e#2111#2953#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/NN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="515">
-          <caret line="266" column="42" lean-forward="true" selection-start-line="266" selection-start-column="42" selection-end-line="266" selection-end-column="42" />
+        <state relative-caret-position="264">
+          <caret line="226" column="19" lean-forward="false" selection-start-line="226" selection-start-column="19" selection-end-line="226" selection-end-column="19" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
             <element signature="e#449#5063#0" expanded="false" />
@@ -1167,20 +1132,67 @@
             <element signature="e#10468#10810#0" expanded="false" />
             <element signature="e#10997#11259#0" expanded="false" />
             <element signature="e#11332#11400#0" expanded="false" />
-            <element signature="e#11895#12381#0" expanded="false" />
-            <element signature="e#12420#12444#0" expanded="false" />
-            <element signature="e#12482#12499#0" expanded="false" />
-            <element signature="e#12614#12821#0" expanded="false" />
-            <element signature="e#12865#12869#0" expanded="false" />
-            <element signature="e#12916#12920#0" expanded="false" />
-            <element signature="e#13012#13046#0" expanded="false" />
-            <element signature="e#13192#15225#0" expanded="false" />
-            <element signature="e#13792#14055#0" expanded="false" />
-            <element signature="e#14129#14379#0" expanded="false" />
-            <element signature="e#14752#15201#0" expanded="false" />
-            <element signature="e#15277#15336#0" expanded="false" />
-            <element signature="e#15377#15400#0" expanded="false" />
+            <element signature="e#12202#12688#0" expanded="false" />
+            <element signature="e#12727#12751#0" expanded="false" />
+            <element signature="e#12789#12806#0" expanded="false" />
+            <element signature="e#12921#13128#0" expanded="false" />
+            <element signature="e#13172#13176#0" expanded="false" />
+            <element signature="e#13223#13227#0" expanded="false" />
+            <element signature="e#13319#13353#0" expanded="false" />
+            <element signature="e#13499#15532#0" expanded="false" />
+            <element signature="e#14099#14362#0" expanded="false" />
+            <element signature="e#14436#14686#0" expanded="false" />
+            <element signature="e#15059#15508#0" expanded="false" />
+            <element signature="e#15584#15643#0" expanded="false" />
+            <element signature="e#15684#15707#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/Comparison_Tool.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-408">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="4" selection-end-column="44" />
+          <folding>
+            <element signature="e#416#831#0" expanded="false" />
+            <element signature="e#476#703#0" expanded="false" />
+            <element signature="e#537#703#0" expanded="false" />
+            <element signature="e#877#1227#0" expanded="false" />
+            <element signature="e#1358#1664#0" expanded="false" />
+            <element signature="e#1670#1727#0" expanded="false" />
+            <element signature="e#3657#3842#0" expanded="false" />
+            <element signature="e#3729#3818#0" expanded="false" />
+            <element signature="e#3917#4160#0" expanded="false" />
+            <element signature="e#4166#4247#0" expanded="false" />
+            <element signature="e#4423#4427#0" expanded="false" />
+            <element signature="e#4517#4521#0" expanded="false" />
+            <element signature="e#4554#4845#0" expanded="false" />
+            <element signature="e#4585#4792#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/DB/Create_Users_Table.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="3" lean-forward="false" selection-start-line="3" selection-start-column="3" selection-end-line="4" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program/Blackjack/NN_AI/Trainer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="961">
+          <caret line="60" column="52" lean-forward="false" selection-start-line="60" selection-start-column="52" selection-end-line="60" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Notes.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="579">
+          <caret line="422" column="82" lean-forward="false" selection-start-line="422" selection-start-column="82" selection-end-line="422" selection-end-column="82" />
+          <folding />
         </state>
       </provider>
     </entry>

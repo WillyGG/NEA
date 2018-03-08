@@ -224,10 +224,17 @@ class NN(CC_Agent):
         self.trainer.test_performance(self.sess)
         self.stop_session()
 
-    def getNextAction(self, chances, game_state):
+    # Override from CC_Agent
+    def get_move(self, all_players, exploring=False):
+        game_state = self.get_state(all_players)
+        chances = self.get_chances(game_state)
+        move_next = self.getNextAction(chances, game_state, exploring=exploring)
+        return move_next
+
+    def getNextAction(self, chances, game_state, exploring=False):
         # pass through NN model, and get the next move
         self.game_state = self.get_features(chances, game_state)
-        move = NN_Move.choose_action(self.parameters, self.Primary_Network, game_state, self.rnn_state, self.sess, exploring=False)
+        move = NN_Move.choose_action(self.parameters, self.Primary_Network, game_state, self.rnn_state, self.sess, exploring=exploring)
         if move == True:
             move = Moves.HIT
         elif move == False:

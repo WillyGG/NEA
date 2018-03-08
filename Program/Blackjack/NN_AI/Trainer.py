@@ -34,12 +34,31 @@ class Trainer:
 
         return Blackjack.Blackjack(hands)
 
-    def train(self, sess):
-        train_iterations = self.parameters["train_steps"]
+
+    # TODO DECIDE HOW MANY OF THESE PARAMS YOU ACTUALLY WANT TO PASS
+    def process_NN_agent_action(self, game_num, all_hands, game_state, episode_buffer):
         explore_steps = self.parameters["explore_steps"]
         update_frequency = self.parameters["update_frequency"]
-        hidden_size = self.parameters["hidden_size"]
+        # put this in its own method?
+        exploring = (game_num <= explore_steps)
+        action = self.NN.get_move(all_hands, exploring)
+        self.process_action(action)
+        new_game_state = self.get_train_game_state()
+        new_rnn_state = self.NN.get_new_rnn_state()
+        reward = self.gen_step_reward()
+        action = Moves.convert_to_bool(action)
+        # push action to buffer, for sampling later
+        episode_buffer.append(np.reshape(np.array([game_state, action, reward,
+                                                   new_game_state, self.blackjack.continue_game]),
+                                         [1, 5]))
+        if game_num % update_frequency == 0 and not exploring:
+            self.NN.update_networks()
+        self.NN.rnn_state = new_rnn_state  # UPDATE RNN CELL STATE
+        return new_game_state
 
+    def train(self, sess):
+        train_iterations = self.parameters["train_steps"]
+        hidden_size = self.parameters["hidden_size"]
         exp_buffer = experience_buffer()
         self.sess = sess
         self.NN.Target_Network.updateTarget(sess)
@@ -56,45 +75,20 @@ class Trainer:
                 if current_agent.id != self.NN.ID:
                     move = self.group_agents[current_agent.id].get_next_move(all_hands)
                     self.process_action(move)
-                    new_game_state = self.get_train_game_state() # TODO FIGURE OUT WHAT KIND OF STATE YOU NEED
+                    new_game_state = self.get_train_game_state()  # TODO DECIDE IF YOU NEED A DIFFERENT STATE COPARED TO OTHER AGENT
                 else:  # is the nn agent's turn
-                    # put this in its own method?
-                    exploring = (game_num <= explore_steps)
-                    action = self.NN.get_move(exploring) ## TODO FINISH THIS LATER
-                    self.process_action(action)
-                    new_game_state = self.get_game_train_state()
-                    new_rnn_state = self.NN.get_new_rnn_state()
-                    reward = self.gen_step_reward()
-
-                    if reward == 0:
-                        print("0 gamestate",game_state)
-                        print("0 agent hand val", game_state[0]*30)
-                        print("0 best hand val", game_state[1]*30)
-                        print("0 new agent", new_game_state[0]*30)
-                        print("0 action", action)
-
-                    action = Moves.convert_to_bool(action)
-                    episode_buffer.append(np.reshape(np.array([game_state, action, reward,
-                                                               new_game_state, self.blackjack.continue_game]),
-                                                     [1, 5]))
-                    if game_num % update_frequency == 0 and not exploring:
-                        self.NN.update_networks()
-                    self.NN.rnn_state = new_rnn_state  # UPDATE RNN CELL STATE
-
-                game_state = new_game_state
-
+                    new_game_state = self.process_NN_agent_action(game_num, all_hands, game_state, episode_buffer)
+                game_state = new_game_state # update the game state
                 # PROCESS END OF GAME
                 # GET THE END OF GAME REWARD
                 self.end_game()
                 reward = self.gen_step_reward()
-
-                # decide if you want to append this
                 if action is None:
                     print("NO MOVES EXECUTED")
+                # decide if you want to append this
                 action = Moves.convert_to_bool(action)
                 episode_buffer.append(np.reshape(np.array([game_state, action, reward,
-                                                           new_game_state, self.blackjack.continue_game]),
-                                                 [1, 5]))
+                                                           new_game_state, self.blackjack.continue_game]), [1, 5]))
                 # Add the episode to the experience buffer
                 bufferArray = np.array(episode_buffer)
                 episodeBuffer = list(zip(bufferArray))
@@ -112,7 +106,6 @@ class Trainer:
         for key in sorted(chances):  # sorted so that it is returned in the same order every time
             toReturn.append(chances[key])
         return toReturn
-
 
     def process_action(self, action):
         if action == Moves.HIT:
