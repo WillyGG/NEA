@@ -45,16 +45,15 @@ class Trainer:
         self.process_action(action)
         new_game_state = self.get_train_game_state()
         new_rnn_state = self.NN.get_new_rnn_state()
-        reward = self.gen_step_reward()
+        reward = self.gen_step_reward(action)
         action = Moves.convert_to_bool(action)
         # push action to buffer, for sampling later
         episode_buffer.append(np.reshape(np.array([game_state, action, reward,
-                                                   new_game_state, self.blackjack.continue_game]),
-                                         [1, 5]))
+                                                   new_game_state, self.blackjack.continue_game]), [1, 5]))
         if game_num % update_frequency == 0 and not exploring:
             self.NN.update_networks()
         self.NN.rnn_state = new_rnn_state  # UPDATE RNN CELL STATE
-        return new_game_state
+        return action, new_game_state
 
     def train(self, sess):
         train_iterations = self.parameters["train_steps"]
@@ -66,7 +65,6 @@ class Trainer:
         for game_num in range(train_iterations):
             game_state = self.get_train_game_state()
             episode_buffer = []
-            self.NN.rnn_state_reset() # Reset the recurrent layer's hidden state
             action = None
             # step in game, get reward and new state
             while self.blackjack.continue_game:  # change this to just take a move when it's the AIs turn
@@ -77,12 +75,12 @@ class Trainer:
                     self.process_action(move)
                     new_game_state = self.get_train_game_state()  # TODO DECIDE IF YOU NEED A DIFFERENT STATE COPARED TO OTHER AGENT
                 else:  # is the nn agent's turn
-                    new_game_state = self.process_NN_agent_action(game_num, all_hands, game_state, episode_buffer)
+                    action, new_game_state = self.process_NN_agent_action(game_num, all_hands, game_state, episode_buffer)
                 game_state = new_game_state # update the game state
                 # PROCESS END OF GAME
                 # GET THE END OF GAME REWARD
                 self.end_game()
-                reward = self.gen_step_reward()
+                reward = self.gen_step_reward(action)
                 if action is None:
                     print("NO MOVES EXECUTED")
                 # decide if you want to append this
@@ -121,15 +119,50 @@ class Trainer:
     # loss if bust
     # extra reward if win
     # normalise all rewards
-    def gen_step_reward(self):
-        pass
+    # TODO SORT OUT THE REWARD SYSTEM
+    def gen_step_reward(self, move):
+        nn_hand = self.blackjack.players["nn"]
+        hand_val_norm_const = self.parameters["hand_val_norm_const"]
+
+        agent_value = nn_hand.get_value()
+        current_winners = self.blackjack.compare_hands()
+        win_value = (agent_value + 1) * hand_val_norm_const
+        loss_value = (-agent_value - 1) * hand_val_norm_const
+        normal_reward = agent_value * hand_val_norm_const
+        scaled_value = 0
+        # Win and loss rewards regardless of last action - if absolute winner/loser
+        if self.blackjack.check_game_over():
+            if nn_hand.id in current_winners:
+                scaled_value = win_value
+            else:
+                scaled_value = loss_value
+        # rewards for hit and cost for bust
+        elif move == Moves.HIT:
+            if nn_hand.bust:
+                scaled_value = loss_value
+            else:
+                scaled_value = normal_reward
+        # rewards for standing
+        elif move == Moves.STAND:
+            if nn_hand.id in current_winners:
+                scaled_value = normal_reward
+            else:
+                scaled_value = loss_value
+        elif nn_hand.bust:
+            scaled_value = loss_value
+        return scaled_value
 
     # decrement cc's
     # end the blackjack game
     def end_game(self):
-        pass
+        self.blackjack.end_game()
+        new_cards = self.blackjack.new_cards
+        for key, agent in self.group_agents.items():
+            if "Card Counter" in agent.type:
+                agent.decrement_CC(new_cards)
 
     # reset rnn state
     # reset blackjack
     def reset(self):
-        pass
+        self.NN.rnn_state_reset()  # Reset the recurrent layer's hidden state
+        self.blackjack.reset()

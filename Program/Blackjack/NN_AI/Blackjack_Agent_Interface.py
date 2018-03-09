@@ -61,10 +61,6 @@ class Blackjack_Agent_Interface: # Maybe make this a static class?
     def gen_step_reward(self):
         agent_value = self.agent_hand.get_value()
         current_winners = self.blackjack.compare_hands()
-
-        if self.agent_hand.bust == True:
-            return agent_value
-
         win_value = (agent_value + 1) * self.hand_val_norm_const
         loss_value = (-agent_value-1) * self.hand_val_norm_const
         normal_reward = agent_value * self.hand_val_norm_const
