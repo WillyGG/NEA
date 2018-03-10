@@ -11,6 +11,7 @@ from CC_Agent import CC_Agent
 from Blackjack import Hand
 from NN_Move import NN_Move
 from Moves import Moves
+from Trainer import Trainer
 
 class Q_Net():
     def __init__(self, input_size, hidden_size, output_size, rnn_cell, myScope):
@@ -129,9 +130,8 @@ class NN(CC_Agent):
     def __init__(self, parameters=None, hand=None):
         super().__init__(ID="nn", extra_type=["nn"])
         self.rnn_state = None
-        self.game_state = []
         if parameters is None:
-            self.set_parameters(setting="default")
+            self.parameters, self.train_params = self.set_parameters(setting="default")
         if hand is None:
             self.Hand = Hand(self.ID)
         self.initalise_NN()
@@ -139,36 +139,45 @@ class NN(CC_Agent):
     def set_parameters(self, setting="default"):
         if setting is "default":
             #Setting the training parameters
-            self.parameters = {
-                "batch_size" : 8, #How many experience traces to use for each training step.
-                "trace_length" : 2, #How long each experience trace will be when training
-                "update_freq" : 2, #How often to perform a training step.
-                "gamma" : .99, #Discount factor on the target Q-values
+            nn_params = {
+                "gamma": .99,  # Discount factor on the target Q-values
                 "start_epsilon" : 1, #Starting chance of random action
                 "epsilon" : 1, # tracking value for epsilon - MAKE THIS AN ATTRIBUTE?
                 "end_epsilon" : 0.001, #Final chance of random action
-                "annealing_steps" : 1000, #How many steps of training to reduce startE to endE.
-                "train_steps" : 20000, #How many episodes of game environment to train network with.
-                "explore_steps" : 1000, #How many steps of random actions before training begins.
                 "path_default" : "./nn_data", #The path to save our model to.
                 "hidden_size" : 32, #The size of the final convolutional layer before splitting it into Advantage and Value streams.
                 "no_features" : 6, # How many features to input into the network
                 "no_actions" : 2, # No actions the network can take
                 "summaryLength" : 100, #Number of epidoes to periodically save for analysis
+                "annealing_steps": 1000,  # How many steps of training to reduce startE to endE.
                 "tau" : 0.001,
                 "policy" : "e-greedy",
-                "save_model_frequency" : 50, # how often to save the model
-                "update_frequency" : 5, # how often to update the network weights
-                "test_steps" : 20000, # how many iterations to test
-                "hand_val_norm_const": 1/30 # value to normalise hand values by
+                "hand_val_norm_const": 1 / 30,  # value to normalise hand values by
+
+                "batch_size": 8,  # How many experience traces to use for each training step.
+                "trace_length": 2,  # How long each experience trace will be when training
             }
-            start_epsilon = self.parameters["start_epsilon"]
-            end_epsilon = self.parameters["end_epsilon"]
-            annealing_steps = self.parameters["annealing_steps"]
+
+            train_params = {
+                "batch_size": 8,  # How many experience traces to use for each training step.
+                "trace_length": 2,  # How long each experience trace will be when training
+                "update_freq": 2,  # How often to perform a training step.
+                "train_steps": 20000,  # How many episodes of game environment to train network with.
+                "explore_steps": 1000, # how many steps for initial explore, before training
+                "save_model_frequency": 50,  # how often to save the model
+                "update_frequency": 5,  # how often to update the network weights
+                "test_steps": 20000,  # how many iterations to test
+                "hand_val_norm_const": 1 / 30  # value to normalise hand values by
+            }
+
+            start_epsilon = nn_params["start_epsilon"]
+            end_epsilon = nn_params["end_epsilon"]
+            annealing_steps = nn_params["annealing_steps"]
+
 
             # Set the rate of random action decrease.
-            self.parameters["epsilon"] = start_epsilon
-            self.parameters["epsilon_step"] = (start_epsilon - end_epsilon) / annealing_steps
+            nn_params["epsilon"] = start_epsilon
+            nn_params["epsilon_step"] = (start_epsilon - end_epsilon) / annealing_steps
 
             rewards = {
                 "winReward": 3,
@@ -176,6 +185,8 @@ class NN(CC_Agent):
                 "bustCost": 0,
                 "hand_value_discount": 1 / 2
             }
+
+        return nn_params, train_params
 
     def initalise_NN(self):
         no_features = self.parameters["no_features"]
@@ -190,7 +201,6 @@ class NN(CC_Agent):
         self.Primary_Network = Q_Net(no_features, hidden_size, no_actions, Primary_rnn_cell, 'main')
         self.Target_Network = Target_Net(no_features, hidden_size, no_actions, Target_rnn_cell, 'target')
         self.rnn_state = np.zeros([1, hidden_size]), np.zeros([1, hidden_size])
-        self.trainer = Training_Interface(self.parameters, self.Primary_Network, self.Target_Network, CC_Interface(group=False))
 
         self.init = tf.global_variables_initializer()
         trainables = tf.trainable_variables()
@@ -201,44 +211,49 @@ class NN(CC_Agent):
         hidden_size = self.parameters["hidden_size"]
         self.rnn_state = np.zeros([1, hidden_size]), np.zeros([1, hidden_size])
 
-    def rnn_state_update(self):
+    def rnn_state_update(self, game_state):
         self.rnn_state = self.sess.run(self.Primary_Network.rnn_state,
                                       feed_dict={
-                                          self.Primary_Network.input_layer: [self.game_state],
+                                          self.Primary_Network.input_layer: [game_state],
                                           self.Primary_Network.trainLength: 1,
                                           self.Primary_Network.state_in: self.rnn_state,
                                           self.Primary_Network.batch_size: 1}
                                       )
+        return self.rnn_state
 
     # start the session, run the assigned training type
     # REMOVE THIS HANDLE OUTSIDE OF NN?? OR I DUNNO
     def init_training(self):
         # no context manager so that session does not have to be restarted every time a new move is needed
+        trainer = Trainer(self, training_params=self.train_params, training_type="dealer_only")
         self.start_session()
         self.sess.run(self.init)
-        self.trainer.training_CC_Interface(self.sess)
+        trainer.train(self.sess)
+        #self.trainer.training_CC_Interface(self.sess)
         #self.trainer.training_group(self.sess)
+        self.stop_session()
 
     # REMOVE THIS AT ONE POINT
     def test_performance(self):
         self.trainer.test_performance(self.sess)
-        self.stop_session()
+
 
     # Override from CC_Agent
     def get_move(self, all_players, exploring=False):
         game_state = self.get_state(all_players)
         chances = self.get_chances(game_state)
+
         move_next = self.getNextAction(chances, game_state, exploring=exploring)
         return move_next
 
     def getNextAction(self, chances, game_state, exploring=False):
         # pass through NN model, and get the next move
-        self.game_state = self.get_features(chances, game_state)
+        game_state = self.get_features(chances, game_state)
         move = NN_Move.choose_action(self.parameters, self.Primary_Network, game_state, self.rnn_state, self.sess, exploring=exploring)
         if move == True:
             move = Moves.HIT
         elif move == False:
-            move = Moves.Stand
+            move = Moves.STAND
         return move
 
     def get_features(self, chances, game_state):
@@ -276,7 +291,7 @@ class NN(CC_Agent):
         self.CC.decrement_cards(new_cards)
 
     # updates the target and the primary network - should be called after nn reaches its train frequency
-    def update_networks(self):
+    def update_networks(self, exp_buffer):
         batch_size = self.parameters["batch_size"]
         hidden_size = self.parameters["hidden_size"]
         trace_length = self.parameters["trace_length"]
@@ -284,7 +299,7 @@ class NN(CC_Agent):
 
         self.Target_Network.updateTarget(self.sess)
         rnn_state_update = (np.zeros([batch_size, hidden_size]), np.zeros([batch_size, hidden_size]))
-        trainBatch = self.exp_buffer.sample(batch_size, trace_length)  # Get a random batch of experiences.
+        trainBatch = exp_buffer.sample(batch_size, trace_length)  # Get a random batch of experiences.
 
         # Below we perform the Double-DQN update to the target Q-values
         primary_out = self.sess.run(self.Primary_Network.predict, feed_dict={
@@ -319,12 +334,10 @@ class NN(CC_Agent):
         self.decrement_CC(new_cards)
         self.rnn_state_reset()
 
-    def update_end_turn(self):
-        self.rnn_state_update()
+    def update_end_turn(self, game_state):
+        self.rnn_state_update(game_state)
 
 
 if __name__ == "__main__":
     nn = NN()
-    nn.initalise_NN()
     nn.init_training()
-    nn.test_performance()

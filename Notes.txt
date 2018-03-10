@@ -425,3 +425,7 @@
  09 March:
     - implemented step reward, end game and reset method
     - started pseudocode for card counting algorithm -> TEST
+
+ 10 March:
+    - tested and implemented trainer
+    - removed old training files
