@@ -70,7 +70,6 @@ class Comparison_Tool:
                     blackjack.hit()
                 elif next_move == Moves.STAND:
                     blackjack.stand()
-                agent_current.update_end_turn()
             # PROCESS END OF GAME
             # get the winners, increment their wins, update the agents
             blackjack.end_game()

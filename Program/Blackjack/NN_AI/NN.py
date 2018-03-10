@@ -1,8 +1,5 @@
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
-from Blackjack_Agent_Interface import Blackjack_Agent_Interface
-from Training_Interface import Training_Interface
-from CC_Interface import CC_Interface
 import numpy as np
 import matplotlib.pyplot as plt
 import sys,os
@@ -225,7 +222,7 @@ class NN(CC_Agent):
     # REMOVE THIS HANDLE OUTSIDE OF NN?? OR I DUNNO
     def init_training(self):
         # no context manager so that session does not have to be restarted every time a new move is needed
-        trainer = Trainer(self, training_params=self.train_params, training_type="dealer_only")
+        trainer = Trainer(self, training_params=self.train_params, training_type="group_all")
         self.start_session()
         self.sess.run(self.init)
         trainer.train(self.sess)
@@ -239,17 +236,21 @@ class NN(CC_Agent):
 
 
     # Override from CC_Agent
+    # added an exploring parameter
     def get_move(self, all_players, exploring=False):
         game_state = self.get_state(all_players)
         chances = self.get_chances(game_state)
-
         move_next = self.getNextAction(chances, game_state, exploring=exploring)
         return move_next
 
+    # returns the next move of the agent
+    # side effect => updated rnn cell state after every move
     def getNextAction(self, chances, game_state, exploring=False):
         # pass through NN model, and get the next move
         game_state = self.get_features(chances, game_state)
-        move = NN_Move.choose_action(self.parameters, self.Primary_Network, game_state, self.rnn_state, self.sess, exploring=exploring)
+        move = NN_Move.choose_action(self.parameters, self.Primary_Network, game_state, self.rnn_state, self.sess,
+                                     exploring=exploring)
+        self.rnn_state_update(game_state)
         if move == True:
             move = Moves.HIT
         elif move == False:
@@ -333,9 +334,6 @@ class NN(CC_Agent):
     def update_end_game(self, new_cards):
         self.decrement_CC(new_cards)
         self.rnn_state_reset()
-
-    def update_end_turn(self, game_state):
-        self.rnn_state_update(game_state)
 
 
 if __name__ == "__main__":

@@ -77,6 +77,3 @@ class CC_Agent(Agent):
 
     def update_end_game(self, new_cards):
         self.decrement_CC(new_cards)
-
-    def update_end_turn(self):
-        pass

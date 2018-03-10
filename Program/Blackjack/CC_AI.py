@@ -45,4 +45,3 @@ class CC_AI(CC_Agent):
             pass
         elif setting == "passive":
             pass
-

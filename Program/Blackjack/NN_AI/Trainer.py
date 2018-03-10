@@ -11,8 +11,8 @@ import tensorflow as tf
 class Trainer:
     def __init__(self, nn_inst, training_params=None, training_type="dealer_only"):
         self.NN = nn_inst
-        self.blackjack = self.init_blackjack(training_type)
         self.group_agents = {}
+        self.blackjack = self.init_blackjack(training_type)
         self.parameters = training_params
         # insert some default params
         if training_params is None:
@@ -27,14 +27,25 @@ class Trainer:
             self.NN.ID: nn_hand,
             "dealer": dealer_hand
         }
-
         if training_type == "group_cc_ai":
-            cc_ai_hand = Blackjack.Hand("cc_ai")
-            self.group_agents["CC_AI"] = CC_AI(hand=cc_ai_hand)
-            hands["CC_AI"] = cc_ai_hand
+            self.init_CC_AI(hands)
+        elif training_type == "group_simple":
+            self.init_Simple_AI(hands)
+        elif training_type == "group_all":
+            self.init_CC_AI(hands)
+            self.init_Simple_AI(hands)
 
         return Blackjack.Blackjack(hands)
 
+    def init_CC_AI(self, hands):
+        cc_ai_hand = Blackjack.Hand("cc_ai")
+        self.group_agents["cc_ai"] = CC_AI(hand=cc_ai_hand)
+        hands["cc_ai"] = cc_ai_hand
+
+    def init_Simple_AI(self, hands):
+        cc_ai_hand = Blackjack.Hand("simple")
+        self.group_agents["simple"] = CC_AI(hand=cc_ai_hand)
+        hands["simple"] = cc_ai_hand
 
     # TODO DECIDE HOW MANY OF THESE PARAMS YOU ACTUALLY WANT TO PASS
     def process_NN_agent_action(self, game_num, all_hands, game_state, episode_buffer, exp_buffer):
@@ -42,10 +53,8 @@ class Trainer:
         update_frequency = self.parameters["update_frequency"]
         exploring = (game_num <= explore_steps)
         action = self.NN.get_move(all_hands, exploring)
-        #print(action)
         self.process_action(action)
         new_game_state = self.get_train_game_state(all_hands)
-        new_rnn_state = self.NN.rnn_state_update(game_state)
         reward = self.gen_step_reward(action)
         action = Moves.convert_to_bool(action)
         # push action to buffer, for sampling later
@@ -53,7 +62,6 @@ class Trainer:
                                                    new_game_state, self.blackjack.continue_game]), [1, 5]))
         if game_num % update_frequency == 0 and not exploring:
             self.NN.update_networks(exp_buffer)
-        self.NN.rnn_state = new_rnn_state  # UPDATE RNN CELL STATE
         return action, new_game_state
 
     def train(self, sess):
@@ -74,7 +82,7 @@ class Trainer:
                 current_agent = self.blackjack.get_current_player()
                 #print(current_agent.id)
                 if current_agent.id != self.NN.ID:
-                    move = self.group_agents[current_agent.id].get_next_move(all_hands)
+                    move = self.group_agents[current_agent.id].get_move(all_hands)
                     self.process_action(move)
                     new_game_state = self.get_train_game_state(all_hands)  # TODO DECIDE IF YOU NEED A DIFFERENT STATE COPARED TO OTHER AGENT
                 else:  # is the nn agent's turn

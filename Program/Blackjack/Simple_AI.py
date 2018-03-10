@@ -61,9 +61,6 @@ class Simple_AI(Agent):
             return True
         return False
 
-    def update_end_turn(self):
-        pass
-
     def update_end_game(self, new_cards):
         pass
 

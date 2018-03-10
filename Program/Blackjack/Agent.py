@@ -11,10 +11,6 @@ class Agent(ABC):
         super().__init__()
 
     @abstractmethod
-    def update_end_turn(self):
-        pass
-
-    @abstractmethod
     def update_end_game(self):
         pass
 
