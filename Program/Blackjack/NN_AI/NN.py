@@ -9,6 +9,7 @@ from Blackjack import Hand
 from NN_Move import NN_Move
 from Moves import Moves
 from Trainer import Trainer
+from datetime import datetime
 
 class Q_Net():
     def __init__(self, input_size, hidden_size, output_size, rnn_cell, myScope):
@@ -274,6 +275,17 @@ class NN(CC_Agent):
 
     def stop_session(self):
         self.sess.close()
+
+    def save_model(self):
+        saver = tf.train.Saver(max_to_keep=5)
+        path = self.parameters["path_default"]
+        # Make a path for our model to be saved in.
+        if not os.path.exists(path):
+            os.makedirs(path)
+        # eg. 28-02-2018,15-30-10
+        model_version = datetime.now().strftime("%d-%m-%Y,%H-%M-%S")
+        model_type = "/model-default-"
+        saver.save(self.sess, (path + model_type + model_version + ".cptk"))
 
     # maybe put all load models into one method and just pass the type
     def load_model_default(self):

@@ -105,7 +105,7 @@ class Trainer:
             episodeBuffer = list(zip(bufferArray))
             exp_buffer.add(episodeBuffer)
             self.reset()
-        #self.NN.save_model()
+        self.NN.save_model()
 
     def get_train_game_state(self, all_hands):
         toReturn = []  # [agent_hand_val_normalised, best_player_hand_val_normalised, chances (in order)]
