@@ -3,6 +3,7 @@ from Simple_AI import Simple_AI
 from CC_AI import CC_AI
 import os,sys
 sys.path.append(os.path.realpath("./NN_AI"))
+sys.path.append(os.path.realpath("./NN_AI/nn_data"))
 from NN import NN
 from Moves import Moves
 
@@ -48,18 +49,24 @@ class Comparison_Tool:
 
     # run X games of blackjack, get the winner then return it
     # create and manage a mainloop game of blackjack
+    # pass the id's of the agents who are playing - DEALER IS NOT AUTOMATICALLY INCLUDED
     # TODO TEST TF OUT OF THIS
-    def get_data(self, agent_hands=None, no_games=5000):
+    def get_data(self, *args, no_games=5000):
         # Initialise the agent hands and the agents playing
-        if agent_hands is None:
-            agent_hands = self.agents_hands
-        agents_playing = self.get_agents_playing(agent_hands) # a dictionary of the Ai instances which are playing in this instance
-        blackjack = BJ.Blackjack(agent_hands) # local instance of blackjack
+        agent_hands_playing = {}
+        agents_playing = {}
+        for id_agent in args:
+            if id_agent in self.agents_hands:
+                agent_hands_playing[id_agent] = self.agents_hands[id_agent]
+                agents_playing[id_agent] = self.agents[id_agent]
+        blackjack = BJ.Blackjack(agent_hands_playing) # local instance of blackjack
 
         # initialise and populate the winrate structure
         win_records = {}
-        for agent_id in agent_hands.keys():
+        for agent_id in agent_hands_playing.keys():
             win_records[agent_id] = 0
+
+        # play the games and get the win rates
         for i in range(no_games):
             while blackjack.continue_game:
                 ID_current_player = blackjack.get_current_player().id
@@ -114,9 +121,4 @@ class Comparison_Tool:
 
 if __name__ == "__main__":
     ct = Comparison_Tool()
-    p = {
-        Comparison_Tool.ID_CC_AI: ct.agents_hands[Comparison_Tool.ID_CC_AI],
-        Comparison_Tool.ID_SIMPLE: ct.agents_hands[Comparison_Tool.ID_SIMPLE],
-        "dealer": ct.agents_hands["dealer"]
-    }
-    print(ct.get_data(no_games=2500, agent_hands=p))
+    print(ct.get_data(Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE))
