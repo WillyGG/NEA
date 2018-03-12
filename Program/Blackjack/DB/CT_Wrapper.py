@@ -13,7 +13,7 @@ from os import remove
 class CT_Wrapper(DB):
     def __init__(self, db_path="Blackjack.sqlite"):
         super().__init__(db_path)
-        self.game_id = self.get_next_game_id()
+        #self.game_id = self.get_next_game_id()
 
     def push_move(self, agent_id, move, turn_num, hand_before, hand_after):
         move = Moves.convert_to_bool(move)
@@ -43,17 +43,23 @@ class CT_Wrapper(DB):
     def inc_agent_win(self, agent_id):
         pass
 
+    # gets the current max game id value, returns this + 1
     def get_next_game_id(self):
         query = "SELECT MAX(game_id) FROM Moves;"
         connection, cursor = self.execute_queries(query, keep_open=True)
-        next_game_id = 3132#cursor[0] + 1
+        next_game_id = cursor.fetchone()[0] + 1
         connection.close()
         return next_game_id
 
 if __name__ == "__main__":
     ct_w = CT_Wrapper()
-    ct_w.read_queries_from_file("Create_Games_Record")
+    ct_w.execute_queries_from_file("Create_Games_Record.sql")
     ct_w.execute_queries("INSERT INTO 'Moves' (player_id, game_id, turn_num, hand_before, move, hand_after) VALUES ('asdf', 1, 3, 'asdf', 0, 'sadf');")
+    ct_w.execute_queries("INSERT INTO 'Moves' (player_id, game_id, turn_num, hand_before, move, hand_after) VALUES ('asdf', 50, 3, 'asdf', 0, 'sadf');")
     print(ct_w.get_next_game_id())
+    connection, cursor = ct_w.execute_queries("SELECT * FROM Moves", keep_open=True)
+    for i in cursor:
+        print(i)
+    connection.close()
 
     remove("Blackjack.sqlite")
