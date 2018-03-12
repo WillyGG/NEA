@@ -18,7 +18,7 @@ class Comparison_Tool:
         if agents is None:
             # The instances of all the angents
             self.agents = {
-                Comparison_Tool.ID_NN: NN(),
+                Comparison_Tool.ID_NN: NN(Training=False),
                 Comparison_Tool.ID_SIMPLE: Simple_AI(),
                 Comparison_Tool.ID_CC_AI: CC_AI()
             }
@@ -67,8 +67,10 @@ class Comparison_Tool:
             win_records[agent_id] = 0
 
         # play the games and get the win rates
-        for i in range(no_games):
+        for game_num in range(no_games):
+            turn_no = 0
             while blackjack.continue_game:
+                turn_no += 1
                 ID_current_player = blackjack.get_current_player().id
                 all_hands = blackjack.get_all_hands()
                 agent_current = self.agents[ID_current_player]
@@ -121,4 +123,5 @@ class Comparison_Tool:
 
 if __name__ == "__main__":
     ct = Comparison_Tool()
-    print(ct.get_data(Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE))
+    #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE
+    print(ct.get_data(Comparison_Tool.ID_NN))

@@ -443,3 +443,9 @@
     - TODO:
     - FIX THE FILE PATH SYSTEM FOR LOADING THE NN DATA
     - RESTORE THE SYSTEM FOR MODEL VERSIONS
+
+ 12 March:
+    - Implemented a method to turn off dropout layers whilst training
+    - began implementing CT Wrapper -> continue debugging get next game_id
+    - moved the card binary tree into it's own file -> TODO UPDATE ALL CLASSES WHICH USE THIS TO THE NEW FILE PATH
+    - continued with card counter design in writeup

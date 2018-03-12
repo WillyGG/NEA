@@ -12,13 +12,20 @@ from Trainer import Trainer
 from datetime import datetime
 
 class Q_Net():
-    def __init__(self, input_size, hidden_size, output_size, rnn_cell, myScope):
+    def __init__(self, input_size, hidden_size, output_size, rnn_cell, myScope, training=True):
         self.init_feed_forward(input_size, hidden_size, output_size, myScope)
         self.rnn_processing(rnn_cell, hidden_size, myScope)
         self.split_streams(hidden_size, output_size)
         self.predict()
         self.gen_loss(output_size)
         self.train_update()
+
+        if not training:
+            self.disable_dropout()
+
+    def disable_dropout(self):
+        for dropout in self.dropout_layers:
+            dropout.is_Training = False
 
     def rnn_processing(self, rnn_cell, hidden_size, myScope):
         # We take the output from the final fully connected layer and send it to a recurrent layer.
@@ -37,9 +44,9 @@ class Q_Net():
         self.input_layer = tf.placeholder(shape=[None, inp_size], dtype=tf.float32)
 
         hidden_layer1 = slim.fully_connected(self.input_layer, hidden_size,
-                                            biases_initializer=None,
-                                            activation_fn=tf.nn.relu,
-                                            scope=(myScope+"_hidden1"))  # Rectified linear activation func.
+                                             biases_initializer=None,
+                                             activation_fn=tf.nn.relu,
+                                             scope=(myScope+"_hidden1"))  # Rectified linear activation func.
 
         dropout1 = slim.dropout(hidden_layer1, scope=myScope+"_dropout1")
 
@@ -54,6 +61,8 @@ class Q_Net():
                                                  activation_fn=tf.nn.relu,
                                                  biases_initializer=None,
                                                  scope=(myScope+"_final_hidden"))  # Softmax activation func. -> changed to relu, as no longer output
+
+        self.dropout_layers = [dropout1, dropout2]
 
         #self.action = tf.argmax(self.output_layer, 1)
 
@@ -95,8 +104,8 @@ class Q_Net():
 
 
 class Target_Net(Q_Net):
-    def __init__(self, input_size, hidden_size, output_size, rnn_cell, myScope):
-        super().__init__(input_size, hidden_size, output_size, rnn_cell, myScope)
+    def __init__(self, input_size, hidden_size, output_size, rnn_cell, myScope, training=True):
+        super().__init__(input_size, hidden_size, output_size, rnn_cell, myScope, training)
         self.ops = None
 
     #These functions allows us to update the parameters of our target network with those of the primary network.
@@ -124,7 +133,7 @@ class Target_Net(Q_Net):
 
 # TODO REWORK PARAMETER SYSTEM
 class NN(CC_Agent):
-    def __init__(self, setting="default", hand=None, restore_type="default"):
+    def __init__(self, setting="default", hand=None, restore_type="default", Training=True):
         super().__init__(ID="nn", extra_type=["nn"])
         self.rnn_state = None
         self.sess = None
@@ -135,9 +144,9 @@ class NN(CC_Agent):
         if hand is None:
             self.Hand = Hand(self.ID)
 
-        self.initalise_NN()
+        self.initalise_NN(Training)
         self.start_session()
-        self.load_model()
+        self.load_model(restore_type)
 
     # sets the bevhiour parameters of the nn
     def set_parameters(self, setting="default"):
@@ -198,7 +207,7 @@ class NN(CC_Agent):
 
     # sets up both the primary and target rnn
     # initialises tf and sets the target net equal to primary net
-    def initalise_NN(self):
+    def initalise_NN(self, Training=True):
         no_features = self.parameters["no_features"]
         hidden_size = self.parameters["hidden_size"]
         no_actions = self.parameters["no_actions"]
@@ -208,8 +217,8 @@ class NN(CC_Agent):
         # We define the cells for the primary and target q-networks
         Primary_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
         Target_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
-        self.Primary_Network = Q_Net(no_features, hidden_size, no_actions, Primary_rnn_cell, 'main')
-        self.Target_Network = Target_Net(no_features, hidden_size, no_actions, Target_rnn_cell, 'target')
+        self.Primary_Network = Q_Net(no_features, hidden_size, no_actions, Primary_rnn_cell, 'main', Training)
+        self.Target_Network = Target_Net(no_features, hidden_size, no_actions, Target_rnn_cell, 'target', Training)
         self.rnn_state = np.zeros([1, hidden_size]), np.zeros([1, hidden_size])
 
         self.init = tf.global_variables_initializer()
