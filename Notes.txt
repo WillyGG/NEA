@@ -450,3 +450,9 @@
     - moved the card binary tree into it's own file -> TODO UPDATE ALL CLASSES WHICH USE THIS TO THE NEW FILE PATH
     - continued with card counter design in writeup
     - get next game id tested
+
+ 13 March:
+    - Compeleted explaination and pseudocode for binary tree insertion and deletion
+    - changed the get next game id to check for lowest available id -> cross table paramaterised
+    - implemented convert boolean to MOVE
+    - implemented the get moves -> TEST

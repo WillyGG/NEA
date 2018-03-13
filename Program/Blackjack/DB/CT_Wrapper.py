@@ -37,25 +37,49 @@ class CT_Wrapper(DB):
                 hand_as_text += ", ({0} of {1})".format(card.value, card.suit)
         return hand_as_text
 
-    def get_moves(self, agent, game_id=None):
-        pass
+    # pass in agent name, and a game_id
+    # returns the turn_num, hand_before, move and hand_after
+    # TODO TEST
+    def get_moves(self, agent, game_id):
+        query = """SELECT turn_num, hand_before, move, hand_after 
+                   FROM Moves WHERE player_id={0} AND game_id={1}""".format(agent, game_id)
+        connection, cursor = self.execute_queries(query, keep_open=True)
+        results = cursor.fetchall()
+        connection.close()
+
+        toReturn = []
+        for result in results:
+            record = list(result)
+            move_as_move = Moves.convert_to_move(record[2])
+            record[2] = move_as_move
+            toReturn.append(record)
+        return tuple(toReturn)
+
 
     def inc_agent_win(self, agent_id):
         pass
 
-    # gets the current max game id value, returns this + 1
+    # returns the next available game id
     def get_next_game_id(self):
-        query = "SELECT MAX(game_id) FROM Moves;"
-        connection, cursor = self.execute_queries(query, keep_open=True)
-        next_game_id = cursor.fetchone()[0] + 1
-        connection.close()
-        return next_game_id
+        game_id_test = 0
+        result = 0
+        while result is not None:
+            game_id_test += 1
+            query = """SELECT Moves.game_id FROM Moves, Game_Record 
+                       WHERE Moves.game_id={0} AND Moves.game_id=Game_Record.game_id;""".format(game_id_test)
+            connection, cursor = self.execute_queries(query, keep_open=True)
+            result = cursor.fetchone()
+            connection.close()
+        return game_id_test
 
 if __name__ == "__main__":
     ct_w = CT_Wrapper()
     ct_w.execute_queries_from_file("Create_Games_Record.sql")
     ct_w.execute_queries("INSERT INTO 'Moves' (player_id, game_id, turn_num, hand_before, move, hand_after) VALUES ('asdf', 1, 3, 'asdf', 0, 'sadf');")
-    ct_w.execute_queries("INSERT INTO 'Moves' (player_id, game_id, turn_num, hand_before, move, hand_after) VALUES ('asdf', 50, 3, 'asdf', 0, 'sadf');")
+    ct_w.execute_queries("INSERT INTO 'Moves' (player_id, game_id, turn_num, hand_before, move, hand_after) VALUES ('asdf', 2, 3, 'asdf', 0, 'sadf');")
+
+    ct_w.execute_queries("INSERT INTO 'Game_Record' (game_id, winner_id, winning_hand, winning_hand_value, num_of_turns) VALUES (1, 'asdf', 'agfdsg', 3, 5);")
+    ct_w.execute_queries("INSERT INTO 'Game_Record' (game_id, winner_id, winning_hand, winning_hand_value, num_of_turns) VALUES (2, 'asdf', 'agfdsg', 3, 5);")
     print(ct_w.get_next_game_id())
     connection, cursor = ct_w.execute_queries("SELECT * FROM Moves", keep_open=True)
     for i in cursor:

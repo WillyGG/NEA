@@ -13,5 +13,14 @@ class Moves(Enum):
         elif move == Moves.STAND:
             return False
 
+    @staticmethod
+    def convert_to_move(boolean):
+        if isinstance(boolean, bool):
+            return boolean
+        elif boolean == True:
+            return Moves.HIT
+        elif boolean == False:
+            return Moves.STAND
+
 if __name__ == "__main__":
     print(Moves.convert_to_bool(Moves.HIT))

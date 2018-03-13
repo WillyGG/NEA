@@ -161,6 +161,7 @@ class Binary_Tree:
         elif parent.left == swapRoot:
             parent.left = min_RST
 
+    # gets the maximum node in the left subtree of the passed node
     def get_max_LST(self, root):
         current_node = root.left
         while current_node.right is not None:
@@ -168,12 +169,16 @@ class Binary_Tree:
         # current_node.left, current_node.right = None, None
         return current_node
 
+    # gets the minimum node in the right subtree of the passed node
     def get_min_RST(self, root):
         current_node = root.right
         while current_node.left is not None:
             current_node = current_node.left
         return current_node
 
+    # deletes a passed node
+    # DO NOT MAINTAIN WITHIN THIS METHOD
+    # maintain outside of this method
     def delete(self, node):
         numChildren = node.numOfChildren()
         if node == self._root:
@@ -187,7 +192,6 @@ class Binary_Tree:
                 self.delete_oneChild(node, nodeParent, nodeIsLeft)
             elif numChildren == 2:
                 self.delete_twoChildren(node, nodeParent, nodeIsLeft)
-        #self.maintainTree()
 
     def delete_noChildren(self, node, nodeParent, nodeIsLeft=None):
         if nodeIsLeft is None:
@@ -201,6 +205,7 @@ class Binary_Tree:
         if nodeIsLeft is None:
             nodeIsLeft = nodeParent.left == node
         childIsLeft = node.hasLeft()
+
         if nodeIsLeft:
             if childIsLeft:
                 nodeParent.left = node.left
@@ -228,6 +233,8 @@ class Binary_Tree:
         else:
             nodeParent.right = max_LST
 
+    # special case when deleting a root, because the principle of everything in lst must be smaller
+    # than root and everything in rst must be bigger than root must be maintained.
     def delete_root(self):
         if self._root.left is None and self._root.right is None:
             self.clearTree()
