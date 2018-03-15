@@ -465,3 +465,6 @@
     - implemented an increment games played and games won method
     - created an abstract method to help with both of these
     - implemented base for ct wrapper
+
+    - implemented push game method into ct wrapper
+    - added an if statement to sql to check if the tables already 

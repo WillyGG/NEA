@@ -1,4 +1,4 @@
-CREATE TABLE Game_Record (
+CREATE TABLE IF NOT EXISTS Game_Record (
     game_id INTEGER NOT NULL,
     winner_id varchar(255) NOT NULL,
     winning_hand TEXT NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE Game_Record (
     PRIMARY KEY(game_id)
 );
 
-CREATE TABLE Moves (
+CREATE TABLE IF NOT EXISTS Moves (
     player_id varchar(255) NOT NULL,
     game_id INTEGER NOT NULL,
     turn_num INTEGER NOT NULL,

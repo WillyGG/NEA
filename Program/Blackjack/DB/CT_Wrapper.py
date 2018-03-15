@@ -13,8 +13,19 @@ from os import remove
 class CT_Wrapper(DB):
     def __init__(self, db_path="Blackjack.sqlite"):
         super().__init__(db_path)
-        #self.game_id = self.get_next_game_id()
+        self.__tables_id = ["Agents", "Moves", "Game_Record"]
+        #if not self.check_tables_exist():
+        self.init_tables()
+        self.game_id = self.get_next_game_id()
 
+    # Creates the required tables - harcoded in -> TODO Change this from hardcoded?
+    def init_tables(self):
+        self.execute_queries_from_file("Create_Games_Record.sql")
+        self.execute_queries_from_file("Create_Agents_Table.sql")
+
+    # pass in all the parameters required to push a move to the move table
+    # this method will push the move to the move table
+    # TODO INSERT SOME ERROR HANDLING AND DEFENSIVE PROGRAMMING
     def push_move(self, agent_id, move, turn_num, next_best_val, hand_val_before, hand_val_after):
         move = Moves.convert_to_bool(move)
         query = """INSERT INTO "Moves" 
@@ -90,6 +101,33 @@ class CT_Wrapper(DB):
             connection.close()
         return game_id_test
 
+    # pass in array of agent instances
+    # returns string which is formatted for database suitability
+    def convert_agents_to_text(self, agents):
+        agent_text = ""
+        for agent in agents:
+            agent_text += agent.id + ";"
+        return agent_text
+
+    # queries the database for a game id and converts the players field from TEXT to
+    # an array of strings which are agent ids
+    def get_agent_ids_from_game(self):
+        pass
+
+    # push the a game to the game record table
+    # agents => array of Agents Instances
+    # winning_hand => Hand Instance
+    def push_game(self, winner_id, winning_hand, num_of_turns, agents):
+        hand_as_text = self.convert_hand_to_text(winning_hand)
+        winning_val = winning_hand.get_value()
+        agents_as_text = self.convert_agents_to_text(agents)
+        query = """
+                INSERT INTO Game_Record 
+                (game_id, winner_id, winning_hand, winning_value, num_of_turns, players)
+                VALUES ({0}, '{1}', '{2}', {3}, {4}, '{5}');
+                """.format(self.game_id, winner_id, hand_as_text, winning_val, num_of_turns, agents_as_text)
+
+
 if __name__ == "__main__":
     ct_w = CT_Wrapper()
     ct_w.execute_queries_from_file("Create_Games_Record.sql")
@@ -105,7 +143,7 @@ if __name__ == "__main__":
     connection.close()
 
     ct_w.execute_queries_from_file("Create_Agents_Table")
-    ct_w.execute_queries("INSERT INTO 'Agents' (agent_id, description, games_won, games_played) VALUES ('asdf', 'adsfdf', 0, 0);")
+    ct_w.execute_queries("INSERT INTO Agents (agent_id, description, games_won, games_played) VALUES ('asdf', 'adsfdf', 0, 0);")
     for x in range(2):
         ct_w.inc_agent_win("asdf")
     connection, cursor = ct_w.execute_queries("SELECT * FROM Agents", keep_open=True)

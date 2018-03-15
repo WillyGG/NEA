@@ -4,8 +4,10 @@ from CC_AI import CC_AI
 import os,sys
 sys.path.append(os.path.realpath("./NN_AI"))
 sys.path.append(os.path.realpath("./NN_AI/nn_data"))
+sys.path.append(os.path.realpath("./DB"))
 from NN import NN
 from Moves import Moves
+from CT_Wrapper import CT_Wrapper
 
 class Comparison_Tool:
     ID_NN = "nn"
@@ -25,6 +27,7 @@ class Comparison_Tool:
         # Dictionary holding all the hands of the agents
         self.agents_hands = dict()
         self.populate_agent_hands()
+        self.db_wrapper = CT_Wrapper()
 
     def populate_agent_hands(self):
         self.agents_hands["dealer"] = BJ.Dealer_Hand()
