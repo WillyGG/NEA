@@ -21,6 +21,7 @@ class Blackjack:
         self.deck = Deck()
         self._blackjack = 21 # The winning value
         self._winners = [] # List of ids of the winners of the previous game
+        self.turnNumber = 1
         self.auto_reset = False
 
         if playersDict is None:
@@ -69,6 +70,7 @@ class Blackjack:
         self.init_deal()
         self.players_queue = self.create_player_queue()
         self.new_cards = []
+        self.turnNumber = 1
 
     def init_deal(self):
         for key in self.players.keys():
@@ -110,6 +112,7 @@ class Blackjack:
     def hit(self):
         current_player = self.players_queue.pop()
         self.deal(current_player)
+        self.turnNumber += 1
         if current_player.bust:
             self.check_game_over()
         else:
@@ -119,6 +122,7 @@ class Blackjack:
     def stand(self):
         current_player = self.players_queue.pop()
         current_player.stand()
+        self.turnNumber += 1
         self.check_game_over()
 
     # Prints the current state of the game - each hand followed by their current value.

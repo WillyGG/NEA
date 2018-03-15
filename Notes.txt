@@ -456,3 +456,12 @@
     - changed the get next game id to check for lowest available id -> cross table paramaterised
     - implemented convert boolean to MOVE
     - implemented the get moves -> TEST
+
+ 15 March:
+    - Changed the implementation of the games record:
+        - deleted the players table, now it's just a text field
+        - changed hand state to hand values for the move, and added next best hand value
+    - added a turn number counter within the blackjack class
+    - implemented an increment games played and games won method
+    - created an abstract method to help with both of these
+    - implemented base for ct wrapper
