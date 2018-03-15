@@ -467,4 +467,11 @@
     - implemented base for ct wrapper
 
     - implemented push game method into ct wrapper
-    - added an if statement to sql to check if the tables already 
+    - added an if statement to sql to check if the tables already
+    - implemented db wrapper to ct
+        - converted the push game to support multiple agents
+
+    TODO:
+        - make it so that the get data returns the win rates, or databse is queried in different method
+        - created functions to parse data from the database back into raw values
+        - TEST TEST TEST TEST

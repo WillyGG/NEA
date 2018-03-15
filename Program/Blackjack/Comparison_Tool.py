@@ -64,39 +64,49 @@ class Comparison_Tool:
                 agents_playing[id_agent] = self.agents[id_agent]
         blackjack = BJ.Blackjack(agent_hands_playing) # local instance of blackjack
 
-        # initialise and populate the winrate structure
-        win_records = {}
-        for agent_id in agent_hands_playing.keys():
-            win_records[agent_id] = 0
-
         # play the games and get the win rates
         for game_num in range(no_games):
-            turn_no = 0
             while blackjack.continue_game:
-                turn_no += 1
+                turn_num = blackjack.turnNumber
                 ID_current_player = blackjack.get_current_player().id
                 all_hands = blackjack.get_all_hands()
                 agent_current = self.agents[ID_current_player]
+                hand_val_before = agent_current.hand.get_value()
                 next_move = agent_current.get_move(all_hands) # pass in all player's hands
                 if next_move == Moves.HIT:
                     blackjack.hit()
                 elif next_move == Moves.STAND:
                     blackjack.stand()
+                hand_val_after = agent_current.hand.get_value()
+                next_best_hand = self.get_next_best_hand(ID_current_player, all_hands)
+                self.db_wrapper.push_move(ID_current_player, turn_num, next_move,
+                                          next_best_hand, hand_val_before, hand_val_after)
             # PROCESS END OF GAME
             # get the winners, increment their wins, update the agents
             blackjack.end_game()
+            # TODO TEST THIS
             winners = blackjack.winners
-            # increment the win_rates
-            for winner in winners:
-                win_records[winner] += 1
+            winning_hands = []
+            for winner_id in winners:
+                winning_hands.append(agent_hands_playing[winner_id])
+            self.db_wrapper.push_game(winners, winning_hands, blackjack.turnNumber, agents_playing)
             self.update_agents(agents_playing, blackjack)
             blackjack.reset()
 
         # convert win records to % and return the win rates
-        win_rates = {}
-        for key in win_records.keys():
-            win_rates[key] = win_records[key] / no_games * 100
+        win_rates = 0 # TODO CONVERT THIS TO QUERY THE DATABASE AND GET THE WINRATES
         return win_rates
+
+    # pass in agent id
+    # returns the hand value of the next best agent
+    # will return 0 if all other agents are bust
+    def get_next_best_hand(self, agent_id, all_hands):
+        best_value = 0
+        for hand in all_hands:
+            hand_val = hand.get_value()
+            if hand_val > best_value:
+                best_value = hand_val
+        return best_value
 
     # pass in the hands of all the agents playing, returns
     def get_agents_playing(self, agent_hand_playing):

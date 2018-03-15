@@ -14,7 +14,6 @@ class CT_Wrapper(DB):
     def __init__(self, db_path="Blackjack.sqlite"):
         super().__init__(db_path)
         self.__tables_id = ["Agents", "Moves", "Game_Record"]
-        #if not self.check_tables_exist():
         self.init_tables()
         self.game_id = self.get_next_game_id()
 
@@ -26,7 +25,7 @@ class CT_Wrapper(DB):
     # pass in all the parameters required to push a move to the move table
     # this method will push the move to the move table
     # TODO INSERT SOME ERROR HANDLING AND DEFENSIVE PROGRAMMING
-    def push_move(self, agent_id, move, turn_num, next_best_val, hand_val_before, hand_val_after):
+    def push_move(self, agent_id, turn_num, move, next_best_val, hand_val_before, hand_val_after):
         move = Moves.convert_to_bool(move)
         query = """INSERT INTO "Moves" 
                    (player_id, game_id, turn_num, next_best_val, hand_val_before, move, hand_val_after) \
@@ -114,19 +113,36 @@ class CT_Wrapper(DB):
     def get_agent_ids_from_game(self):
         pass
 
+    # pass a game id, query the db for winning values
+    # return array of ints for the winning values
+    def get_winning_values(self):
+        pass
+
     # push the a game to the game record table
     # agents => array of Agents Instances
     # winning_hand => Hand Instance
-    def push_game(self, winner_id, winning_hand, num_of_turns, agents):
-        hand_as_text = self.convert_hand_to_text(winning_hand)
-        winning_val = winning_hand.get_value()
+    # convert winners to text
+    def push_game(self, winners, winning_hands, num_of_turns, agents):
+        wnr_hands = ""
+        wnr_vals = ""
+        for hand in winning_hands:
+            hand_as_text = self.convert_hand_to_text(hand)
+            wnr_hands += hand_as_text + ";"
+            winning_val = hand.get_value()
+            wnr_vals += str(winning_val) + ";"
         agents_as_text = self.convert_agents_to_text(agents)
         query = """
                 INSERT INTO Game_Record 
-                (game_id, winner_id, winning_hand, winning_value, num_of_turns, players)
-                VALUES ({0}, '{1}', '{2}', {3}, {4}, '{5}');
-                """.format(self.game_id, winner_id, hand_as_text, winning_val, num_of_turns, agents_as_text)
+                (game_id, winner_ids, winning_hands, winning_values, num_of_turns, players)
+                VALUES ({0}, '{1}', '{2}', '{3}', {4}, '{5}');
+                """.format(self.game_id, winners, wnr_hands, wnr_vals, num_of_turns, agents_as_text)
+        self.execute_queries(query)
 
+        # increment the winners and the games played in the database
+        for agent_id in winners:
+            self.inc_agent_win(agent_id)
+        for agent_id in agents:
+            self.inc_games_played(agent_id)
 
 if __name__ == "__main__":
     ct_w = CT_Wrapper()
