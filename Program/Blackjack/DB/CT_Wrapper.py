@@ -4,29 +4,38 @@
     - get moves for a given agent
     - update win for give agent
 """
-from DB import DB
 import os,sys
 sys.path.append(os.path.realpath(".."))
+from DB_Wrapper import DB_Wrapper
 from Moves import Moves
 from os import remove
 
-class CT_Wrapper(DB):
+class CT_Wrapper(DB_Wrapper):
     def __init__(self, db_path="Blackjack.sqlite"):
         super().__init__(db_path)
         self.__tables_id = ["Agents", "Moves", "Game_Record"]
         self.init_tables()
+        self.init_default_agents()
         self.game_id = self.get_next_game_id()
 
     # Creates the required tables - harcoded in -> TODO Change this from hardcoded?
     def init_tables(self):
-        self.execute_queries_from_file("Create_Games_Record.sql")
-        self.execute_queries_from_file("Create_Agents_Table.sql")
+        self.execute_queries_from_file("DB/Create_Games_Record.sql")
+        self.execute_queries_from_file("DB/Create_Agents_Table.sql")
+
+    def init_default_agents(self):
+        agents = [
+            ["nn", "Neural Network based AI, card counter"],
+            ["cc_ai", "Card Counting, threshold based AI"],
+            ["simple", "Simple AI based on game state thresholds"]
+        ]
+        self.populate_agents_table(agents[0], agents[1], agents[2])
 
     # pass in all the parameters required to push a move to the move table
     # this method will push the move to the move table
     # TODO INSERT SOME ERROR HANDLING AND DEFENSIVE PROGRAMMING
     def push_move(self, agent_id, turn_num, move, next_best_val, hand_val_before, hand_val_after):
-        move = Moves.convert_to_bool(move)
+        move = Moves.convert_to_bit(move)
         query = """INSERT INTO "Moves" 
                    (player_id, game_id, turn_num, next_best_val, hand_val_before, move, hand_val_after) \
                    VALUES ("{0}", {1}, {2}, {3}, {4}, {5}, {6});""".format(agent_id, self.game_id, turn_num,
@@ -39,7 +48,7 @@ class CT_Wrapper(DB):
     # "({value} of {suit}), ({value} of {suit})" .. -> etc
     def convert_hand_to_text(self, hand):
         hand_as_text = ""
-        for card in hand:
+        for card in hand.hand:
             if hand_as_text == "":
                 hand_as_text += "({0} of {1})".format(card.value, card.suit)
             else:
@@ -65,8 +74,8 @@ class CT_Wrapper(DB):
 
     # abstract method for incrementing a field in the agents table
     def inc_agent(self, field, agent_id):
-        get_curr_win_query = "SELECT {0} FROM Agents".format(field)
-        connection, cursor = self.execute_queries(get_curr_win_query, keep_open=True)
+        get_curr_query = "SELECT {0} FROM Agents WHERE agent_id='{1}'".format(field, agent_id)
+        connection, cursor = self.execute_queries(get_curr_query, keep_open=True)
         games_won = cursor.fetchone()[0]
         connection.close()
 
@@ -105,7 +114,11 @@ class CT_Wrapper(DB):
     def convert_agents_to_text(self, agents):
         agent_text = ""
         for agent in agents:
-            agent_text += agent.id + ";"
+            if isinstance(agent, str):
+                agent_name = agent
+            else: # TODO CHANGE THIS IN A WAY SO THAT ITS NOT SHIT
+                agent_name = agent.id
+            agent_text += agent_name + ";"
         return agent_text
 
     # queries the database for a game id and converts the players field from TEXT to
@@ -122,6 +135,7 @@ class CT_Wrapper(DB):
     # agents => array of Agents Instances
     # winning_hand => Hand Instance
     # convert winners to text
+    # auto updates game id
     def push_game(self, winners, winning_hands, num_of_turns, agents):
         wnr_hands = ""
         wnr_vals = ""
@@ -135,14 +149,33 @@ class CT_Wrapper(DB):
                 INSERT INTO Game_Record 
                 (game_id, winner_ids, winning_hands, winning_values, num_of_turns, players)
                 VALUES ({0}, '{1}', '{2}', '{3}', {4}, '{5}');
-                """.format(self.game_id, winners, wnr_hands, wnr_vals, num_of_turns, agents_as_text)
+                """.format(self.game_id, ";".join(winners), wnr_hands, wnr_vals, num_of_turns, agents_as_text)
         self.execute_queries(query)
+        self.game_id = self.get_next_game_id()
 
         # increment the winners and the games played in the database
         for agent_id in winners:
+            if agent_id == "dealer":
+                continue
             self.inc_agent_win(agent_id)
         for agent_id in agents:
             self.inc_games_played(agent_id)
+
+    # pass in arrays [agents ids, desc], method will populate them in the database
+    # TODO UPDATE THIS SO THAT IT CHECKS IF THE AGENT ALREADY EXISTS BEFORE INSERTION
+    def populate_agents_table(self, *args):
+        queries = []
+        for arg in args:
+            agent_name = arg[0]
+            agent_desc = arg[1]
+            queries.append("""
+                INSERT INTO Agents (agent_id, description, games_won, games_played)
+                VALUES ('{0}', '{1}', 0, 0);
+            """.format(agent_name, agent_desc))
+        self.execute_queries(queries)
+        #connection, cursor = self.execute_queries("SELECT * FROM Agents", keep_open=True)
+        #print(cursor.fetchall())
+
 
 if __name__ == "__main__":
     ct_w = CT_Wrapper()

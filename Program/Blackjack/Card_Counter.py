@@ -1,5 +1,7 @@
-from Structs.Card_Binary_Tree import Card_Binary_Tree
-from Structs.Card_Binary_Tree import Card_Node
+import sys, os
+sys.path.append(os.path.realpath("./Structs"))
+from Card_Binary_Tree import Card_Binary_Tree
+from Card_Binary_Tree import Card_Node
 from Blackjack import Blackjack
 from Blackjack import Hand
 from Blackjack import Dealer_Hand

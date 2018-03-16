@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS Game_Record (
     game_id INTEGER NOT NULL,
     winner_ids TEXT NOT NULL,
     winning_hands TEXT NOT NULL,
-    winning_hand_values TEXT NOT NULL,
+    winning_values TEXT NOT NULL,
     num_of_turns INTEGER NOT NULL,
     players TEXT NOT NULL,
     PRIMARY KEY(game_id)

@@ -475,3 +475,13 @@
         - make it so that the get data returns the win rates, or databse is queried in different method
         - created functions to parse data from the database back into raw values
         - TEST TEST TEST TEST
+
+ 16 March:
+    - Changed the database abstract class name, to stop conflicts with module name
+    - comparison tool updates game id with every game pushed now
+    - agents auto inserted to agent table
+    - ct wrapper no longer throwing errors - TEST BY SELECING DATA TO CHECK
+
+    TODO:
+    - Query the data to check it looks good
+    - begin working on building data analysis

@@ -5,13 +5,13 @@ class Moves(Enum):
     STAND = False
 
     @staticmethod
-    def convert_to_bool(move):
+    def convert_to_bit(move):
         if isinstance(move, bool):
             return move
         elif move == Moves.HIT:
-            return True
+            return 1
         elif move == Moves.STAND:
-            return False
+            return 0
 
     @staticmethod
     def convert_to_move(boolean):

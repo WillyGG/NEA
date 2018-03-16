@@ -137,4 +137,8 @@ class Comparison_Tool:
 if __name__ == "__main__":
     ct = Comparison_Tool()
     #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE
-    print(ct.get_data(Comparison_Tool.ID_NN))
+    print(ct.get_data(Comparison_Tool.ID_NN, Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_SIMPLE))
+    connection, cursor = ct.db_wrapper.execute_queries(
+        "SELECT * FROM Game_Record", keep_open=True
+    )
+    print(cursor.fetchone())

@@ -1,8 +1,10 @@
 import sqlite3 as sq3
+import os, sys
+sys.path.append(os.path.realpath(".."))
 
-class DB:
+class DB_Wrapper:
     def __init__(self, db_path):
-        self.db_path = db_path
+        self.db_path = "DB/"+ db_path
 
     # connects to database
     # returns connection, cursor
@@ -46,23 +48,15 @@ class DB:
 
     # execute passed query or passed array of queries
     # keep open determines if connection remains open, if so, returns connection and cursor
-    def execute_queries(self, queries, place_holder=None, keep_open=False):
+    def execute_queries(self, queries, keep_open=False):
         # turns single query into executable form - defensive programming
         if isinstance(queries, str):
             queries = [queries]
-        # turns parameter place_holder into executable form
-        #if (isinstance(place_holder, str)):
-        #    place_holder = (place_holder)
         connection, cursor = self.connect_to_db()  # open connection
         for index, query in enumerate(queries):
             # if parameter does not exist, just execute query
             try:
-                if (place_holder is None) or (index >= len(place_holder)) or (place_holder[index] is None):
-                    cursor.execute(query)
-                else: # TODO THIS DOES NOT WORK
-                    parameter = place_holder[index]
-                    print("parameter", parameter)
-                    cursor.execute(query, parameter)
+                cursor.execute(query)
             except Exception as e:
                 print(e)
                 return e

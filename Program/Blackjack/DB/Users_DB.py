@@ -1,4 +1,4 @@
-from DB import DB
+from DB_Wrapper import DB_Wrapper
 import hashlib
 from uuid import uuid4
 from os import remove
@@ -10,7 +10,7 @@ from os import remove
     - sanitization -> should be built into db parent class
 """
 
-class Users_DB(DB):
+class Users_DB(DB_Wrapper):
     def __init__(self, db_path):
         super().__init__(db_path)
 
