@@ -20,8 +20,8 @@ class CT_Wrapper(DB_Wrapper):
 
     # Creates the required tables - harcoded in -> TODO Change this from hardcoded?
     def init_tables(self):
-        self.execute_queries_from_file("DB/Create_Games_Record.sql")
-        self.execute_queries_from_file("DB/Create_Agents_Table.sql")
+        self.execute_queries_from_file(db_dir_path + "Create_Games_Record.sql")
+        self.execute_queries_from_file(db_dir_path + "Create_Agents_Table.sql")
 
     def init_default_agents(self):
         agents = [
@@ -56,14 +56,20 @@ class CT_Wrapper(DB_Wrapper):
         return hand_as_text
 
     # pass in agent name, and a game_id
-    # returns the turn_num, hand_before, move and hand_after
-    def get_moves(self, agent, game_id):
-        query = """SELECT turn_num, hand_before, move, hand_after 
-                   FROM Moves WHERE player_id={0} AND game_id={1}""".format(agent, game_id)
+    # returns the turn_num, next_best_val, hand_val_before, move, hand_val_after
+    # TEST TEST TEST TEST
+    def get_agent_moves(self, agent, game_id=None):
+        if game_id is None:
+            query = """SELECT turn_num, next_best_val, hand_val_before, move, hand_val_after 
+                       FROM Moves WHERE player_id={0}""".format(agent)
+        else:
+            query = """SELECT turn_num, next_best_val, hand_val_before, move, hand_val_after 
+                       FROM Moves WHERE player_id={0} AND game_id={1}""".format(agent, game_id)
         connection, cursor = self.execute_queries(query, keep_open=True)
         results = cursor.fetchall()
         connection.close()
 
+        # convert moves from bit to move
         toReturn = []
         for result in results:
             record = list(result)
@@ -178,6 +184,8 @@ class CT_Wrapper(DB_Wrapper):
 
 
 if __name__ == "__main__":
+    db_dir_path = ""
+
     ct_w = CT_Wrapper()
     ct_w.execute_queries_from_file("Create_Games_Record.sql")
     ct_w.execute_queries("INSERT INTO 'Moves' (player_id, game_id, turn_num, next_best_val, hand_val_before, move, hand_val_after) VALUES ('asdf', 1, 3, 5, 0, 0, 10);")
@@ -201,3 +209,5 @@ if __name__ == "__main__":
     connection.close()
 
     remove("Blackjack.sqlite")
+else:
+    db_dir_path = "DB/"

@@ -485,3 +485,8 @@
     TODO:
     - Query the data to check it looks good
     - begin working on building data analysis
+
+ 18 Mach:
+    - began working on process data method ---> implement win margin?
+    - completed intial version of analysis -> currently only provides analysis on agents in isolation
+    

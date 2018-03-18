@@ -24,6 +24,7 @@ class Comparison_Tool:
                 Comparison_Tool.ID_SIMPLE: Simple_AI(),
                 Comparison_Tool.ID_CC_AI: CC_AI()
             }
+        self.blackjack_val = 21
         # Dictionary holding all the hands of the agents
         self.agents_hands = dict()
         self.populate_agent_hands()
@@ -66,6 +67,7 @@ class Comparison_Tool:
 
         # play the games and get the win rates
         for game_num in range(no_games):
+            print(game_num)
             while blackjack.continue_game:
                 turn_num = blackjack.turnNumber
                 ID_current_player = blackjack.get_current_player().id
@@ -108,7 +110,7 @@ class Comparison_Tool:
                 best_value = hand_val
         return best_value
 
-    # pass in the hands of all the agents playing, returns
+    # pass in the hands of all the agents playing, returns dictionary mapping strings to agent instances
     def get_agents_playing(self, agent_hand_playing):
         toReturn = {}
         for key in agent_hand_playing.keys():
@@ -124,11 +126,54 @@ class Comparison_Tool:
         for player_id, player in agents_playing.items():
             player.update_end_game(new_cards)
 
+    # pass in agent id, returns values on agent analysis
+    def get_agent_analysis(self, agent_id):
+        agent_data = self.db_wrapper.get_agent_moves(agent_id)
+        return self.process_data(agent_data)
+
     # pass in the data from X games and then process the game to show different stats
+    # data should follow this format: turn_num, next_best_val, hand_val_before, move, hand_val_after
     # overall winner, winrates of each player,
     # extend this to compare winrates of each player, based on each parameter setting
+    # 18 march 2018 -> currrently only analyses agents in isolation, not much relational analysis
     def process_data(self, data):
-        pass
+        aggresive_threshold = 17 # TODO make this more sophisticated -> maybe make it so that it takes into account win margin?
+
+        analysis = {
+            "aggressive_hits" : 0, # hits when winning and larger than 17
+            "total_stand_value" : 0, # used to calculate average stand value later on
+            "sample_size" : len(data),
+            "no_times_bust" : 0,
+            "no_times_bust_after_aggressive_hit" : 0,
+            "average_stand_value" : 0
+        }
+
+        # iterate over data and count different cases
+        for move in data:
+            next_best = move[1]
+            val_before = move[2]
+            action = move[3]
+            val_after = move[4]
+            went_bust = False
+
+            # aggressive check
+            # TODO add a win margin!!!
+            if move == Moves.STAND:
+                analysis["total_stand_value"] += val_before
+            if val_after > self.blackjack_val: # and move = Moves.HIT ??
+                analysis["no_times_bust"] += 1
+                went_bust = True
+            if val_before > next_best and val_before >= aggresive_threshold and action == Moves.HIT:
+                analysis["aggressive_hits"] += 1
+                if went_bust:
+                    analysis["no_times_bust_after_aggressive_hit"] += 1
+        analysis["average_stand_value"] = analysis["total_stand_value"] / analysis["sample_size"]
+
+        """
+            - TODO: insert some abritary measurements here about aggression
+        """
+
+        return analysis
 
     # output the data as a graph and a file/database
     def output_data(self):
@@ -137,7 +182,7 @@ class Comparison_Tool:
 if __name__ == "__main__":
     ct = Comparison_Tool()
     #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE
-    print(ct.get_data(Comparison_Tool.ID_NN, Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_SIMPLE))
+    print(ct.get_data(Comparison_Tool.ID_SIMPLE))
     connection, cursor = ct.db_wrapper.execute_queries(
         "SELECT * FROM Game_Record", keep_open=True
     )
