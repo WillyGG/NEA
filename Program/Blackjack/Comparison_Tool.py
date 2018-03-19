@@ -129,25 +129,29 @@ class Comparison_Tool:
     # pass in agent id, returns values on agent analysis
     def get_agent_analysis(self, agent_id):
         agent_data = self.db_wrapper.get_agent_moves(agent_id)
-        return self.process_data(agent_data)
+        analysis = self.process_move_data(agent_data)
+        analysis["total_winrate"] = self.db_wrapper.get_agent_win_rate(agent_id)
+        return analysis
 
     # pass in the data from X games and then process the game to show different stats
     # data should follow this format: turn_num, next_best_val, hand_val_before, move, hand_val_after
     # overall winner, winrates of each player,
     # extend this to compare winrates of each player, based on each parameter setting
     # 18 march 2018 -> currrently only analyses agents in isolation, not much relational analysis
-    def process_data(self, data):
+    def process_move_data(self, data):
         aggresive_threshold = 17 # TODO make this more sophisticated -> maybe make it so that it takes into account win margin?
 
         analysis = {
             "aggressive_hits" : 0, # hits when winning and larger than 17
             "total_stand_value" : 0, # used to calculate average stand value later on
+            "no_times_stood" : 0,
+            "no_times_hit" : 0,
             "sample_size" : len(data),
             "no_times_bust" : 0,
             "no_times_bust_after_aggressive_hit" : 0,
-            "average_stand_value" : 0
+            "average_stand_value" : 0,
         }
-
+        print(data[0])
         # iterate over data and count different cases
         for move in data:
             next_best = move[1]
@@ -158,16 +162,21 @@ class Comparison_Tool:
 
             # aggressive check
             # TODO add a win margin!!!
-            if move == Moves.STAND:
+            if action == Moves.STAND:
                 analysis["total_stand_value"] += val_before
+                analysis["no_times_stood"] += 1
             if val_after > self.blackjack_val: # and move = Moves.HIT ??
                 analysis["no_times_bust"] += 1
                 went_bust = True
+            if action == Moves.HIT:
+                analysis["no_times_hit"] += 1
             if val_before > next_best and val_before >= aggresive_threshold and action == Moves.HIT:
                 analysis["aggressive_hits"] += 1
                 if went_bust:
                     analysis["no_times_bust_after_aggressive_hit"] += 1
-        analysis["average_stand_value"] = analysis["total_stand_value"] / analysis["sample_size"]
+        analysis["average_stand_value"] = analysis["total_stand_value"] / analysis["no_times_stood"]
+        analysis["%_hit"] = analysis["no_times_hit"] / analysis["sample_size"]
+        analysis["%_stood"] = analysis["no_times_stood"] / analysis["sample_size"]
 
         """
             - TODO: insert some abritary measurements here about aggression
@@ -182,8 +191,18 @@ class Comparison_Tool:
 if __name__ == "__main__":
     ct = Comparison_Tool()
     #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE
-    print(ct.get_data(Comparison_Tool.ID_SIMPLE))
+    print(ct.get_data(Comparison_Tool.ID_NN, no_games=5000))
     connection, cursor = ct.db_wrapper.execute_queries(
         "SELECT * FROM Game_Record", keep_open=True
     )
     print(cursor.fetchone())
+    connection.close()
+
+    connection, cursor = ct.db_wrapper.execute_queries(
+        "SELECT * FROM Moves WHERE player_id='simple'", keep_open=True
+    )
+    print(cursor.fetchall())
+    connection.close()
+
+    agent_to_analyse = Comparison_Tool.ID_NN
+    print(agent_to_analyse, ct.get_agent_analysis(agent_to_analyse))

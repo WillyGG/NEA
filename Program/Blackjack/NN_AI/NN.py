@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys,os
 sys.path.append(os.path.realpath(".."))
+sys.path.append(os.path.realpath("../Structs"))
 from CC_Agent import CC_Agent
 from Blackjack import Hand
 from NN_Move import NN_Move

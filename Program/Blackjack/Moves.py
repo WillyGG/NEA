@@ -8,6 +8,8 @@ class Moves(Enum):
     def convert_to_bit(move):
         if isinstance(move, bool):
             return move
+        elif isinstance(move, int) and move == 0 or move == 1:
+            return move
         elif move == Moves.HIT:
             return 1
         elif move == Moves.STAND:
@@ -23,4 +25,5 @@ class Moves(Enum):
             return Moves.STAND
 
 if __name__ == "__main__":
-    print(Moves.convert_to_bool(Moves.HIT))
+    print(Moves.convert_to_bit(Moves.HIT))
+    print(Moves.convert_to_move(1))

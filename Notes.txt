@@ -489,4 +489,13 @@
  18 Mach:
     - began working on process data method ---> implement win margin?
     - completed intial version of analysis -> currently only provides analysis on agents in isolation
-    
+
+ 19 March:
+    - Get data => tested - looks good, but it runs reeeally sloooowly
+    - process data working well - add fields which look at no times hit and then do % times hit stood
+    - retrained the NN
+
+    TODO:
+    - play against dealer rather then each other
+    - projected most likely next card AND WIN MARGIN
+    - FIX THE FILE PATHS!!!

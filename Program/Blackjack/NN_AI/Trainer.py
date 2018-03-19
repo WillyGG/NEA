@@ -56,7 +56,7 @@ class Trainer:
         self.process_action(action)
         new_game_state = self.get_train_game_state(all_hands)
         reward = self.gen_step_reward(action)
-        action = Moves.convert_to_bool(action)
+        action = Moves.convert_to_bit(action)
         # push action to buffer, for sampling later
         episode_buffer.append(np.reshape(np.array([game_state, action, reward,
                                                    new_game_state, self.blackjack.continue_game]), [1, 5]))
@@ -97,7 +97,7 @@ class Trainer:
             if action is None:
                 print("NO MOVES EXECUTED")
             # decide if you want to append this
-            action = Moves.convert_to_bool(action)
+            action = Moves.convert_to_bit(action)
             episode_buffer.append(np.reshape(np.array([game_state, action, reward,
                                                        new_game_state, self.blackjack.continue_game]), [1, 5]))
             # Add the episode to the experience buffer

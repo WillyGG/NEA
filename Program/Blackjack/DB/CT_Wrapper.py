@@ -20,9 +20,12 @@ class CT_Wrapper(DB_Wrapper):
 
     # Creates the required tables - harcoded in -> TODO Change this from hardcoded?
     def init_tables(self):
+        global db_dir_path
         self.execute_queries_from_file(db_dir_path + "Create_Games_Record.sql")
         self.execute_queries_from_file(db_dir_path + "Create_Agents_Table.sql")
 
+    # pushes the agents into the table
+    # TODO CHANGE THIS SO THAT IT CHECKS FI THEY EXIST FIRST
     def init_default_agents(self):
         agents = [
             ["nn", "Neural Network based AI, card counter"],
@@ -61,10 +64,10 @@ class CT_Wrapper(DB_Wrapper):
     def get_agent_moves(self, agent, game_id=None):
         if game_id is None:
             query = """SELECT turn_num, next_best_val, hand_val_before, move, hand_val_after 
-                       FROM Moves WHERE player_id={0}""".format(agent)
+                       FROM Moves WHERE player_id='{0}'""".format(agent)
         else:
             query = """SELECT turn_num, next_best_val, hand_val_before, move, hand_val_after 
-                       FROM Moves WHERE player_id={0} AND game_id={1}""".format(agent, game_id)
+                       FROM Moves WHERE player_id='{0}' AND game_id={1}""".format(agent, game_id)
         connection, cursor = self.execute_queries(query, keep_open=True)
         results = cursor.fetchall()
         connection.close()
@@ -73,8 +76,8 @@ class CT_Wrapper(DB_Wrapper):
         toReturn = []
         for result in results:
             record = list(result)
-            move_as_move = Moves.convert_to_move(record[2])
-            record[2] = move_as_move
+            move_as_move = Moves.convert_to_move(record[3])
+            record[3] = move_as_move
             toReturn.append(record)
         return tuple(toReturn)
 
@@ -148,16 +151,18 @@ class CT_Wrapper(DB_Wrapper):
         for hand in winning_hands:
             hand_as_text = self.convert_hand_to_text(hand)
             wnr_hands += hand_as_text + ";"
+            
             winning_val = hand.get_value()
             wnr_vals += str(winning_val) + ";"
         agents_as_text = self.convert_agents_to_text(agents)
+        wnr_ids = ";".join(winners)
         query = """
                 INSERT INTO Game_Record 
                 (game_id, winner_ids, winning_hands, winning_values, num_of_turns, players)
                 VALUES ({0}, '{1}', '{2}', '{3}', {4}, '{5}');
-                """.format(self.game_id, ";".join(winners), wnr_hands, wnr_vals, num_of_turns, agents_as_text)
+                """.format(self.game_id, wnr_ids, wnr_hands, wnr_vals, num_of_turns, agents_as_text)
         self.execute_queries(query)
-        self.game_id = self.get_next_game_id()
+        self.game_id += 1 #self.get_next_game_id()
 
         # increment the winners and the games played in the database
         for agent_id in winners:
@@ -166,6 +171,7 @@ class CT_Wrapper(DB_Wrapper):
             self.inc_agent_win(agent_id)
         for agent_id in agents:
             self.inc_games_played(agent_id)
+            pass
 
     # pass in arrays [agents ids, desc], method will populate them in the database
     # TODO UPDATE THIS SO THAT IT CHECKS IF THE AGENT ALREADY EXISTS BEFORE INSERTION
@@ -182,6 +188,19 @@ class CT_Wrapper(DB_Wrapper):
         #connection, cursor = self.execute_queries("SELECT * FROM Agents", keep_open=True)
         #print(cursor.fetchall())
 
+    # pass in an agent id and get the winrate as a decimal
+    def get_agent_win_rate(self, agent_id):
+        # get the number of wins
+        query = """
+                SELECT games_won, games_played
+                FROM Agents 
+                WHERE agent_id='{0}'
+                """.format(agent_id)
+        connection, cursor = self.execute_queries(query, keep_open=True)
+        result = cursor.fetchone() # should not matter if fetchall() is used, because unique user
+        connection.close()
+        winrate = result[0] / result[1]
+        return winrate
 
 if __name__ == "__main__":
     db_dir_path = ""
