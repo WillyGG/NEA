@@ -8,6 +8,7 @@ sys.path.append(os.path.realpath("./DB"))
 from NN import NN
 from Moves import Moves
 from CT_Wrapper import CT_Wrapper
+import matplotlib.pyplot as plt
 
 class Comparison_Tool:
     ID_NN = "nn"
@@ -55,7 +56,7 @@ class Comparison_Tool:
     # create and manage a mainloop game of blackjack
     # pass the id's of the agents who are playing - DEALER IS NOT AUTOMATICALLY INCLUDED
     # TODO TEST TF OUT OF THIS
-    def get_data(self, *args, no_games=5000):
+    def get_data(self, *args, no_games=1000):
         # Initialise the agent hands and the agents playing
         agent_hands_playing = {}
         agents_playing = {}
@@ -188,10 +189,19 @@ class Comparison_Tool:
     def output_data(self):
         pass
 
+    def output_player_wr(self, id):
+        data = self.db_wrapper.get_agent_wins_per_game(id)
+        print(data)
+        x_vals = [d[0] for d in data]
+        y_vals = [d[1] for d in data]
+        plt.plot(x_vals, y_vals)
+        plt.show()
+
+
 if __name__ == "__main__":
     ct = Comparison_Tool()
     #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE
-    print(ct.get_data(Comparison_Tool.ID_NN, no_games=5000))
+    #print(ct.get_data(Comparison_Tool.ID_SIMPLE, no_games=5000))
     connection, cursor = ct.db_wrapper.execute_queries(
         "SELECT * FROM Game_Record", keep_open=True
     )
@@ -204,5 +214,7 @@ if __name__ == "__main__":
     print(cursor.fetchall())
     connection.close()
 
-    agent_to_analyse = Comparison_Tool.ID_NN
+    agent_to_analyse = Comparison_Tool.ID_SIMPLE
     print(agent_to_analyse, ct.get_agent_analysis(agent_to_analyse))
+
+    ct.output_player_wr(Comparison_Tool.ID_SIMPLE)

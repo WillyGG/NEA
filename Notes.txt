@@ -499,3 +499,8 @@
     - play against dealer rather then each other
     - projected most likely next card AND WIN MARGIN
     - FIX THE FILE PATHS!!!
+
+ 20 March:
+    - updated the objectives, discussed with jev
+    - wrote first version of get change in player's winrate => test
+    - output for winrate overtime tested

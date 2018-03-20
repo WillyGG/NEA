@@ -48,6 +48,7 @@ class DB_Wrapper:
 
     # execute passed query or passed array of queries
     # keep open determines if connection remains open, if so, returns connection and cursor
+    # change this so that it works with multiple open queries
     def execute_queries(self, queries, keep_open=False):
         # turns single query into executable form - defensive programming
         if isinstance(queries, str):
@@ -56,6 +57,7 @@ class DB_Wrapper:
         for index, query in enumerate(queries):
             # if parameter does not exist, just execute query
             try:
+                print(query)
                 cursor.execute(query)
             except Exception as e:
                 print(e)

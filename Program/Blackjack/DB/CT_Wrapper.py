@@ -202,6 +202,40 @@ class CT_Wrapper(DB_Wrapper):
         winrate = result[0] / result[1]
         return winrate
 
+    # pass in agent id
+    # returns 2d array => [  [game_id, win_rate after x games], ...  ]
+    def get_agent_wins_per_game(self, agent_id):
+        games = []
+
+        agent_id_as_text = self.convert_agents_to_text([agent_id])
+        # gets all the game record numbers which the user has played in
+        games_query = """
+                          SELECT game_id, winner_ids
+                          FROM Game_Record 
+                          WHERE players LIKE '%{0}%'
+                          ORDER BY game_id ASC;
+                          """.format(agent_id_as_text) # add validation by selecting from users table
+
+
+        # get the data from the database
+        connection, cursor = self.execute_queries(games_query, keep_open=True)
+        games = cursor.fetchall()
+        connection.close()
+
+        d_win_rate = []
+        games_won = 0
+        win_rate = 0
+        for record in games:
+            game_id = record[0]
+            winners = record[1]
+            if agent_id_as_text in winners:
+                games_won += 1
+                win_rate = games_won / game_id
+            next_game = [game_id, win_rate]
+            d_win_rate.append(next_game)
+
+        return d_win_rate
+
 if __name__ == "__main__":
     db_dir_path = ""
 
