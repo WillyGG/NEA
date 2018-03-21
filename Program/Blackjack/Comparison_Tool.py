@@ -190,8 +190,9 @@ class Comparison_Tool:
         pass
 
     def output_player_wr(self, id):
-        data = self.db_wrapper.get_agent_wins_per_game(id)
-        print(data)
+        data = self.db_wrapper.get_agent_wins_per_game(id) #todo maybe move this into this class?
+        plt.xlabel("games_played")
+        plt.ylabel("win rate")
         x_vals = [d[0] for d in data]
         y_vals = [d[1] for d in data]
         plt.plot(x_vals, y_vals)
@@ -203,6 +204,34 @@ class Comparison_Tool:
     # see how far along the averages the player / agent is
     def get_aggression_rating(self, id):
         pass
+
+    def output_avg_stand_value(self, id):
+        query = """
+                SELECT game_id, hand_val_before
+                FROM Moves
+                WHERE player_id='{0}' AND move=0
+                ORDER BY game_id ASC;
+                """.format(id)
+        games = self.db_wrapper.execute_queries(query, get_result=True)
+        print(games[0])
+
+        x_vals = []
+        y_vals = []
+        total_stand_value = 0
+        for game in games:
+            game_num = game[0]
+            stand_value = game[1]
+            total_stand_value += stand_value
+            avg_stand_value = total_stand_value / game_num
+            x_vals.append(game_num)
+            y_vals.append(avg_stand_value)
+
+        print(y_vals[0])
+        plt.xlabel("no games")
+        plt.ylabel("avg stand value")
+        plt.plot(x_vals, y_vals)
+        plt.show()
+
 
 if __name__ == "__main__":
     ct = Comparison_Tool()
@@ -223,4 +252,5 @@ if __name__ == "__main__":
     agent_to_analyse = Comparison_Tool.ID_SIMPLE
     print(agent_to_analyse, ct.get_agent_analysis(agent_to_analyse))
 
-    ct.output_player_wr(Comparison_Tool.ID_SIMPLE)
+    #ct.output_player_wr(agent_to_analyse)
+    ct.output_avg_stand_value(agent_to_analyse)

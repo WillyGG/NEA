@@ -49,24 +49,32 @@ class DB_Wrapper:
     # execute passed query or passed array of queries
     # keep open determines if connection remains open, if so, returns connection and cursor
     # change this so that it works with multiple open queries
-    def execute_queries(self, queries, keep_open=False):
+    def execute_queries(self, queries, keep_open=False, get_result=False):
         # turns single query into executable form - defensive programming
         if isinstance(queries, str):
             queries = [queries]
         connection, cursor = self.connect_to_db()  # open connection
+        results = []
         for index, query in enumerate(queries):
             # if parameter does not exist, just execute query
             try:
                 print(query)
                 cursor.execute(query)
+                results.append(cursor.fetchall())
             except Exception as e:
                 print(e)
                 return e
             connection.commit()
+
         if keep_open:
             return connection, cursor
         else:
             connection.close()
+            if get_result:
+                # if there is only one set of results return that result => in the case of a single query passed
+                if len(results) == 1:
+                    results = results[0]
+                return results
             return True
 
     def display_all_records(self, table_name):

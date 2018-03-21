@@ -69,10 +69,7 @@ class CT_Wrapper(DB_Wrapper):
         else:
             query = """SELECT turn_num, next_best_val, hand_val_before, move, hand_val_after 
                        FROM Moves WHERE player_id='{0}' AND game_id={1}""".format(agent, game_id)
-        connection, cursor = self.execute_queries(query, keep_open=True)
-        results = cursor.fetchall()
-        connection.close()
-
+        results = self.execute_queries(query, get_result=True)
         # convert moves from bit to move
         toReturn = []
         for result in results:
@@ -85,9 +82,7 @@ class CT_Wrapper(DB_Wrapper):
     # abstract method for incrementing a field in the agents table
     def inc_agent(self, field, agent_id):
         get_curr_query = "SELECT {0} FROM Agents WHERE agent_id='{1}'".format(field, agent_id)
-        connection, cursor = self.execute_queries(get_curr_query, keep_open=True)
-        games_won = cursor.fetchone()[0]
-        connection.close()
+        games_won = self.execute_queries(get_curr_query, get_result=True)[0]
 
         inc_win_query = """
                         UPDATE Agents
@@ -114,9 +109,7 @@ class CT_Wrapper(DB_Wrapper):
             game_id_test += 1
             query = """SELECT Moves.game_id FROM Moves, Game_Record 
                        WHERE Moves.game_id={0} AND Moves.game_id=Game_Record.game_id;""".format(game_id_test)
-            connection, cursor = self.execute_queries(query, keep_open=True)
-            result = cursor.fetchone()
-            connection.close()
+            result = self.execute_queries(query, get_result=True)
         return game_id_test
 
     # pass in array of agent instances
@@ -186,8 +179,6 @@ class CT_Wrapper(DB_Wrapper):
                 VALUES ('{0}', '{1}', 0, 0);
             """.format(agent_name, agent_desc))
         self.execute_queries(queries)
-        #connection, cursor = self.execute_queries("SELECT * FROM Agents", keep_open=True)
-        #print(cursor.fetchall())
 
     # pass in an agent id and get the winrate as a decimal
     def get_agent_win_rate(self, agent_id):
@@ -197,17 +188,13 @@ class CT_Wrapper(DB_Wrapper):
                 FROM Agents 
                 WHERE agent_id='{0}'
                 """.format(agent_id)
-        connection, cursor = self.execute_queries(query, keep_open=True)
-        result = cursor.fetchone() # should not matter if fetchall() is used, because unique user
-        connection.close()
+        result = self.execute_queries(query, get_result=True)
         winrate = result[0] / result[1]
         return winrate
 
     # pass in agent id
     # returns 2d array => [  [game_id, win_rate after x games], ...  ]
     def get_agent_wins_per_game(self, agent_id):
-        games = []
-
         agent_id_as_text = self.convert_agents_to_text([agent_id])
         # gets all the game record numbers which the user has played in
         games_query = """
@@ -219,9 +206,7 @@ class CT_Wrapper(DB_Wrapper):
 
 
         # get the data from the database
-        connection, cursor = self.execute_queries(games_query, keep_open=True)
-        games = cursor.fetchall()
-        connection.close()
+        games = self.execute_queries(games_query, get_result=True)
 
         d_win_rate = []
         games_won = 0
@@ -246,9 +231,7 @@ class CT_Wrapper(DB_Wrapper):
                 FROM Moves
                 WHERE move=0;
                 """
-        connection, cursor = self.execute_queries(query, keep_open=True)
-        result = cursor.fetchall()
-        connection.close()
+        result = self.execute_queries(query, get_result=True)
         return result[0]
 
     # gets the standard deviation to the mean of the average value which the players stand on
@@ -261,9 +244,7 @@ class CT_Wrapper(DB_Wrapper):
                 FROM Moves
                 WHERE move=0;
                 """
-        connection, cursor = self.execute_queries(query, keep_open=True)
-        results = cursor.fetchall()
-        connection.close()
+        results = self.execute_queries(query, get_result=True)
 
         s = 0 # sum of (x - xbar)^2
         n = len(results)

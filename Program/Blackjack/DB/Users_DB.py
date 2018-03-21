@@ -18,12 +18,10 @@ class Users_DB(DB_Wrapper):
     # true => unique, false => not unique
     def check_unique_username(self, username):
         query = "SELECT username FROM users WHERE username='" + username + "'"
-        connection, cursor = self.execute_queries(query, keep_open=True)
+        query_result = self.execute_queries(query, get_result=True)
 
         # if no value is returned from this query, the username is unique
-        query_result = cursor.fetchone()
-        cursor.close()
-        if query_result is None:
+        if query_result == []:
             return True
         else:
             return False
@@ -73,12 +71,11 @@ class Users_DB(DB_Wrapper):
         self.execute_queries(query)
         return True
 
-    # fetch the games won and the games playerd for a user -> tesSST THIS
+    # fetch the games won and the games player id for a user -> tesSST THIS
     def get_user_game_data(self, username):
-        query = "SELECT games_won, games_played FROM users WHERE username=:username"
-        params = {"username": username}
-        connection, cursor = self.execute_queries(query, place_holder=params, keep_open=True)
-        return cursor.fetchone()
+        query = "SELECT games_won, games_played FROM users WHERE username='{0}'".format(username)
+        result = self.execute_queries(query, get_result=True)
+        return result
 
     # pass a username and password
     # returns true if the username and password is valid
@@ -86,11 +83,9 @@ class Users_DB(DB_Wrapper):
         # get record from db via username
         # checkpassword from record,
         # if username does not exist or password is incorrect, return false
-
         query = "SELECT * FROM users WHERE username='{0}'".format(username)
-        connection, cursor = self.execute_queries(query, keep_open=True)
-        result = cursor.fetchone()
-        if result is None:
+        result = self.execute_queries(query, get_result=True)[0]
+        if result == []:
             return False
         hased_pw = result[1]
         return (self.verify_password(password, hased_pw))
