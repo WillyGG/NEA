@@ -197,6 +197,12 @@ class Comparison_Tool:
         plt.plot(x_vals, y_vals)
         plt.show()
 
+    # pass in player id, get back aggresion rating
+    # calculate the average stand value
+    # calculate the standard deviation
+    # see how far along the averages the player / agent is
+    def get_aggression_rating(self, id):
+        pass
 
 if __name__ == "__main__":
     ct = Comparison_Tool()

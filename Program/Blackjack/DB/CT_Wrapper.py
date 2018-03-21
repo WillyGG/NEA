@@ -9,6 +9,7 @@ sys.path.append(os.path.realpath(".."))
 from DB_Wrapper import DB_Wrapper
 from Moves import Moves
 from os import remove
+from math import sqrt
 
 class CT_Wrapper(DB_Wrapper):
     def __init__(self, db_path="Blackjack.sqlite"):
@@ -231,10 +232,48 @@ class CT_Wrapper(DB_Wrapper):
             if agent_id_as_text in winners:
                 games_won += 1
                 win_rate = games_won / game_id
-            next_game = [game_id, win_rate]
+            next_game = [game_id, win_rate] # todo batch this into games of x
             d_win_rate.append(next_game)
 
         return d_win_rate
+
+    # todo contextualise this value -> look at opponents hand values before stand also
+    # queries database, returns average stand value players stand on
+    #todo test test test
+    def get_avg_stand_val(self):
+        query = """
+                SELECT AVG(hand_val_before) 
+                FROM Moves
+                WHERE move=0;
+                """
+        connection, cursor = self.execute_queries(query, keep_open=True)
+        result = cursor.fetchall()
+        connection.close()
+        return result[0]
+
+    # gets the standard deviation to the mean of the average value which the players stand on
+    # todo test test test
+    def get_std_dev_stand_val(self):
+        avg_val = self.get_avg_stand_val()
+
+        query = """
+                SELECT hand_val_before
+                FROM Moves
+                WHERE move=0;
+                """
+        connection, cursor = self.execute_queries(query, keep_open=True)
+        results = cursor.fetchall()
+        connection.close()
+
+        s = 0 # sum of (x - xbar)^2
+        n = len(results)
+        for result in results:
+            s += (result[0] - avg_val) ** 2
+
+        std_dev = sqrt(s / (n-1))
+        return std_dev
+
+
 
 if __name__ == "__main__":
     db_dir_path = ""

@@ -504,3 +504,6 @@
     - updated the objectives, discussed with jev
     - wrote first version of get change in player's winrate => test
     - output for winrate overtime tested
+
+ 21 March:
+    - implemented methods for getting the mean and std dev for the average stand value
