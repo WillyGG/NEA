@@ -105,7 +105,7 @@ class CT_Wrapper(DB_Wrapper):
     def get_next_game_id(self):
         game_id_test = 0
         result = 0
-        while result is not None:
+        while result != []:
             game_id_test += 1
             query = """SELECT Moves.game_id FROM Moves, Game_Record 
                        WHERE Moves.game_id={0} AND Moves.game_id=Game_Record.game_id;""".format(game_id_test)
@@ -188,7 +188,7 @@ class CT_Wrapper(DB_Wrapper):
                 FROM Agents 
                 WHERE agent_id='{0}'
                 """.format(agent_id)
-        result = self.execute_queries(query, get_result=True)
+        result = self.execute_queries(query, get_result=True)[0]
         winrate = result[0] / result[1]
         return winrate
 

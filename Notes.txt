@@ -509,4 +509,5 @@
     - implemented methods for getting the mean and std dev for the average stand value
     - implemented method of to output average stand value over time
     - refactered execute queries so that you can get the result instead of the connection, kept keep_open for compatibility TODO TEST TEST TEST
-    
+    - tested
+
