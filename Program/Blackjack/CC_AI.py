@@ -15,31 +15,38 @@ class CC_AI(CC_Agent):
     # return True if wanting to hit
     def getNextAction(self, chances, game_state):
         # not exceeding the dealer, hit.
+        winMargin = game_state[0] - game_state[1]
         belowBestPlayer = not chances["alreadyExceedingWinningPlayer"]
         belowBustThreshold = chances["bust"] <= self.parameteres["bust_tol"]
         highBlackjackChance = chances["blackjack"] >= self.parameteres["blackjack_thresh"]
+        belowWinMarginThresh = winMargin < self.parameters["winMarginThresh"]
+        belowMinHandThresh = game_state[0] < self.parameters["minHandThresh"]
 
         # BEHAVIOUR: Hit IF:
         # - losing or below the bust threshold
         # - or winning, above the bust threshold and below the risky bust threshold
-        if belowBestPlayer or belowBustThreshold:
+        if belowBestPlayer or belowBustThreshold or belowMinHandThresh:
             return Moves.HIT
         elif highBlackjackChance:
             belowRiskyBustThreshold = chances["bust"] <= self.parameteres["bust_tol"] * self.parameteres["riskTolerance"]
             if belowRiskyBustThreshold:
                 return Moves.HIT
+        elif belowWinMarginThresh:
+            return Moves.HIT
         return Moves.STAND
 
     # Sets the default parameters of the CCAI
     def set_parameters(self, setting="default"):
         # Change these parameters to change the behaviour of the CCAI
-        # Chage these to personality parameters, then calculate these thresholds based on parameters
+        # Change these to personality parameters, then calculate these thresholds based on parameters
         if setting == "default":
             self.parameteres = {
                 "bust_tol" : 0.5,
                 "blackjack_thresh" : 0.2,
                 "exceedBestPlayer" : 0.3,
-                "riskTolerance" : 1.3
+                "riskTolerance" : 1.3,
+                "winMarginThresh" : 5,
+                "minHandThresh" : 15
             }
         elif setting == "aggressive":
             pass

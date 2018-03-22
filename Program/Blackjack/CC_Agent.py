@@ -25,7 +25,6 @@ class CC_Agent(Agent):
         AI_hand_val = AI_hand.get_value()  # this is recalcualted a lot, maybe find a way to not have to do that as much?
         best_hand = state[1]
         best_hand_val = best_hand.get_value()
-        NN_Winning = AI_hand_val >= best_hand_val
         chances = self.CC.calcChances(AI_hand_val, best_hand_val)
         return chances
 
@@ -44,36 +43,8 @@ class CC_Agent(Agent):
 
     def get_state(self, hands):
         agent_hand = self.get_agent_hand(hands)
-        best_player_hand = self.get_best_player(hands)
+        best_player_hand = self.get_best_hand(hands)
         return [agent_hand, best_player_hand]
-
-    def get_agent_hand(self, hands):
-        for player in hands:
-            if player.id == self.ID:
-                return player
-
-    # not necessarily going to be anyone but the current agent
-    def get_best_player(self, hands):
-        best_hand_value = 0
-        best_hand_hand = None
-        # find the second best player
-        for player in hands:
-            if player.id == self.ID or player.bust:
-                continue
-            player_value = player.get_value()
-            if player_value > best_hand_value:
-                best_hand_value = player_value
-                best_hand_hand = player
-        # should never go to this section, because the dealer always plays last and cannot be bust
-        if best_hand_hand == None:
-            print("its happening again dude!")
-            for player in hands:
-                if player.id == "dealer":
-                    for card in player.hand:
-                        print(card)
-                    print(player.get_value())
-            best_hand_hand = self.get_agent_hand(hands)
-        return best_hand_hand
 
     def update_end_game(self, new_cards):
         self.decrement_CC(new_cards)

@@ -19,19 +19,26 @@ class Simple_AI(Agent):
     def set_parameters(self, setting="default"):
         if setting == "default":
             self.bust_threshold = 5
+            self.win_margin_threshold = 5
+            self.min_hand_threshold = 15
         elif setting == "aggressive":
             self.bust_threshold = 3
+            self.win_margin_threshold = 6
+            self.min_hand_threshold = 18
         elif setting == "passive":
             self.bust_threshold = 7
+            self.win_margin_threshold = 3
+            self.min_hand_threshold = 13
 
     # returns decision to hit or not -> true => hit, false => stand
     def get_move(self, all_players):
         best_player_value = self.get_best_hand_value(all_players)
         hand_value = self.hand.get_value()
-        agent_winning = hand_value > best_player_value
+        win_margin = hand_value - best_player_value
 
-        # if blackjack'd
-        if hand_value == self.blackjack_value or agent_winning:
+        # if blackjack'd or winning by a sufficient amount
+        if hand_value == self.blackjack_value or (win_margin > self.win_margin_threshold and
+                                                  hand_value > self.min_hand_threshold):
             return Moves.STAND
         # If cannot go bust, or edge case satisfied then hit
         elif (hand_value < (self.bust_value - self.maxCard)
@@ -40,20 +47,10 @@ class Simple_AI(Agent):
         return Moves.STAND
 
     def get_best_hand_value(self, all_players):
-        all_hand_values = self.get_hand_values(all_players)
-        return all_hand_values[0] # this is the best player hand value
+        best_hand = self.get_best_hand(all_players)
+        return best_hand.get_value() # this is the best player hand value
 
-    # pass in list of hands
-    # get back hand values of each hand - best hand being first
-    def get_hand_values(self, hands):
-        hand_vals = []
-        for hand in hands:
-            if hand.bust:
-                continue
-            value = hand.get_value()
-            hand_vals.append(value)
-        return sorted(hand_vals, reverse=True)
-
+    # HAVE A LOOK AT THIS
     def edge_move_calc(self, hand_value, best_value):
         bustDiff = abs(hand_value - self.bust_value) # how far off being bust SAI is
         LTBestPlayer = hand_value < best_value

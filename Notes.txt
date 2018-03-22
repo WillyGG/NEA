@@ -511,3 +511,11 @@
     - refactered execute queries so that you can get the result instead of the connection, kept keep_open for compatibility TODO TEST TEST TEST
     - tested
 
+
+ 22 March:
+    - added query queue for moves
+    - cleaned up graph methods a bit - moved queries back into db_wrapper class and kept data analysis in ct_wrapper
+    - changed the simple ai behaviour so that it uses win margin rather than absolute bigger than (thought it was a bit mongtastic since both hands could be on al ow value and then the simple ai stands and then the other hand hits, just doesnt really make much sense tho does it)
+    - change ccai behvaiour in the same way => TODO CHANGE THE NN BEHAVIOUR TO INCORPORATE THIS
+
+

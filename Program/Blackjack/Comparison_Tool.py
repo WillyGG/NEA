@@ -5,6 +5,9 @@ import os,sys
 sys.path.append(os.path.realpath("./NN_AI"))
 sys.path.append(os.path.realpath("./NN_AI/nn_data"))
 sys.path.append(os.path.realpath("./DB"))
+sys.path.append(os.path.realpath("./Structs"))
+
+from Circular_Queue import Circular_Queue as cQ
 from NN import NN
 from Moves import Moves
 from CT_Wrapper import CT_Wrapper
@@ -64,8 +67,9 @@ class Comparison_Tool:
             if id_agent in self.agents_hands:
                 agent_hands_playing[id_agent] = self.agents_hands[id_agent]
                 agents_playing[id_agent] = self.agents[id_agent]
-        blackjack = BJ.Blackjack(agent_hands_playing) # local instance of blackjack
 
+        blackjack = BJ.Blackjack(agent_hands_playing) # local instance of blackjack
+        move_q = cQ(10)
         # play the games and get the win rates
         for game_num in range(no_games):
             print(game_num)
@@ -75,24 +79,34 @@ class Comparison_Tool:
                 all_hands = blackjack.get_all_hands()
                 agent_current = self.agents[ID_current_player]
                 hand_val_before = agent_current.hand.get_value()
+                next_best_hand = self.get_next_best_hand(ID_current_player, all_hands)
                 next_move = agent_current.get_move(all_hands) # pass in all player's hands
                 if next_move == Moves.HIT:
                     blackjack.hit()
                 elif next_move == Moves.STAND:
                     blackjack.stand()
                 hand_val_after = agent_current.hand.get_value()
-                next_best_hand = self.get_next_best_hand(ID_current_player, all_hands)
-                self.db_wrapper.push_move(ID_current_player, turn_num, next_move,
-                                          next_best_hand, hand_val_before, hand_val_after)
+                move_info = (ID_current_player, turn_num, next_move,
+                             next_best_hand, hand_val_before, hand_val_after)
+                move_q.push(move_info)
             # PROCESS END OF GAME
             # get the winners, increment their wins, update the agents
             blackjack.end_game()
-            # TODO TEST THIS
+
+            # push all moves to db
+            while not move_q.isEmpty():
+                move_info = move_q.pop()
+                self.db_wrapper.push_move(agent_id=move_info[0], turn_num=move_info[1],
+                                          move=move_info[2], next_best_val=move_info[3],
+                                          hand_val_before=move_info[4], hand_val_after=move_info[5])
+            # push winners to db
             winners = blackjack.winners
             winning_hands = []
             for winner_id in winners:
                 winning_hands.append(agent_hands_playing[winner_id])
             self.db_wrapper.push_game(winners, winning_hands, blackjack.turnNumber, agents_playing)
+
+            #update agents and reset
             self.update_agents(agents_playing, blackjack)
             blackjack.reset()
 
@@ -128,7 +142,7 @@ class Comparison_Tool:
             player.update_end_game(new_cards)
 
     # pass in agent id, returns values on agent analysis
-    def get_agent_analysis(self, agent_id):
+    def get_general_agent_analysis(self, agent_id):
         agent_data = self.db_wrapper.get_agent_moves(agent_id)
         analysis = self.process_move_data(agent_data)
         analysis["total_winrate"] = self.db_wrapper.get_agent_win_rate(agent_id)
@@ -189,12 +203,29 @@ class Comparison_Tool:
     def output_data(self):
         pass
 
+    # outputs graph of player winrate over games played
+    # pass in player id
     def output_player_wr(self, id):
-        data = self.db_wrapper.get_agent_wins_per_game(id) #todo maybe move this into this class?
+        games = self.db_wrapper.get_games_won_by_id(id)
+
+        d_win_rate = []
+        games_won = 0
+        win_rate = 0
+        batch_count = 0
+        for record in games:
+            batch_count += 1
+            game_id = record[0]
+            games_won += 1
+            win_rate = games_won / game_id
+            if batch_count % 10 == 0: # batches of 10
+                next_game = [game_id, win_rate]  # todo batch this into games of x
+                d_win_rate.append(next_game)
+                batch_count = 0
+
         plt.xlabel("games_played")
         plt.ylabel("win rate")
-        x_vals = [d[0] for d in data]
-        y_vals = [d[1] for d in data]
+        x_vals = [d[0] for d in d_win_rate]
+        y_vals = [d[1] for d in d_win_rate]
         plt.plot(x_vals, y_vals)
         plt.show()
 
@@ -205,28 +236,27 @@ class Comparison_Tool:
     def get_aggression_rating(self, id):
         pass
 
+    # pass in agent id
+    # outputs graph of average stand value against games played
     def output_avg_stand_value(self, id):
-        query = """
-                SELECT game_id, hand_val_before
-                FROM Moves
-                WHERE player_id='{0}' AND move=0
-                ORDER BY game_id ASC;
-                """.format(id)
-        games = self.db_wrapper.execute_queries(query, get_result=True)
+        games = self.db_wrapper.get_stand_data_by_id(id)
         print(games[0])
 
         x_vals = []
         y_vals = []
         total_stand_value = 0
+        batch_count = 0
         for game in games:
             game_num = game[0]
             stand_value = game[1]
             total_stand_value += stand_value
             avg_stand_value = total_stand_value / game_num
-            x_vals.append(game_num)
-            y_vals.append(avg_stand_value)
 
-        print(y_vals[0])
+            if batch_count % 10 == 0:
+                x_vals.append(game_num)
+                y_vals.append(avg_stand_value)
+                batch_count = 0
+
         plt.xlabel("no games")
         plt.ylabel("avg stand value")
         plt.plot(x_vals, y_vals)

@@ -192,35 +192,19 @@ class CT_Wrapper(DB_Wrapper):
         winrate = result[0] / result[1]
         return winrate
 
-    # pass in agent id
-    # returns 2d array => [  [game_id, win_rate after x games], ...  ]
-    def get_agent_wins_per_game(self, agent_id):
-        agent_id_as_text = self.convert_agents_to_text([agent_id])
+    def get_games_won_by_id(self, id):
+        agent_id_as_text = self.db_wrapper.convert_agents_to_text([id])
         # gets all the game record numbers which the user has played in
         games_query = """
-                          SELECT game_id, winner_ids
-                          FROM Game_Record 
-                          WHERE players LIKE '%{0}%'
-                          ORDER BY game_id ASC;
-                          """.format(agent_id_as_text) # add validation by selecting from users table
-
+                     SELECT game_id
+                     FROM Game_Record 
+                     WHERE players LIKE '%{0}%' AND winner_ids LIKE '%{0}%'
+                     ORDER BY game_id ASC;
+                     """.format(agent_id_as_text)  # add validation by selecting from users table
 
         # get the data from the database
-        games = self.execute_queries(games_query, get_result=True)
-
-        d_win_rate = []
-        games_won = 0
-        win_rate = 0
-        for record in games:
-            game_id = record[0]
-            winners = record[1]
-            if agent_id_as_text in winners:
-                games_won += 1
-                win_rate = games_won / game_id
-            next_game = [game_id, win_rate] # todo batch this into games of x
-            d_win_rate.append(next_game)
-
-        return d_win_rate
+        games = self.db_wrapper.execute_queries(games_query, get_result=True)
+        return games
 
     # todo contextualise this value -> look at opponents hand values before stand also
     # queries database, returns average stand value players stand on
@@ -253,6 +237,17 @@ class CT_Wrapper(DB_Wrapper):
 
         std_dev = sqrt(s / (n-1))
         return std_dev
+
+    # returns each game the player passed stood in
+    def stand_data_by_id(self, id):
+        query = """
+                SELECT game_id, hand_val_before
+                FROM Moves
+                WHERE player_id='{0}' AND move=0
+                ORDER BY game_id ASC;
+                """.format(id)
+        games = self.db_wrapper.execute_queries(query, get_result=True)
+        return games
 
 
 
