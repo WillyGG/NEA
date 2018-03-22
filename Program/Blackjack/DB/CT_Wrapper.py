@@ -24,6 +24,7 @@ class CT_Wrapper(DB_Wrapper):
         global db_dir_path
         self.execute_queries_from_file(db_dir_path + "Create_Games_Record.sql")
         self.execute_queries_from_file(db_dir_path + "Create_Agents_Table.sql")
+        self.execute_queries_from_file(db_dir_path + "Create_Users_Table.sql")
 
     # pushes the agents into the table
     # TODO CHANGE THIS SO THAT IT CHECKS FI THEY EXIST FIRST
@@ -193,7 +194,7 @@ class CT_Wrapper(DB_Wrapper):
         return winrate
 
     def get_games_won_by_id(self, id):
-        agent_id_as_text = self.db_wrapper.convert_agents_to_text([id])
+        agent_id_as_text = self.convert_agents_to_text([id])
         # gets all the game record numbers which the user has played in
         games_query = """
                      SELECT game_id
@@ -203,7 +204,7 @@ class CT_Wrapper(DB_Wrapper):
                      """.format(agent_id_as_text)  # add validation by selecting from users table
 
         # get the data from the database
-        games = self.db_wrapper.execute_queries(games_query, get_result=True)
+        games = self.execute_queries(games_query, get_result=True)
         return games
 
     # todo contextualise this value -> look at opponents hand values before stand also
@@ -246,9 +247,27 @@ class CT_Wrapper(DB_Wrapper):
                 WHERE player_id='{0}' AND move=0
                 ORDER BY game_id ASC;
                 """.format(id)
-        games = self.db_wrapper.execute_queries(query, get_result=True)
+        games = self.execute_queries(query, get_result=True)
         return games
 
+    # returns true if id passed is a valid user ID
+    def check_valid_id(self, id):
+        query_agents = """
+                       SELECT *
+                       FROM Agents
+                       WHERE agent_id='{0}';
+                       """.format(id)
+
+        query_users = """
+                      SELECT *
+                      FROM Users
+                      WHERE username='{0}';
+                      """.format(id)
+
+        agents_result = self.execute_queries(query_agents, get_result=True)
+        users_result = self.execute_queries(query_users, get_result=True)
+
+        return agents_result != [] or users_result != []
 
 
 if __name__ == "__main__":

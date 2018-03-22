@@ -13,6 +13,7 @@ from Moves import Moves
 from CT_Wrapper import CT_Wrapper
 import matplotlib.pyplot as plt
 
+# maybe change this into static class?
 class Comparison_Tool:
     ID_NN = "nn"
     ID_SIMPLE = "simple"
@@ -22,7 +23,7 @@ class Comparison_Tool:
     def __init__(self, agents=None):
         self.agents = agents
         if agents is None:
-            # The instances of all the angents
+            # The instances of all the agents
             self.agents = {
                 Comparison_Tool.ID_NN: NN(Training=False),
                 Comparison_Tool.ID_SIMPLE: Simple_AI(),
@@ -205,6 +206,7 @@ class Comparison_Tool:
 
     # outputs graph of player winrate over games played
     # pass in player id
+    # todo change this to getting data, plot in the gui class??
     def output_player_wr(self, id):
         games = self.db_wrapper.get_games_won_by_id(id)
 
@@ -261,7 +263,6 @@ class Comparison_Tool:
         plt.ylabel("avg stand value")
         plt.plot(x_vals, y_vals)
         plt.show()
-
 
 if __name__ == "__main__":
     ct = Comparison_Tool()
