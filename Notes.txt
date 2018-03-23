@@ -519,3 +519,8 @@
     - change ccai behvaiour in the same way => TODO CHANGE THE NN BEHAVIOUR TO INCORPORATE THIS
     - created initial gui -> add more buttons and options and a result label
 
+
+ 23 March:
+    - Created main menu window
+    - separated the windows out
+

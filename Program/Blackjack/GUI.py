@@ -11,7 +11,8 @@ class Window(ABC):
         self.parent = parent
         if parent is None:
             self.parent = tk.Tk()
-        self.parent.geometry(geometry)
+        self.hidden = False
+        #self.parent.geometry(geometry)
         self.body = tk.Frame(self.parent)
         self.body.grid()
 
@@ -23,3 +24,14 @@ class Window(ABC):
 
     def run(self):
         self.parent.mainloop()
+
+    def hide(self):
+        self.parent.withdraw()
+        self.hidden = True
+
+    def show(self):
+        self.parent.deiconify()
+        self.hidden = False
+
+    def destroy(self):
+        self.parent.destroy()

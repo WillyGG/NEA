@@ -5,35 +5,104 @@ from Comparison_Tool import Comparison_Tool
 class CT_GUI():
     def __init__(self):
         self.ct = Comparison_Tool()
-        self.init_win = Init_Window(self.ct)
+        self.Init_Win = Init_Win(self)
+        #self.isolated_comp = Iso_Win(self.ct, self,
+                                     #parent=tk.Toplevel(self.Init_Win.parent))
 
+    # starts the app
     def run(self):
-        self.init_win.run()
+        self.Init_Win.run()
 
+    # hides the main menu and runs the next window
+    def open_win(self, win_to_open):
+        self.Init_Win.hide()
+        if win_to_open == "iso_comp":
+            self.isolated_comp = Iso_Win(self.ct, self, parent=tk.Toplevel(self.Init_Win.parent))
+            self.isolated_comp.run()
+        elif win_to_open == "rel_comp":
+            pass # implement this!!
 
-class Init_Window(Window):
-    def __init__(self, ct, parent=None, geometry="400x400"):
-        super().__init__(parent, geometry)
-        self.ct = ct
+    def close_win(self, win_to_close):
+        self.Init_Win.show()
+        if win_to_close == "iso_comp":
+            self.isolated_comp.destroy()
+        elif win_to_close == "rel_comp":
+            pass
+
+# main menu class - window with buttons to traverse the gui
+class Init_Win(Window):
+    def __init__(self, parent=None, geometry="400x400"):
+        self.ID = "Main_Menu"
+        self.ct = Comparison_Tool()
+        super().__init__(tk.Tk(), geometry)
 
     def build_widgets(self, fr):
         self.title = tk.Label(fr, text="Comparison Tool")
         self.title.grid(row=0, column=0)
 
+        self.iso_comp_btn = tk.Button(fr, text="Isolated Comparison",
+                                      command=lambda: self.open_win("iso_comp"))
+        self.iso_comp_btn.grid(row=1, column=0)
+
+        self.rel_comp_btn = tk.Button(fr, text="Relational Comparison",
+                                      command=lambda: self.open_win("rel_comp"))
+        self.rel_comp_btn.grid(row=2, column=0)
+
+    # hides the main menu and runs the next window
+    def open_win(self, win_to_open):
+        self.hide()
+        if win_to_open == "iso_comp":
+            self.isolated_comp = Iso_Win(ct=self.ct, root=self, parent=tk.Toplevel())
+            #self.isolated_comp.run()
+        elif win_to_open == "rel_comp":
+            pass  # implement this!!
+
+# isolated user comparison
+# enter user name and get data about them, in isolation
+class Iso_Win(Window):
+    def __init__(self, ct, root, parent=None, geometry="400x400"):
+        super().__init__(parent, geometry)
+        self.ID = "iso_comp"
+        self.ct = ct
+        self.root = root
+        self.default_text = True
+
+    def build_widgets(self, fr):
+        self.title = tk.Label(fr, text="Isolated Comparison")
+        self.title.grid(row=0, column=0)
+
         self.un_entry = tk.Entry(fr)
+        self.un_entry.insert(0, "Enter Username here")
+        self.un_entry.bind("<Button-1>", self.clear_default)
         self.un_entry.grid(row=1, column=0)
 
         self.build_wr = tk.Button(fr, text="Output Winrates",
                                   command=lambda: self.wr_command(self.un_entry.get()))
         self.build_wr.grid(row=2, column=0)
 
+        self.back_btn = tk.Button(fr, text="Back", command=self.back)
+        self.back_btn.grid(row=3, column=0)
+
+        self.res_label = tk.Label(fr, text="")
+        self.res_label.grid(row=5,column=0)
+
     def wr_command(self, id):
         valid_id = self.ct.db_wrapper.check_valid_id(id)
         if not valid_id:
-            print("nay")
+            self.res_label.config(text="User not Found")
             return False
         self.ct.output_player_wr(id)
 
+    def clear_default(self, *args):
+        print(args)
+        if self.default_text:
+            self.default_text = False
+            self.un_entry.delete(0, "end")
+
+    def back(self):
+        self.root.show()
+        self.destroy()
+
 if __name__ == "__main__":
-    g = CT_GUI()
+    g = Init_Win()
     g.run()
