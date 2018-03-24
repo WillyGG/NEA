@@ -175,11 +175,26 @@ class CT_Wrapper(DB_Wrapper):
         for arg in args:
             agent_name = arg[0]
             agent_desc = arg[1]
+
+            if self.agent_exists(agent_name):
+                continue
+
             queries.append("""
                 INSERT INTO Agents (agent_id, description, games_won, games_played)
                 VALUES ('{0}', '{1}', 0, 0);
             """.format(agent_name, agent_desc))
         self.execute_queries(queries)
+
+    def agent_exists(self, id):
+        query = """
+                SELECT *
+                FROM Agents
+                WHERE agent_id='{0}'
+                """.format(id)
+        result = self.execute_queries(query, get_result=True)
+        if result == []:
+            return False
+        return True
 
     # pass in an agent id and get the winrate as a decimal
     def get_agent_win_rate(self, agent_id):
@@ -210,19 +225,19 @@ class CT_Wrapper(DB_Wrapper):
     # todo contextualise this value -> look at opponents hand values before stand also
     # queries database, returns average stand value players stand on
     #todo test test test
-    def get_avg_stand_val(self):
+    def get_stand_val_avg(self):
         query = """
                 SELECT AVG(hand_val_before) 
                 FROM Moves
                 WHERE move=0;
                 """
         result = self.execute_queries(query, get_result=True)
-        return result[0]
+        return result[0][0]
 
     # gets the standard deviation to the mean of the average value which the players stand on
     # todo test test test
-    def get_std_dev_stand_val(self):
-        avg_val = self.get_avg_stand_val()
+    def get_stand_val_std_dev(self):
+        avg_val = self.get_stand_val_avg()
 
         query = """
                 SELECT hand_val_before

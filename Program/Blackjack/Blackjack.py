@@ -21,6 +21,7 @@ class Blackjack:
         self.deck = Deck()
         self._blackjack = 21 # The winning value
         self._winners = [] # List of ids of the winners of the previous game
+        self._beat_dealer = []
         self.turnNumber = 1
         self.auto_reset = False
 

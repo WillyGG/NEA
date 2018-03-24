@@ -41,14 +41,19 @@ def three_d_tests():
         return X, Y, Z
 
     fig = plt.figure()
-    ax = fig.add_subplot(111, projection="3d")
+    #ax = fig.add_subplot(111, projection="3d")
     x = [x for x in range(100)]
     y = [y**2 for y in range(100)]
     z = [z**3 for z in range(100)]
 
     x1, y1, z1 = get_test_data()
 
-    ax.plot_wireframe(x1, y1, z1, rstride=10, cstride=10)
+    x2 = np.array([2,1,3])
+    y2 = np.array([1,2,3])
+
+    #ax.plot_wireframe(x1, y1, z1, rstride=10, cstride=10)
+
+    plt.plot(x2, y2)
     plt.show()
 
 three_d_tests()

@@ -524,3 +524,8 @@
     - Created main menu window
     - separated the windows out
     - added relational window
+
+ 24 March:
+    - tested getting avg stand values, and std dist of avg stand value
+    - created output stand value distribution
+    - created plot method - seperate out method for getting x/y data and actually plotting it

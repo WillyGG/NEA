@@ -224,18 +224,25 @@ class Comparison_Tool:
                 d_win_rate.append(next_game)
                 batch_count = 0
 
-        plt.xlabel("games_played")
-        plt.ylabel("win rate")
         x_vals = [d[0] for d in d_win_rate]
         y_vals = [d[1] for d in d_win_rate]
-        plt.plot(x_vals, y_vals)
-        plt.show()
+
+        self.output_2d(x_vals, y_vals, title=id + "'s Win Rate Over Time", x_lbl="no games",
+                       y_lbl="win rate")
 
     # pass in player id, get back aggresion rating
     # calculate the average stand value
     # calculate the standard deviation
     # see how far along the averages the player / agent is
     def get_aggression_rating(self, id):
+        pass
+
+    # aggression with context
+    # pass in data -> [turn_num, next_best_val, hand_val_before, move, hand_val_after]
+    # for a move to be aggressive it must be above a critical threshold
+    # the player must be winning,
+    # depending on the win margin -> hitting even with "high" win margin => aggressive
+    def get_aggression_rating_move(self, move):
         pass
 
     # pass in agent id
@@ -258,15 +265,59 @@ class Comparison_Tool:
                 y_vals.append(avg_stand_value)
                 batch_count = 0
 
-        plt.xlabel("no games")
-        plt.ylabel("avg stand value")
-        plt.plot(x_vals, y_vals)
+
+        self.output_2d(x_vals, y_vals, title=id+"'s Avg Stand Val Over Time", x_lbl="no games", y_lbl="avg stand value")
+
+    def output_aggression_win_realtion(self):
+        pass
+
+    def output_stand_dist(self):
+        get_all_stands_query = """
+                               SELECT hand_val_before
+                               FROM Moves
+                               WHERE move=0 
+                               """
+        all_stands = self.db_wrapper.execute_queries(get_all_stands_query, get_result=True)
+
+        stand_values = []
+        frequencies = {}
+
+        for stand in all_stands:
+            stand_val = stand[0]
+            stand_val_as_key = str(stand_val)
+            if stand_val not in stand_values:
+                stand_values.append(stand_val)
+                frequencies[stand_val_as_key] = 0
+            frequencies[stand_val_as_key] += 1
+        stand_values.sort()
+        no_stands = len(all_stands)
+
+        # converts dictionary to array for each stand value, in the corresponding index
+        y_vals = [(frequencies[str(stand_values[i])]/no_stands) for i in range(len(stand_values))]
+
+        self.output_2d(stand_values, y_vals, title="Stand Distribution", x_lbl="Stand Value", y_lbl="% Frequency")
+
+    # pass in x and y values and optional labels
+    # outputs new figure and plots
+    def output_2d(self, x, y, **kwargs):
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+
+        if "title" in kwargs:
+            fig.suptitle(kwargs["title"])
+        if "x_lbl" in kwargs:
+            plt.xlabel(kwargs["x_lbl"])
+        if "y_lbl" in kwargs:
+            plt.ylabel(kwargs["y_lbl"])
+
+        ax.plot(x,y)
         plt.show()
+
 
 if __name__ == "__main__":
     ct = Comparison_Tool()
     #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE
-    print(ct.get_data(Comparison_Tool.ID_SIMPLE, Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN,  no_games=5000))
+    #print(ct.get_data(Comparison_Tool.ID_SIMPLE, Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN,  no_games=5000))
     #connection, cursor = ct.db_wrapper.execute_queries(
     #    "SELECT * FROM Game_Record", keep_open=True)
     #print(cursor.fetchone())
@@ -283,3 +334,7 @@ if __name__ == "__main__":
 
     #ct.output_player_wr(agent_to_analyse)
     #ct.output_avg_stand_value(agent_to_analyse)
+
+    print(ct.db_wrapper.get_stand_val_avg())
+    print(ct.db_wrapper.get_stand_val_std_dev())
+    ct.output_stand_dist()
