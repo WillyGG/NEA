@@ -275,27 +275,45 @@ class Comparison_Tool:
         get_all_stands_query = """
                                SELECT hand_val_before
                                FROM Moves
-                               WHERE move=0 
+                               WHERE move=0;
                                """
         all_stands = self.db_wrapper.execute_queries(get_all_stands_query, get_result=True)
 
-        stand_values = []
-        frequencies = {}
-
-        for stand in all_stands:
-            stand_val = stand[0]
-            stand_val_as_key = str(stand_val)
-            if stand_val not in stand_values:
-                stand_values.append(stand_val)
-                frequencies[stand_val_as_key] = 0
-            frequencies[stand_val_as_key] += 1
-        stand_values.sort()
+        frequencies = self.get_freq(all_stands)
+        stand_values = [int(key) for key in frequencies.keys()]
+        stand_values.sort() # change this to mergesort
         no_stands = len(all_stands)
 
         # converts dictionary to array for each stand value, in the corresponding index
         y_vals = [(frequencies[str(stand_values[i])]/no_stands) for i in range(len(stand_values))]
 
         self.output_2d(stand_values, y_vals, title="Stand Distribution", x_lbl="Stand Value", y_lbl="% Frequency")
+
+    def output_hit_dist(self):
+        get_all_hits_query = """
+                             SELECT hand_val_before
+                             FROM Moves
+                             WHERE move=1;
+                             """
+        all_hits = self.db_wrapper.execute_queries(get_all_hits_query, get_result=True)
+        frequencies = self.get_freq(all_hits)
+        hit_values = [int(key) for key in frequencies.keys()]
+        hit_values.sort()
+        no_hits = len(all_hits)
+
+        y_vals = [(frequencies[str(hit_values[i])]/no_hits) for i in range(len(hit_values))]
+        self.output_2d(hit_values, y_vals, title="Hit Distribution", x_lbl="Hit Value", y_lbl="% Frequency")
+
+    def get_freq(self, all_events):
+        frequencies = {}
+        for event in all_events:
+            val = event[0]
+            val_as_key = str(val)
+            if val_as_key not in frequencies:
+                frequencies[val_as_key] = 0
+            frequencies[val_as_key] += 1
+
+        return frequencies
 
     # pass in x and y values and optional labels
     # outputs new figure and plots
@@ -338,3 +356,4 @@ if __name__ == "__main__":
     print(ct.db_wrapper.get_stand_val_avg())
     print(ct.db_wrapper.get_stand_val_std_dev())
     ct.output_stand_dist()
+    ct.output_hit_dist()
