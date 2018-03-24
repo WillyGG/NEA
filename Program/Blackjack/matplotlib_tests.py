@@ -51,9 +51,13 @@ def three_d_tests():
     x2 = np.array([2,1,3])
     y2 = np.array([1,2,3])
 
+    x3 = np.array([1,2,3])
+    y3 = np.array([1,2,3])
+
     #ax.plot_wireframe(x1, y1, z1, rstride=10, cstride=10)
 
     plt.plot(x2, y2)
+    plt.plot(x3, y3)
     plt.show()
 
 three_d_tests()

@@ -48,6 +48,10 @@ class Init_Win(Window):
                                       command=lambda: self.open_win("rel_comp"))
         self.rel_comp_btn.grid(row=2, column=0)
 
+        self.gen_stat_btn = tk.Button(fr, text="General Statistics",
+                                      command=lambda: self.open_win("gen_stat"))
+        self.gen_stat_btn.grid(row=3, column=0)
+
     # hides the main menu and runs the next window
     def open_win(self, win_to_open):
         self.hide()
@@ -55,6 +59,8 @@ class Init_Win(Window):
             self.isolated_comp = Iso_Win(ct=self.ct, root=self, parent=tk.Toplevel())
         elif win_to_open == "rel_comp":
             self.rel_comp = Rel_Win(ct=self.ct, root=self, parent=tk.Toplevel())
+        elif win_to_open == "gen_stat":
+            self.gen_stat = Gen_Win(ct=self.ct, root=self, parent=tk.Toplevel())
 
 # isolated user comparison
 # enter user name and get data about them, in isolation
@@ -143,6 +149,38 @@ class Rel_Win(Window):
         elif entry_id == 2 and self.default_text_2:
             self.default_text_2 = False
             self.un2_entry.delete(0, "end")
+
+    def back(self):
+        self.root.show()
+        self.destroy()
+
+class Gen_Win(Window):
+    def __init__(self, ct, root, parent, geometry="400x400"):
+        super().__init__(parent, geometry)
+        self.ID = "gen_stat"
+        self.ct = ct
+        self.root = root
+
+    def build_widgets(self, fr):
+        self.title = tk.Label(fr, text="General Stats")
+        self.title.grid(row=0, column=0)
+
+        self.stand_dist_btn = tk.Button(fr, text="Stand Value Distribution",
+                                        command=lambda: self.display_dist_cmd("stand"))
+        self.stand_dist_btn.grid(row=1, column=0)
+
+        self.hit_dist_btn = tk.Button(fr, text="Hit Value Distribution",
+                                      command=lambda: self.display_dist_cmd("hit"))
+        self.hit_dist_btn.grid(row=2, column=0)
+
+        self.back_btn = tk.Button(fr, text="Back", command=self.back)
+        self.back_btn.grid(row=3, column=0)
+
+    def display_dist_cmd(self, dist_type):
+        if dist_type == "hit":
+            self.ct.output_stand_dist()
+        elif dist_type == "stand":
+            self.ct.output_hit_dist()
 
     def back(self):
         self.root.show()

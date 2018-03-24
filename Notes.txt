@@ -530,3 +530,7 @@
     - created output stand value distribution
     - created plot method - seperate out method for getting x/y data and actually plotting it
     - created hit dist.
+    - created general statistical information menu and stand+hit dist buttons
+
+  
+
