@@ -83,13 +83,13 @@ class CT_Wrapper(DB_Wrapper):
     # abstract method for incrementing a field in the agents table
     def inc_agent(self, field, agent_id):
         get_curr_query = "SELECT {0} FROM Agents WHERE agent_id='{1}'".format(field, agent_id)
-        games_won = self.execute_queries(get_curr_query, get_result=True)[0]
+        game_data = self.execute_queries(get_curr_query, get_result=True)[0][0]
 
         inc_win_query = """
                         UPDATE Agents
                         SET {0}={1}
                         WHERE agent_id='{2}';
-                        """.format(field, games_won + 1, agent_id)
+                        """.format(field, game_data+1, agent_id)
         self.execute_queries(inc_win_query)
 
     # increments the win field of the passed agent

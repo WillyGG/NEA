@@ -242,7 +242,6 @@ class Comparison_Tool:
     # outputs graph of average stand value against games played
     def output_avg_stand_value(self, id):
         games = self.db_wrapper.get_stand_data_by_id(id)
-        print(games[0])
 
         x_vals = []
         y_vals = []
@@ -267,21 +266,20 @@ class Comparison_Tool:
 if __name__ == "__main__":
     ct = Comparison_Tool()
     #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE
-    #print(ct.get_data(Comparison_Tool.ID_SIMPLE, no_games=5000))
-    connection, cursor = ct.db_wrapper.execute_queries(
-        "SELECT * FROM Game_Record", keep_open=True
-    )
-    print(cursor.fetchone())
-    connection.close()
+    print(ct.get_data(Comparison_Tool.ID_SIMPLE, Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN,  no_games=5000))
+    #connection, cursor = ct.db_wrapper.execute_queries(
+    #    "SELECT * FROM Game_Record", keep_open=True)
+    #print(cursor.fetchone())
+    #connection.close()
 
-    connection, cursor = ct.db_wrapper.execute_queries(
-        "SELECT * FROM Moves WHERE player_id='simple'", keep_open=True
-    )
-    print(cursor.fetchall())
-    connection.close()
+    #connection, cursor = ct.db_wrapper.execute_queries(
+    #    "SELECT * FROM Moves WHERE player_id='simple'", keep_open=True
+    #)
+    #print(cursor.fetchall())
+    #connection.close()
 
-    agent_to_analyse = Comparison_Tool.ID_SIMPLE
-    print(agent_to_analyse, ct.get_agent_analysis(agent_to_analyse))
+    #agent_to_analyse = Comparison_Tool.ID_SIMPLE
+    #print(agent_to_analyse, ct.get_agent_analysis(agent_to_analyse))
 
     #ct.output_player_wr(agent_to_analyse)
-    ct.output_avg_stand_value(agent_to_analyse)
+    #ct.output_avg_stand_value(agent_to_analyse)
