@@ -14,7 +14,7 @@ class Rand_AI(Agent):
         if hand is None:
             self.hand = Hand(self.ID)
 
-    def get_move(self):
+    def get_move(self, *args):
         move_bit = randint(0, 1)
         return Moves.convert_to_move(move_bit)
 

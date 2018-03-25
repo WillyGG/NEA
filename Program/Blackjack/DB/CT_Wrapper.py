@@ -32,9 +32,10 @@ class CT_Wrapper(DB_Wrapper):
         agents = [
             ["nn", "Neural Network based AI, card counter"],
             ["cc_ai", "Card Counting, threshold based AI"],
-            ["simple", "Simple AI based on game state thresholds"]
+            ["simple", "Simple AI based on game state thresholds"],
+            ["rand", "Control agent which takes a random move every turn"]
         ]
-        self.populate_agents_table(agents[0], agents[1], agents[2])
+        self.populate_agents_table(agents[0], agents[1], agents[2], agents[3])
 
     # pass in all the parameters required to push a move to the move table
     # this method will push the move to the move table
@@ -104,13 +105,19 @@ class CT_Wrapper(DB_Wrapper):
     # returns the next available game id
     # game id has to exist in both the moves table and the game record table
     def get_next_game_id(self):
-        game_id_test = 0
-        result = 0
-        while result != []:
-            game_id_test += 1
-            query = """SELECT Moves.game_id FROM Moves, Game_Record 
-                       WHERE Moves.game_id={0} AND Moves.game_id=Game_Record.game_id;""".format(game_id_test)
-            result = self.execute_queries(query, get_result=True)
+
+        #game_id_test = 0
+        #result = 0
+        #while result != []:
+        #    game_id_test += 1
+         #   query = """SELECT Moves.game_id FROM Moves, Game_Record
+         #              WHERE Moves.game_id={0} AND Moves.game_id=Game_Record.game_id;""".format(game_id_test)
+          #  result = self.execute_queries(query, get_result=True)
+        q = """
+            SELECT MAX(game_id)
+            FROM Game_Record
+            """
+        game_id_test = self.execute_queries(q, get_result=True)[0][0] + 1
         return game_id_test
 
     # pass in array of agent instances

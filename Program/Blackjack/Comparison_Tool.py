@@ -1,6 +1,7 @@
 import Blackjack as BJ
 from Simple_AI import Simple_AI
 from CC_AI import CC_AI
+from Rand_AI import Rand_AI
 import os,sys
 sys.path.append(os.path.realpath("./NN_AI"))
 sys.path.append(os.path.realpath("./NN_AI/nn_data"))
@@ -18,6 +19,7 @@ class Comparison_Tool:
     ID_NN = "nn"
     ID_SIMPLE = "simple"
     ID_CC_AI = "cc_ai"
+    ID_RAND_AI = "rand"
     param_types = ["default", "passive", "aggressive"]  # maybe convert this to an aggressive scale?
 
     def __init__(self):
@@ -30,7 +32,8 @@ class Comparison_Tool:
         self.agents = {
             Comparison_Tool.ID_NN: NN(Training=False),
             Comparison_Tool.ID_SIMPLE: Simple_AI(),
-            Comparison_Tool.ID_CC_AI: CC_AI()
+            Comparison_Tool.ID_CC_AI: CC_AI(),
+            Comparison_Tool.ID_RAND_AI: Rand_AI()
         }
         self.agents_hands = dict()
         self.agents_hands["dealer"] = BJ.Dealer_Hand()
@@ -74,6 +77,9 @@ class Comparison_Tool:
         move_q = cQ(10)
         # play the games and get the win rates
         for game_num in range(no_games):
+            if game_num % 250 == 0:
+                print(game_num)
+
             while blackjack.continue_game:
                 turn_num = blackjack.turnNumber
                 ID_current_player = blackjack.get_current_player().id
@@ -81,9 +87,6 @@ class Comparison_Tool:
                 agent_current = self.agents[ID_current_player]
 
                 hand_val_before = agent_current.hand.get_value()
-
-                hand_before = list(agent_current.hand.hand) # TODO DELETE THIS
-
                 next_best_hand = self.get_next_best_hand(ID_current_player, all_hands)
                 next_move = agent_current.get_move(all_hands) # pass in all player's hands
 
@@ -93,22 +96,6 @@ class Comparison_Tool:
                     blackjack.stand()
 
                 hand_val_after = agent_current.hand.get_value()
-
-                if next_move == Moves.HIT and hand_val_before == hand_val_after:
-                    print("hand before:")
-                    for card in hand_before:
-                        print(card)
-
-                    print("\nhand after")
-                    for card in agent_current.hand.hand:
-                        print(card)
-
-                    print("hand val before", hand_val_before)
-                    print("hand val after",hand_val_after)
-                    print("\n\n\n")
-
-
-
                 move_info = (ID_current_player, turn_num, next_move,
                              next_best_hand, hand_val_before, hand_val_after)
                 move_q.push(move_info)
@@ -451,7 +438,8 @@ class Comparison_Tool:
 if __name__ == "__main__":
     ct = Comparison_Tool()
     #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE
-    print(ct.get_data(Comparison_Tool.ID_SIMPLE, Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN,  no_games=10000))
+    #print(ct.get_data(Comparison_Tool.ID_SIMPLE, Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN,
+     #                 Comparison_Tool.ID_RAND_AI, no_games=50000))
     #connection, cursor = ct.db_wrapper.execute_queries(
     #    "SELECT * FROM Game_Record", keep_open=True)
     #print(cursor.fetchone())

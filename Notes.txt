@@ -537,6 +537,9 @@
     - Discovered lack of 100% to go bust when hitting at 21 is due to the ace functionality
     - implemented hit value against chance to go bust graph
     - implemented random agent
+    - changed get next game id, because i have another source of cross paramaterised sql, and it was slow af
+    - sampled 50,000 more games
+
 
 
 
