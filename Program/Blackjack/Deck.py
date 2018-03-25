@@ -1,7 +1,6 @@
 from Structs.Stack import Stack
 from enum import Enum
 from random import shuffle
-
 class Suits(Enum):
     HEARTS = "Hearts"
     DIAMONDS = "Diamonds"
@@ -85,8 +84,5 @@ def display_and_empty(deck):
 
 if __name__ == "__main__":
     d = Deck()
-    print(Card(Suits.SPADES, 8) == Card(Suits.SPADES, 8))
-
-    for _ in range(10000):
-        print(d.pop())
+    print(isinstance(Card(Suits.SPADES, Royals.QUEEN).value, Royals))
 

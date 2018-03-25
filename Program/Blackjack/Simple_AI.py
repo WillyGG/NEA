@@ -5,7 +5,7 @@ from Moves import Moves
 
 class Simple_AI(Agent):
     def __init__(self, hand=None, parameters=None):
-        super().__init__(ID="Simple", type=["Simple"])
+        super().__init__(ID="simple", type=["Simple"])
         self.blackjack_value = 21
         self.maxCard = 11
         self.bust_value = self.blackjack_value + 1
@@ -34,7 +34,7 @@ class Simple_AI(Agent):
     def get_move(self, all_players):
         next_best_hand = self.get_best_hand(all_players)
         best_player_value = next_best_hand.get_value()
-        best_player_stood = next_best_hand.has_stood()
+        best_player_stood = next_best_hand.has_stood
 
         hand_value = self.hand.get_value()
         win_margin = hand_value - best_player_value

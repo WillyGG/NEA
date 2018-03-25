@@ -59,7 +59,10 @@ class Comparison_Tool:
     # TODO TEST TF OUT OF THIS
     def get_data(self, *args, no_games=1000):
         # Initialise the agent hands and the agents playing
-        self.agents = self.init_agents()
+        self.agents = {}
+        self.agents_hands = {}
+        self.init_agents()
+
         agent_hands_playing = {}
         agents_playing = {}
         for id_agent in args:
@@ -71,20 +74,41 @@ class Comparison_Tool:
         move_q = cQ(10)
         # play the games and get the win rates
         for game_num in range(no_games):
-            print(game_num)
             while blackjack.continue_game:
                 turn_num = blackjack.turnNumber
                 ID_current_player = blackjack.get_current_player().id
                 all_hands = blackjack.get_all_hands()
                 agent_current = self.agents[ID_current_player]
+
                 hand_val_before = agent_current.hand.get_value()
+
+                hand_before = list(agent_current.hand.hand) # TODO DELETE THIS
+
                 next_best_hand = self.get_next_best_hand(ID_current_player, all_hands)
                 next_move = agent_current.get_move(all_hands) # pass in all player's hands
+
                 if next_move == Moves.HIT:
                     blackjack.hit()
                 elif next_move == Moves.STAND:
                     blackjack.stand()
+
                 hand_val_after = agent_current.hand.get_value()
+
+                if next_move == Moves.HIT and hand_val_before == hand_val_after:
+                    print("hand before:")
+                    for card in hand_before:
+                        print(card)
+
+                    print("\nhand after")
+                    for card in agent_current.hand.hand:
+                        print(card)
+
+                    print("hand val before", hand_val_before)
+                    print("hand val after",hand_val_after)
+                    print("\n\n\n")
+
+
+
                 move_info = (ID_current_player, turn_num, next_move,
                              next_best_hand, hand_val_before, hand_val_after)
                 move_q.push(move_info)
@@ -119,6 +143,8 @@ class Comparison_Tool:
     def get_next_best_hand(self, agent_id, all_hands):
         best_value = 0
         for hand in all_hands:
+            if hand.id == agent_id:
+                continue
             hand_val = hand.get_value()
             if hand_val > best_value:
                 best_value = hand_val
@@ -336,10 +362,12 @@ class Comparison_Tool:
     # get series of stand values
     # get games won when standing on said value
     # get number of games when stood of value
+    # outputs the chances to win against values stood on
     def output_stand_vs_wr(self):
         get_distinct_vals = """
                             SELECT DISTINCT hand_val_before
                             FROM Moves
+                            WHERE move=0;
                             """
         distinct_vals_res = self.db_wrapper.execute_queries(get_distinct_vals, get_result=True)
         stand_values = [i[0] for i in distinct_vals_res] # all distinct hand values
@@ -373,10 +401,57 @@ class Comparison_Tool:
         self.output_2d(stand_values, y_vals, title="Chance to Win Based on Stand Value",
                        x_lbl="Stand Value", y_lbl="Win Rate")
 
+    def output_hit_vs_br(self):
+        distinct_hit_vals_q = """
+                              SELECT DISTINCT hand_val_before
+                              FROM Moves
+                              WHERE move=1;
+                              """
+        distinct_vals_res = self.db_wrapper.execute_queries(distinct_hit_vals_q, get_result=True)
+        hit_values = [i[0] for i in distinct_vals_res]  # all distinct hand values
+        hit_values.sort()
+
+        total_times_hit = []  # total number of games stood with value coressponding to stand_values
+        games_bust = []  # games won with value coressponding to stand_values
+        for value in hit_values:
+            total_times_query = """
+                                SELECT COUNT(*)
+                                FROM Moves
+                                WHERE move=1 AND hand_val_before={0};
+                                """.format(value)
+            # cross param sql
+            no_games_bust_query = """
+                                  SELECT COUNT(*)
+                                  FROM Moves
+                                  WHERE move=1 AND hand_val_before={0} AND hand_val_after > 21;
+                                  """.format(value)
+
+            total_games = self.db_wrapper.execute_queries(total_times_query, get_result=True)[0][0]
+            no_games = self.db_wrapper.execute_queries(no_games_bust_query, get_result=True)[0][0]
+
+            if value == 21:
+                test_q = """
+                         SELECT *
+                         FROM Moves
+                         WHERE move=1 AND hand_val_before=21 AND hand_val_after < 22;
+                         """
+                print(self.db_wrapper.execute_queries(test_q, get_result=True))
+
+                print(no_games)
+                print(total_games)
+
+            total_times_hit.append(total_games)
+            games_bust.append(no_games)
+
+        y_vals = [games_bust[i] / total_times_hit[i] for i in range(len(hit_values))]
+
+        self.output_2d(hit_values, y_vals, title="Chance to Go Bust Based on Hit Value",
+                       x_lbl="Hit Value", y_lbl="Bust Rate")
+
 if __name__ == "__main__":
     ct = Comparison_Tool()
     #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE
-    #print(ct.get_data(Comparison_Tool.ID_SIMPLE, Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN,  no_games=5000))
+    print(ct.get_data(Comparison_Tool.ID_SIMPLE, Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN,  no_games=10000))
     #connection, cursor = ct.db_wrapper.execute_queries(
     #    "SELECT * FROM Game_Record", keep_open=True)
     #print(cursor.fetchone())
@@ -399,4 +474,5 @@ if __name__ == "__main__":
     #ct.output_stand_dist()
     #ct.output_hit_dist()
 
-    ct.output_stand_vs_wr()
+    #ct.output_stand_vs_wr()
+    #ct.output_hit_vs_br()

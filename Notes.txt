@@ -533,5 +533,10 @@
     - created general statistical information menu and stand+hit dist buttons
     - added window showing chance to win based on which value stood on
 
+ 25 March:
+    - Discovered lack of 100% to go bust when hitting at 21 is due to the ace functionality
+    - implemented hit value against chance to go bust graph
+    - implemented random agent
+
 
 
