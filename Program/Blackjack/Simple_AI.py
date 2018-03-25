@@ -32,23 +32,22 @@ class Simple_AI(Agent):
 
     # returns decision to hit or not -> true => hit, false => stand
     def get_move(self, all_players):
-        best_player_value = self.get_best_hand_value(all_players)
+        next_best_hand = self.get_best_hand(all_players)
+        best_player_value = next_best_hand.get_value()
+        best_player_stood = next_best_hand.has_stood()
+
         hand_value = self.hand.get_value()
         win_margin = hand_value - best_player_value
 
         # if blackjack'd or winning by a sufficient amount
-        if hand_value == self.blackjack_value or (win_margin > self.win_margin_threshold and
-                                                  hand_value > self.min_hand_threshold):
+        if hand_value == self.blackjack_value or \
+           (win_margin > self.win_margin_threshold and hand_value > self.min_hand_threshold):
             return Moves.STAND
         # If cannot go bust, or edge case satisfied then hit
         elif (hand_value < (self.bust_value - self.maxCard)
               or self.edge_move_calc(hand_value, best_player_value)):
             return Moves.HIT
         return Moves.STAND
-
-    def get_best_hand_value(self, all_players):
-        best_hand = self.get_best_hand(all_players)
-        return best_hand.get_value() # this is the best player hand value
 
     # HAVE A LOOK AT THIS
     def edge_move_calc(self, hand_value, best_value):

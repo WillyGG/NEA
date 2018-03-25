@@ -531,6 +531,7 @@
     - created plot method - seperate out method for getting x/y data and actually plotting it
     - created hit dist.
     - created general statistical information menu and stand+hit dist buttons
+    - added window showing chance to win based on which value stood on
 
-  
+
 

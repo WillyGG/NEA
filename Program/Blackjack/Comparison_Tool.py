@@ -20,22 +20,19 @@ class Comparison_Tool:
     ID_CC_AI = "cc_ai"
     param_types = ["default", "passive", "aggressive"]  # maybe convert this to an aggressive scale?
 
-    def __init__(self, agents=None):
-        self.agents = agents
-        if agents is None:
-            # The instances of all the agents
-            self.agents = {
-                Comparison_Tool.ID_NN: NN(Training=False),
-                Comparison_Tool.ID_SIMPLE: Simple_AI(),
-                Comparison_Tool.ID_CC_AI: CC_AI()
-            }
+    def __init__(self):
         self.blackjack_val = 21
         # Dictionary holding all the hands of the agents
-        self.agents_hands = dict()
-        self.populate_agent_hands()
         self.db_wrapper = CT_Wrapper()
 
-    def populate_agent_hands(self):
+    def init_agents(self):
+        # The instances of all the agents
+        self.agents = {
+            Comparison_Tool.ID_NN: NN(Training=False),
+            Comparison_Tool.ID_SIMPLE: Simple_AI(),
+            Comparison_Tool.ID_CC_AI: CC_AI()
+        }
+        self.agents_hands = dict()
         self.agents_hands["dealer"] = BJ.Dealer_Hand()
         for agent_key in self.agents.keys():
             self.agents_hands[agent_key] = BJ.Hand(agent_key)
@@ -62,6 +59,7 @@ class Comparison_Tool:
     # TODO TEST TF OUT OF THIS
     def get_data(self, *args, no_games=1000):
         # Initialise the agent hands and the agents playing
+        self.agents = self.init_agents()
         agent_hands_playing = {}
         agents_playing = {}
         for id_agent in args:
@@ -271,6 +269,7 @@ class Comparison_Tool:
     def output_aggression_win_realtion(self):
         pass
 
+    # outputs a graph displaying hand values when players have stood, and their % frequency
     def output_stand_dist(self):
         get_all_stands_query = """
                                SELECT hand_val_before
@@ -289,6 +288,7 @@ class Comparison_Tool:
 
         self.output_2d(stand_values, y_vals, title="Stand Distribution", x_lbl="Stand Value", y_lbl="% Frequency")
 
+    # outputs a graph displaying hand values when players have hit, and their % frequency
     def output_hit_dist(self):
         get_all_hits_query = """
                              SELECT hand_val_before
@@ -304,6 +304,8 @@ class Comparison_Tool:
         y_vals = [(frequencies[str(hit_values[i])]/no_hits) for i in range(len(hit_values))]
         self.output_2d(hit_values, y_vals, title="Hit Distribution", x_lbl="Hit Value", y_lbl="% Frequency")
 
+    # pass in a 2d list of values
+    # returns a dictionary where key is a value the corresponding value is the frequency of that value from the dataset
     def get_freq(self, all_events):
         frequencies = {}
         for event in all_events:
@@ -312,7 +314,6 @@ class Comparison_Tool:
             if val_as_key not in frequencies:
                 frequencies[val_as_key] = 0
             frequencies[val_as_key] += 1
-
         return frequencies
 
     # pass in x and y values and optional labels
@@ -331,6 +332,46 @@ class Comparison_Tool:
         ax.plot(x,y)
         plt.show()
 
+
+    # get series of stand values
+    # get games won when standing on said value
+    # get number of games when stood of value
+    def output_stand_vs_wr(self):
+        get_distinct_vals = """
+                            SELECT DISTINCT hand_val_before
+                            FROM Moves
+                            """
+        distinct_vals_res = self.db_wrapper.execute_queries(get_distinct_vals, get_result=True)
+        stand_values = [i[0] for i in distinct_vals_res] # all distinct hand values
+        stand_values.sort()
+
+        total_games_stood = [] # total number of games stood with value coressponding to stand_values
+        games_won = [] # games won with value coressponding to stand_values
+
+        for value in stand_values:
+            total_games_query = """
+                                SELECT COUNT(*)
+                                FROM Moves
+                                WHERE move=0 AND hand_val_before={0};
+                                """.format(value)
+            # cross param sql
+            no_games_won_query = """
+                                 SELECT COUNT(*)
+                                 FROM Moves, Game_Record
+                                 WHERE Moves.move=0 AND Game_Record.winner_ids LIKE '%'||Moves.player_id||'%'
+                                 AND Game_Record.game_id=Moves.game_id AND hand_val_before={0};
+                                 """.format(value)
+
+            total_games = self.db_wrapper.execute_queries(total_games_query, get_result=True)[0][0]
+            no_games = self.db_wrapper.execute_queries(no_games_won_query, get_result=True)[0][0]
+
+            total_games_stood.append(total_games)
+            games_won.append(no_games)
+
+        y_vals = [games_won[i]/total_games_stood[i] for i in range(len(stand_values))]
+
+        self.output_2d(stand_values, y_vals, title="Chance to Win Based on Stand Value",
+                       x_lbl="Stand Value", y_lbl="Win Rate")
 
 if __name__ == "__main__":
     ct = Comparison_Tool()
@@ -353,7 +394,9 @@ if __name__ == "__main__":
     #ct.output_player_wr(agent_to_analyse)
     #ct.output_avg_stand_value(agent_to_analyse)
 
-    print(ct.db_wrapper.get_stand_val_avg())
-    print(ct.db_wrapper.get_stand_val_std_dev())
-    ct.output_stand_dist()
-    ct.output_hit_dist()
+    #print(ct.db_wrapper.get_stand_val_avg())
+    #print(ct.db_wrapper.get_stand_val_std_dev())
+    #ct.output_stand_dist()
+    #ct.output_hit_dist()
+
+    ct.output_stand_vs_wr()
