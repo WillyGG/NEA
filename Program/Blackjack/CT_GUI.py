@@ -52,6 +52,10 @@ class Init_Win(Window):
                                       command=lambda: self.open_win("gen_stat"))
         self.gen_stat_btn.grid(row=3, column=0)
 
+        self.data_win_btn = tk.Button(fr, text="Gen Data",
+                                      command=lambda: self.open_win("get_data"))
+        self.data_win_btn.grid(row=4, column=0)
+
     # hides the main menu and runs the next window
     def open_win(self, win_to_open):
         self.hide()
@@ -61,6 +65,8 @@ class Init_Win(Window):
             self.rel_comp = Rel_Win(ct=self.ct, root=self, parent=tk.Toplevel())
         elif win_to_open == "gen_stat":
             self.gen_stat = Gen_Win(ct=self.ct, root=self, parent=tk.Toplevel())
+        elif win_to_open == "get_data":
+            self.data_win = Data_Win(ct=self.ct, root=self, parent=tk.Toplevel())
 
 # isolated user comparison
 # enter user name and get data about them, in isolation
@@ -193,6 +199,56 @@ class Gen_Win(Window):
             self.ct.output_stand_vs_wr()
         elif dist_type == "hit_bust":
             self.ct.output_hit_vs_br()
+
+    def back(self):
+        self.root.show()
+        self.destroy()
+
+class Data_Win(Window):
+    def __init__(self, ct, root, parent, geometry="400x400"):
+        super().__init__(parent, geometry)
+        self.ID = "get_data"
+        self.ct = ct
+        self.root = root
+
+        self.default_text = True
+
+    def build_widgets(self, fr):
+        self.title_lbl = tk.Label(fr, text="Get Data")
+        self.title_lbl.grid(row=0, column=0)
+
+        self.no_games_ent = tk.Entry(fr, text="Enter num of games to play here")
+        self.no_games_ent.bind("<Button-1>", self.clear_default)
+        self.no_games_ent.grid(row=1, column=0)
+
+        self.instr_lbl = tk.Label(fr, text="Tick the AI you want to use in your sample")
+        self.instr_lbl.grid(row=2, column=0)
+
+        self.nn_check = tk.Checkbutton(fr, text="nn")
+        self.nn_check.grid(row=3, column=0)
+
+        self.cc_ai_check = tk.Checkbutton(fr, text="cc ai")
+        self.cc_ai_check.grid(row=4, column=0)
+
+        self.simple_check = tk.Checkbutton(fr, text="simple")
+        self.simple_check.grid(row=5, column=0)
+
+        self.rand_check = tk.Checkbutton(fr, text="rand ai")
+        self.rand_check.grid(row=6, column=0)
+
+        self.begin_btn = tk.Button(fr, text="Begin", command=self.begin_sample)
+        self.begin_btn.grid(row=7, column=0)
+
+        self.back_btn = tk.Button(fr, text="Back", command=self.back)
+        self.back_btn.grid(row=8, column=0)
+
+    def begin_sample(self):
+        pass
+
+    def clear_default(self, *args):
+        if self.default_text:
+            self.default_text = False
+            self.no_games_ent.delete(0, "end")
 
     def back(self):
         self.root.show()
