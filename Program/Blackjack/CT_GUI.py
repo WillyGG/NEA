@@ -166,21 +166,33 @@ class Gen_Win(Window):
         self.title.grid(row=0, column=0)
 
         self.stand_dist_btn = tk.Button(fr, text="Stand Value Distribution",
-                                        command=lambda: self.display_dist_cmd("stand"))
+                                        command=lambda: self.display_dist_cmd("stand_dist"))
         self.stand_dist_btn.grid(row=1, column=0)
 
         self.hit_dist_btn = tk.Button(fr, text="Hit Value Distribution",
-                                      command=lambda: self.display_dist_cmd("hit"))
+                                      command=lambda: self.display_dist_cmd("hit_dist"))
         self.hit_dist_btn.grid(row=2, column=0)
 
+        self.stand_vs_wr_btn = tk.Button(fr, text="Win Rate Against Stand Value",
+                                         command=lambda: self.display_dist_cmd("stand_win"))
+        self.stand_vs_wr_btn.grid(row=3, column=0)
+
+        self.hit_vs_bust_btn = tk.Button(fr, text="Bust Rate Against Hit Value",
+                                         command=lambda: self.display_dist_cmd("hit_bust"))
+        self.hit_vs_bust_btn.grid(row=4, column=0)
+
         self.back_btn = tk.Button(fr, text="Back", command=self.back)
-        self.back_btn.grid(row=3, column=0)
+        self.back_btn.grid(row=5, column=0)
 
     def display_dist_cmd(self, dist_type):
-        if dist_type == "hit":
-            self.ct.output_stand_dist()
-        elif dist_type == "stand":
+        if dist_type == "hit_dist":
             self.ct.output_hit_dist()
+        elif dist_type == "stand_dist":
+            self.ct.output_stand_dist()
+        elif dist_type == "stand_win":
+            self.ct.output_stand_vs_wr()
+        elif dist_type == "hit_bust":
+            self.ct.output_hit_vs_br()
 
     def back(self):
         self.root.show()

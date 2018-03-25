@@ -16,10 +16,10 @@ class CC_AI(CC_Agent):
     def getNextAction(self, chances, game_state):
         # not exceeding the dealer, hit.
         playerHandValue = game_state[0].get_value()
-        dealerHandValue = game_state[1].get_value()
+        bestHandValue = game_state[1].get_value()
 
-        winMargin =  playerHandValue - dealerHandValue
-        belowBestPlayer = not chances["alreadyExceedingWinningPlayer"]
+        winMargin =  playerHandValue - bestHandValue
+        belowBestPlayer = not chances["alreadyExceedingWinningPlayer"] and bestHandValue <= 21
         belowBustThreshold = chances["bust"] <= self.parameters["bust_tol"]
         highBlackjackChance = chances["blackjack"] >= self.parameters["blackjack_thresh"]
         belowWinMarginThresh = winMargin < self.parameters["winMarginThresh"]
@@ -28,7 +28,7 @@ class CC_AI(CC_Agent):
         # BEHAVIOUR: Hit IF:
         # - losing or below the bust threshold or below the min hand threshold or below min hand threshold/win margin threshold
         # - or winning, above the bust threshold and below the risky bust threshold
-        if (belowBestPlayer or belowBustThreshold or belowMinHandThresh) and chances["bust"] != 1:
+        if (belowBestPlayer or belowBustThreshold or belowMinHandThresh):
             return Moves.HIT
         elif highBlackjackChance:
             belowRiskyBustThreshold = chances["bust"] <= self.parameters["bust_tol"] * self.parameters["riskTolerance"]

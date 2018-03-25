@@ -52,7 +52,7 @@ class Simple_AI(Agent):
     # HAVE A LOOK AT THIS
     def edge_move_calc(self, hand_value, best_value):
         bustDiff = abs(hand_value - self.bust_value) # how far off being bust SAI is
-        LTBestPlayer = hand_value < best_value
+        LTBestPlayer = hand_value < best_value and best_value <= 21
         if LTBestPlayer or bustDiff <= self.bust_threshold:
             return True
         return False

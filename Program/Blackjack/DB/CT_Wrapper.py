@@ -17,7 +17,6 @@ class CT_Wrapper(DB_Wrapper):
         self.__tables_id = ["Agents", "Moves", "Game_Record"]
         self.init_tables()
         self.init_default_agents()
-        self.game_id = self.get_next_game_id()
 
     # Creates the required tables - harcoded in -> TODO Change this from hardcoded?
     def init_tables(self):
@@ -40,11 +39,11 @@ class CT_Wrapper(DB_Wrapper):
     # pass in all the parameters required to push a move to the move table
     # this method will push the move to the move table
     # TODO INSERT SOME ERROR HANDLING AND DEFENSIVE PROGRAMMING
-    def push_move(self, agent_id, turn_num, move, next_best_val, hand_val_before, hand_val_after):
+    def push_move(self, agent_id, game_id, turn_num, move, next_best_val, hand_val_before, hand_val_after):
         move = Moves.convert_to_bit(move)
         query = """INSERT INTO "Moves" 
                    (player_id, game_id, turn_num, next_best_val, hand_val_before, move, hand_val_after) \
-                   VALUES ("{0}", {1}, {2}, {3}, {4}, {5}, {6});""".format(agent_id, self.game_id, turn_num,
+                   VALUES ("{0}", {1}, {2}, {3}, {4}, {5}, {6});""".format(agent_id, game_id, turn_num,
                                                                            next_best_val, hand_val_before, move,
                                                                            hand_val_after)
         self.execute_queries(query)
@@ -115,9 +114,13 @@ class CT_Wrapper(DB_Wrapper):
           #  result = self.execute_queries(query, get_result=True)
         q = """
             SELECT MAX(game_id)
-            FROM Game_Record
+            FROM Moves
             """
-        game_id_test = self.execute_queries(q, get_result=True)[0][0] + 1
+        game_id_test = self.execute_queries(q, get_result=True)[0][0]
+        if game_id_test is None:
+            game_id_test = 1
+        else:
+            game_id_test = game_id_test + 1
         return game_id_test
 
     # pass in array of agent instances
@@ -147,7 +150,7 @@ class CT_Wrapper(DB_Wrapper):
     # winning_hand => Hand Instance
     # convert winners to text
     # auto updates game id
-    def push_game(self, winners, winning_hands, num_of_turns, agents):
+    def push_game(self, game_id, winners, winning_hands, num_of_turns, agents):
         wnr_hands = ""
         wnr_vals = ""
         for hand in winning_hands:
@@ -162,9 +165,8 @@ class CT_Wrapper(DB_Wrapper):
                 INSERT INTO Game_Record 
                 (game_id, winner_ids, winning_hands, winning_values, num_of_turns, players)
                 VALUES ({0}, '{1}', '{2}', '{3}', {4}, '{5}');
-                """.format(self.game_id, wnr_ids, wnr_hands, wnr_vals, num_of_turns, agents_as_text)
+                """.format(game_id, wnr_ids, wnr_hands, wnr_vals, num_of_turns, agents_as_text)
         self.execute_queries(query)
-        self.game_id += 1 #self.get_next_game_id()
 
         # increment the winners and the games played in the database
         for agent_id in winners:

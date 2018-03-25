@@ -58,6 +58,7 @@ class DB_Wrapper:
         for index, query in enumerate(queries):
             # if parameter does not exist, just execute query
             try:
+                #print(query)
                 cursor.execute(query)
                 results.append(cursor.fetchall())
             except Exception as e:

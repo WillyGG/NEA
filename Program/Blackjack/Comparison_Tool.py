@@ -74,7 +74,9 @@ class Comparison_Tool:
                 agents_playing[id_agent] = self.agents[id_agent]
 
         blackjack = BJ.Blackjack(agent_hands_playing) # local instance of blackjack
-        move_q = cQ(10)
+        move_q = cQ(5000)
+        game_q = cQ(2500)
+        game_id = self.db_wrapper.get_next_game_id()
         # play the games and get the win rates
         for game_num in range(no_games):
             if game_num % 250 == 0:
@@ -96,31 +98,39 @@ class Comparison_Tool:
                     blackjack.stand()
 
                 hand_val_after = agent_current.hand.get_value()
-                move_info = (ID_current_player, turn_num, next_move,
+                move_info = (ID_current_player, game_id, turn_num, next_move,
                              next_best_hand, hand_val_before, hand_val_after)
                 move_q.push(move_info)
+                if move_q.isFull():
+                    # push all moves to db
+                    while not move_q.isEmpty():
+                        move_info = move_q.pop()
+                        self.db_wrapper.push_move(agent_id=move_info[0], game_id=move_info[1], turn_num=move_info[2],
+                                                  move=move_info[3], next_best_val=move_info[4],
+                                                  hand_val_before=move_info[5], hand_val_after=move_info[6])
             # PROCESS END OF GAME
             # get the winners, increment their wins, update the agents
             blackjack.end_game()
-
-            # push all moves to db
-            while not move_q.isEmpty():
-                move_info = move_q.pop()
-                self.db_wrapper.push_move(agent_id=move_info[0], turn_num=move_info[1],
-                                          move=move_info[2], next_best_val=move_info[3],
-                                          hand_val_before=move_info[4], hand_val_after=move_info[5])
             # push winners to db
             winners = blackjack.winners
             winning_hands = []
             for winner_id in winners:
                 winning_hands.append(agent_hands_playing[winner_id])
-            self.db_wrapper.push_game(winners, winning_hands, blackjack.turnNumber, agents_playing)
+            game_info = (game_id, winners, winning_hands, blackjack.turnNumber, agents_playing)
+            game_q.push(game_info)
+
+            if game_q.isFull():
+                while not game_q.isEmpty():
+                    game_info = game_q.pop()
+                    self.db_wrapper.push_game(game_id=game_info[0], winners=game_info[1], winning_hands=game_info[2],
+                                              num_of_turns=game_info[3], agents=game_info[4])
 
             #update agents and reset
             self.update_agents(agents_playing, blackjack)
             blackjack.reset()
+            game_id += 1
 
-        # convert win records to % and return the win rates
+            # convert win records to % and return the win rates
         win_rates = 0 # TODO CONVERT THIS TO QUERY THE DATABASE AND GET THE WINRATES
         return win_rates
 
@@ -438,8 +448,17 @@ class Comparison_Tool:
 if __name__ == "__main__":
     ct = Comparison_Tool()
     #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE
-    #print(ct.get_data(Comparison_Tool.ID_SIMPLE, Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN,
-     #                 Comparison_Tool.ID_RAND_AI, no_games=50000))
+
+
+    q = """
+        SELECT *
+        FROM Game_Record
+        WHERE game_id=2;
+        """
+    print(ct.db_wrapper.execute_queries(q, get_result=True))
+
+    print(ct.get_data(Comparison_Tool.ID_SIMPLE, Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN,
+                      Comparison_Tool.ID_RAND_AI, no_games=50000))
     #connection, cursor = ct.db_wrapper.execute_queries(
     #    "SELECT * FROM Game_Record", keep_open=True)
     #print(cursor.fetchone())
@@ -464,3 +483,12 @@ if __name__ == "__main__":
 
     #ct.output_stand_vs_wr()
     #ct.output_hit_vs_br()
+
+    #q = """
+    #    SELECT *
+    #    FROM Moves
+    #    WHERE hand_val_before=21 AND player_id != 'rand' AND move=1;
+    #    """
+
+    #res = ct.db_wrapper.execute_queries(q, get_result=True)
+    #total_games = ct.db_wrapper.execute_queries(q1, get_result=True)[0]
