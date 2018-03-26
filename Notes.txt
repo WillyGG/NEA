@@ -544,8 +544,13 @@
     - Completed the get data gui window
     - attempting to fix the game id method
     - REINSERT IT INTO COMPARISON TOOL METHOD IF YOU FIGURE OUT A WAY TO FIX IT
-    - FIX THE GET NEXT GAME ID
+    - FIX THE GET NEXT GAME ID => Fixed it bruv
 
+    - Fixed the win rate so that it divides by number of games played by the agent, rather than game_id
+    - was to do with the way that player names were being pushed with a semi colon at the end
+    - patched this so that future games will not have this problem:
+        wnr_ids = ";".join(winners)
+        => wnr_ids = ";".join(winners) + ";"
   
 
 

@@ -94,7 +94,7 @@ if __name__ == "__main__":
     u_name = "SwaggyShaggy99"
     p_word = "Adlfkjgklf3"
 
-    u_db_wrapper = Users_DB("Blackjack.sqlite")
+    u_db_wrapper = Users_DB("Blackjack_old.sqlite")
     u_db_wrapper.execute_queries_from_file("Create_Users_Table")
     u_db_wrapper.execute_queries("SELECT * FROM users WHERE username='SwaggyShaggy99'")
     print("acceptable pword", u_db_wrapper.check_acceptable_password(p_word))
@@ -102,4 +102,4 @@ if __name__ == "__main__":
     print("unique uname after insertion", u_db_wrapper.check_unique_username(u_name))
     u_db_wrapper.display_all_records("users")
     print(u_db_wrapper.check_login(u_name, p_word))
-    remove("Blackjack.sqlite")
+    remove("Blackjack_old.sqlite")

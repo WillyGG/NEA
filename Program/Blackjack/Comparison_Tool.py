@@ -125,7 +125,7 @@ class Comparison_Tool:
             #update agents and reset
             self.update_agents(agents_playing, blackjack)
             blackjack.reset()
-            game_id = self.db_wrapper.get_next_game_id()
+            game_id += 1
 
         # convert win records to % and return the win rates
         self.empty_queue_push(move_q, "move")
@@ -244,8 +244,17 @@ class Comparison_Tool:
     # pass in player id
     # todo change this to getting data, plot in the gui class??
     def output_player_wr(self, id):
-        games = self.db_wrapper.get_games_won_by_id(id)
+        agent_id_as_text = self.db_wrapper.convert_agents_to_text([id])
+        # gets all the game record numbers which the user has played in
+        games_query = """
+                     SELECT game_id
+                     FROM Game_Record 
+                     WHERE winner_ids LIKE '%{0}%'
+                     ORDER BY game_id ASC;
+                     """.format(id)  # add validation by selecting from users table
 
+        # get the data from the database
+        games = self.db_wrapper.execute_queries(games_query, get_result=True)
         d_win_rate = []
         games_won = 0
         win_rate = 0
@@ -254,17 +263,40 @@ class Comparison_Tool:
             batch_count += 1
             game_id = record[0]
             games_won += 1
-            win_rate = games_won / game_id
-            if batch_count % 10 == 0: # batches of 10
-                next_game = [game_id, win_rate]  # todo batch this into games of x
+            if batch_count % 10 == 0: # batches of 10 so that it is not too jagged
+                # count how many games the player has played in up until this game_id
+                games_played_q = """
+                                 SELECT COUNT(*)
+                                 FROM Game_Record
+                                 WHERE game_id <= {0} AND players LIKE '%{1}%'
+                                 """.format(game_id, agent_id_as_text)
+                games_played = self.db_wrapper.execute_queries(games_played_q, get_result=True)[0][0]
+                win_rate = games_won / games_played
+                next_game = [game_id, win_rate]
                 d_win_rate.append(next_game)
                 batch_count = 0
 
         x_vals = [d[0] for d in d_win_rate]
         y_vals = [d[1] for d in d_win_rate]
 
-        self.output_2d(x_vals, y_vals, title=id + "'s Win Rate Over Time", x_lbl="no games",
-                       y_lbl="win rate")
+        avg_wr = self.db_wrapper.get_avg_wr()
+        avg_x = list(x_vals)
+        avg_y = [avg_wr for d in range(len(avg_x))]
+
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+
+        fig.suptitle(id + "'s Win Rate Over Time")
+        plt.xlabel("num games")
+        plt.ylabel("Win Rate")
+
+        ax.plot(x_vals, y_vals)
+        ax.plot(avg_x, avg_y)
+
+        plt.show()
+
+        #self.output_2d(x_vals, y_vals, title=id + "'s Win Rate Over Time", x_lbl="no games",
+        #               y_lbl="win rate")
 
     # pass in player id, get back aggresion rating
     # calculate the average stand value
@@ -370,7 +402,6 @@ class Comparison_Tool:
         ax.plot(x,y)
         plt.show()
 
-
     # get series of stand values
     # get games won when standing on said value
     # get number of games when stood of value
@@ -464,16 +495,17 @@ if __name__ == "__main__":
     ct = Comparison_Tool()
     #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE
 
+    print(ct.db_wrapper.get_avg_wr())
 
-    q = """
-        SELECT *
-        FROM Game_Record
-        WHERE game_id=2;
-        """
-    print(ct.db_wrapper.execute_queries(q, get_result=True))
+    #q = """
+     #   SELECT *
+     #   FROM Game_Record
+      #  WHERE game_id=2;
+      #  """
+    #print(ct.db_wrapper.execute_queries(q, get_result=True))
 
-    print(ct.get_data(Comparison_Tool.ID_SIMPLE, Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN,
-                      Comparison_Tool.ID_RAND_AI, no_games=50000))
+    #print(ct.get_data(Comparison_Tool.ID_SIMPLE, Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN,
+     #                 Comparison_Tool.ID_RAND_AI, no_games=50000))
     #connection, cursor = ct.db_wrapper.execute_queries(
     #    "SELECT * FROM Game_Record", keep_open=True)
     #print(cursor.fetchone())

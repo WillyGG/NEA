@@ -12,7 +12,7 @@ from os import remove
 from math import sqrt
 
 class CT_Wrapper(DB_Wrapper):
-    def __init__(self, db_path="Blackjack.sqlite"):
+    def __init__(self, db_path="Blackjack_old.sqlite"):
         super().__init__(db_path)
         self.__tables_id = ["Agents", "Moves", "Game_Record"]
         self.init_tables()
@@ -132,7 +132,7 @@ class CT_Wrapper(DB_Wrapper):
             if max_gr is None:
                 game_id_test = max_moves + 1
             else:
-                game_id_test = max(max_moves, max_gr)
+                game_id_test = max(max_moves, max_gr) + 1
         return game_id_test
 
     # pass in array of agent instances
@@ -172,7 +172,7 @@ class CT_Wrapper(DB_Wrapper):
             winning_val = hand.get_value()
             wnr_vals += str(winning_val) + ";"
         agents_as_text = self.convert_agents_to_text(agents)
-        wnr_ids = ";".join(winners)
+        wnr_ids = ";".join(winners) + ";"
         query = """
                 INSERT INTO Game_Record 
                 (game_id, winner_ids, winning_hands, winning_values, num_of_turns, players)
@@ -228,20 +228,6 @@ class CT_Wrapper(DB_Wrapper):
         result = self.execute_queries(query, get_result=True)[0]
         winrate = result[0] / result[1]
         return winrate
-
-    def get_games_won_by_id(self, id):
-        agent_id_as_text = self.convert_agents_to_text([id])
-        # gets all the game record numbers which the user has played in
-        games_query = """
-                     SELECT game_id
-                     FROM Game_Record 
-                     WHERE players LIKE '%{0}%' AND winner_ids LIKE '%{0}%'
-                     ORDER BY game_id ASC;
-                     """.format(agent_id_as_text)  # add validation by selecting from users table
-
-        # get the data from the database
-        games = self.execute_queries(games_query, get_result=True)
-        return games
 
     # todo contextualise this value -> look at opponents hand values before stand also
     # queries database, returns average stand value players stand on
@@ -305,6 +291,18 @@ class CT_Wrapper(DB_Wrapper):
 
         return agents_result != [] or users_result != []
 
+    def get_avg_wr(self):
+        q = """
+            SELECT games_won, games_played, agent_id
+            FROM Agents
+            """
+        res = self.execute_queries(q, get_result=True)
+        print(res)
+        win_rates = [i[0] / i[1] for i in res]
+        print(win_rates)
+        avg_winrate = sum(win_rates) / len(win_rates)
+        return avg_winrate
+
 
 if __name__ == "__main__":
     db_dir_path = ""
@@ -331,6 +329,6 @@ if __name__ == "__main__":
         print(i)
     connection.close()
 
-    remove("Blackjack.sqlite")
+    remove("Blackjack_old.sqlite")
 else:
     db_dir_path = "DB/"
