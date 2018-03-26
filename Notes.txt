@@ -540,6 +540,12 @@
     - changed get next game id, because i have another source of cross paramaterised sql, and it was slow af
     - sampled 50,000 more games
 
+ 26 March:
+    - Completed the get data gui window
+    - attempting to fix the game id method
+    - REINSERT IT INTO COMPARISON TOOL METHOD IF YOU FIGURE OUT A WAY TO FIX IT
+    - FIX THE GET NEXT GAME ID
 
+  
 
 

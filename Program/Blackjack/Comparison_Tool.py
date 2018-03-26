@@ -61,6 +61,10 @@ class Comparison_Tool:
     # pass the id's of the agents who are playing - DEALER IS NOT AUTOMATICALLY INCLUDED
     # TODO TEST TF OUT OF THIS
     def get_data(self, *args, no_games=1000):
+        # if a list of the players has been passed in
+        if isinstance(args[0], list):
+            args = args[0]
+
         # Initialise the agent hands and the agents playing
         self.agents = {}
         self.agents_hands = {}
@@ -102,12 +106,8 @@ class Comparison_Tool:
                              next_best_hand, hand_val_before, hand_val_after)
                 move_q.push(move_info)
                 if move_q.isFull():
-                    # push all moves to db
-                    while not move_q.isEmpty():
-                        move_info = move_q.pop()
-                        self.db_wrapper.push_move(agent_id=move_info[0], game_id=move_info[1], turn_num=move_info[2],
-                                                  move=move_info[3], next_best_val=move_info[4],
-                                                  hand_val_before=move_info[5], hand_val_after=move_info[6])
+                    self.empty_queue_push(move_q, "move")
+
             # PROCESS END OF GAME
             # get the winners, increment their wins, update the agents
             blackjack.end_game()
@@ -120,19 +120,34 @@ class Comparison_Tool:
             game_q.push(game_info)
 
             if game_q.isFull():
-                while not game_q.isEmpty():
-                    game_info = game_q.pop()
-                    self.db_wrapper.push_game(game_id=game_info[0], winners=game_info[1], winning_hands=game_info[2],
-                                              num_of_turns=game_info[3], agents=game_info[4])
+               self.empty_queue_push(game_q, "game")
 
             #update agents and reset
             self.update_agents(agents_playing, blackjack)
             blackjack.reset()
-            game_id += 1
+            game_id = self.db_wrapper.get_next_game_id()
 
-            # convert win records to % and return the win rates
+        # convert win records to % and return the win rates
+        self.empty_queue_push(move_q, "move")
+        self.empty_queue_push(game_q, "game")
         win_rates = 0 # TODO CONVERT THIS TO QUERY THE DATABASE AND GET THE WINRATES
         return win_rates
+
+    # method for emptying a db queue and pushing all the queries
+    # pass in the queue and a string showing the type of queue "move" or "game"
+    def empty_queue_push(self, queue, q_type):
+        if q_type == "move":
+            # push all moves to db
+            while not queue.isEmpty():
+                move_info = queue.pop()
+                self.db_wrapper.push_move(agent_id=move_info[0], game_id=move_info[1], turn_num=move_info[2],
+                                          move=move_info[3], next_best_val=move_info[4],
+                                          hand_val_before=move_info[5], hand_val_after=move_info[6])
+        elif q_type == "game":
+            while not queue.isEmpty():
+                game_info = queue.pop()
+                self.db_wrapper.push_game(game_id=game_info[0], winners=game_info[1], winning_hands=game_info[2],
+                                          num_of_turns=game_info[3], agents=game_info[4])
 
     # pass in agent id
     # returns the hand value of the next best agent

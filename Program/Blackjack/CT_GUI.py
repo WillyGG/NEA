@@ -2,33 +2,6 @@ from GUI import Window
 import tkinter as tk
 from Comparison_Tool import Comparison_Tool
 
-class CT_GUI():
-    def __init__(self):
-        self.ct = Comparison_Tool()
-        self.Init_Win = Init_Win(self)
-        #self.isolated_comp = Iso_Win(self.ct, self,
-                                     #parent=tk.Toplevel(self.Init_Win.parent))
-
-    # starts the app
-    def run(self):
-        self.Init_Win.run()
-
-    # hides the main menu and runs the next window
-    def open_win(self, win_to_open):
-        self.Init_Win.hide()
-        if win_to_open == "iso_comp":
-            self.isolated_comp = Iso_Win(self.ct, self, parent=tk.Toplevel(self.Init_Win.parent))
-            self.isolated_comp.run()
-        elif win_to_open == "rel_comp":
-            pass # implement this!!
-
-    def close_win(self, win_to_close):
-        self.Init_Win.show()
-        if win_to_close == "iso_comp":
-            self.isolated_comp.destroy()
-        elif win_to_close == "rel_comp":
-            pass
-
 # main menu class - window with buttons to traverse the gui
 class Init_Win(Window):
     def __init__(self, parent=None, geometry="400x400"):
@@ -53,7 +26,7 @@ class Init_Win(Window):
         self.gen_stat_btn.grid(row=3, column=0)
 
         self.data_win_btn = tk.Button(fr, text="Gen Data",
-                                      command=lambda: self.open_win("get_data"))
+                              command=lambda: self.open_win("get_data"))
         self.data_win_btn.grid(row=4, column=0)
 
     # hides the main menu and runs the next window
@@ -217,23 +190,28 @@ class Data_Win(Window):
         self.title_lbl = tk.Label(fr, text="Get Data")
         self.title_lbl.grid(row=0, column=0)
 
-        self.no_games_ent = tk.Entry(fr, text="Enter num of games to play here")
+        self.no_games_ent = tk.Entry(fr)
+        self.no_games_ent.insert(0, "Enter num of games to play here")
         self.no_games_ent.bind("<Button-1>", self.clear_default)
         self.no_games_ent.grid(row=1, column=0)
 
         self.instr_lbl = tk.Label(fr, text="Tick the AI you want to use in your sample")
         self.instr_lbl.grid(row=2, column=0)
 
-        self.nn_check = tk.Checkbutton(fr, text="nn")
+        self.nn_var = tk.IntVar()
+        self.nn_check = tk.Checkbutton(fr, text="nn", variable=self.nn_var)
         self.nn_check.grid(row=3, column=0)
 
-        self.cc_ai_check = tk.Checkbutton(fr, text="cc ai")
+        self.cc_ai_var = tk.IntVar()
+        self.cc_ai_check = tk.Checkbutton(fr, text="cc ai", variable=self.cc_ai_var)
         self.cc_ai_check.grid(row=4, column=0)
 
-        self.simple_check = tk.Checkbutton(fr, text="simple")
+        self.simple_var = tk.IntVar()
+        self.simple_check = tk.Checkbutton(fr, text="simple", variable=self.simple_var)
         self.simple_check.grid(row=5, column=0)
 
-        self.rand_check = tk.Checkbutton(fr, text="rand ai")
+        self.rand_var = tk.IntVar()
+        self.rand_check = tk.Checkbutton(fr, text="rand ai", variable=self.rand_var)
         self.rand_check.grid(row=6, column=0)
 
         self.begin_btn = tk.Button(fr, text="Begin", command=self.begin_sample)
@@ -242,8 +220,35 @@ class Data_Win(Window):
         self.back_btn = tk.Button(fr, text="Back", command=self.back)
         self.back_btn.grid(row=8, column=0)
 
+        self.res_lbl = tk.Label(fr, text="")
+        self.res_lbl.grid(row=9, column=0)
+
     def begin_sample(self):
-        pass
+        agents_playing = []
+        checkboxes = [self.nn_var, self.cc_ai_var, self.simple_var, self.rand_var]
+        names = [self.ct.ID_NN, self.ct.ID_CC_AI, self.ct.ID_SIMPLE, self.ct.ID_RAND_AI]
+
+        # check checkbox state, if checked append to list of agent ids who are playing
+        for i in range(len(checkboxes)):
+            cbox_state = checkboxes[i].get()
+            name = names[i]
+            if cbox_state:
+                agents_playing.append(name)
+        if agents_playing == []:
+            self.res_lbl.config(text="Please select at least one ai to play")
+            return False
+
+        no_games = self.no_games_ent.get()
+        try:
+            no_games = int(no_games)
+        except:
+            self.res_lbl.config(text="Please enter a valid number of games")
+            return False
+
+        self.res_lbl.config(text="Commencing testing for {0} games".format(str(no_games)))
+        self.ct.get_data(agents_playing, no_games=no_games)
+        self.res_lbl.config(text="Data gathered and pushed")
+        return True
 
     def clear_default(self, *args):
         if self.default_text:

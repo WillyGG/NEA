@@ -112,15 +112,27 @@ class CT_Wrapper(DB_Wrapper):
          #   query = """SELECT Moves.game_id FROM Moves, Game_Record
          #              WHERE Moves.game_id={0} AND Moves.game_id=Game_Record.game_id;""".format(game_id_test)
           #  result = self.execute_queries(query, get_result=True)
-        q = """
-            SELECT MAX(game_id)
-            FROM Moves
-            """
-        game_id_test = self.execute_queries(q, get_result=True)[0][0]
-        if game_id_test is None:
-            game_id_test = 1
+        q_moves = """
+                 SELECT MAX(game_id)
+                 FROM Moves
+                 """
+        q_gr = """
+               SELECT MAX(game_id)
+               FROM Game_Record
+               """
+        max_moves = self.execute_queries(q_moves, get_result=True)[0][0]
+        max_gr = self.execute_queries(q_gr, get_result=True)[0][0]
+
+        if max_moves is None:
+            if max_gr is None:
+                game_id_test = 1
+            else:
+                game_id_test = max_gr + 1
         else:
-            game_id_test = game_id_test + 1
+            if max_gr is None:
+                game_id_test = max_moves + 1
+            else:
+                game_id_test = max(max_moves, max_gr)
         return game_id_test
 
     # pass in array of agent instances
