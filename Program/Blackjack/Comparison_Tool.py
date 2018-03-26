@@ -13,6 +13,7 @@ from NN import NN
 from Moves import Moves
 from CT_Wrapper import CT_Wrapper
 import matplotlib.pyplot as plt
+import numpy as np
 
 # maybe change this into static class?
 class Comparison_Tool:
@@ -259,11 +260,26 @@ class Comparison_Tool:
         games_won = 0
         win_rate = 0
         batch_count = 0
+
+        # increases the batch size with number of games, to make the querying faster
+        no_games = len(games)
+        if no_games >= 50000:
+            batch_size = 1000
+        elif no_games >= 10000:
+            batch_size = 100
+        elif no_games >= 1000:
+            batch_size = 10
+        elif no_games >= 100:
+            batch_size = 3
+        else:
+            batch_size = 1
+
+        batch_size = 100
         for record in games:
             batch_count += 1
             game_id = record[0]
             games_won += 1
-            if batch_count % 10 == 0: # batches of 10 so that it is not too jagged
+            if batch_count % batch_size == 0: # batches of 10 so that it is not too jagged
                 # count how many games the player has played in up until this game_id
                 games_played_q = """
                                  SELECT COUNT(*)
@@ -333,8 +349,8 @@ class Comparison_Tool:
                 y_vals.append(avg_stand_value)
                 batch_count = 0
 
-
-        self.output_2d(x_vals, y_vals, title=id+"'s Avg Stand Val Over Time", x_lbl="no games", y_lbl="avg stand value")
+        self.plot_2d(x_vals, y_vals, title=id+"'s Avg Stand Val Over Time", x_lbl="no games", y_lbl="avg stand value")
+        plt.show()
 
     def output_aggression_win_realtion(self):
         pass
@@ -356,7 +372,8 @@ class Comparison_Tool:
         # converts dictionary to array for each stand value, in the corresponding index
         y_vals = [(frequencies[str(stand_values[i])]/no_stands) for i in range(len(stand_values))]
 
-        self.output_2d(stand_values, y_vals, title="Stand Distribution", x_lbl="Stand Value", y_lbl="% Frequency")
+        self.plot_2d(stand_values, y_vals, title="Stand Distribution", x_lbl="Stand Value", y_lbl="% Frequency")
+        plt.show()
 
     # outputs a graph displaying hand values when players have hit, and their % frequency
     def output_hit_dist(self):
@@ -372,7 +389,8 @@ class Comparison_Tool:
         no_hits = len(all_hits)
 
         y_vals = [(frequencies[str(hit_values[i])]/no_hits) for i in range(len(hit_values))]
-        self.output_2d(hit_values, y_vals, title="Hit Distribution", x_lbl="Hit Value", y_lbl="% Frequency")
+        self.plot_2d(hit_values, y_vals, title="Hit Distribution", x_lbl="Hit Value", y_lbl="% Frequency")
+        plt.show()
 
     # pass in a 2d list of values
     # returns a dictionary where key is a value the corresponding value is the frequency of that value from the dataset
@@ -388,7 +406,7 @@ class Comparison_Tool:
 
     # pass in x and y values and optional labels
     # outputs new figure and plots
-    def output_2d(self, x, y, **kwargs):
+    def plot_2d(self, x, y, **kwargs):
         fig = plt.figure()
         ax = fig.add_subplot(111)
 
@@ -400,7 +418,7 @@ class Comparison_Tool:
             plt.ylabel(kwargs["y_lbl"])
 
         ax.plot(x,y)
-        plt.show()
+
 
     # get series of stand values
     # get games won when standing on said value
@@ -441,8 +459,10 @@ class Comparison_Tool:
 
         y_vals = [games_won[i]/total_games_stood[i] for i in range(len(stand_values))]
 
-        self.output_2d(stand_values, y_vals, title="Chance to Win Based on Stand Value",
+        self.plot_2d(stand_values, y_vals, title="Chance to Win Based on Stand Value",
                        x_lbl="Stand Value", y_lbl="Win Rate")
+
+        plt.show()
 
     def output_hit_vs_br(self):
         distinct_hit_vals_q = """
@@ -488,14 +508,17 @@ class Comparison_Tool:
 
         y_vals = [games_bust[i] / total_times_hit[i] for i in range(len(hit_values))]
 
-        self.output_2d(hit_values, y_vals, title="Chance to Go Bust Based on Hit Value",
+        self.plot_2d(hit_values, y_vals, title="Chance to Go Bust Based on Hit Value",
                        x_lbl="Hit Value", y_lbl="Bust Rate")
+
+        plt.show()
 
 if __name__ == "__main__":
     ct = Comparison_Tool()
     #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE
 
-    print(ct.db_wrapper.get_avg_wr())
+    ct.output_avg_stand_value("simple")
+    #print(ct.db_wrapper.get_avg_wr())
 
     #q = """
      #   SELECT *

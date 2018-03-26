@@ -48,6 +48,38 @@ class CT_Wrapper(DB_Wrapper):
                                                                            hand_val_after)
         self.execute_queries(query)
 
+    # push the a game to the game record table
+    # agents => array of Agents Instances
+    # winning_hand => Hand Instance
+    # convert winners to text
+    # auto updates game id
+    def push_game(self, game_id, winners, winning_hands, num_of_turns, agents):
+        wnr_hands = ""
+        wnr_vals = ""
+        for hand in winning_hands:
+            hand_as_text = self.convert_hand_to_text(hand)
+            wnr_hands += hand_as_text + ";"
+
+            winning_val = hand.get_value()
+            wnr_vals += str(winning_val) + ";"
+        agents_as_text = self.convert_agents_to_text(agents)
+        wnr_ids = ";".join(winners) + ";"
+        query = """
+                  INSERT INTO Game_Record 
+                  (game_id, winner_ids, winning_hands, winning_values, num_of_turns, players)
+                  VALUES ({0}, '{1}', '{2}', '{3}', {4}, '{5}');
+                  """.format(game_id, wnr_ids, wnr_hands, wnr_vals, num_of_turns, agents_as_text)
+        self.execute_queries(query)
+
+        # increment the winners and the games played in the database
+        for agent_id in winners:
+            if agent_id == "dealer":
+                continue
+            self.inc_agent_win(agent_id)
+        for agent_id in agents:
+            self.inc_games_played(agent_id)
+            pass
+
     # pass in a hand of cards
     # returns the hand as a string in the format:
     # "({value} of {suit}), ({value} of {suit})" .. -> etc
@@ -156,38 +188,6 @@ class CT_Wrapper(DB_Wrapper):
     # return array of ints for the winning values
     def get_winning_values(self):
         pass
-
-    # push the a game to the game record table
-    # agents => array of Agents Instances
-    # winning_hand => Hand Instance
-    # convert winners to text
-    # auto updates game id
-    def push_game(self, game_id, winners, winning_hands, num_of_turns, agents):
-        wnr_hands = ""
-        wnr_vals = ""
-        for hand in winning_hands:
-            hand_as_text = self.convert_hand_to_text(hand)
-            wnr_hands += hand_as_text + ";"
-            
-            winning_val = hand.get_value()
-            wnr_vals += str(winning_val) + ";"
-        agents_as_text = self.convert_agents_to_text(agents)
-        wnr_ids = ";".join(winners) + ";"
-        query = """
-                INSERT INTO Game_Record 
-                (game_id, winner_ids, winning_hands, winning_values, num_of_turns, players)
-                VALUES ({0}, '{1}', '{2}', '{3}', {4}, '{5}');
-                """.format(game_id, wnr_ids, wnr_hands, wnr_vals, num_of_turns, agents_as_text)
-        self.execute_queries(query)
-
-        # increment the winners and the games played in the database
-        for agent_id in winners:
-            if agent_id == "dealer":
-                continue
-            self.inc_agent_win(agent_id)
-        for agent_id in agents:
-            self.inc_games_played(agent_id)
-            pass
 
     # pass in arrays [agents ids, desc], method will populate them in the database
     # TODO UPDATE THIS SO THAT IT CHECKS IF THE AGENT ALREADY EXISTS BEFORE INSERTION
