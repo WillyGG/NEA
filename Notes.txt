@@ -563,4 +563,9 @@
     TODO MAKE IT WIN MARGIN INT CHANCES DICTIONARY!!!!!!!
     TODO
 
+    - began making the batch trainer class
+    - finish converting feature to experience buffer acceptable then add method to sample and train
+    - eg of card counter record, before trained column:
+    (63694, 1, 0.9230769230769232, 0.07692307692307693, 1.0, 1.0, 1)
+
 

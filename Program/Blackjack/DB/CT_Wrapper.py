@@ -81,6 +81,7 @@ class CT_Wrapper(DB_Wrapper):
             self.inc_games_played(agent_id)
             pass
 
+    # pushes the state of the cc during a move
     def push_cc(self, game_id, turn_num, bust, blackjack, exceedWinningPlayer, alreadyExceedingWinningPlayer, move):
         move = Moves.convert_to_bit(move)
         alreadyExceedingWinningPlayer = int(alreadyExceedingWinningPlayer)

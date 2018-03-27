@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS Card_Counter_Record (
     exceedWinningPlayer FLOAT NOT NULL,
     alreadyExceedingWinningPlayer BIT NOT NULL,
     move BIT NOT NULL,
+    trained BIT NOT NULL DEFAULT 0, -- update this maybe, its a bit messy, only the nn needs this, makes this un-normalised
 
     FOREIGN KEY (game_id) REFERENCES Game_Record(game_id),
     FOREIGN KEY (turn_num) REFERENCES Moves(turn_num),

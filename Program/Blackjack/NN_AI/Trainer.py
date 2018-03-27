@@ -1,6 +1,8 @@
 import sys,os
 sys.path.append(os.path.realpath(".."))
+sys.path.append(os.path.realpath("../DB"))
 import Blackjack
+from DB_Wrapper import DB_Wrapper
 from Moves import Moves
 from CC_AI import CC_AI
 from experience_buffer import experience_buffer
@@ -148,14 +150,10 @@ class Init_Trainer(Trainer):
         self.NN.save_model()
 
     def get_train_game_state(self, all_hands):
-        toReturn = []  # [agent_hand_val_normalised, best_player_hand_val_normalised, chances (in order)]
+        # [agent_hand_val_normalised, best_player_hand_val_normalised, chances (in order of key )]
         AI_and_best_hand = self.NN.get_state(all_hands)  # should return [agent_hand_val, best_player_val]
         chances = self.NN.get_chances(AI_and_best_hand)
-        for hand in AI_and_best_hand:  # adds the hand to the return array
-            hand_value_normalised = hand.get_value() * self.parameters["hand_val_norm_const"]
-            toReturn.append(hand_value_normalised)
-        for key in sorted(chances):  # sorted so that it is returned in the same order every time
-            toReturn.append(chances[key])
+        toReturn = self.NN.get_features(chances, AI_and_best_hand)
         return toReturn
 
     def process_action(self, action):
@@ -167,7 +165,6 @@ class Init_Trainer(Trainer):
             self.blackjack.stand()
         else:
             print("invalid move")
-
 
     # generate reward based on how close to 21
     # loss if bust
@@ -211,3 +208,59 @@ class Init_Trainer(Trainer):
 class Batch_Trainer(Trainer):
     def __init__(self, nn_inst, training_params=None):
         super().__init__(nn_inst, training_params)
+        self.db_wrapper = DB_Wrapper()
+
+    # gets all the games which have not been used for training yet
+    def pop_new_games(self):
+        # cross table param sql
+        # gets all the cc data for the moves the nn took part in
+        get_q = """
+                SELECT Card_Counter_Record.*
+                FROM Card_Counter_Record, Moves
+                WHERE Moves.player_id='{0}' AND Card_Counter_Record.trained=0 AND Moves.game_id=Card_Counter_Record.game_id
+                      AND Moves.turn_num=Card_Counter_Record.turn_num;
+                """.format(self.NN.ID)
+
+        update_popped_q = """
+                           UPDATE Card_Counter_Record
+                           SET trained=1
+                           WHERE trained=0;
+                           """
+        new_games = self.db_wrapper.execute_queries(get_q, get_result=True)
+        self.db_wrapper.execute_queries(update_popped_q)
+        return new_games
+
+    # converts a single record to an array of features, train ready
+    # pass in a query result where everything from card counter record has been fetched
+    def convert_cc_rec_to_features(self, record):
+        # game_state => [nn_hand_val, best_hand_val, ]
+        game_id = record[0]
+        turn_num = record[1]
+        hand_val_norm_const = self.parameters["hand_val_norm_const"]
+        # get best hand and best ai hand
+        q = """
+            SELECT hand_val_before, next_best_val
+            FROM Moves
+            WHERE game_id={0} AND turn_num={1};
+            """.format(game_id, turn_num)
+        hand_val_res = self.db_wrapper.execute_queries(q, get_result=True)[0]
+
+        # convert record to part of the features
+        chances = {
+            "bust" : record[2],
+            "blackjack": record[3],
+            "exceedWinningPlayer": record[4],
+            "alreadyExceedingWinningPlayer": record[5]
+        }
+        return self.NN.get_features(chances, hand_val_res)
+
+    # todo complete this!!
+    def convert_new_games(self):
+        #episode_buffer.append(np.reshape(np.array([game_state, action, reward,
+        #                                           new_game_state, self.blackjack.continue_game]), [1, 5]))
+        games_as_features = []
+        new_moves = self.pop_new_games()
+        for move in new_moves:
+            game = []
+            game_id = move[0]
+            features = self.convert_cc_rec_to_features(move)
