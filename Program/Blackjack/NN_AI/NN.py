@@ -275,6 +275,7 @@ class NN(CC_Agent):
         return move
 
     # gets the features which wil be used as the parameter for the input layer of the nn
+    # [normalise_agent_hand_val, normalised_best_val, chances] TODO update this so that it includes win margin
     def get_features(self, chances, game_state):
         hand_val_norm_const = self.parameters["hand_val_norm_const"]
         features = []

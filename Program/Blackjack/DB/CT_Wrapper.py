@@ -21,9 +21,10 @@ class CT_Wrapper(DB_Wrapper):
     # Creates the required tables - harcoded in -> TODO Change this from hardcoded?
     def init_tables(self):
         global db_dir_path
-        self.execute_queries_from_file(db_dir_path + "Create_Games_Record.sql")
-        self.execute_queries_from_file(db_dir_path + "Create_Agents_Table.sql")
-        self.execute_queries_from_file(db_dir_path + "Create_Users_Table.sql")
+        sql_files = ["Create_Games_Record.sql", "Create_Agents_Table.sql", "Create_Users_Table.sql",
+                     "Create_Card_Counter_Record.sql"]
+        for sql_f in sql_files:
+            self.execute_queries_from_file(db_dir_path + sql_f)
 
     # pushes the agents into the table
     # TODO CHANGE THIS SO THAT IT CHECKS FI THEY EXIST FIRST
@@ -79,6 +80,16 @@ class CT_Wrapper(DB_Wrapper):
         for agent_id in agents:
             self.inc_games_played(agent_id)
             pass
+
+    def push_cc(self, game_id, turn_num, bust, blackjack, exceedWinningPlayer, alreadyExceedingWinningPlayer, move):
+        move = Moves.convert_to_bit(move)
+        alreadyExceedingWinningPlayer = int(alreadyExceedingWinningPlayer)
+        query = """
+                INSERT INTO Card_Counter_Record 
+                (game_id, turn_num, bust, blackjack, exceedWinningPlayer, alreadyExceedingWinningPlayer, move)
+                VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6})
+                """.format(game_id, turn_num, bust, blackjack, exceedWinningPlayer, alreadyExceedingWinningPlayer, move)
+        self.execute_queries(query)
 
     # pass in a hand of cards
     # returns the hand as a string in the format:

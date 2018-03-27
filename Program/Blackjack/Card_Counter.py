@@ -6,7 +6,6 @@ from Blackjack import Blackjack
 from Blackjack import Hand
 from Blackjack import Dealer_Hand
 
-# TODO Make blackjack interface for this AI, getting the data it needs, implement prediction functionality, and play functionality test and compare to NN based system. After that DOCUMENT.
 class Card_Counter:
     def __init__(self, range_of_values=None, num_of_suits=None):
         if range_of_values is None:
@@ -160,12 +159,6 @@ class Card_Counter:
         totalCards = self.CardRecord.totalCardCount()
         exceedChance = numOfExceed / totalCards
         return exceedChance
-
-    def getHandValue(self, hand):
-        value = 0
-        for card in hand:
-            value += card.value
-        return value
 
     def displayCardRecord(self):
         self.CardRecord.in_order_traversal(self.CardRecord.root)

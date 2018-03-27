@@ -556,5 +556,11 @@
     - debugged d(avg stand value over time) => Todo add a graph comparing different bust rates and avg stand values against win rate
                                                todo also add a graph showing the realtionship between % of games gone bust
                                                todo add graph showing relationship between avg stand value and bust rate
+    - many instances of the same card counting tree - maybe make a global card counting tree?
+    - update the card counters so that they include win margin and that the chance that the next best player exceeds them
+    -> lead tolerance
+    TODO
+    TODO MAKE IT WIN MARGIN INT CHANCES DICTIONARY!!!!!!!
+    TODO
 
 

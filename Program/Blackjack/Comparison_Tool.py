@@ -14,6 +14,7 @@ from Moves import Moves
 from CT_Wrapper import CT_Wrapper
 import matplotlib.pyplot as plt
 import numpy as np
+from Card_Counter import Card_Counter
 
 # maybe change this into static class?
 class Comparison_Tool:
@@ -61,6 +62,7 @@ class Comparison_Tool:
     # create and manage a mainloop game of blackjack
     # pass the id's of the agents who are playing - DEALER IS NOT AUTOMATICALLY INCLUDED
     # TODO TEST TF OUT OF THIS
+    #todo make this function not so large - abstract away all the database queue stuff
     def get_data(self, *args, no_games=1000):
         # if a list of the players has been passed in
         if isinstance(args[0], list):
@@ -78,8 +80,10 @@ class Comparison_Tool:
                 agent_hands_playing[id_agent] = self.agents_hands[id_agent]
                 agents_playing[id_agent] = self.agents[id_agent]
 
+        cc = Card_Counter()
         blackjack = BJ.Blackjack(agent_hands_playing) # local instance of blackjack
         move_q = cQ(5000)
+        cc_q = cQ(5000)
         game_q = cQ(2500)
         game_id = self.db_wrapper.get_next_game_id()
         # play the games and get the win rates
@@ -102,12 +106,21 @@ class Comparison_Tool:
                 elif next_move == Moves.STAND:
                     blackjack.stand()
 
+                # calculate the required information to the databases and push to the query queues
                 hand_val_after = agent_current.hand.get_value()
                 move_info = (ID_current_player, game_id, turn_num, next_move,
                              next_best_hand, hand_val_before, hand_val_after)
                 move_q.push(move_info)
+
+                chances = cc.calcChances(handValue=hand_val_before, winning_value=next_best_hand)
+                cc_info = (game_id, turn_num, chances["bust"], chances["blackjack"], chances["exceedWinningPlayer"],
+                           chances["alreadyExceedingWinningPlayer"], next_move)
+                cc_q.push(cc_info)
+
                 if move_q.isFull():
                     self.empty_queue_push(move_q, "move")
+                if cc_q.isFull():
+                    self.empty_queue_push(cc_q, "cc")
 
             # PROCESS END OF GAME
             # get the winners, increment their wins, update the agents
@@ -123,14 +136,17 @@ class Comparison_Tool:
             if game_q.isFull():
                self.empty_queue_push(game_q, "game")
 
-            #update agents and reset
+            #update agents and card counter then reset and increment game_id
             self.update_agents(agents_playing, blackjack)
+            cc.decrement_cards(blackjack.new_cards)
             blackjack.reset()
             game_id += 1
 
         # convert win records to % and return the win rates
+        print("yeet")
         self.empty_queue_push(move_q, "move")
         self.empty_queue_push(game_q, "game")
+        self.empty_queue_push(cc_q, "cc")
         win_rates = 0 # TODO CONVERT THIS TO QUERY THE DATABASE AND GET THE WINRATES
         return win_rates
 
@@ -149,6 +165,12 @@ class Comparison_Tool:
                 game_info = queue.pop()
                 self.db_wrapper.push_game(game_id=game_info[0], winners=game_info[1], winning_hands=game_info[2],
                                           num_of_turns=game_info[3], agents=game_info[4])
+        elif q_type == "cc":
+            while not queue.isEmpty():
+                cc_info = queue.pop()
+                self.db_wrapper.push_cc(game_id=cc_info[0], turn_num=cc_info[1], bust=cc_info[2],
+                                        blackjack=cc_info[3], exceedWinningPlayer=cc_info[4],
+                                        alreadyExceedingWinningPlayer=cc_info[5], move=cc_info[6])
 
     # pass in agent id
     # returns the hand value of the next best agent
@@ -424,7 +446,6 @@ class Comparison_Tool:
 
         ax.plot(x,y)
 
-
     # get series of stand values
     # get games won when standing on said value
     # get number of games when stood of value
@@ -521,6 +542,13 @@ class Comparison_Tool:
 if __name__ == "__main__":
     ct = Comparison_Tool()
     #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE
+    ct.get_data(Comparison_Tool.ID_CC_AI, no_games=100)
+    query = """
+            SELECT *
+            FROM Card_Counter_Record
+            """
+    print(ct.db_wrapper.execute_queries(query, get_result=True))
+
 
     #ct.output_avg_stand_value("cc_ai")
     #print(ct.db_wrapper.get_avg_wr())
