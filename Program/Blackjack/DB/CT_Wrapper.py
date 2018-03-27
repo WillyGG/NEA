@@ -261,17 +261,6 @@ class CT_Wrapper(DB_Wrapper):
         std_dev = sqrt(s / (n-1))
         return std_dev
 
-    # returns each game the player passed stood in
-    def stand_data_by_id(self, id):
-        query = """
-                SELECT game_id, hand_val_before
-                FROM Moves
-                WHERE player_id='{0}' AND move=0
-                ORDER BY game_id ASC;
-                """.format(id)
-        games = self.execute_queries(query, get_result=True)
-        return games
-
     # returns true if id passed is a valid user ID
     def check_valid_id(self, id):
         query_agents = """

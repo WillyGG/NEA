@@ -332,27 +332,32 @@ class Comparison_Tool:
     # pass in agent id
     # outputs graph of average stand value against games played
     def output_avg_stand_value(self, id):
-        games = self.db_wrapper.get_stand_data_by_id(id)
-
+        query = """
+                SELECT hand_val_before
+                FROM Moves
+                WHERE player_id='{0}' AND move=0
+                ORDER BY game_id ASC;
+                """.format(id)
+        games = self.db_wrapper.execute_queries(query, get_result=True)
         x_vals = []
         y_vals = []
         total_stand_value = 0
         batch_count = 0
-        for game in games:
-            game_num = game[0]
-            stand_value = game[1]
+        for i in range(len(games)):
+            game = games[i]
+            stand_value = game[0]
             total_stand_value += stand_value
-            avg_stand_value = total_stand_value / game_num
+            avg_stand_value = total_stand_value / (i+1)
 
             if batch_count % 10 == 0:
-                x_vals.append(game_num)
+                x_vals.append(i)
                 y_vals.append(avg_stand_value)
                 batch_count = 0
 
         self.plot_2d(x_vals, y_vals, title=id+"'s Avg Stand Val Over Time", x_lbl="no games", y_lbl="avg stand value")
         plt.show()
 
-    def output_aggression_win_realtion(self):
+    def output_aggression_win_relation(self):
         pass
 
     # outputs a graph displaying hand values when players have stood, and their % frequency
@@ -517,7 +522,7 @@ if __name__ == "__main__":
     ct = Comparison_Tool()
     #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE
 
-    ct.output_avg_stand_value("simple")
+    #ct.output_avg_stand_value("cc_ai")
     #print(ct.db_wrapper.get_avg_wr())
 
     #q = """

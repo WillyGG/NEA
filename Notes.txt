@@ -551,6 +551,10 @@
     - patched this so that future games will not have this problem:
         wnr_ids = ";".join(winners)
         => wnr_ids = ";".join(winners) + ";"
-  
+
+  27 March:
+    - debugged d(avg stand value over time) => Todo add a graph comparing different bust rates and avg stand values against win rate
+                                               todo also add a graph showing the realtionship between % of games gone bust
+                                               todo add graph showing relationship between avg stand value and bust rate
 
 
