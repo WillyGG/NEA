@@ -3,7 +3,7 @@ import random
 
 # This class allows the network to draw from a batch of experiences, rather than just one at a time
 class experience_buffer():
-    def __init__(self, buffer_size=1000):
+    def __init__(self, buffer_size=10000):
         self.buffer = []
         self.buffer_size = buffer_size
 

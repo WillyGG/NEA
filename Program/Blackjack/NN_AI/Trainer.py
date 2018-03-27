@@ -89,6 +89,7 @@ class Init_Trainer(Trainer):
 
         # TODO DECIDE HOW MANY OF THESE PARAMS YOU ACTUALLY WANT TO PASS
 
+    # process agents action for one move
     def process_NN_agent_action(self, game_num, all_hands, game_state, episode_buffer, exp_buffer):
         explore_steps = self.parameters["explore_steps"]
         update_frequency = self.parameters["update_frequency"]
@@ -232,14 +233,14 @@ class Batch_Trainer(Trainer):
 
     # converts a single record to an array of features, train ready
     # pass in a query result where everything from card counter record has been fetched
-    def convert_cc_rec_to_features(self, record):
+    def get_chances_and_data_from_rec(self, record):
         # game_state => [nn_hand_val, best_hand_val, ]
         game_id = record[0]
         turn_num = record[1]
         hand_val_norm_const = self.parameters["hand_val_norm_const"]
         # get best hand and best ai hand
         q = """
-            SELECT hand_val_before, next_best_val
+            SELECT hand_val_before, hand_val_after, next_best_val, move
             FROM Moves
             WHERE game_id={0} AND turn_num={1};
             """.format(game_id, turn_num)
@@ -252,15 +253,61 @@ class Batch_Trainer(Trainer):
             "exceedWinningPlayer": record[4],
             "alreadyExceedingWinningPlayer": record[5]
         }
-        return self.NN.get_features(chances, hand_val_res)
+        return chances, hand_val_res
 
-    # todo complete this!!
-    def convert_new_games(self):
-        #episode_buffer.append(np.reshape(np.array([game_state, action, reward,
-        #                                           new_game_state, self.blackjack.continue_game]), [1, 5]))
-        games_as_features = []
+    # updates the network with the new games in teh db
+    # todo test test test test
+    def train_new_games(self):
+        episode_buffer = []
         new_moves = self.pop_new_games()
+        last_game_id = 0
+        last_turn_num = 0
+        nn_wins = False
         for move in new_moves:
-            game = []
             game_id = move[0]
-            features = self.convert_cc_rec_to_features(move)
+            turn_num = move[1]
+            chances, hand_val_res = self.get_chances_and_data_from_rec(move)
+            hand_val_before = hand_val_res[0]
+            hand_val_after = hand_val_res[1]
+            next_best_val = hand_val_res[2]
+            action = hand_val_res[3]
+            features_before = self.NN.get_features(game_state=[hand_val_before, next_best_val], chances=chances)
+            features_after = self.NN.get_features(games_state=[hand_val_after, next_best_val], chances=chances)
+
+            # should always and only execute whenever processing new game
+            if game_id != last_game_id:
+                if last_game_id != 0:
+                    episode_buffer = []
+                    bufferArray = np.array(episode_buffer)
+                    episodeBuffer = list(zip(bufferArray))
+                    self.exp_buffer.add(episodeBuffer)
+                last_game_id = int(game_id)
+                last_turn_num = self.get_last_turn_num(game_id)
+                nn_wins = self.get_nn_is_winner(game_id)
+                reward = self.gen_end_reward(hand_val_before, nn_wins)
+                cont_game = False
+            else:
+                nn_winning = hand_val_after >= next_best_val
+                reward = self.gen_step_reward(hand_val_after, move, nn_winning)
+                cont_game = turn_num == last_turn_num
+
+            episode_buffer.append(np.reshape(np.array([features_before, action, reward,
+                                                       features_after, cont_game]), [1, 5]))
+        self.NN.update_networks(self.exp_buffer)
+
+    def get_last_turn_num(self, game_id):
+        q = """
+            SELECT num_of_turns
+            FROM Game_Record
+            WHERE game_id={0}
+            """.format(game_id)
+        return self.db_wrapper.execute_queries(q, get_result=True)[0][0]
+
+    def get_nn_is_winner(self, game_id):
+        q = """
+            SELECT *
+            FROM Game_Record
+            WHERE game_id={0} AND winner_ids LIKE '%{1}%' 
+            """.format(game_id, self.NN.ID)
+        res = self.db_wrapper.execute_queries(q, get_result=True)
+        return res != []
