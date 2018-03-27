@@ -261,4 +261,5 @@ class Data_Win(Window):
 
 if __name__ == "__main__":
     g = Init_Win()
-    g.run()
+    #g.run()
+    g.ct.update_nn()

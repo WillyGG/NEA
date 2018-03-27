@@ -4,7 +4,7 @@ sys.path.append(os.path.realpath(".."))
 
 class DB_Wrapper:
     def __init__(self, db_path):
-        self.db_path = "DB/"+ db_path
+        self.db_path = db_path#"DB/"+ db_path
 
     # connects to database
     # returns connection, cursor

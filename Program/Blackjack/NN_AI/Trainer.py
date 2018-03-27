@@ -3,6 +3,7 @@ sys.path.append(os.path.realpath(".."))
 sys.path.append(os.path.realpath("../DB"))
 import Blackjack
 from DB_Wrapper import DB_Wrapper
+from CT_Wrapper import CT_Wrapper
 from Moves import Moves
 from CC_AI import CC_AI
 from experience_buffer import experience_buffer
@@ -209,7 +210,11 @@ class Init_Trainer(Trainer):
 class Batch_Trainer(Trainer):
     def __init__(self, nn_inst, training_params=None):
         super().__init__(nn_inst, training_params)
-        self.db_wrapper = DB_Wrapper()
+        self.db_wrapper = DB_Wrapper("DB/Blackjack_old.sqlite")#DB_Wrapper(db_path="../DB/Blackjack.sqlite") #TODO CHANGE THIS FOR THE GUI LATER
+
+        q = """
+            
+            """
 
     # gets all the games which have not been used for training yet
     def pop_new_games(self):
@@ -228,7 +233,7 @@ class Batch_Trainer(Trainer):
                            WHERE trained=0;
                            """
         new_games = self.db_wrapper.execute_queries(get_q, get_result=True)
-        self.db_wrapper.execute_queries(update_popped_q)
+        #self.db_wrapper.execute_queries(update_popped_q)
         return new_games
 
     # converts a single record to an array of features, train ready
@@ -272,24 +277,26 @@ class Batch_Trainer(Trainer):
             next_best_val = hand_val_res[2]
             action = hand_val_res[3]
             features_before = self.NN.get_features(game_state=[hand_val_before, next_best_val], chances=chances)
-            features_after = self.NN.get_features(games_state=[hand_val_after, next_best_val], chances=chances)
+            features_after = self.NN.get_features(game_state=[hand_val_after, next_best_val], chances=chances)
 
             # should always and only execute whenever processing new game
             if game_id != last_game_id:
                 if last_game_id != 0:
-                    episode_buffer = []
                     bufferArray = np.array(episode_buffer)
                     episodeBuffer = list(zip(bufferArray))
                     self.exp_buffer.add(episodeBuffer)
+                    episode_buffer = []
                 last_game_id = int(game_id)
                 last_turn_num = self.get_last_turn_num(game_id)
                 nn_wins = self.get_nn_is_winner(game_id)
                 reward = self.gen_end_reward(hand_val_before, nn_wins)
                 cont_game = False
-            else:
-                nn_winning = hand_val_after >= next_best_val
-                reward = self.gen_step_reward(hand_val_after, move, nn_winning)
-                cont_game = turn_num == last_turn_num
+                episode_buffer.append(np.reshape(np.array([features_before, action, reward,
+                                                           features_after, cont_game]), [1, 5]))
+
+            nn_winning = hand_val_after >= next_best_val
+            reward = self.gen_step_reward(hand_val_after, move, nn_winning)
+            cont_game = turn_num == last_turn_num
 
             episode_buffer.append(np.reshape(np.array([features_before, action, reward,
                                                        features_after, cont_game]), [1, 5]))

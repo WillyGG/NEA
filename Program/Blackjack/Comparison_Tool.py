@@ -27,7 +27,7 @@ class Comparison_Tool:
     def __init__(self):
         self.blackjack_val = 21
         # Dictionary holding all the hands of the agents
-        self.db_wrapper = CT_Wrapper()
+        self.db_wrapper = CT_Wrapper("DB/Blackjack_old.sqlite") # change this to the normal one
 
     def init_agents(self):
         # The instances of all the agents
@@ -539,15 +539,19 @@ class Comparison_Tool:
 
         plt.show()
 
+    def update_nn(self):
+        nn = NN()
+        nn.update_training()
+
 if __name__ == "__main__":
     ct = Comparison_Tool()
     #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE
-    ct.get_data(Comparison_Tool.ID_CC_AI, no_games=100)
+    ct.get_data(Comparison_Tool.ID_NN, no_games=50)
     query = """
             SELECT *
             FROM Card_Counter_Record
             """
-    print(ct.db_wrapper.execute_queries(query, get_result=True))
+    #print(ct.db_wrapper.execute_queries(query, get_result=True))
 
 
     #ct.output_avg_stand_value("cc_ai")

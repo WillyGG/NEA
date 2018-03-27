@@ -5,11 +5,13 @@ import matplotlib.pyplot as plt
 import sys,os
 sys.path.append(os.path.realpath(".."))
 sys.path.append(os.path.realpath("../Structs"))
+sys.path.append(os.path.realpath("../DB"))
 from CC_Agent import CC_Agent
 from Blackjack import Hand
 from NN_Move import NN_Move
 from Moves import Moves
 from Trainer import Init_Trainer
+from Trainer import Batch_Trainer
 from datetime import datetime
 
 class Q_Net():
@@ -252,6 +254,13 @@ class NN(CC_Agent):
         trainer.train(self.sess)
         self.stop_session()
 
+    def update_training(self):
+        self.start_session()
+        self.sess.run(self.init)
+        trainer = Batch_Trainer(self, training_params=self.train_params)
+        trainer.train_new_games()
+        self.stop_session()
+
     # Override from CC_Agent
     # added an exploring parameter
     def get_move(self, all_players, exploring=False):
@@ -282,7 +291,11 @@ class NN(CC_Agent):
         # append the hand values of agent hand and best player hand to the features array
         # should always be [agent_hand, best_player_hand]
         for hand in game_state:
-            hand_val_normalised = hand.get_value() * hand_val_norm_const
+            if isinstance(hand, int):
+                hand_val = hand
+            else:
+                hand_val = hand.get_value()
+            hand_val_normalised = hand_val * hand_val_norm_const
             features.append(hand_val_normalised)
         for key in sorted(chances):
             features.append(chances[key])
@@ -314,7 +327,7 @@ class NN(CC_Agent):
         path = self.parameters["path_default"]
         ckpt = tf.train.get_checkpoint_state(path) # gets the checkpoint from the last checkpoint file
         #self.saver.restore(self.sess, ckpt.model_checkpoint_path)
-        self.saver.restore(self.sess, "NN_AI/nn_data/model.cptk")
+        self.saver.restore(self.sess, "NN_AI/nn_data/model.cptk") #NN_AI/nn_data/model.cptk
 
     # updates the target and the primary network - should be called after game steps reaches its train frequency
     # exp buffer - experience_buffer class used to store game samples in training
@@ -364,4 +377,8 @@ class NN(CC_Agent):
 
 if __name__ == "__main__":
     nn = NN()
-    nn.init_training()
+    #nn.init_training()
+    nn.start_session()
+    nn.sess.run(nn.init)
+    nn.update_training()
+    nn.stop_session()

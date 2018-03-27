@@ -570,3 +570,7 @@
 
 
     - completed the auto update -> implement this and test it
+    - tested the update from recent games
+    - add a button for this
+    - ALWAYS RUN FORM CT GUI FILE
+    - FIX THE FILE NAMES AND PATHS FOR DB
