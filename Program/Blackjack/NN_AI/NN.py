@@ -9,7 +9,7 @@ from CC_Agent import CC_Agent
 from Blackjack import Hand
 from NN_Move import NN_Move
 from Moves import Moves
-from Trainer import Trainer
+from Trainer import Init_Trainer
 from datetime import datetime
 
 class Q_Net():
@@ -246,7 +246,7 @@ class NN(CC_Agent):
     # REMOVE THIS HANDLE OUTSIDE OF NN?? OR I DUNNO
     def init_training(self, type="group_all"):
         # no context manager so that session does not have to be restarted every time a new move is needed
-        trainer = Trainer(self, training_params=self.train_params, training_type=type)
+        trainer = Init_Trainer(self, training_params=self.train_params, training_type=type)
         self.start_session()
         self.sess.run(self.init)
         trainer.train(self.sess)

@@ -8,17 +8,55 @@ from datetime import datetime
 import numpy as np
 import tensorflow as tf
 
+# todo split into composed classes => fresh train and pre batch train
 class Trainer:
-    def __init__(self, nn_inst, training_params=None, training_type="dealer_only"):
+    def __init__(self, nn_inst, training_params=None):
         self.NN = nn_inst
-        self.group_agents = {}
-        self.blackjack = self.init_blackjack(training_type)
+        self.exp_buffer = experience_buffer()
         self.parameters = training_params
-        # insert some default params
+        # todo insert some default params
         if training_params is None:
             self.parameters = {}
 
-    # initialises each hand and blackjack instance
+    def gen_step_reward(self, nn_hand_val_after, move, nn_winning):
+        agent_value = nn_hand_val_after
+        hand_val_norm_const = self.parameters["hand_val_norm_const"]
+        win_value = (agent_value + 1) * hand_val_norm_const # change this so that it is paramaterised
+        loss_value = (-agent_value - 1) * hand_val_norm_const
+        normal_reward = agent_value * hand_val_norm_const
+        scaled_value = 0
+        if move == Moves.HIT:
+            if agent_value > 21:
+                scaled_value = loss_value
+            else:
+                scaled_value = normal_reward
+        # rewards for standing
+        elif move == Moves.STAND:
+            if nn_winning:
+                scaled_value = normal_reward
+            else:
+                scaled_value = loss_value
+        return scaled_value
+
+    def gen_end_reward(self, agent_value, nn_in_winners):
+        hand_val_norm_const = self.parameters["hand_val_norm_const"]
+        win_value = (agent_value + 1) * hand_val_norm_const
+        loss_value = (-agent_value - 1) * hand_val_norm_const
+        scaled_value = 0
+        if nn_in_winners:
+            scaled_value = win_value
+        else:
+            scaled_value = loss_value
+        return scaled_value
+
+# training via internal blackjack environment of class
+# class defines and runs blackjack game and tehn updates the nn based on its actions
+class Init_Trainer(Trainer):
+    def __init__(self, nn_inst, training_params=None, training_type="dealer_only"):
+        super().__init__(nn_inst, training_params)
+        self.group_agents = {}
+        self.blackjack = self.init_blackjack(training_type)
+
     def init_blackjack(self, training_type):
         nn_hand = Blackjack.Hand(self.NN.ID)
         self.NN.Hand = nn_hand
@@ -47,7 +85,8 @@ class Trainer:
         self.group_agents["simple"] = CC_AI(hand=cc_ai_hand)
         hands["simple"] = cc_ai_hand
 
-    # TODO DECIDE HOW MANY OF THESE PARAMS YOU ACTUALLY WANT TO PASS
+        # TODO DECIDE HOW MANY OF THESE PARAMS YOU ACTUALLY WANT TO PASS
+
     def process_NN_agent_action(self, game_num, all_hands, game_state, episode_buffer, exp_buffer):
         explore_steps = self.parameters["explore_steps"]
         update_frequency = self.parameters["update_frequency"]
@@ -55,7 +94,7 @@ class Trainer:
         action = self.NN.get_move(all_hands, exploring)
         self.process_action(action)
         new_game_state = self.get_train_game_state(all_hands)
-        reward = self.gen_step_reward(action)
+        reward = self.gen_reward(action)
         action = Moves.convert_to_bit(action)
         # push action to buffer, for sampling later
         episode_buffer.append(np.reshape(np.array([game_state, action, reward,
@@ -66,7 +105,7 @@ class Trainer:
 
     def train(self, sess):
         train_iterations = self.parameters["train_steps"]
-        exp_buffer = experience_buffer()
+
         self.sess = sess
         self.NN.Target_Network.updateTarget(sess)
 
@@ -80,20 +119,21 @@ class Trainer:
             # step in game, get reward and new state
             while self.blackjack.continue_game:  # change this to just take a move when it's the AIs turn
                 current_agent = self.blackjack.get_current_player()
-                #print(current_agent.id)
+                # print(current_agent.id)
                 if current_agent.id != self.NN.ID:
                     move = self.group_agents[current_agent.id].get_move(all_hands)
                     self.process_action(move)
-                    new_game_state = self.get_train_game_state(all_hands)  # TODO DECIDE IF YOU NEED A DIFFERENT STATE COPARED TO OTHER AGENT
+                    new_game_state = self.get_train_game_state(
+                        all_hands)  # TODO DECIDE IF YOU NEED A DIFFERENT STATE COPARED TO OTHER AGENT
                 else:  # is the nn agent's turn
                     # getting state and chances is execute twice, for a single state, maybe simplify this so that you can pass it here
                     action, new_game_state = self.process_NN_agent_action(game_num, all_hands, game_state,
-                                                                          episode_buffer, exp_buffer)
-                game_state = new_game_state # update the game state
+                                                                          episode_buffer, self.exp_buffer)
+                game_state = new_game_state  # update the game state
             # PROCESS END OF GAME
             # GET THE END OF GAME REWARD
             self.end_game()
-            reward = self.gen_step_reward()
+            reward = self.gen_reward()
             if action is None:
                 print("NO MOVES EXECUTED")
             # decide if you want to append this
@@ -103,13 +143,13 @@ class Trainer:
             # Add the episode to the experience buffer
             bufferArray = np.array(episode_buffer)
             episodeBuffer = list(zip(bufferArray))
-            exp_buffer.add(episodeBuffer)
+            self.exp_buffer.add(episodeBuffer)
             self.reset()
         self.NN.save_model()
 
     def get_train_game_state(self, all_hands):
         toReturn = []  # [agent_hand_val_normalised, best_player_hand_val_normalised, chances (in order)]
-        AI_and_best_hand = self.NN.get_state(all_hands) # should return [agent_hand_val, best_player_val]
+        AI_and_best_hand = self.NN.get_state(all_hands)  # should return [agent_hand_val, best_player_val]
         chances = self.NN.get_chances(AI_and_best_hand)
         for hand in AI_and_best_hand:  # adds the hand to the return array
             hand_value_normalised = hand.get_value() * self.parameters["hand_val_norm_const"]
@@ -123,46 +163,32 @@ class Trainer:
             # check if current turn (or check in the training mainloop)
             # hit
             self.blackjack.hit()
-        elif action == Moves.STAND: # defensive programming?
+        elif action == Moves.STAND:  # defensive programming?
             self.blackjack.stand()
         else:
             print("invalid move")
+
 
     # generate reward based on how close to 21
     # loss if bust
     # extra reward if win
     # normalise all rewards
     # TODO SORT OUT THE REWARD SYSTEM
-    def gen_step_reward(self, move=None):
+    # nn_hand_val_after, move, nn_winning
+    def gen_reward(self, move=None):
         nn_hand = self.blackjack.players["nn"]
-        hand_val_norm_const = self.parameters["hand_val_norm_const"]
-
         agent_value = nn_hand.get_value()
         current_winners = self.blackjack.compare_hands()
-        win_value = (agent_value + 1) * hand_val_norm_const
-        loss_value = (-agent_value - 1) * hand_val_norm_const
-        normal_reward = agent_value * hand_val_norm_const
         scaled_value = 0
         # Win and loss rewards regardless of last action - if absolute winner/loser
-        if move is None: # end of game rewards
+        if move is None:  # end of game rewards
             if self.blackjack.check_game_over():
-                if nn_hand.id in current_winners:
-                    scaled_value = win_value
-                else:
-                    scaled_value = loss_value
-            # rewards for hit and cost for bust
-        elif move == Moves.HIT:
-            if nn_hand.bust:
-                scaled_value = loss_value
-            else:
-                scaled_value = normal_reward
-        # rewards for standing
-        elif move == Moves.STAND:
-            if nn_hand.id in current_winners:
-                scaled_value = normal_reward
-            else:
-                scaled_value = loss_value
-
+                nn_is_winner = nn_hand.id in current_winners
+                scaled_value = super().gen_end_reward(agent_value, nn_is_winner)
+        # rewards for hit and cost for bust
+        else:
+            nn_winning = nn_hand.id in current_winners
+            scaled_value = super().gen_step_reward(agent_value, move, nn_winning)
         return scaled_value
 
     # decrement cc's
@@ -179,3 +205,9 @@ class Trainer:
     def reset(self):
         self.NN.rnn_state_reset()  # Reset the recurrent layer's hidden state
         self.blackjack.reset()
+
+
+# training via querying the database
+class Batch_Trainer(Trainer):
+    def __init__(self, nn_inst, training_params=None):
+        super().__init__(nn_inst, training_params)
