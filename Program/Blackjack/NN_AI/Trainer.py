@@ -260,6 +260,21 @@ class Batch_Trainer(Trainer):
         }
         return chances, hand_val_res
 
+    # returns the games in store for the nn to train from
+    def get_num_games_to_train(self):
+        # cross param sql
+        q = """
+            SELECT COUNT(Card_Counter_Record.*)
+            FROM Card_Counter_Record, Moves
+            WHERE Card_Counter_Record.trained=0 AND Moves.player_id='{0}' AND Moves.game_id=Card_Counter_Record.game_id
+                  AND Moves.turn_num=Card_Counter_Record.turn_num;
+            """.format(self.NN.ID)
+        games = self.db_wrapper.execute_queries(q, get_result=True)
+        if games == []:
+            return 0
+        else:
+            return games[0][0]
+
     # updates the network with the new games in teh db
     # todo test test test test
     def train_new_games(self):

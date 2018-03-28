@@ -35,9 +35,14 @@ class Init_Win(Window):
                                   command=lambda: self.open_win("get_data"))
             self.data_win_btn.grid(row=4, column=0)
 
-        self.back_btn = tk.Button(fr, text="Back", command=self.back)
-        self.back_btn.grid(row=5, column=0)
+            self.update_nn_btn = tk.Button(fr, text="Update NN", command=self.update_nn)
+            self.update_nn_btn.grid(row=5, column=0)
 
+            self.nn_update_result_lbl = tk.Label(fr)
+
+
+        self.back_btn = tk.Button(fr, text="Back", command=self.back)
+        self.back_btn.grid(row=7, column=0)
 
     # hides the main menu and runs the next window
     def open_win(self, win_to_open):
@@ -50,6 +55,11 @@ class Init_Win(Window):
             self.gen_stat = Gen_Win(ct=self.ct, root=self, parent=tk.Toplevel())
         elif win_to_open == "get_data":
             self.data_win = Data_Win(ct=self.ct, root=self, parent=tk.Toplevel())
+
+    def update_nn(self):
+        self.ct.update_nn()
+        self.nn_update_result_lbl.grid(row=7, column=0)
+        self.nn_update_result_lbl.config(text="Done")
 
     def back(self):
         self.root.show()

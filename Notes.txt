@@ -583,4 +583,9 @@
                   pword: Pw1
     - user user: uname: mr_aqa
                  pword: Pw2
+    - added buton to update nn
+    - added win margin dist method
+    - abstracted away distribution frequency functions
+
+    - CLEAN UP PLOT METHOD ARGUMENTS
 
