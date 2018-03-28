@@ -66,7 +66,7 @@ class Users_DB(DB_Wrapper):
         if not unique_username or not acceptable_password:
             return False
         hashed_password = str(self.hash_password(password))
-        query = 'INSERT INTO "users" (username, password) VALUES ("' + username + '", "' + hashed_password + '")'
+        query = 'INSERT INTO users (username, password) VALUES ("{0}", "{1}")'.format(username, hashed_password)
         #params = {"username": username, "password": hashed_password}
         self.execute_queries(query)
         return True
@@ -84,17 +84,30 @@ class Users_DB(DB_Wrapper):
         # checkpassword from record,
         # if username does not exist or password is incorrect, return false
         query = "SELECT * FROM users WHERE username='{0}'".format(username)
-        result = self.execute_queries(query, get_result=True)[0]
+        result = self.execute_queries(query, get_result=True)
         if result == []:
             return False
+        result = result[0]
         hased_pw = result[1]
         return (self.verify_password(password, hased_pw))
 
+    # pass in username and password and get back the user type
+    def get_user_type(self, username, password):
+        if self.check_login(username, password) == False:
+            return False
+        q = """
+            SELECT type
+            FROM users
+            WHERE username='{0}'
+            """.format(username)
+        res = self.execute_queries(q, get_result=True)
+        return res[0][0]
+
 if __name__ == "__main__":
-    u_name = "SwaggyShaggy99"
+    u_name = "SwaggyShaggy999"
     p_word = "Adlfkjgklf3"
 
-    u_db_wrapper = Users_DB("Blackjack_old.sqlite")
+    u_db_wrapper = Users_DB("test_db.sqlite")
     u_db_wrapper.execute_queries_from_file("Create_Users_Table")
     u_db_wrapper.execute_queries("SELECT * FROM users WHERE username='SwaggyShaggy99'")
     print("acceptable pword", u_db_wrapper.check_acceptable_password(p_word))
@@ -102,4 +115,5 @@ if __name__ == "__main__":
     print("unique uname after insertion", u_db_wrapper.check_unique_username(u_name))
     u_db_wrapper.display_all_records("users")
     print(u_db_wrapper.check_login(u_name, p_word))
-    remove("Blackjack_old.sqlite")
+    print(u_db_wrapper.get_user_type(u_name, p_word))
+   # remove("Blackjack_old.sqlite")

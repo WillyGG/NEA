@@ -574,3 +574,7 @@
     - add a button for this
     - ALWAYS RUN FORM CT GUI FILE
     - FIX THE FILE NAMES AND PATHS FOR DB
+
+   28 March:
+    - Created user type field for users
+    - began working on login window and gui

@@ -1,13 +1,16 @@
 from GUI import Window
 import tkinter as tk
 from Comparison_Tool import Comparison_Tool
+import sys,os
+sys.path.append(os.path.realpath("../DB"))
+from Users_DB import Users_DB
 
 # main menu class - window with buttons to traverse the gui
 class Init_Win(Window):
-    def __init__(self, parent=None, geometry="400x400"):
+    def __init__(self, parent, geometry="400x400"):
         self.ID = "Main_Menu"
         self.ct = Comparison_Tool()
-        super().__init__(tk.Tk(), geometry)
+        super().__init__(parent, geometry)
 
     def build_widgets(self, fr):
         self.title = tk.Label(fr, text="Comparison Tool")
@@ -259,7 +262,65 @@ class Data_Win(Window):
         self.root.show()
         self.destroy()
 
+class Login_Win(Window):
+    def __init__(self, parent=None, geometry="400x400"):
+        super().__init__(tk.Tk(), geometry)
+        self.ID = "Login"
+        self.db_wrapper = Users_DB("DB/Blackjack.sqlite")
+        self.uname_default = True
+        self.pword_default = True
+
+
+    def build_widgets(self, fr):
+        self.title_lbl = tk.Label(fr, text="Login")
+        self.title_lbl.grid(row=0, column=0)
+
+        self.un_ent = tk.Entry(fr, width=32)
+        self.un_ent.insert(0, "Username")
+        self.un_ent.bind("<Button-1>", lambda *args: self.clear_default("un"))
+        self.un_ent.grid(row=1, column=0)
+
+        self.pw_ent = tk.Entry(fr, show="*", width=32)
+        self.pw_ent.insert(0, "Password")
+        self.pw_ent.bind("<Button-1>", lambda *args: self.clear_default("pw"))
+        self.pw_ent.grid(row=2, column=0)
+
+        self.login_btn = tk.Button(fr, text="Login", command=lambda: self.login(self.un_ent.get(), self.pw_ent.get()))
+        self.login_btn.grid(row=3, column=0)
+
+        self.signup_btn = tk.Button(fr, text="Sign up")
+        self.signup_btn.grid(row=4, column=0)
+
+        self.res_lbl = tk.Label(fr, text="")
+        self.res_lbl.grid(row=5, column=0)
+
+    def clear_default(self, type, *args):
+        if self.uname_default and type == "un":
+            self.uname_default = False
+            self.un_ent.delete(0, "end")
+        elif self.pword_default and type == "pw":
+            self.pword_default = False
+            self.pw_ent.delete(0, "end")
+
+    def login(self, username, password):
+        valid_login = self.db_wrapper.check_login(username, password)
+        if not valid_login:
+            self.res_lbl.config(text="Invalid Login")
+            return False
+        self.res_lbl.config(text="Login Successful!")
+        user_type = self.db_wrapper.get_user_type()
+        self.open_win(user_type)
+        return True
+
+    def open_win(self, user_type):
+        self.hide()
+        self.menu = Init_Win(tk.Toplevel)
+
+
 if __name__ == "__main__":
-    g = Init_Win()
+    log_win = Login_Win()
+    log_win.run()
+
+    #g = Init_Win(tk.Tk())
     #g.run()
-    g.ct.update_nn()
+    #g.ct.update_nn()
