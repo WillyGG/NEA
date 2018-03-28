@@ -7,10 +7,12 @@ from Users_DB import Users_DB
 
 # main menu class - window with buttons to traverse the gui
 class Init_Win(Window):
-    def __init__(self, parent, geometry="400x400"):
+    def __init__(self, parent, user_type="user", root=None):
         self.ID = "Main_Menu"
         self.ct = Comparison_Tool()
-        super().__init__(parent, geometry)
+        self.user_type = user_type
+        self.root = root
+        super().__init__(parent)
 
     def build_widgets(self, fr):
         self.title = tk.Label(fr, text="Comparison Tool")
@@ -24,36 +26,46 @@ class Init_Win(Window):
                                       command=lambda: self.open_win("rel_comp"))
         self.rel_comp_btn.grid(row=2, column=0)
 
-        self.gen_stat_btn = tk.Button(fr, text="General Statistics",
-                                      command=lambda: self.open_win("gen_stat"))
-        self.gen_stat_btn.grid(row=3, column=0)
+        if self.user_type == "admin":
+            self.gen_stat_btn = tk.Button(fr, text="General Statistics",
+                                          command=lambda: self.open_win("gen_stat"))
+            self.gen_stat_btn.grid(row=3, column=0)
 
-        self.data_win_btn = tk.Button(fr, text="Gen Data",
-                              command=lambda: self.open_win("get_data"))
-        self.data_win_btn.grid(row=4, column=0)
+            self.data_win_btn = tk.Button(fr, text="Gen Data",
+                                  command=lambda: self.open_win("get_data"))
+            self.data_win_btn.grid(row=4, column=0)
+
+        self.back_btn = tk.Button(fr, text="Back", command=self.back)
+        self.back_btn.grid(row=5, column=0)
+
 
     # hides the main menu and runs the next window
     def open_win(self, win_to_open):
         self.hide()
         if win_to_open == "iso_comp":
-            self.isolated_comp = Iso_Win(ct=self.ct, root=self, parent=tk.Toplevel())
+            self.isolated_comp = Iso_Win(ct=self.ct, root=self, parent=tk.Toplevel(), user_type=self.user_type)
         elif win_to_open == "rel_comp":
-            self.rel_comp = Rel_Win(ct=self.ct, root=self, parent=tk.Toplevel())
+            self.rel_comp = Rel_Win(ct=self.ct, root=self, parent=tk.Toplevel(), user_type=self.user_type)
         elif win_to_open == "gen_stat":
             self.gen_stat = Gen_Win(ct=self.ct, root=self, parent=tk.Toplevel())
         elif win_to_open == "get_data":
             self.data_win = Data_Win(ct=self.ct, root=self, parent=tk.Toplevel())
 
+    def back(self):
+        self.root.show()
+        self.destroy()
+
 # isolated user comparison
 # enter user name and get data about them, in isolation
 # todo turn this and the other window
 class Iso_Win(Window):
-    def __init__(self, ct, root, parent, geometry="400x400"):
-        super().__init__(parent, geometry)
+    def __init__(self, ct, root, parent, user_type="user"):
+        super().__init__(parent)
         self.ID = "iso_comp"
         self.ct = ct
         self.root = root
         self.default_text = True
+        self.user_type = user_type
 
     def build_widgets(self, fr):
         self.title = tk.Label(fr, text="Isolated Comparison")
@@ -75,8 +87,9 @@ class Iso_Win(Window):
         self.res_label.grid(row=5,column=0)
 
     def wr_command(self, id):
+        agent_names = [Comparison_Tool.ID_NN, Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_SIMPLE, Comparison_Tool.ID_RAND_AI]
         valid_id = self.ct.db_wrapper.check_valid_id(id)
-        if not valid_id:
+        if not valid_id or (self.user_type != "admin" and id in agent_names):
             self.res_label.config(text="User not Found")
             return False
         self.res_label.config(text="User Found")
@@ -92,11 +105,12 @@ class Iso_Win(Window):
         self.destroy()
 
 class Rel_Win(Window):
-    def __init__(self, ct, root, parent, geometry="400x400"):
-        super().__init__(parent, geometry)
+    def __init__(self, ct, root, parent, user_type="user"):
+        super().__init__(parent)
         self.ID = "rel_comp"
         self.ct = ct
         self.root = root
+        self.user_type = user_type
 
         self.default_text_1 = True
         self.default_text_2 = True
@@ -275,20 +289,20 @@ class Login_Win(Window):
         self.title_lbl = tk.Label(fr, text="Login")
         self.title_lbl.grid(row=0, column=0)
 
-        self.un_ent = tk.Entry(fr, width=32)
-        self.un_ent.insert(0, "Username")
+        self.un_ent = tk.Entry(fr)
+        self.un_ent.insert(0, "admin") # todo CHANGE THIS
         self.un_ent.bind("<Button-1>", lambda *args: self.clear_default("un"))
         self.un_ent.grid(row=1, column=0)
 
-        self.pw_ent = tk.Entry(fr, show="*", width=32)
-        self.pw_ent.insert(0, "Password")
+        self.pw_ent = tk.Entry(fr, show="*")
+        self.pw_ent.insert(0, "Pw1") # TODO CHANGE THIS
         self.pw_ent.bind("<Button-1>", lambda *args: self.clear_default("pw"))
         self.pw_ent.grid(row=2, column=0)
 
         self.login_btn = tk.Button(fr, text="Login", command=lambda: self.login(self.un_ent.get(), self.pw_ent.get()))
         self.login_btn.grid(row=3, column=0)
 
-        self.signup_btn = tk.Button(fr, text="Sign up")
+        self.signup_btn = tk.Button(fr, text="Sign up", command=lambda: self.sign_up(self.un_ent.get(), self.pw_ent.get()))
         self.signup_btn.grid(row=4, column=0)
 
         self.res_lbl = tk.Label(fr, text="")
@@ -308,17 +322,31 @@ class Login_Win(Window):
             self.res_lbl.config(text="Invalid Login")
             return False
         self.res_lbl.config(text="Login Successful!")
-        user_type = self.db_wrapper.get_user_type()
+        user_type = self.db_wrapper.get_user_type(username, password)
         self.open_win(user_type)
         return True
 
+    # creates a new user
+    # todo create specific error message if signup not successful - ie pw or uname error
+    # only creates users - cannot create admins
+    def sign_up(self, username, password):
+        result = self.db_wrapper.create_new_user(username, password, type="user")
+        result_text = ""
+        if result == False:
+            result_text = "Signup Unsuccessful"
+        else:
+            result_text = "Signup Successful!"
+        self.res_lbl.config(text=result_text)
+
+
     def open_win(self, user_type):
         self.hide()
-        self.menu = Init_Win(tk.Toplevel)
+        self.menu = Init_Win(tk.Toplevel(), user_type, root=self)
 
 
 if __name__ == "__main__":
     log_win = Login_Win()
+    print(log_win.db_wrapper.create_new_user("mr_aqa", "Pw2"))
     log_win.run()
 
     #g = Init_Win(tk.Tk())

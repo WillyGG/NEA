@@ -578,3 +578,9 @@
    28 March:
     - Created user type field for users
     - began working on login window and gui
+    - implemented and tested the user system gui
+    - admin user: uname: admin
+                  pword: Pw1
+    - user user: uname: mr_aqa
+                 pword: Pw2
+

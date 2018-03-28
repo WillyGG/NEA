@@ -13,11 +13,15 @@ from os import remove
 class Users_DB(DB_Wrapper):
     def __init__(self, db_path):
         super().__init__(db_path)
+        self.init_table()
+
+    def init_table(self):
+        self.execute_queries_from_file("DB/Create_Users_Table.sql")
 
     # checks if passed username is unique
     # true => unique, false => not unique
     def check_unique_username(self, username):
-        query = "SELECT username FROM users WHERE username='" + username + "'"
+        query = "SELECT username FROM users WHERE username='{0}'".format(username)
         query_result = self.execute_queries(query, get_result=True)
 
         # if no value is returned from this query, the username is unique
@@ -60,13 +64,15 @@ class Users_DB(DB_Wrapper):
     # creates a new user and inserts them into the database
     # returns false if the password or username is not valid
     # returns true if successful insertion
-    def create_new_user(self, username, password):
+    def create_new_user(self, username, password, type="user"):
         unique_username = self.check_unique_username(username)
         acceptable_password = self.check_acceptable_password(password)
         if not unique_username or not acceptable_password:
             return False
         hashed_password = str(self.hash_password(password))
-        query = 'INSERT INTO users (username, password) VALUES ("{0}", "{1}")'.format(username, hashed_password)
+        query = 'INSERT INTO users (username, password, type) VALUES ("{0}", "{1}", "{2}")'.format(username,
+                                                                                                   hashed_password,
+                                                                                                   type)
         #params = {"username": username, "password": hashed_password}
         self.execute_queries(query)
         return True
