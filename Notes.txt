@@ -605,3 +605,7 @@
     - remade database for last time -> 50,000 games
     - just need to add show aggression over time, and add gui buttons for it
     - added gui buttons for aggression
+
+    - completed mapping method for mapping simple params to aggression ratings
+        - {'default': 0.06470265118696097, 'passive': 0.13558855406726272, 'aggressive': 0.0447233085725083}
+        - maybe rethink the labelling for the parameters -> passive param is rated more aggressive than the aggresive setting =D

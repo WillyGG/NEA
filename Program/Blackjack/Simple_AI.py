@@ -59,7 +59,3 @@ class Simple_AI(Agent):
 
     def update_end_game(self, new_cards):
         pass
-
-class Simple_Agent_Interface:
-    def __init__(self):
-        pass

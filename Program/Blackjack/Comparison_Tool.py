@@ -28,6 +28,10 @@ class Comparison_Tool:
         self.blackjack_val = 21
         # Dictionary holding all the hands of the agents
         self.db_wrapper = CT_Wrapper("DB/blackjack.sqlite") # change this to the normal one
+        self.agent_params = {}
+        self.agents = {}
+        self.agents_hands = {}
+
 
     def init_agents(self):
         # The instances of all the agents
@@ -37,6 +41,13 @@ class Comparison_Tool:
             Comparison_Tool.ID_CC_AI: CC_AI(),
             Comparison_Tool.ID_RAND_AI: Rand_AI()
         }
+
+        # set the params of the agents
+        self.set_params()
+        for agent_id in self.agents.keys():
+            # rand does not have parameters - pass
+            self.agents[agent_id].set_parameters(self.agent_params[agent_id])
+
         self.agents_hands = dict()
         self.agents_hands["dealer"] = BJ.Dealer_Hand()
         for agent_key in self.agents.keys():
@@ -47,22 +58,19 @@ class Comparison_Tool:
             agent.hand = self.agents_hands[agent_id]
 
     # sets the parametrs, takes in a dictionary as an argument to set the parameters
-    def set_params(self, **kwargs):
-        if "nn" not in kwargs:
-            kwargs["nn"] = "default"
-        if "simple" not in kwargs:
-            kwargs["simple"] = "default"
-        if "cc_ai" not in kwargs:
-            kwargs["cc_ai"] = "default"
-
-        for key in self.agents.keys():
-            self.agents[key].set_parameters(kwargs[key])
+    def set_params(self):
+        self.agent_params = {}
+        for ID in [Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE, Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_RAND_AI]:
+            if ID not in self.agent_params:
+                self.agent_params[ID] = "default"
+        return self.agent_params
 
     # run X games of blackjack, get the winner then return it
     # create and manage a mainloop game of blackjack
     # pass the id's of the agents who are playing - DEALER IS NOT AUTOMATICALLY INCLUDED
-    #todo make this function not so large - abstract away all the database queue stuff
-    def get_data(self, *args, no_games=1000):
+    # todo make this function not so large - abstract away all the database queue stuff
+    # todo abstract away all the aggression and win rates stuff too
+    def get_data(self, *args, no_games=1000, data_get="win"):
         # if a list of the players has been passed in
         if isinstance(args[0], list):
             args = args[0]
@@ -74,10 +82,16 @@ class Comparison_Tool:
 
         agent_hands_playing = {}
         agents_playing = {}
+        if data_get == "win":
+            win_rates = {}
+        elif data_get == "ids":
+            game_ids = []
         for id_agent in args:
             if id_agent in self.agents_hands:
                 agent_hands_playing[id_agent] = self.agents_hands[id_agent]
                 agents_playing[id_agent] = self.agents[id_agent]
+                if data_get == "win":
+                    win_rates[id_agent] = 0
 
         cc = Card_Counter()
         blackjack = BJ.Blackjack(agent_hands_playing) # local instance of blackjack
@@ -88,7 +102,7 @@ class Comparison_Tool:
         # play the games and get the win rates
         for game_num in range(no_games):
             if game_num % 250 == 0:
-                print(game_num)
+                print("game_num:", game_num)
             while blackjack.continue_game:
                 turn_num = blackjack.turnNumber
                 ID_current_player = blackjack.get_current_player().id
@@ -128,6 +142,10 @@ class Comparison_Tool:
             winning_hands = []
             for winner_id in winners:
                 winning_hands.append(agent_hands_playing[winner_id])
+                if data_get == "win":
+                    if winner_id == "dealer":
+                        continue
+                    win_rates[winner_id] += 1
             game_info = (game_id, winners, winning_hands, blackjack.turnNumber, agents_playing)
             game_q.push(game_info)
 
@@ -138,14 +156,42 @@ class Comparison_Tool:
             self.update_agents(agents_playing, blackjack)
             cc.decrement_cards(blackjack.new_cards)
             blackjack.reset()
+
+            if data_get == "ids":
+                game_ids.append(game_id)
             game_id += 1
 
         # convert win records to % and return the win rates
         self.empty_queue_push(move_q, "move")
         self.empty_queue_push(game_q, "game")
         self.empty_queue_push(cc_q, "cc")
-        win_rates = 0 # TODO CONVERT THIS TO QUERY THE DATABASE AND GET THE WINRATES
-        return win_rates
+
+        # normalise win_rates
+        if data_get == "win":
+            for key in win_rates.keys():
+                win_rates[key] /= no_games
+
+        if data_get == "win":
+            return win_rates
+        elif data_get == "ids":
+            return game_ids
+
+    #
+    def map_params_aggression(self):
+        ids = {}
+        param_agg = {} # map between parameter type and aggression
+        for param in Comparison_Tool.param_types:
+            self.agent_params[Comparison_Tool.ID_SIMPLE] = param
+            ids[param] = self.get_data(Comparison_Tool.ID_SIMPLE, no_games=100, data_get="ids")
+        for key in ids.keys():
+            game_ids = ids[key]
+            total = 0
+            no_games = len(game_ids)
+            for game_id in game_ids:
+                aggr_rating = self.get_aggressive_rating_game(game_id, player_ids=Comparison_Tool.ID_SIMPLE)[Comparison_Tool.ID_SIMPLE]
+                total += aggr_rating
+            param_agg[key] = (total/no_games)
+        return param_agg
 
     # method for emptying a db queue and pushing all the queries
     # pass in the queue and a string showing the type of queue "move" or "game"
@@ -788,6 +834,8 @@ class Comparison_Tool:
 
 if __name__ == "__main__":
     ct = Comparison_Tool()
+    print(ct.map_params_aggression())
+
     #ct.get_data(Comparison_Tool.ID_NN, Comparison_Tool.ID_CC_AI,Comparison_Tool.ID_SIMPLE, Comparison_Tool.ID_RAND_AI, no_games=2000)
     #ct.output_aggression_over_time("nn")
 

@@ -19,7 +19,7 @@ class CC_AI(CC_Agent):
         bestHandValue = game_state[1].get_value()
 
         winMargin =  playerHandValue - bestHandValue
-        belowBestPlayer = not chances["alreadyExceedingWinningPlayer"] and bestHandValue <= 21
+        belowBestPlayer = (winMargin < 0) and bestHandValue <= 21
         belowBustThreshold = chances["bust"] <= self.parameters["bust_tol"]
         highBlackjackChance = chances["blackjack"] >= self.parameters["blackjack_thresh"]
         belowWinMarginThresh = winMargin < self.parameters["winMarginThresh"]
@@ -42,11 +42,13 @@ class CC_AI(CC_Agent):
     def set_parameters(self, setting="default"):
         # Change these parameters to change the behaviour of the CCAI
         # Change these to personality parameters, then calculate these thresholds based on parameters
+        if isinstance(setting, dict):
+            self.parameters = setting #todo check to see if all the keys are in here
+
         if setting == "default":
             self.parameters = {
                 "bust_tol" : 0.5,
                 "blackjack_thresh" : 0.2,
-                "exceedBestPlayer" : 0.3,
                 "riskTolerance" : 1.3,
                 "winMarginThresh" : 5,
                 "minHandThresh" : 15
