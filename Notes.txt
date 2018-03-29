@@ -594,3 +594,8 @@
     - created map of hit values to aggression, based on bust rates if hit and win rates if stood
     - # eg of 1 => hitting when hit has prob of 1 to go bust and prob of 1 to win if stood
     - # eg of -1 => standing when hitting would have 0 chance of going bust and standing has 0 chance of winning
+
+    -> IGNORE ABOVE
+    - changed from absolute scale (like above) to relative scale - now the hit MOST LIKELY to go but and stand wouldve won is mapped to 1
+      (for example, before this move was mapped to 0.8)
+    - IGNORE THE COMMENTS ON METHODS FOR NOW
