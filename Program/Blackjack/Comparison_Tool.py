@@ -672,17 +672,19 @@ class Comparison_Tool:
         hit_map = self.map_hit_val_to_aggression()
         stand_map = self.map_stand_val_to_aggression()
 
-        x1 = sorted(list(hit_map.keys()))
+        hit_map_keys = hit_map.keys()
+        x1 = sorted([int(key) for key in hit_map_keys])
         print(x1)
         y1 = []
         for x in x1:
-            y1.append(hit_map[x])
+            y1.append(hit_map[str(x)])
 
-        x2 = sorted(list(stand_map.keys()))
+        stand_map_keys = stand_map.keys()
+        x2 = sorted([int(key) for key in stand_map_keys])
         print(x2)
         y2 = []
         for x in x2:
-            y2.append(stand_map[x])
+            y2.append(stand_map[str(x)])
 
         fig = plt.figure()
         ax = fig.add_subplot(111)
