@@ -12,7 +12,7 @@ from os import remove
 from math import sqrt
 
 class CT_Wrapper(DB_Wrapper):
-    def __init__(self, db_path="Blackjack_old.sqlite"):
+    def __init__(self, db_path="blackjack.sqlite"):
         super().__init__(db_path)
         self.__tables_id = ["Agents", "Moves", "Game_Record"]
         self.init_tables()
@@ -329,7 +329,5 @@ if __name__ == "__main__":
     for i in cursor:
         print(i)
     connection.close()
-
-    remove("Blackjack_old.sqlite")
 else:
     db_dir_path = "DB/"

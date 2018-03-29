@@ -87,7 +87,7 @@ class DB_Wrapper:
             print(row)
 
 if __name__ == "__main__":
-    db = DB("Blackjack_old.sqlite")
+    db = DB("blackjack.sqlite")
     db.execute_queries_from_file("Create_Agents_Table")
     db.execute_queries_from_file("Populate_Agents")
     db.execute_queries_from_file("Create_Games_Record")

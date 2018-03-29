@@ -67,7 +67,6 @@ class Init_Win(Window):
 
 # isolated user comparison
 # enter user name and get data about them, in isolation
-# todo turn this and the other window
 class Iso_Win(Window):
     def __init__(self, ct, root, parent, user_type="user"):
         super().__init__(parent)
@@ -87,23 +86,30 @@ class Iso_Win(Window):
         self.un_entry.grid(row=1, column=0)
 
         self.build_wr = tk.Button(fr, text="Output Winrates",
-                                  command=lambda: self.wr_command(self.un_entry.get()))
+                                  command=lambda: self.open_command(self.un_entry.get(), "wr"))
         self.build_wr.grid(row=2, column=0)
 
+        self.build_ar = tk.Button(fr, text="Output Aggression",
+                                  command=lambda: self.open_command(self.un_entry.get(), "ar"))
+        self.build_ar.grid(row=3, column=0)
+
         self.back_btn = tk.Button(fr, text="Back", command=self.back)
-        self.back_btn.grid(row=3, column=0)
+        self.back_btn.grid(row=4, column=0)
 
         self.res_label = tk.Label(fr, text="")
         self.res_label.grid(row=5,column=0)
 
-    def wr_command(self, id):
+    def open_command(self, id, type):
         agent_names = [Comparison_Tool.ID_NN, Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_SIMPLE, Comparison_Tool.ID_RAND_AI]
         valid_id = self.ct.db_wrapper.check_valid_id(id)
         if not valid_id or (self.user_type != "admin" and id in agent_names):
             self.res_label.config(text="User not Found")
             return False
         self.res_label.config(text="User Found")
-        self.ct.output_player_wr(id)
+        if type == "wr":
+            self.ct.output_player_wr(id)
+        elif type == "ar":
+            self.ct.output_aggression_over_time(id)
 
     def clear_default(self, *args):
         if self.default_text:
@@ -187,8 +193,12 @@ class Gen_Win(Window):
                                          command=lambda: self.display_dist_cmd("hit_bust"))
         self.hit_vs_bust_btn.grid(row=4, column=0)
 
+        self.aggr_vs_wr_btn = tk.Button(fr, text="Aggression Rating Vs Win Rate",
+                                        command=lambda: self.display_dist_cmd("aggr_win"))
+        self.aggr_vs_wr_btn.grid(row=5, column=0)
+
         self.back_btn = tk.Button(fr, text="Back", command=self.back)
-        self.back_btn.grid(row=5, column=0)
+        self.back_btn.grid(row=6, column=0)
 
     def display_dist_cmd(self, dist_type):
         if dist_type == "hit_dist":
@@ -199,6 +209,8 @@ class Gen_Win(Window):
             self.ct.output_stand_vs_wr()
         elif dist_type == "hit_bust":
             self.ct.output_hit_vs_br()
+        elif dist_type == "aggr_win":
+            self.ct.output_aggression_win_relation()
 
     def back(self):
         self.root.show()
@@ -356,6 +368,7 @@ class Login_Win(Window):
 
 if __name__ == "__main__":
     log_win = Login_Win()
+    log_win.db_wrapper.create_new_user("admin", "Pw1", type="admin")
     print(log_win.db_wrapper.create_new_user("mr_aqa", "Pw2"))
     log_win.run()
 

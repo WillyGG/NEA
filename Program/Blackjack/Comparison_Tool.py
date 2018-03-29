@@ -27,7 +27,7 @@ class Comparison_Tool:
     def __init__(self):
         self.blackjack_val = 21
         # Dictionary holding all the hands of the agents
-        self.db_wrapper = CT_Wrapper("DB/Blackjack_old.sqlite") # change this to the normal one
+        self.db_wrapper = CT_Wrapper("DB/blackjack.sqlite") # change this to the normal one
 
     def init_agents(self):
         # The instances of all the agents
@@ -61,7 +61,6 @@ class Comparison_Tool:
     # run X games of blackjack, get the winner then return it
     # create and manage a mainloop game of blackjack
     # pass the id's of the agents who are playing - DEALER IS NOT AUTOMATICALLY INCLUDED
-    # TODO TEST TF OUT OF THIS
     #todo make this function not so large - abstract away all the database queue stuff
     def get_data(self, *args, no_games=1000):
         # if a list of the players has been passed in
@@ -90,7 +89,6 @@ class Comparison_Tool:
         for game_num in range(no_games):
             if game_num % 250 == 0:
                 print(game_num)
-
             while blackjack.continue_game:
                 turn_num = blackjack.turnNumber
                 ID_current_player = blackjack.get_current_player().id
@@ -143,7 +141,6 @@ class Comparison_Tool:
             game_id += 1
 
         # convert win records to % and return the win rates
-        print("yeet")
         self.empty_queue_push(move_q, "move")
         self.empty_queue_push(game_q, "game")
         self.empty_queue_push(cc_q, "cc")
@@ -153,6 +150,7 @@ class Comparison_Tool:
     # method for emptying a db queue and pushing all the queries
     # pass in the queue and a string showing the type of queue "move" or "game"
     def empty_queue_push(self, queue, q_type):
+        print("Emptying q: " + q_type)
         if q_type == "move":
             # push all moves to db
             while not queue.isEmpty():
@@ -320,17 +318,8 @@ class Comparison_Tool:
         avg_wr = self.db_wrapper.get_avg_wr()
         avg_x = list(x_vals)
         avg_y = [avg_wr for d in range(len(avg_x))]
-
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-
-        fig.suptitle(id + "'s Win Rate Over Time")
-        plt.xlabel("num games")
-        plt.ylabel("Win Rate")
-
-        ax.plot(x_vals, y_vals)
-        ax.plot(avg_x, avg_y)
-
+        self.plot_2d(x_vals, y_vals, x2=avg_x, y2=avg_y, label=id+" Winrate", label2="Avg. Winrate",
+                     title="Average winrate over time", x_lbl="no games", y_lbl="Win rate")
         plt.show()
 
         #self.output_2d(x_vals, y_vals, title=id + "'s Win Rate Over Time", x_lbl="no games",
@@ -388,6 +377,7 @@ class Comparison_Tool:
             aggr_mapping[key] *= -1
         return aggr_mapping
 
+    # pass in a dictionary and normalise all the values within it
     def normalise_dict(self, d):
         d_vals = d.values()
         max_val = max(d_vals)
@@ -446,6 +436,7 @@ class Comparison_Tool:
             aggr_rating = stand_map[str(hand_val_before)]
         return aggr_rating
 
+
     def get_values_frequency(self, query):
         all_instances = self.db_wrapper.execute_queries(query, get_result=True)
         frequencies = self.get_freq(all_instances)
@@ -478,6 +469,7 @@ class Comparison_Tool:
         plt.show()
 
     # pass in a game_id and player ids
+    # aggression rating for game is measured with an average of the aggression of moves from each game
     # returns the aggression rating for that game
     def get_aggressive_rating_game(self, game_id, player_ids):
         if isinstance(player_ids, str):
@@ -486,7 +478,6 @@ class Comparison_Tool:
         stand_map = self.map_stand_val_to_aggression()
         ratings_for_game = {}
         for player in player_ids:
-
             get_moves_q = """
                           SELECT turn_num, next_best_val, hand_val_before, move, hand_val_after
                           FROM Moves
@@ -742,12 +733,67 @@ class Comparison_Tool:
                      title="Hit and stand aggression values", x_lbl="Hand Value", y_lbl="Aggression Rating")
         plt.show()
 
+    # pass in a user id and get a graph of their aggression rating over time
+    # really slow
+    def output_aggression_over_time(self, id):
+        agent_id_as_text = self.db_wrapper.convert_agents_to_text([id])
+        # gets all the game record numbers which the user has played in
+        games_query = """
+                      SELECT game_id
+                      FROM Game_Record
+                      WHERE players LIKE '%{0}%'
+                      ORDER BY game_id ASC;
+                      """.format(id)  # add validation by selecting from users table
+
+        # get the data from the database
+        games = self.db_wrapper.execute_queries(games_query, get_result=True)
+        batch_count = 0
+        # increases the batch size with number of games, to make the querying faster
+        no_games = len(games)
+        if no_games >= 50000:
+            batch_size = 1000
+        elif no_games >= 10000:
+            batch_size = 100
+        elif no_games >= 1000:
+            batch_size = 10
+        elif no_games >= 100:
+            batch_size = 3
+        else:
+            batch_size = 1
+
+        d_aggr = []
+        games_num = 0
+        total_aggr = 0
+        for record in games:
+            batch_count += 1
+            game_id = record[0]
+            games_num += 1
+            if games_num % 100:
+                print("(aggression over time) on game num: " + str(games_num))
+
+            if batch_count % batch_size == 0:  # batches of x so that it is not too jagged
+                # count how many games the player has played in up until this game_id
+                game_aggr = self.get_aggressive_rating_game(game_id, id)[id]
+                total_aggr += game_aggr
+                d_aggr.append([games_num, total_aggr / games_num])
+                batch_count = 0
+
+        x_vals = [d[0] for d in d_aggr]
+        y_vals = [d[1] for d in d_aggr]
+
+        self.plot_2d(x_vals, y_vals, label=id + " Aggression",
+                     title="Average Aggression over time", x_lbl="no games", y_lbl="Aggr. Rating")
+        plt.show()
+
+
 if __name__ == "__main__":
     ct = Comparison_Tool()
-    #ct.output_aggression_scale()
-    ct.output_aggression_win_relation()
+    #ct.get_data(Comparison_Tool.ID_NN, Comparison_Tool.ID_CC_AI,Comparison_Tool.ID_SIMPLE, Comparison_Tool.ID_RAND_AI, no_games=2000)
+    #ct.output_aggression_over_time("nn")
 
-    print(ct.get_aggression_rating("simple"))
+    #ct.output_aggression_scale()
+    #ct.output_aggression_win_relation()
+    #print(ct.get_aggression_rating("simple"))
 
     #ct.output_win_margin_at_stand_vs_winrate()
     #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE

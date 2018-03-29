@@ -210,7 +210,7 @@ class Init_Trainer(Trainer):
 class Batch_Trainer(Trainer):
     def __init__(self, nn_inst, training_params=None):
         super().__init__(nn_inst, training_params)
-        self.db_wrapper = DB_Wrapper("DB/Blackjack_old.sqlite")#DB_Wrapper(db_path="../DB/Blackjack.sqlite") #TODO CHANGE THIS FOR THE GUI LATER
+        self.db_wrapper = DB_Wrapper("DB/blackjack.sqlite")#DB_Wrapper(db_path="../DB/Blackjack_old_old.sqlite") #TODO CHANGE THIS FOR THE GUI LATER
 
         q = """
             

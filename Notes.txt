@@ -600,4 +600,8 @@
       (for example, before this move was mapped to 0.8)
     - IGNORE THE COMMENTS ON METHODS FOR NOW
 
-    - created aggression vs winrate graph method
+    - created aggression vs winrate graph method - not very useful because only 4 samples from agents
+
+    - remade database for last time -> 50,000 games
+    - just need to add show aggression over time, and add gui buttons for it
+    - added gui buttons for aggression

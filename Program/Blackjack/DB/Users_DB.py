@@ -122,4 +122,4 @@ if __name__ == "__main__":
     u_db_wrapper.display_all_records("users")
     print(u_db_wrapper.check_login(u_name, p_word))
     print(u_db_wrapper.get_user_type(u_name, p_word))
-   # remove("Blackjack_old.sqlite")
+   # remove("blackjack.sqlite")
