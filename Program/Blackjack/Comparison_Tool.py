@@ -364,12 +364,6 @@ class Comparison_Tool:
 
         # normalise the rates
         aggr_mapping = self.normalise_dict(aggr_mapping)
-        """
-        num_of_rates = len(zipped_rates)
-        for key in aggr_mapping.keys():
-            aggr_mapping[key] /= num_of_rates
-        """
-        print("noamlised hit mapping", aggr_mapping)
         return aggr_mapping
 
     # maps_stand values to aggression rating
@@ -384,14 +378,14 @@ class Comparison_Tool:
                 key = str(pair[0])
                 val = pair[1]
                 # 100 is really abritary, find a better way of picking this value
-                if val == 0:
-                    aggr_mapping[key] += 1
-                else:
-                    aggr_mapping[key] += 1/val
+                aggr_mapping[key] += val
+
+        for key in aggr_mapping.keys():
+            aggr_mapping[key] /= -2
+
         aggr_mapping = self.normalise_dict(aggr_mapping)
         for key in aggr_mapping.keys():
             aggr_mapping[key] *= -1
-        print("normalised stand mapping",aggr_mapping)
         return aggr_mapping
 
     def normalise_dict(self, d):
@@ -409,6 +403,7 @@ class Comparison_Tool:
     # eg of 1 => hitting when hit has prob of 1 to go bust and prob of 1 to win if stood
     # eg of -1 => standing when hitting would have 0 chance of going bust and standing has 0 chance of winning
     # overall aggression rating
+    # RELATIVE SCALE -> not as absolute as shown above, ie there will be a move which is rated 1 and another -1
     def get_aggression_rating(self, id):
         exists = self.db_wrapper.agent_exists(id)
         if not exists:
@@ -482,6 +477,31 @@ class Comparison_Tool:
                      title="Win Margin Win Dist", x_lbl="Win Margin", y_lbl="% Frequency / % Win Frequency")
         plt.show()
 
+    # pass in a game_id and player ids
+    # returns the aggression rating for that game
+    def get_aggressive_rating_game(self, game_id, player_ids):
+        if isinstance(player_ids, str):
+            player_ids = [player_ids]
+        hit_map = self.map_hit_val_to_aggression()
+        stand_map = self.map_stand_val_to_aggression()
+        ratings_for_game = {}
+        for player in player_ids:
+
+            get_moves_q = """
+                          SELECT turn_num, next_best_val, hand_val_before, move, hand_val_after
+                          FROM Moves
+                          WHERE game_id={0} AND player_id='{1}';
+                          """.format(game_id, player)
+            all_moves = self.db_wrapper.execute_queries(get_moves_q, get_result=True)
+            no_moves = len(all_moves)
+            total_aggr = 0
+            for move in all_moves:
+                move_rating = self.get_aggression_rating_move(move, hit_map=hit_map, stand_map=stand_map)
+                total_aggr += move_rating
+            total_aggr /= no_moves
+            ratings_for_game[player] = total_aggr
+        return ratings_for_game
+
     # pass in agent id
     # outputs graph of average stand value against games played
     def output_avg_stand_value(self, id):
@@ -511,7 +531,40 @@ class Comparison_Tool:
         plt.show()
 
     def output_aggression_win_relation(self):
-        pass
+        get_all_agents_q = """
+                          SELECT agent_id, games_won, games_played
+                          FROM agents
+                          WHERE games_played != 0;
+                          """
+        get_all_users_q = """
+                          SELECT username, games_won, games_played
+                          FROM users
+                          WHERE games_played != 0;
+                          """
+        all_agents = self.db_wrapper.execute_queries(get_all_agents_q, get_result=True)
+        all_users = self.db_wrapper.execute_queries(get_all_users_q, get_result=True)
+        all_players_data = all_agents + all_users
+
+        # data => [player_id, games_won, games_played]
+        aggression_ratings = [self.get_aggression_rating(data[0]) for data in all_players_data]
+        win_rates = [(data[1] / data[2]) for data in all_players_data]
+
+        # sorting the aggression ratings, but keeping the association
+        agg_wr_dict = {}
+        for i in range(len(aggression_ratings)):
+            rating = aggression_ratings[i]
+            agg_wr_dict[str(rating)] = win_rates[i]
+
+        sorted_ratings = []
+        corresp_wr = []
+        for rating in sorted(aggression_ratings):
+            as_key = str(rating)
+            sorted_ratings.append(rating)
+            corresp_wr.append(agg_wr_dict[as_key])
+
+        self.plot_2d(sorted_ratings, corresp_wr, title="Aggression ratings vs Winrates",
+                     x_lbl="Aggr. Rating", y_lbl="Win Rate")
+        plt.show()
 
     # outputs a graph displaying hand values when players have stood, and their % frequency
     def output_stand_dist(self):
@@ -668,35 +721,33 @@ class Comparison_Tool:
         nn = NN()
         nn.update_training()
 
+    # outputs the aggression scaled for different moves
     def output_aggression_scale(self):
         hit_map = self.map_hit_val_to_aggression()
         stand_map = self.map_stand_val_to_aggression()
 
         hit_map_keys = hit_map.keys()
         x1 = sorted([int(key) for key in hit_map_keys])
-        print(x1)
         y1 = []
         for x in x1:
             y1.append(hit_map[str(x)])
 
         stand_map_keys = stand_map.keys()
         x2 = sorted([int(key) for key in stand_map_keys])
-        print(x2)
         y2 = []
         for x in x2:
             y2.append(stand_map[str(x)])
 
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-        ax.plot(x1, y1)
-        ax.plot(x2, y2)
-
+        self.plot_2d(x1, y1, x2=x2, y2=y2, label="Hit", label2="Stand",
+                     title="Hit and stand aggression values", x_lbl="Hand Value", y_lbl="Aggression Rating")
         plt.show()
 
 if __name__ == "__main__":
     ct = Comparison_Tool()
-    ct.output_aggression_scale()
-    #print(ct.get_aggression_rating("rand_ai"))
+    #ct.output_aggression_scale()
+    ct.output_aggression_win_relation()
+
+    print(ct.get_aggression_rating("simple"))
 
     #ct.output_win_margin_at_stand_vs_winrate()
     #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE

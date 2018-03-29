@@ -599,3 +599,5 @@
     - changed from absolute scale (like above) to relative scale - now the hit MOST LIKELY to go but and stand wouldve won is mapped to 1
       (for example, before this move was mapped to 0.8)
     - IGNORE THE COMMENTS ON METHODS FOR NOW
+
+    - created aggression vs winrate graph method
