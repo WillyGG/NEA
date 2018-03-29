@@ -589,3 +589,8 @@
 
     - CLEAN UP PLOT METHOD ARGUMENTS
 
+  29 March:
+    - implemented aggression system!!!
+    - created map of hit values to aggression, based on bust rates if hit and win rates if stood
+    - # eg of 1 => hitting when hit has prob of 1 to go bust and prob of 1 to win if stood
+    - # eg of -1 => standing when hitting would have 0 chance of going bust and standing has 0 chance of winning

@@ -336,28 +336,80 @@ class Comparison_Tool:
         #self.output_2d(x_vals, y_vals, title=id + "'s Win Rate Over Time", x_lbl="no games",
         #               y_lbl="win rate")
 
-    def map_stand_val_to_aggression(self):
-        pass
+    # get an average of the chance to go bust if hit and the chance to win if stood at a particular value
+    # this average will be the aggression rating: ie if there is 1 chance to win if stood and a 1 chance to go bust
+    # if hit, then the aggression will be 1 -> stupidly aggressive
+    # hits are always aggressive -> but can have an aggression of 0 ie. hitting with no chance to go bust AND standing would never result in win
+    def map_hit_val_to_aggression(self):
+        stand_vals, win_rates = self.get_stand_vs_wr_data()
+        wr_for_sv = zip(stand_vals, win_rates)
+        print("wr_for_sv_zipped", list(wr_for_sv))
+        hit_vals, bust_rates = self.get_hit_vs_br_data()
+        br_for_hv = zip(hit_vals, bust_rates)
+        zipped_rates = [wr_for_sv, br_for_hv]
+
+        # init aggr map
+        aggr_mapping = {}
+        for i in range(1, 22):
+            aggr_mapping[str(i)] = 0
+
+        # add all the decimal rates to the aggression map
+        for z in zipped_rates:
+            for pair in z:
+                key = str(pair[0])
+                val = pair[1]
+                aggr_mapping[key] += val
+
+        # get an average of the rates
+        num_of_rates = len(zipped_rates)
+        for key in aggr_mapping.keys():
+            aggr_mapping[key] /= num_of_rates
+
+        return aggr_mapping
 
     # pass in player id, get back aggresion rating
-    # calculate the average stand value
-    # calculate the standard deviation
-    # see how far along the averages the player / agent is
+    # TODO extend this to include context (such as was losing at time of aggressive hit) and maybe avg / std devs of stand vals
+    # Returns aggression on scale of -1 to 1 where -1 is extremely passive and 1 is extremely aggressive
+    # eg of 1 => hitting when hit has prob of 1 to go bust and prob of 1 to win if stood
+    # eg of -1 => standing when hitting would have 0 chance of going bust and standing has 0 chance of winning
+    # overall aggression rating
     def get_aggression_rating(self, id):
-        pass
+        aggr_map = self.map_hit_val_to_aggression()
+        get_all_moves_q = """
+                          SELECT turn_num, next_best_val, hand_val_before, move, hand_val_after
+                          FROM Moves
+                          WHERE player_id='{0}'
+                          """.format(id)
+        all_moves = self.db_wrapper.execute_queries(get_all_moves_q, get_result=True)
+        no_moves = len(all_moves)
+        total_aggr = 0
+        for move in all_moves:
+            move_rating = self.get_aggression_rating_move(move, aggr_map)
+            total_aggr += move_rating
+            #if move_rating > 1:
+            #    print("AHHHH", move_rating)
+        total_aggr /= no_moves
+        return total_aggr
 
     # aggression with context
     # pass in data -> [turn_num, next_best_val, hand_val_before, move, hand_val_after]
     # for a move to be aggressive it must be above a critical threshold
     # the player must be winning,
     # depending on the win margin -> hitting even with "high" win margin => aggressive
-    def get_aggression_rating_move(self, move):
+    def get_aggression_rating_move(self, move, aggr_map):
         turn_num = move[0]
         next_best_val = move[1]
         hand_val_before = move[2]
-        action = move[3]
+        action = Moves.convert_to_move(move[3])
         hand_val_after = move[4]
 
+        aggr_rating = aggr_map[str(hand_val_before)]
+        if action == Moves.STAND:
+            if aggr_rating == 0:
+                aggr_rating = -1
+            else:
+                aggr_rating *= -1
+        return aggr_rating
 
     def get_values_frequency(self, query):
         all_instances = self.db_wrapper.execute_queries(query, get_result=True)
@@ -504,8 +556,8 @@ class Comparison_Tool:
     # get series of stand values
     # get games won when standing on said value
     # get number of games when stood of value
-    # outputs the chances to win against values stood on
-    def output_stand_vs_wr(self):
+    # returns the distinct stand values, returns the stand values and the corresponding winrates
+    def get_stand_vs_wr_data(self):
         stand_values = self.get_distinct_vals(Moves.STAND)
         total_games_stood = [] # total number of games stood with value coressponding to stand_values
         games_won = [] # games won with value coressponding to stand_values
@@ -530,14 +582,17 @@ class Comparison_Tool:
             total_games_stood.append(total_games)
             games_won.append(no_games)
 
-        y_vals = [games_won[i]/total_games_stood[i] for i in range(len(stand_values))]
+        win_rates = [games_won[i]/total_games_stood[i] for i in range(len(stand_values))]
+        return stand_values, win_rates
 
+    def output_stand_vs_wr(self):
+        stand_values, y_vals = self.get_stand_vs_wr_data()
         self.plot_2d(stand_values, y_vals, title="Chance to Win Based on Stand Value",
                        x_lbl="Stand Value", y_lbl="Win Rate")
 
         plt.show()
 
-    def output_hit_vs_br(self):
+    def get_hit_vs_br_data(self):
         hit_values = self.get_distinct_vals(Moves.HIT)
         total_times_hit = []  # total number of games stood with value coressponding to stand_values
         games_bust = []  # games won with value coressponding to stand_values
@@ -559,9 +614,11 @@ class Comparison_Tool:
 
             total_times_hit.append(total_games)
             games_bust.append(no_games)
+        bust_rates = [games_bust[i] / total_times_hit[i] for i in range(len(hit_values))]
+        return hit_values, bust_rates
 
-        y_vals = [games_bust[i] / total_times_hit[i] for i in range(len(hit_values))]
-
+    def output_hit_vs_br(self):
+        hit_values, y_vals = self.get_hit_vs_br_data()
         self.plot_2d(hit_values, y_vals, title="Chance to Go Bust Based on Hit Value",
                      x_lbl="Hit Value", y_lbl="Bust Rate")
 
@@ -573,8 +630,9 @@ class Comparison_Tool:
 
 if __name__ == "__main__":
     ct = Comparison_Tool()
-    ct.output_win_margin_at_stand_vs_winrate()
+    print(ct.get_aggression_rating("nn"))
 
+    #ct.output_win_margin_at_stand_vs_winrate()
     #Comparison_Tool.ID_CC_AI, Comparison_Tool.ID_NN, Comparison_Tool.ID_SIMPLE
     #ct.get_data(Comparison_Tool.ID_NN, no_games=50)
     #print(ct.db_wrapper.execute_queries(query, get_result=True))
