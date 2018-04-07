@@ -1,6 +1,7 @@
 """
     - abstract parent class for gui
-    - allows
+    - defines required methods
+    - and default implementations
 """
 
 import tkinter as tk

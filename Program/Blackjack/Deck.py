@@ -1,6 +1,14 @@
 from Structs.Stack import Stack
 from enum import Enum
 from random import shuffle
+
+"""
+    - defines functionality for the stack-backed deck
+    - defines the card class
+"""
+
+# defines enums for suits and royals
+# improves readability of code
 class Suits(Enum):
     HEARTS = "Hearts"
     DIAMONDS = "Diamonds"
@@ -13,6 +21,8 @@ class Royals(Enum):
     KING = 13
     ACE = 14
 
+# Card made up of a suit and a value
+# and some simple behaviours
 class Card:
     def __init__(self, suit, value):
         self.__suit = suit
@@ -40,6 +50,7 @@ class Card:
             return (self.__dict__ == other_card.__dict__)
         return False
 
+# stack-backed deck, auto shuffle, when there is nothign in the deck
 class Deck(Stack):
     def __init__(self):
         self.__DECK_SIZE = 52
@@ -60,7 +71,7 @@ class Deck(Stack):
     def autoShuffleOn(self):
         self.__autoShuffleWhenEmpty = True
 
-    # Shuffled deck
+    # populates the deck randomly
     def init_deck(self):
         temp_deck = []
         for suit in self.__suits:
@@ -78,11 +89,11 @@ class Deck(Stack):
             self.__deckIteration += 1
         return popped
 
-def display_and_empty(deck):
-    while not deck.isEmpty:
-        print(deck.pop)
+    # test method showing contents of deck
+    def display_and_empty(deck):
+        while not deck.isEmpty:
+            print(deck.pop)
 
 if __name__ == "__main__":
     d = Deck()
     print(isinstance(Card(Suits.SPADES, Royals.QUEEN).value, Royals))
-

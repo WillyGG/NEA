@@ -5,28 +5,40 @@
 from abc import ABC, abstractmethod
 
 class Agent(ABC):
+    # type is an array of strings signifying the type agent
+    # eg NN, Card Counter
     def __init__(self, ID="", type=None):
         self.ID = ID
         self.type = type
         super().__init__()
 
+
+    # this method will be called at the end of every game, the agent is playing in
+    # an example use is for CC agents to decrement their card counter trees
     @abstractmethod
     def update_end_game(self):
         pass
 
+    # Virtual method which will be called in every game that an agent plays in
+    # this method returns Moves.HIT or Moves.STAND based on what the angent wants to do
     @abstractmethod
     def get_move(self):
         pass
 
+    # Virtual method which sets the agents parameters, on a discrete scale of
+    # "passive", "default", and "aggressive", however will also have a number
+    # scale for more customisability
     def set_parameters(self, setting="default"):
         pass
 
+    # mehod which allows the agent to find the next best player in the game
+    # all agents do this in the same way, so it is implemented here
     # not necessarily going to be anyone but the current agent
     # pass in list of hands, returns the best hand value, not including tehe agent
     def get_best_hand(self, hands):
         best_hand_value = 0
         best_hand_hand = None
-        # find the second best player
+        # find the next best player
         for player in hands:
             if player.id == self.ID or player.bust:
                 continue
@@ -36,7 +48,7 @@ class Agent(ABC):
                 best_hand_hand = player
         # should never go to this section, because the dealer always plays last and cannot be bust
         if best_hand_hand == None:
-            print("its happening again dude!")
+            print("NO BEST PLAYER")
             for player in hands:
                 if player.id == "dealer":
                     for card in player.hand:

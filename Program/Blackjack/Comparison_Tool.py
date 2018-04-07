@@ -16,7 +16,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 from Card_Counter import Card_Counter
 
-# maybe change this into static class?
+"""
+    - class which carries out all the functionality of the comparison tool
+    - TODO - MOVE SOME OF THE GRAPHING PARTS TO THE GUI, THIS CLASS IS FAR TOO MEATY
+"""
+
 class Comparison_Tool:
     ID_NN = "nn"
     ID_SIMPLE = "simple"
@@ -33,6 +37,7 @@ class Comparison_Tool:
         self.agents_hands = {}
 
 
+    # instanciates the agents, sets their parameters and hands
     def init_agents(self):
         # The instances of all the agents
         self.agents = {
@@ -65,7 +70,7 @@ class Comparison_Tool:
                 self.agent_params[ID] = "default"
         return self.agent_params
 
-    # run X games of blackjack, get the winner then return it
+    # run X games of blackjack, either returns the winrates of each agent or the game_id of the games played
     # create and manage a mainloop game of blackjack
     # pass the id's of the agents who are playing - DEALER IS NOT AUTOMATICALLY INCLUDED
     # todo make this function not so large - abstract away all the database queue stuff
@@ -176,7 +181,8 @@ class Comparison_Tool:
         elif data_get == "ids":
             return game_ids
 
-    #
+    # NOT COMPLETED
+    # returns a dictionary mapping a parameter (string) to an aggression rating (int)
     def map_params_aggression(self):
         ids = {}
         param_agg = {} # map between parameter type and aggression
@@ -258,6 +264,7 @@ class Comparison_Tool:
     # extend this to compare winrates of each player, based on each parameter setting
     # 18 march 2018 -> currrently only analyses agents in isolation, not much relational analysis
     def process_move_data(self, data):
+        # NOTE THIS IS NOT RELATED TO AGGRESSION RATING
         aggresive_threshold = 17 # TODO make this more sophisticated -> maybe make it so that it takes into account win margin?
 
         analysis = {
@@ -296,16 +303,7 @@ class Comparison_Tool:
         analysis["average_stand_value"] = analysis["total_stand_value"] / analysis["no_times_stood"]
         analysis["%_hit"] = analysis["no_times_hit"] / analysis["sample_size"]
         analysis["%_stood"] = analysis["no_times_stood"] / analysis["sample_size"]
-
-        """
-            - TODO: insert some abritary measurements here about aggression
-        """
-
         return analysis
-
-    # output the data as a graph and a file/database
-    def output_data(self):
-        pass
 
     # outputs graph of player winrate over games played
     # pass in player id
@@ -315,7 +313,7 @@ class Comparison_Tool:
         # gets all the game record numbers which the user has played in
         games_query = """
                      SELECT game_id
-                     FROM Game_Record 
+                     FROM Game_Record
                      WHERE winner_ids LIKE '%{0}%'
                      ORDER BY game_id ASC;
                      """.format(id)  # add validation by selecting from users table
@@ -327,7 +325,7 @@ class Comparison_Tool:
         win_rate = 0
         batch_count = 0
 
-        # increases the batch size with number of games, to make the querying faster
+        # increases the batch size with number of games, to optimize speed (more queries slow it down a lot)
         no_games = len(games)
         if no_games >= 50000:
             batch_size = 1000
@@ -345,7 +343,7 @@ class Comparison_Tool:
             batch_count += 1
             game_id = record[0]
             games_won += 1
-            if batch_count % batch_size == 0: # batches of 10 so that it is not too jagged
+            if batch_count % batch_size == 0: # batches of x so that it is not too jagged
                 # count how many games the player has played in up until this game_id
                 games_played_q = """
                                  SELECT COUNT(*)
@@ -368,9 +366,9 @@ class Comparison_Tool:
                      title="Average winrate over time", x_lbl="no games", y_lbl="Win rate")
         plt.show()
 
-        #self.output_2d(x_vals, y_vals, title=id + "'s Win Rate Over Time", x_lbl="no games",
-        #               y_lbl="win rate")
-
+    # returns two zipped objects:
+    # stand_value => win rate
+    # hit_value => bust rate
     def get_zipped_aggression_data(self):
         stand_vals, win_rates = self.get_stand_vs_wr_data()
         wr_for_sv = zip(stand_vals, win_rates)
@@ -383,6 +381,7 @@ class Comparison_Tool:
     # this average will be the aggression rating: ie if there is 1 chance to win if stood and a 1 chance to go bust
     # if hit, then the aggression will be 1 -> stupidly aggressive
     # hits are always aggressive -> but can have an aggression of 0 ie. hitting with no chance to go bust AND standing would never result in win
+    # TODO ADD A BUTTON IN THE GUI FOR THIS
     def map_hit_val_to_aggression(self):
         zipped_rates = self.get_zipped_aggression_data()
         # init aggr map
@@ -457,17 +456,15 @@ class Comparison_Tool:
         for move in all_moves:
             move_rating = self.get_aggression_rating_move(move, hit_map=aggr_map_hit, stand_map=aggr_map_stand)
             total_aggr += move_rating
-            #if move_rating > 1:
-            #    print("AHHHH", move_rating)
         total_aggr /= no_moves
         return total_aggr
 
-    # aggression with context
+    # returns aggression rating for a move
     # pass in data -> [turn_num, next_best_val, hand_val_before, move, hand_val_after]
     # for a move to be aggressive it must be above a critical threshold
     # the player must be winning,
     # depending on the win margin -> hitting even with "high" win margin => aggressive
-    # TODO IMPROVE THIS -> DOESNT MAKE ANY SENSE, LOW STANDS => SMALL NEGATIVE WHERE 0 VALUES GET MAPPED TO -1
+    # does not work as stated in the comment -> just checks the mapping
     def get_aggression_rating_move(self, move, hit_map, stand_map):
         turn_num = move[0]
         next_best_val = move[1]
@@ -482,7 +479,8 @@ class Comparison_Tool:
             aggr_rating = stand_map[str(hand_val_before)]
         return aggr_rating
 
-
+    # pass in a query which gets single values
+    # returns array of each value, and array of coressponding decimal frequency
     def get_values_frequency(self, query):
         all_instances = self.db_wrapper.execute_queries(query, get_result=True)
         frequencies = self.get_freq(all_instances)
@@ -495,6 +493,7 @@ class Comparison_Tool:
 
     # outputs the frequencies of wins from standing at a particular win margin
     # also outputs the win margin stand frequency - NORMAL DISTRIBUTION
+    # TODO ADD A BUTTON FOR THIS
     def output_win_margin_at_stand_vs_winrate(self):
         get_win_margins_which_win = """
                                     SELECT (Moves.hand_val_before - Moves.next_best_val)
@@ -567,6 +566,8 @@ class Comparison_Tool:
         self.plot_2d(x_vals, y_vals, title=id+"'s Avg Stand Val Over Time", x_lbl="no games", y_lbl="avg stand value")
         plt.show()
 
+    # outputs the win rate against aggresion values
+    # plots a point for each user / agent
     def output_aggression_win_relation(self):
         get_all_agents_q = """
                           SELECT agent_id, games_won, games_played
@@ -640,7 +641,7 @@ class Comparison_Tool:
 
     # pass in x and y values and optional labels
     # outputs new figure and plots
-    # make the arguments for legends and multiple lines better
+    # make the arguments for legends and multiple lines better - really messy atm
     def plot_2d(self, x, y, **kwargs):
         fig = plt.figure()
         ax = fig.add_subplot(111)
@@ -667,7 +668,7 @@ class Comparison_Tool:
             ax.legend()
         ax.legend()
 
-    # pass in move.hit or move.stand and get back all the distinct values
+    # pass in move.hit or move.stand and get back all the distinct values of each hit/stand
     def get_distinct_vals(self, move):
         if isinstance(move, Moves):
             move = Moves.convert_to_bit(move)
@@ -715,6 +716,7 @@ class Comparison_Tool:
         win_rates = [games_won[i]/total_games_stood[i] for i in range(len(stand_values))]
         return stand_values, win_rates
 
+    # outputs graph of winrates against stand values
     def output_stand_vs_wr(self):
         stand_values, y_vals = self.get_stand_vs_wr_data()
         self.plot_2d(stand_values, y_vals, title="Chance to Win Based on Stand Value",
@@ -722,6 +724,7 @@ class Comparison_Tool:
 
         plt.show()
 
+    # returns different values that have been hit on, and the decimal rate of going bust when hit on that value
     def get_hit_vs_br_data(self):
         hit_values = self.get_distinct_vals(Moves.HIT)
         total_times_hit = []  # total number of games stood with value coressponding to stand_values
@@ -747,6 +750,7 @@ class Comparison_Tool:
         bust_rates = [games_bust[i] / total_times_hit[i] for i in range(len(hit_values))]
         return hit_values, bust_rates
 
+    # outputs graph of bust rate against hit value
     def output_hit_vs_br(self):
         hit_values, y_vals = self.get_hit_vs_br_data()
         self.plot_2d(hit_values, y_vals, title="Chance to Go Bust Based on Hit Value",
@@ -754,11 +758,13 @@ class Comparison_Tool:
 
         plt.show()
 
+    # updates the neural network with new data from games it has played
     def update_nn(self):
         nn = NN()
         nn.update_training()
 
     # outputs the aggression scaled for different moves
+    # TODO add button for this
     def output_aggression_scale(self):
         hit_map = self.map_hit_val_to_aggression()
         stand_map = self.map_stand_val_to_aggression()

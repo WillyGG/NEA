@@ -3,6 +3,11 @@ from Blackjack import Hand
 from Agent import Agent
 from Moves import Moves
 
+"""
+    - threshold based agent, which makes it's own calculations
+    - behaviour is defined by thresholds
+"""
+
 class Simple_AI(Agent):
     def __init__(self, hand=None, parameters=None):
         super().__init__(ID="simple", type=["Simple"])
@@ -31,6 +36,8 @@ class Simple_AI(Agent):
             self.min_hand_threshold = 13
 
     # returns decision to hit or not -> true => hit, false => stand
+    # stands if blackjacked or winning by a sufficient amount
+    # otherwise hits if cannot go bust, or under the bust margin threshold
     def get_move(self, all_players):
         next_best_hand = self.get_best_hand(all_players)
         best_player_value = next_best_hand.get_value()

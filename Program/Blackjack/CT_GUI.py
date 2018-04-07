@@ -5,6 +5,11 @@ import sys,os
 sys.path.append(os.path.realpath("../DB"))
 from Users_DB import Users_DB
 
+"""
+    - gui for comparison tool
+    - defines the classes for different windows in the GUI
+"""
+
 # main menu class - window with buttons to traverse the gui
 class Init_Win(Window):
     def __init__(self, parent, user_type="user", root=None):
@@ -56,11 +61,13 @@ class Init_Win(Window):
         elif win_to_open == "get_data":
             self.data_win = Data_Win(ct=self.ct, root=self, parent=tk.Toplevel())
 
+    # command for updating the nn
     def update_nn(self):
         self.ct.update_nn()
         self.nn_update_result_lbl.grid(row=7, column=0)
         self.nn_update_result_lbl.config(text="Done")
 
+    # goes back to login screen
     def back(self):
         self.root.show()
         self.destroy()
@@ -111,6 +118,7 @@ class Iso_Win(Window):
         elif type == "ar":
             self.ct.output_aggression_over_time(id)
 
+    # method for clearing the entry box if default text is inside
     def clear_default(self, *args):
         if self.default_text:
             self.default_text = False
@@ -120,6 +128,8 @@ class Iso_Win(Window):
         self.root.show()
         self.destroy()
 
+# get realtional data about two users
+# currently has no implementation
 class Rel_Win(Window):
     def __init__(self, ct, root, parent, user_type="user"):
         super().__init__(parent)
@@ -166,6 +176,7 @@ class Rel_Win(Window):
         self.root.show()
         self.destroy()
 
+# window for general data about all users
 class Gen_Win(Window):
     def __init__(self, ct, root, parent, geometry="400x400"):
         super().__init__(parent, geometry)
@@ -216,6 +227,7 @@ class Gen_Win(Window):
         self.root.show()
         self.destroy()
 
+# window for generating new data
 class Data_Win(Window):
     def __init__(self, ct, root, parent, geometry="400x400"):
         super().__init__(parent, geometry)
@@ -298,6 +310,11 @@ class Data_Win(Window):
         self.root.show()
         self.destroy()
 
+# Window for logging in
+# allows the user to login or signup#
+# TODO REMOVE THE AUTO FILL FOR ADMIN
+# sample admin: admin, Pw1
+# sample user: mr_aqa, Pw2
 class Login_Win(Window):
     def __init__(self, parent=None, geometry="400x400"):
         super().__init__(tk.Tk(), geometry)

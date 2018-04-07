@@ -2,6 +2,9 @@ from CC_Agent import CC_Agent
 from Blackjack import Hand
 from Moves import Moves
 
+"""
+    - Threshold based Card Counting AI
+"""
 class CC_AI(CC_Agent):
     def __init__(self, parameters=None, hand=None):
         super().__init__(ID="cc_ai")
@@ -12,7 +15,9 @@ class CC_AI(CC_Agent):
         if hand is None:
             self.Hand = Hand(self.ID)
 
-    # return True if wanting to hit
+    # entire agent bevahiour defined here
+    # will hit if below best player or below bust threshold or below the minimum hand threshold
+    # beyond that, it will hit, in risky situations defined by it's parameters which maps to an aggression rating
     def getNextAction(self, chances, game_state):
         # not exceeding the dealer, hit.
         playerHandValue = game_state[0].get_value()
@@ -38,7 +43,7 @@ class CC_AI(CC_Agent):
             return Moves.HIT
         return Moves.STAND
 
-    # Sets the default parameters of the CCAI
+    # Sets the  parameters of the CCAI
     def set_parameters(self, setting="default"):
         # Change these parameters to change the behaviour of the CCAI
         # Change these to personality parameters, then calculate these thresholds based on parameters

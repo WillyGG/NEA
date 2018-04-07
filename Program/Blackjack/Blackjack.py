@@ -1,22 +1,20 @@
 from Deck import Deck
 from Deck import Royals
+from random import shuffle
 from Structs.Circular_Queue import Circular_Queue
 
 """
-1) Player gets two cards (2 u), dealer gets 2 cards (1u 1d)
-2) Player can hit until bust, stand or blackjack
-3) Dealer hits until >=17
-4) Closest to 21 wins, unless bust
-"""
-
-"""
-TODO:
-  - Test Ace functionality
-  - start prototyping reinforcement learning model
-  - learn tensorflow
+    Class which implemetents a blackjack environment
+    - usage call hit() or stand() based on what action you want to take
+    - winners stored in _winners
+    - call check_game_over() to check if game is over
+    - then call end_game() to determine the winners
+    - then reset() to reset the env
 """
 
 class Blackjack:
+    # playersDict is a dictionary <String => Hand> where the key is the name
+    # of the player and the mapped value is their hand
     def __init__(self, playersDict=None):
         self.deck = Deck()
         self._blackjack = 21 # The winning value
@@ -25,22 +23,25 @@ class Blackjack:
         self.turnNumber = 1
         self.auto_reset = False
 
+        # defensive programming - if nothing is passed, default playersDict
         if playersDict is None:
             playersDict = {
                 "dealer": Dealer_Hand("dealer")
             }
+
+        # if dealer has not been added, add the dealer to playersDict
         if bool(playersDict) is False or "dealer" not in playersDict.keys():
             playersDict["dealer"] = Dealer_Hand("dealer")
 
-        # Hand for each player - Do i need this?? BIG YES MY FRIEND
         self.players = playersDict
 
-        # queue which holds the players, keeps track of whose turn it is
-        # queue of player names (turn this into a queue of hand instances?
+        # queue which holds the player hands, keeps track of whose turn it is
+        # pop to get the next player, and push if they are still in the game
+        # game over when nobody left in the queue
         self.players_queue = self.create_player_queue()
 
-        self.continue_game = True # the way this is implemented is weird - maybe method with same purpose?
-        self.deckIteration = self.deck.deckIteration
+        self.continue_game = True
+        self.deckIteration = self.deck.deckIteration # tracks deck resets
         self.new_cards = [] # each time a new card is added to the game this it is appended to here
 
         # Deals to each player
@@ -53,16 +54,20 @@ class Blackjack:
     def blackjack(self):
         return self._blackjack
 
+    # returns circular queue storing player hands, determining the order of play
+    # random order each time
     def create_player_queue(self):
         playerList = [self.players[key] for key in self.players.keys() if self.players[key].id != "dealer"]
+        shuffle(playerList)
         cQ = Circular_Queue(len(playerList))
         for player in playerList:
             cQ.push(player)
         return cQ
 
+    # returns the player id whose turn it is
     def get_current_player(self):
-        return self.players_queue.peek()
-      
+        return self.players_queue.peek().id
+
     # Reset the hands and the tracking variables
     def reset(self):
         for key in self.players.keys():
@@ -73,12 +78,14 @@ class Blackjack:
         self.new_cards = []
         self.turnNumber = 1
 
+    # deals two cards to every player, called at the start of the game
     def init_deal(self):
         for key in self.players.keys():
             for x in range(2):
                 self.deal(self.players[key])
 
     # compares the hands of the passed players
+    # returns the winners of teh game
     def compare_hands(self):
         best_hand = [] # array of player ids
         best_value = 0
@@ -91,7 +98,6 @@ class Blackjack:
             elif best_hand is []:
                 best_value = current_player_value
                 best_hand.append(current_player_name)
-                continue
             elif current_player_value >= best_value:
                 # if equal to, going to append anyways, so do not need to do anything if equal to.
                 if current_player_value == best_value:
@@ -107,9 +113,12 @@ class Blackjack:
         for player in args:
             next_card = self.deck.pop()
             player.hit(next_card)
-        self.dickIteration = self.deck.deckIteration
+        # updates the deck iteration, if the deck has reset
+        if self.deckIteration != self.deck.deckIteration:
+            self.deckIteration = self.deck.deckIteration
 
-    # A hits the player's hand. If they are bust, stops the game - public
+    # pops the next player and then hits their hand
+    # if they go bust do not push them back onto the queue
     def hit(self):
         current_player = self.players_queue.pop()
         self.deal(current_player)
@@ -119,14 +128,17 @@ class Blackjack:
         else:
             self.players_queue.push(current_player)
 
-    # Stands, ends game. Public
+
+    # pop the next player and stand
+    # do not push them back onto the queue
     def stand(self):
         current_player = self.players_queue.pop()
         current_player.stand()
         self.turnNumber += 1
         self.check_game_over()
 
-    # Prints the current state of the game - each hand followed by their current value.
+    # Outputs the current state of the game to console
+    # - each hand contents followed by their current value.
     def display_game(self):
         for key in self.players.keys():
             currentPlayer = self.players[key]
@@ -138,7 +150,8 @@ class Blackjack:
 
     # Calls all the methods associated with ending the game, and return winner
     def end_game(self):
-        self.players["dealer"].dealer_end(self.deck) # Should this not be handled in this class?
+        # dealer deals to itself until it reaches above its threshold hand value
+        self.players["dealer"].dealer_end(self.deck)
         self._winners = self.compare_hands()
         self.update_new_cards()
         if self.auto_reset:
@@ -146,25 +159,20 @@ class Blackjack:
         return self._winners
 
     # appends all cards dealt that game to the new_cards array
-    # opt 2: append each card as it is being dealt
+    # alternative: append each card as it is being dealt
     def update_new_cards(self):
         for player_id, player_hand in self.players.items():
             for card in player_hand.hand:
                 self.new_cards.append(card)
 
     # check if everyone has bust or stood
+    # game is over if the players_queue is empty
     def check_game_over(self):
         if self.players_queue.isEmpty():
             self.continue_game = False
             #self.end_game() # end game manually
             return True
         return False
-
-    def whoseTurnIsIt(self):
-        player = self.players_queue.peek().id
-        if player is None:
-            return "game over man! game over!"
-        return player
 
     # converts player queue to array and returns the Hands of all players currently in play
     def get_all_hands_playing(self):
@@ -193,7 +201,12 @@ class Blackjack:
             toReturn.append(hand)
         return toReturn
 
-
+"""
+    - class to handle functionality of each hand
+    - has player id associated with it
+    - handles hit and stand functionality
+    - automatically picks best ace value for the player
+"""
 class Hand:
     def __init__(self, id):
         self._id = id
@@ -208,7 +221,7 @@ class Hand:
             Royals.ACE: 11
         }
 
-    @property # MAKE THIS A HASHED ID TO PREVENT CONFLICTS
+    @property
     def id(self):
         return self._id
 
@@ -249,18 +262,20 @@ class Hand:
             total = self.__choose_ace(total, noAces)
         return total
 
-    # If bust, changes the ace to a 1.
+    # If bust, changes the ace from 11 to a 1.
     def __choose_ace(self, total, noAces):
         for _ in range(noAces):
             if total > self.blackjack:
                 total -= 10
         return total
 
+    # resets teh hand and tracking variables
     def reset(self):
         self._hand = []
         self.__has_stood = False
         self._bust = False
 
+    # returns true if this hand is out of the game
     def bust_or_stood(self):
         return self.bust or self.__has_stood
 
@@ -270,30 +285,30 @@ class Hand:
     def __str__(self):
         return self.id
 
+    # equality comparison to check if two hands are equal
     def __eq__(self, other):
         if not isinstance(other, Hand):
             return False
         return self.id == other.id
 
 
+# child class which is to be used for the dealer only
+# only new method is the dealer_end() method which
+# takes in the deck and deals to self until it gets above 17
 class Dealer_Hand(Hand):
     def __init__(self, id="dealer"):
         super().__init__(id)
+        self.dealer_threshold = 17
 
     # should you not do this in the blackjack class?
     def dealer_end(self, deck):
-        while self.get_value() < 17 and not self.bust:
+        while self.get_value() < self.dealer_threshold and not self.bust:
             self.hit(deck.pop())
 
-
 """
-    - Have a player class which creates a hand for each player and then passes this into the blackjack class
-    - this could have game records and be used for the database side of the project
+    - test class which allows for manual testing of the blackjack environment
+    - including possibility to play a game from the console
 """
-class Player:
-    pass
-
-
 class Blackjack_Tests:
     @staticmethod
     def setUp_Blackjack_Instance():
@@ -312,6 +327,7 @@ class Blackjack_Tests:
         bj = Blackjack(players)
         return bj
 
+    # allows client to play a game of blackjack via the console
     @staticmethod
     def manual_test():
         bj = Blackjack_Tests.setUp_Blackjack_Instance()
@@ -340,5 +356,3 @@ class Blackjack_Tests:
 if __name__ == "__main__":
     print(Royals)
     #Blackjack_Tests.manual_test()
-
-

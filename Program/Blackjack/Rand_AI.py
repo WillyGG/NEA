@@ -7,6 +7,7 @@ from random import randint
     - Agent which takes a random action every turn
     - Control Agent
 """
+
 class Rand_AI(Agent):
     def __init__(self, hand=None):
         super().__init__(ID="rand", type=["Random"])

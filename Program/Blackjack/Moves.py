@@ -1,5 +1,11 @@
 from enum import Enum
 
+"""
+    - defines enum for move, with conversion between move and bit
+    - prevents having to write every move as TRUE and FALSE
+    - improves readability of code
+"""
+
 class Moves(Enum):
     HIT = True
     STAND = False
