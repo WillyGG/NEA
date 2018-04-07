@@ -2,6 +2,10 @@ import numpy as np
 import sys,os
 sys.path.append(os.path.realpath(".."))
 
+"""
+    - static class which defines different exploration strategies for the NN
+"""
+
 class NN_Move:
     @staticmethod
     def choose_action(parameters, Primary_Network, game_state, rnn_state, sess, exploring=False):
@@ -10,6 +14,8 @@ class NN_Move:
             move = NN_Move.choose_action_e_greedy(parameters, Primary_Network, game_state, rnn_state, sess, exploring=exploring)
             return move
 
+    # e-greedy policy => choose highest value action, with chance e of picking a random action
+    # epsilon starts high during training and is decremented over time
     @staticmethod
     def choose_action_e_greedy(parameters, Primary_Network, game_state, rnn_state, sess, exploring):
         e = parameters["epsilon"]

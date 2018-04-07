@@ -1,15 +1,13 @@
-"""
-    - wrapper and interface for the database for comparison tool
-    - push move method
-    - get moves for a given agent
-    - update win for give agent
-"""
 import os,sys
 sys.path.append(os.path.realpath(".."))
 from DB_Wrapper import DB_Wrapper
 from Moves import Moves
 from os import remove
 from math import sqrt
+
+"""
+    - wrapper and interface for the database for comparison tool
+"""
 
 class CT_Wrapper(DB_Wrapper):
     def __init__(self, db_path="blackjack.sqlite"):
@@ -26,8 +24,7 @@ class CT_Wrapper(DB_Wrapper):
         for sql_f in sql_files:
             self.execute_queries_from_file(db_dir_path + sql_f)
 
-    # pushes the agents into the table
-    # TODO CHANGE THIS SO THAT IT CHECKS FI THEY EXIST FIRST
+    # pushes the agents into the table, if they do not exist
     def init_default_agents(self):
         agents = [
             ["nn", "Neural Network based AI, card counter"],
@@ -42,7 +39,7 @@ class CT_Wrapper(DB_Wrapper):
     # TODO INSERT SOME ERROR HANDLING AND DEFENSIVE PROGRAMMING
     def push_move(self, agent_id, game_id, turn_num, move, next_best_val, hand_val_before, hand_val_after):
         move = Moves.convert_to_bit(move)
-        query = """INSERT INTO "Moves" 
+        query = """INSERT INTO "Moves"
                    (player_id, game_id, turn_num, next_best_val, hand_val_before, move, hand_val_after) \
                    VALUES ("{0}", {1}, {2}, {3}, {4}, {5}, {6});""".format(agent_id, game_id, turn_num,
                                                                            next_best_val, hand_val_before, move,
@@ -51,9 +48,8 @@ class CT_Wrapper(DB_Wrapper):
 
     # push the a game to the game record table
     # agents => array of Agents Instances
-    # winning_hand => Hand Instance
+    # winning_hands => Array of Hand Instances
     # convert winners to text
-    # auto updates game id
     def push_game(self, game_id, winners, winning_hands, num_of_turns, agents):
         wnr_hands = ""
         wnr_vals = ""
@@ -66,7 +62,7 @@ class CT_Wrapper(DB_Wrapper):
         agents_as_text = self.convert_agents_to_text(agents)
         wnr_ids = ";".join(winners) + ";"
         query = """
-                  INSERT INTO Game_Record 
+                  INSERT INTO Game_Record
                   (game_id, winner_ids, winning_hands, winning_values, num_of_turns, players)
                   VALUES ({0}, '{1}', '{2}', '{3}', {4}, '{5}');
                   """.format(game_id, wnr_ids, wnr_hands, wnr_vals, num_of_turns, agents_as_text)
@@ -81,12 +77,12 @@ class CT_Wrapper(DB_Wrapper):
             self.inc_games_played(agent_id)
             pass
 
-    # pushes the state of the cc during a move
+    # pushes the state of the cc at a particular move
     def push_cc(self, game_id, turn_num, bust, blackjack, exceedWinningPlayer, alreadyExceedingWinningPlayer, move):
         move = Moves.convert_to_bit(move)
         alreadyExceedingWinningPlayer = int(alreadyExceedingWinningPlayer)
         query = """
-                INSERT INTO Card_Counter_Record 
+                INSERT INTO Card_Counter_Record
                 (game_id, turn_num, bust, blackjack, exceedWinningPlayer, alreadyExceedingWinningPlayer, move)
                 VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6})
                 """.format(game_id, turn_num, bust, blackjack, exceedWinningPlayer, alreadyExceedingWinningPlayer, move)
@@ -106,15 +102,19 @@ class CT_Wrapper(DB_Wrapper):
 
     # pass in agent name, and a game_id
     # returns the turn_num, next_best_val, hand_val_before, move, hand_val_after
-    # TEST TEST TEST TEST
+    # pass in a game move if moves from a particular game wanted
+    # or else it will return all the moves the agent has made
+    # returns tuple of move records
     def get_agent_moves(self, agent, game_id=None):
+        # selects all moves
         if game_id is None:
-            query = """SELECT turn_num, next_best_val, hand_val_before, move, hand_val_after 
+            query = """SELECT turn_num, next_best_val, hand_val_before, move, hand_val_after
                        FROM Moves WHERE player_id='{0}'""".format(agent)
         else:
-            query = """SELECT turn_num, next_best_val, hand_val_before, move, hand_val_after 
+            query = """SELECT turn_num, next_best_val, hand_val_before, move, hand_val_after
                        FROM Moves WHERE player_id='{0}' AND game_id={1}""".format(agent, game_id)
         results = self.execute_queries(query, get_result=True)
+
         # convert moves from bit to move
         toReturn = []
         for result in results:
@@ -148,14 +148,6 @@ class CT_Wrapper(DB_Wrapper):
     # returns the next available game id
     # game id has to exist in both the moves table and the game record table
     def get_next_game_id(self):
-
-        #game_id_test = 0
-        #result = 0
-        #while result != []:
-        #    game_id_test += 1
-         #   query = """SELECT Moves.game_id FROM Moves, Game_Record
-         #              WHERE Moves.game_id={0} AND Moves.game_id=Game_Record.game_id;""".format(game_id_test)
-          #  result = self.execute_queries(query, get_result=True)
         q_moves = """
                  SELECT MAX(game_id)
                  FROM Moves
@@ -167,6 +159,8 @@ class CT_Wrapper(DB_Wrapper):
         max_moves = self.execute_queries(q_moves, get_result=True)[0][0]
         max_gr = self.execute_queries(q_gr, get_result=True)[0][0]
 
+        # returns the larger game id of the two
+        # if max_moves is none and max_gr is none then there is nothing in the database
         if max_moves is None:
             if max_gr is None:
                 game_id_test = 1
@@ -191,18 +185,7 @@ class CT_Wrapper(DB_Wrapper):
             agent_text += agent_name + ";"
         return agent_text
 
-    # queries the database for a game id and converts the players field from TEXT to
-    # an array of strings which are agent ids
-    def get_agent_ids_from_game(self):
-        pass
-
-    # pass a game id, query the db for winning values
-    # return array of ints for the winning values
-    def get_winning_values(self):
-        pass
-
     # pass in arrays [agents ids, desc], method will populate them in the database
-    # TODO UPDATE THIS SO THAT IT CHECKS IF THE AGENT ALREADY EXISTS BEFORE INSERTION
     def populate_agents_table(self, *args):
         queries = []
         for arg in args:
@@ -218,6 +201,8 @@ class CT_Wrapper(DB_Wrapper):
             """.format(agent_name, agent_desc))
         self.execute_queries(queries)
 
+    # pass in agent id, returns true or false depending on whether the agent
+    # already exists in the databse or not
     def agent_exists(self, id):
         query = """
                 SELECT *
@@ -234,7 +219,7 @@ class CT_Wrapper(DB_Wrapper):
         # get the number of wins
         query = """
                 SELECT games_won, games_played
-                FROM Agents 
+                FROM Agents
                 WHERE agent_id='{0}'
                 """.format(agent_id)
         result = self.execute_queries(query, get_result=True)[0]
@@ -243,10 +228,9 @@ class CT_Wrapper(DB_Wrapper):
 
     # todo contextualise this value -> look at opponents hand values before stand also
     # queries database, returns average stand value players stand on
-    #todo test test test
     def get_stand_val_avg(self):
         query = """
-                SELECT AVG(hand_val_before) 
+                SELECT AVG(hand_val_before)
                 FROM Moves
                 WHERE move=0;
                 """
@@ -292,6 +276,7 @@ class CT_Wrapper(DB_Wrapper):
 
         return agents_result != [] or users_result != []
 
+    # gets average winrate for the agents, returns as a decimal
     def get_avg_wr(self):
         q = """
             SELECT games_won, games_played, agent_id

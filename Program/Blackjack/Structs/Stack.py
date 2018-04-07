@@ -1,17 +1,6 @@
 """
-Problem Analysis:
-  - Data type required to
-  - Behavior: pop, push, peek.
-  - Pop: remove top object from stack.
-  - Push: Add to top of stack.
-  - Peek: "Peek" into the top of the stack
-  - Implemented using array, OO solution
-  - Last in, first out logic
-
-  - Limited stack size
-  - handling if stack is empty
-  - no python list methods
-  - Implemented in a non-pythonic way - ie no list methods, predefined size, use of pointer etc.
+    Stack structure
+    - LIFO logic
 """
 
 class Stack():

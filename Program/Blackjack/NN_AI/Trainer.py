@@ -11,7 +11,13 @@ from datetime import datetime
 import numpy as np
 import tensorflow as tf
 
-# todo split into composed classes => fresh train and pre batch train
+"""
+    - defines the classes used to train the neural network
+    - one for initial training, with a Blackjack environment
+    - another for updating the neural network based on the games the agent has played
+"""
+
+# abstract class implementing the common features of the trainers
 class Trainer:
     def __init__(self, nn_inst, training_params=None):
         self.NN = nn_inst
@@ -21,6 +27,9 @@ class Trainer:
         if training_params is None:
             self.parameters = {}
 
+    # geneates the reward based on a move and the state it brought the agent into
+    # rewards define the beavhiour of the neural network as it will always attempt to maximise the reward
+    # reward for a move in game
     def gen_step_reward(self, nn_hand_val_after, move, nn_winning):
         agent_value = nn_hand_val_after
         hand_val_norm_const = self.parameters["hand_val_norm_const"]
@@ -41,6 +50,7 @@ class Trainer:
                 scaled_value = loss_value
         return scaled_value
 
+    # generates reward for the neural network at the end of the game, based on whether or not it won
     def gen_end_reward(self, agent_value, nn_in_winners):
         hand_val_norm_const = self.parameters["hand_val_norm_const"]
         win_value = (agent_value + 1) * hand_val_norm_const
@@ -60,6 +70,7 @@ class Init_Trainer(Trainer):
         self.group_agents = {}
         self.blackjack = self.init_blackjack(training_type)
 
+    # initialises the blackjack environment and other agents who may be part of the training
     def init_blackjack(self, training_type):
         nn_hand = Blackjack.Hand(self.NN.ID)
         self.NN.Hand = nn_hand
@@ -78,6 +89,7 @@ class Init_Trainer(Trainer):
 
         return Blackjack.Blackjack(hands)
 
+    # lower level methods used to initialise the other agents who are playing
     def init_CC_AI(self, hands):
         cc_ai_hand = Blackjack.Hand("cc_ai")
         self.group_agents["cc_ai"] = CC_AI(hand=cc_ai_hand)
@@ -87,8 +99,6 @@ class Init_Trainer(Trainer):
         cc_ai_hand = Blackjack.Hand("simple")
         self.group_agents["simple"] = CC_AI(hand=cc_ai_hand)
         hands["simple"] = cc_ai_hand
-
-        # TODO DECIDE HOW MANY OF THESE PARAMS YOU ACTUALLY WANT TO PASS
 
     # process agents action for one move
     def process_NN_agent_action(self, game_num, all_hands, game_state, episode_buffer, exp_buffer):
@@ -107,6 +117,8 @@ class Init_Trainer(Trainer):
             self.NN.update_networks(exp_buffer)
         return action, new_game_state
 
+    # main training loop, runs the game environment for x num of train_step
+    # pass in the current tensorflow session
     def train(self, sess):
         train_iterations = self.parameters["train_steps"]
 
@@ -121,16 +133,14 @@ class Init_Trainer(Trainer):
             action = None
             new_game_state = None
             # step in game, get reward and new state
-            while self.blackjack.continue_game:  # change this to just take a move when it's the AIs turn
+            while self.blackjack.continue_game:
                 current_agent = self.blackjack.get_current_player()
                 # print(current_agent.id)
                 if current_agent.id != self.NN.ID:
                     move = self.group_agents[current_agent.id].get_move(all_hands)
                     self.process_action(move)
-                    new_game_state = self.get_train_game_state(
-                        all_hands)  # TODO DECIDE IF YOU NEED A DIFFERENT STATE COPARED TO OTHER AGENT
+                    new_game_state = self.get_train_game_state(all_hands)
                 else:  # is the nn agent's turn
-                    # getting state and chances is execute twice, for a single state, maybe simplify this so that you can pass it here
                     action, new_game_state = self.process_NN_agent_action(game_num, all_hands, game_state,
                                                                           episode_buffer, self.exp_buffer)
                 game_state = new_game_state  # update the game state
@@ -138,6 +148,7 @@ class Init_Trainer(Trainer):
             # GET THE END OF GAME REWARD
             self.end_game()
             reward = self.gen_reward()
+            # should never execute
             if action is None:
                 print("NO MOVES EXECUTED")
             # decide if you want to append this
@@ -149,6 +160,7 @@ class Init_Trainer(Trainer):
             episodeBuffer = list(zip(bufferArray))
             self.exp_buffer.add(episodeBuffer)
             self.reset()
+        # saves the new model after training
         self.NN.save_model()
 
     def get_train_game_state(self, all_hands):
@@ -160,20 +172,12 @@ class Init_Trainer(Trainer):
 
     def process_action(self, action):
         if action == Moves.HIT:
-            # check if current turn (or check in the training mainloop)
-            # hit
             self.blackjack.hit()
-        elif action == Moves.STAND:  # defensive programming?
+        elif action == Moves.STAND:
             self.blackjack.stand()
         else:
             print("invalid move")
 
-    # generate reward based on how close to 21
-    # loss if bust
-    # extra reward if win
-    # normalise all rewards
-    # TODO SORT OUT THE REWARD SYSTEM
-    # nn_hand_val_after, move, nn_winning
     def gen_reward(self, move=None):
         nn_hand = self.blackjack.players["nn"]
         agent_value = nn_hand.get_value()
@@ -210,11 +214,7 @@ class Init_Trainer(Trainer):
 class Batch_Trainer(Trainer):
     def __init__(self, nn_inst, training_params=None):
         super().__init__(nn_inst, training_params)
-        self.db_wrapper = DB_Wrapper("DB/blackjack.sqlite")#DB_Wrapper(db_path="../DB/Blackjack_old_old.sqlite") #TODO CHANGE THIS FOR THE GUI LATER
-
-        q = """
-            
-            """
+        self.db_wrapper = DB_Wrapper("DB/blackjack.sqlite")
 
     # gets all the games which have not been used for training yet
     def pop_new_games(self):
@@ -260,7 +260,7 @@ class Batch_Trainer(Trainer):
         }
         return chances, hand_val_res
 
-    # returns the games in store for the nn to train from
+    # returns the number of games in store for the nn to train from
     def get_num_games_to_train(self):
         # cross param sql
         q = """
@@ -275,14 +275,15 @@ class Batch_Trainer(Trainer):
         else:
             return games[0][0]
 
-    # updates the network with the new games in teh db
-    # todo test test test test
+    # updates the network with the new games in the db
     def train_new_games(self):
         episode_buffer = []
         new_moves = self.pop_new_games()
         last_game_id = 0
         last_turn_num = 0
         nn_wins = False
+
+        # iterates over the moves, end game game rewards generated based on the change in game ids
         for move in new_moves:
             game_id = move[0]
             turn_num = move[1]
@@ -295,6 +296,8 @@ class Batch_Trainer(Trainer):
             features_after = self.NN.get_features(game_state=[hand_val_after, next_best_val], chances=chances)
 
             # should always and only execute whenever processing new game
+            # wraps everything from episode buffer into one structure and then
+            # pushes everything into the experience buffer
             if game_id != last_game_id:
                 if last_game_id != 0:
                     bufferArray = np.array(episode_buffer)
@@ -325,11 +328,13 @@ class Batch_Trainer(Trainer):
             """.format(game_id)
         return self.db_wrapper.execute_queries(q, get_result=True)[0][0]
 
+    # determines if the nn was part of the winners for a particular game
+    # returns boolean signifying if the nn was a winner
     def get_nn_is_winner(self, game_id):
         q = """
             SELECT *
             FROM Game_Record
-            WHERE game_id={0} AND winner_ids LIKE '%{1}%' 
+            WHERE game_id={0} AND winner_ids LIKE '%{1}%'
             """.format(game_id, self.NN.ID)
         res = self.db_wrapper.execute_queries(q, get_result=True)
         return res != []

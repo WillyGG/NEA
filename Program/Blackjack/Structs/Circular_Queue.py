@@ -1,3 +1,9 @@
+"""
+    - circular queue structure
+    - FIFO logic
+    - additional property tracking size of queue
+"""
+
 class Circular_Queue:
     def __init__(self, size):
         self.__size = size
@@ -20,6 +26,7 @@ class Circular_Queue:
         if self.isEmpty():
             self.__front += 1
 
+        # if rear has reached end of queue, circle it to front of array
         if self.__rear == (self.__size - 1):
             self.__rear = 0
         else:
@@ -35,8 +42,10 @@ class Circular_Queue:
         toReturn = self.__circQ[self.__front]
         self.__circQ[self.__front] = None
 
+        # if last ele popped
         if self.__front == self.__rear:
             self.__front, self.__rear = -1, -1
+        # if front pointer has reached front of queue, circle it
         elif self.__front == (self.__size - 1):
             self.__front = 0
         else:

@@ -1,7 +1,10 @@
 """
-28 Dec:
-    - Find a way to maintain the complete property from within the tree class
-    - find a way to abstract away the pre/in/post order traversals
+    - class for binary tree
+    - functions utilising pointers within nodes to point to left and right nodes
+    - structure of the binary tree is automatically maintained so that always remains balanced
+    - binary seach tree has property of every node in left subtree is less than the root
+    - and every node in the right subtree is larger than the root
+    - balanced means that there are the same number of nodes in every subtree in the tree +- 1 node
 """
 
 class Binary_Tree:
@@ -13,6 +16,8 @@ class Binary_Tree:
         return self._root
 
     # CHange to DFS?
+    # pass in the value of the node you are looking for, or a equivalent to the one you are looking for
+    # returns the node, found via pre order traversals
     def getNode(self, nodeValue):
         toPass = nodeValue
         if isinstance(nodeValue, Node):
@@ -29,9 +34,9 @@ class Binary_Tree:
             return -1
 
         returnNode = Traversals.pre_order(self._root, base_case=base_case, node_processing=node_processing)
-        #returnNode = self.getNodeTraversal(self._root, toPass)
         return returnNode
 
+    # inserts node using ifs and loops
     def insert(self, node):
         if isinstance(node, int):
             node = Node(node)
@@ -43,17 +48,7 @@ class Binary_Tree:
 
         nextNode = self._root
         nextParent = None
-        lastParentLeft = True
-
-        # Find a way to abstract this
-        if node.value < nextNode.value:
-            nextParent = nextNode
-            nextNode = nextNode.left
-            lastParentLeft = True
-        elif node.value > nextNode.value:
-            nextParent = nextNode
-            nextNode = nextNode.right
-            lastParentLeft = False
+        lastParentLeft = True # used to choose which side to insert
         while nextNode is not None:
             if node.value < nextNode.value:
                 nextParent = nextNode
@@ -69,6 +64,8 @@ class Binary_Tree:
             nextParent.right = node
         self.maintainTree()
 
+    # pass in a node or a node value, and this will return
+    # that node's parent node via pre order traversal
     def getParent(self, nodeToFind):
         def base_case(node):
             if node is None:
@@ -81,6 +78,7 @@ class Binary_Tree:
 
         return Traversals.pre_order(self._root, base_case=base_case, node_processing=node_processing)
 
+    # counts the number of nodes in a tree via post order traversal
     def get_tree_size(self):
         def base_case(node):
             if node is None:
@@ -90,6 +88,8 @@ class Binary_Tree:
             return (left + right + 1)
         return Traversals.post_order(self._root, base_case=base_case, node_processing=node_processing)
 
+    # method which maintains balance within the binary tree
+    # for information on how this works check the documented design section
     def maintainTree(self):
         def base_case(node):
             if node is None:
@@ -107,10 +107,15 @@ class Binary_Tree:
                 return -1
             return left + right + 1
 
+        # unknown number of maintainance actions becuase every time a maintainance occurs
+        # the maintainance must start again from the bast of the tree, because one adjustment
+        # to one subtree may affect other trees
         completed_comparing = -1
         while completed_comparing == -1:
             completed_comparing = Traversals.post_order(self._root, base_case=base_case, node_processing=node_processing)
 
+    # pass in the root to a subtree, places the maximum node in the left subtree
+    # as the new root, and then puts the old root as the first node in new right subtree
     def swap_max_LST(self, swapRoot):
         """
         replace the parent with the max in LST
@@ -134,6 +139,8 @@ class Binary_Tree:
         elif parent.right == swapRoot:
             parent.right = max_LST
 
+    # pass in the root to a subtree, places the minimum node in the right subtree
+    # as the new root, and then puts the old root as the first node in the new left subtree
     def swap_min_RST(self, swapRoot):
         """
         swap nodes:
@@ -178,7 +185,7 @@ class Binary_Tree:
 
     # deletes a passed node
     # DO NOT MAINTAIN WITHIN THIS METHOD
-    # maintain outside of this method
+    # 3 cases - no children, 1 child, 2 children or deleting root
     def delete(self, node):
         numChildren = node.numOfChildren()
         if node == self._root:
@@ -193,6 +200,7 @@ class Binary_Tree:
             elif numChildren == 2:
                 self.delete_twoChildren(node, nodeParent, nodeIsLeft)
 
+    # lower level fuction for deleting with no children
     def delete_noChildren(self, node, nodeParent, nodeIsLeft=None):
         if nodeIsLeft is None:
             nodeIsLeft = nodeParent.left == node
@@ -201,6 +209,7 @@ class Binary_Tree:
         else:
             nodeParent.right = None
 
+    # lower level fuction for deleting with one child
     def delete_oneChild(self, node, nodeParent, nodeIsLeft=None):
         if nodeIsLeft is None:
             nodeIsLeft = nodeParent.left == node
@@ -217,6 +226,7 @@ class Binary_Tree:
             else:
                 nodeParent.right = node.right
 
+    # lower level fuction for deleting with two children
     def delete_twoChildren(self, node, nodeParent, nodeIsLeft=None):
         if nodeIsLeft is None:
             nodeIsLeft = nodeParent.left == node
@@ -249,7 +259,7 @@ class Binary_Tree:
             self._root = swapNode
 
     # For a binary search tree, this should be in ascending order.
-    def in_order_traversal(self, parent): # Always pass in the root node with initial call.
+    def output_tree_console(self, parent): # Always pass in the root node with initial call.
         if parent == None:
             return False
         self.in_order_traversal(parent.left)
@@ -268,26 +278,9 @@ class Binary_Tree:
             node = node.left
         return node
 
-    """
-        - finish this if you need to, however, probs not worth the time rn. You can manually check the structure
-    
-    def display_tree_structure(self):
-        tree_size = self.get_tree_size(self._root)
-        tree_queue = Circular_Queue(tree_size)
-        tree_queue.push(self._root)
-        power = 0
-        while not tree_queue.isEmpty():
-            if tree_queue.num_elements == (2 ** power):
-                power += 1
-                print()
-            current_node = tree_queue.pop()
-            if current_node.left is not None:
-                tree_queue.push(current_node.left)
-            if current_node.right is not None:
-                tree_queue.push(current_node.right)
-            print(current_node, end=" ")
-    """
-
+# utility static class for abstracting away the traversals
+# pass in lexically scoped function for the base case (reaching a None node)
+# and another function for the node processing
 class Traversals:
     # Static higher level function for pre order traversals
     @staticmethod
@@ -308,6 +301,7 @@ class Traversals:
             return right
 
     @staticmethod
+    # never used so not implemented
     def in_order(self):
         pass
 
@@ -324,6 +318,9 @@ class Traversals:
         return processing_result
 
 
+# Class for the node
+# main properties - pointers to left and right nodes
+# defines utility behaviours, such as counting children and comparison methods
 class Node: # Association via composition
     def __init__(self, value):
         self.value = value

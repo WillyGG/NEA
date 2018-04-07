@@ -2,6 +2,11 @@ import sqlite3 as sq3
 import os, sys
 sys.path.append(os.path.realpath(".."))
 
+"""
+    - parent/abstract class for wrapper to database
+    - provides basic interface for interacting with the database
+"""
+
 class DB_Wrapper:
     def __init__(self, db_path):
         self.db_path = db_path#"DB/"+ db_path
@@ -40,6 +45,7 @@ class DB_Wrapper:
         return queries
 
     # returns true if query is safe
+    # add checks for illegal symbols
     def sanitize_query(self, query):
         if "drop" in query:
             return False
@@ -48,7 +54,7 @@ class DB_Wrapper:
 
     # execute passed query or passed array of queries
     # keep open determines if connection remains open, if so, returns connection and cursor
-    # change this so that it works with multiple open queries
+    # get result will return all the results of the queries
     def execute_queries(self, queries, keep_open=False, get_result=False):
         # turns single query into executable form - defensive programming
         if isinstance(queries, str):
@@ -56,11 +62,11 @@ class DB_Wrapper:
         connection, cursor = self.connect_to_db()  # open connection
         results = []
         for index, query in enumerate(queries):
-            # if parameter does not exist, just execute query
             try:
                 # print(query)
                 cursor.execute(query)
-                results.append(cursor.fetchall())
+                if get_result:
+                    results.append(cursor.fetchall())
             except Exception as e:
                 print(e)
                 return e
@@ -77,6 +83,7 @@ class DB_Wrapper:
                 return results
             return True
 
+    # displays all the records in the passed table (pass the name)
     def display_all_records(self, table_name):
         connection, cursor = self.connect_to_db(self.db_path)  # open connection
         query = "SELECT * FROM " + table_name

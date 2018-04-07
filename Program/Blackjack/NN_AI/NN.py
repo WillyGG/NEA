@@ -14,6 +14,12 @@ from Trainer import Init_Trainer
 from Trainer import Batch_Trainer
 from datetime import datetime
 
+"""
+    - defines classes for both the primary netowrk and the target network
+    - also defines the behaviour for the NN agent
+"""
+
+# class for the primary network
 class Q_Net():
     def __init__(self, input_size, hidden_size, output_size, rnn_cell, myScope, training=True):
         self.init_feed_forward(input_size, hidden_size, output_size, myScope)
@@ -26,12 +32,13 @@ class Q_Net():
         if not training:
             self.disable_dropout()
 
+    # dropout layers should be disabled when training is complete
     def disable_dropout(self):
         for dropout in self.dropout_layers:
             dropout.is_Training = False
 
     def rnn_processing(self, rnn_cell, hidden_size, myScope):
-        # We take the output from the final fully connected layer and send it to a recurrent layer.
+        # Take the output from the final fully connected layer and send it to a recurrent layer.
         # The input must be reshaped into [batch x trace x units] for rnn processing,
         # and then returned to [batch x units] when sent through the upper levles.
         self.trainLength = tf.placeholder(dtype=tf.int32)
@@ -79,12 +86,12 @@ class Q_Net():
         self.salience = tf.gradients(self.Advantage, self.input_layer) #self.imageIn
 
     def predict(self):
-         # Then combine them together to get our final Q-values.
+         # Combine streams for final prediction value
         self.Qout = self.Value + tf.subtract(self.Advantage, tf.reduce_mean(self.Advantage, axis=1, keep_dims=True))
         self.predict = tf.argmax(self.Qout, 1)
 
     def gen_loss(self, output_size):
-        # Below we obtain the loss by taking the sum of squares difference between the target and prediction Q values.
+        # Loss calculated by taking the sum of squares difference between the target and prediction Q values.
         self.targetQ = tf.placeholder(shape=[None], dtype=tf.float32)
         self.actions = tf.placeholder(shape=[None], dtype=tf.int32)
         self.actions_onehot = tf.one_hot(self.actions, output_size, dtype=tf.float32)
@@ -101,17 +108,19 @@ class Q_Net():
         self.mask = tf.reshape(self.mask, [-1])
         self.loss = tf.reduce_mean(self.td_error * self.mask)
 
+    # update the network by using Adam optimizer algorithm
     def train_update(self):
         self.trainer = tf.train.AdamOptimizer(learning_rate=0.0001)
         self.updateModel = self.trainer.minimize(self.loss)
 
-
+# target network is essentially the same as the primary network, but needs
+# a few extra behaviours defined to sync it back with the primary network when required
 class Target_Net(Q_Net):
     def __init__(self, input_size, hidden_size, output_size, rnn_cell, myScope, training=True):
         super().__init__(input_size, hidden_size, output_size, rnn_cell, myScope, training)
         self.ops = None
 
-    #These functions allows us to update the parameters of our target network with those of the primary network.
+    #These functions update the parameters of our target network with those of the primary network.
     def updateTargetGraph(self, tfVars, tau):
         total_vars = len(tfVars)
         op_holder = []
@@ -127,16 +136,13 @@ class Target_Net(Q_Net):
         total_vars = len(tf.trainable_variables())
         a = tf.trainable_variables()[0].eval(session=sess)
         b = tf.trainable_variables()[total_vars//2].eval(session=sess)
-        if a.all() == b.all():
-            pass
-            #print("Target Set Success")
-        else:
+        if a.all() != b.all():
             print("Target Set Failed")
 
 
-# TODO REWORK PARAMETER SYSTEM
+# Class for NN agent
 class NN(CC_Agent):
-    def __init__(self, setting="default", hand=None, restore_type="default", Training=True):
+    def __init__(self, setting="default", hand=None, restore_type="default", Training=True, auto_load=True):
         super().__init__(ID="nn", extra_type=["nn"])
         self.rnn_state = None
         self.sess = None
@@ -149,7 +155,9 @@ class NN(CC_Agent):
 
         self.initalise_NN(Training)
         self.start_session()
-        self.load_model(restore_type)
+
+        if auto_load:
+            self.load_model(restore_type)
 
     # sets the bevhiour parameters of the nn
     def set_parameters(self, setting="default"):
@@ -184,7 +192,7 @@ class NN(CC_Agent):
 
         return nn_params
 
-    #
+    # sets parameters used in intial training
     def set_training_params(self, setting="default"):
         if setting == "default":
             train_params = {
@@ -217,7 +225,6 @@ class NN(CC_Agent):
         tau = self.parameters["tau"]
 
         tf.reset_default_graph()
-        # We define the cells for the primary and target q-networks
         Primary_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
         Target_rnn_cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
         self.Primary_Network = Q_Net(no_features, hidden_size, no_actions, Primary_rnn_cell, 'main', Training)
@@ -227,6 +234,7 @@ class NN(CC_Agent):
         self.init = tf.global_variables_initializer()
         trainables = tf.trainable_variables()
         self.targetOps = self.Target_Network.updateTargetGraph(trainables, tau)
+        # saver is used for saving and restoring the nn model (the weights)
         self.saver = tf.train.Saver() # max_to_keep=5
 
     # resets the rnn_state
@@ -234,6 +242,7 @@ class NN(CC_Agent):
         hidden_size = self.parameters["hidden_size"]
         self.rnn_state = np.zeros([1, hidden_size]), np.zeros([1, hidden_size])
 
+    # gets the new rnn_state
     def rnn_state_update(self, game_state):
         self.rnn_state = self.sess.run(self.Primary_Network.rnn_state,
                                       feed_dict={
@@ -245,7 +254,6 @@ class NN(CC_Agent):
         return self.rnn_state
 
     # start the session, run the assigned training type
-    # REMOVE THIS HANDLE OUTSIDE OF NN?? OR I DUNNO
     def init_training(self, type="group_all"):
         # no context manager so that session does not have to be restarted every time a new move is needed
         trainer = Init_Trainer(self, training_params=self.train_params, training_type=type)
@@ -254,6 +262,7 @@ class NN(CC_Agent):
         trainer.train(self.sess)
         self.stop_session()
 
+    # runs trainer for new games NN has played in
     def update_training(self):
         self.start_session()
         self.sess.run(self.init)
@@ -262,7 +271,7 @@ class NN(CC_Agent):
         self.stop_session()
 
     # Override from CC_Agent
-    # added an exploring parameter
+    # exploring relates to the inital part of training when the agent is exploring the environment and takes random actions
     def get_move(self, all_players, exploring=False):
         game_state = self.get_state(all_players)
         chances = self.get_chances(game_state)
@@ -310,6 +319,8 @@ class NN(CC_Agent):
         self.sess.close()
 
     # checkpoints the current model for later use
+    # model based-parameterisation
+    # save a new model for a new paramaterisation
     def save_model(self):
         path = self.parameters["path_default"]
         # Make a path for our model to be saved in.
@@ -370,6 +381,7 @@ class NN(CC_Agent):
                           self.Primary_Network.batch_size: batch_size}
                       )
 
+    # at the end of each game each hand is passed and the card counter is decremented
     def update_end_game(self, new_cards):
         self.decrement_CC(new_cards)
         self.rnn_state_reset()

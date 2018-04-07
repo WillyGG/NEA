@@ -55,7 +55,7 @@ class Users_DB(DB_Wrapper):
         to_hash = salt.encode() + password.encode() # encode converts string to bytes, so it can be encoded
         return hashlib.sha256(to_hash).hexdigest() + ":" + salt
 
-    # confirms if the passed password and the hashed password are equivalent
+    # confirms if the passed plaintext password and the hashed password are equivalent
     def verify_password(self, password, hashed_password):
         half_hashed_password, salt = hashed_password.split(":")
         user_passed_hashed = hashlib.sha256(salt.encode() + password.encode()).hexdigest()
@@ -73,23 +73,22 @@ class Users_DB(DB_Wrapper):
         query = 'INSERT INTO users (username, password, type) VALUES ("{0}", "{1}", "{2}")'.format(username,
                                                                                                    hashed_password,
                                                                                                    type)
-        #params = {"username": username, "password": hashed_password}
         self.execute_queries(query)
         return True
 
-    # fetch the games won and the games player id for a user -> tesSST THIS
+    # fetch the games won and the games played for a passed id
     def get_user_game_data(self, username):
         query = "SELECT games_won, games_played FROM users WHERE username='{0}'".format(username)
         result = self.execute_queries(query, get_result=True)
         return result
 
     # pass a username and password
-    # returns true if the username and password is valid
+    # returns true if the username and password is correct for a login
     def check_login(self, username, password):
         # get record from db via username
         # checkpassword from record,
         # if username does not exist or password is incorrect, return false
-        query = "SELECT * FROM users WHERE username='{0}'".format(username)
+        query = "SELECT username, password FROM users WHERE username='{0}'".format(username)
         result = self.execute_queries(query, get_result=True)
         if result == []:
             return False

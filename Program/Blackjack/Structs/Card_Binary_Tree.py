@@ -2,10 +2,12 @@ from Binary_Tree import Binary_Tree
 from Binary_Tree import Node
 from Binary_Tree import Traversals
 
+# Child class for Card Binary tree
 class Card_Binary_Tree(Binary_Tree):
     def __init__(self, rootNode=None):
         super().__init__(rootNode)
 
+    # reduces the card count value of a particular card, if it reaches 0 then that node is deleted
     def decrement(self, nodeValue):
         if nodeValue == None:
             return False
@@ -25,6 +27,8 @@ class Card_Binary_Tree(Binary_Tree):
             return True
 
     # traverse the entire tree and only add to the node processing if bigger than or greater than the node passed
+    # pass in node, returns the sum of the count values of the nodes which have a value
+    # greater than or equal to the passed node
     def cardCountGTET(self, baseNode=False):
         if baseNode == False:
             baseNode = self._root
@@ -43,7 +47,8 @@ class Card_Binary_Tree(Binary_Tree):
         return Traversals.post_order(self._root, base_case=base_case, node_processing=node_processing)
 
     # COUNT NUM NODES IN TREe -> OTHER METHOD
-    # Post order traversal to count number of cards in a tree
+    # Post order traversal to count number of CARDS in a tree
+    # sum of each node's count values
     def totalCardCount(self, parent=False):
         if parent == False:
             parent = self._root
@@ -60,14 +65,17 @@ class Card_Binary_Tree(Binary_Tree):
         return tree_count
 
     # prints count values as well as node value
-    def in_order_traversal(self, parent):
+    def output_tree_console(self, parent):
         if parent == None:
             return False
         self.in_order_traversal(parent.left)
         print(parent.value, parent.countValue)
         self.in_order_traversal(parent.right)
 
-
+# child class of node.
+# implements additional attribute of countValue
+# in this context the corressponding number of cards associated with a card value
+# left in the tree
 class Card_Node(Node):
     def __init__(self, value, countValue):
         super().__init__(value)

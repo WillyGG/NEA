@@ -166,6 +166,9 @@ class Comparison_Tool:
                 game_ids.append(game_id)
             game_id += 1
 
+        # stop session when agent action no longer needed
+        if Comparison_Tool.ID_NN in self.agents:
+            self.agents[Comparison_Tool.ID_NN].stop_session()
         # convert win records to % and return the win rates
         self.empty_queue_push(move_q, "move")
         self.empty_queue_push(game_q, "game")
@@ -762,6 +765,7 @@ class Comparison_Tool:
     def update_nn(self):
         nn = NN()
         nn.update_training()
+        nn.stop_session()
 
     # outputs the aggression scaled for different moves
     # TODO add button for this
