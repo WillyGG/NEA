@@ -233,7 +233,7 @@ class Batch_Trainer(Trainer):
                            WHERE trained=0;
                            """
         new_games = self.db_wrapper.execute_queries(get_q, get_result=True)
-        #self.db_wrapper.execute_queries(update_popped_q)
+        self.db_wrapper.execute_queries(update_popped_q)
         return new_games
 
     # converts a single record to an array of features, train ready
