@@ -83,7 +83,7 @@ class Q_Net():
         self.VW = tf.Variable(tf.random_normal([hidden_size // 2, 1]))
         self.Advantage = tf.matmul(self.streamA, self.AW)
         self.Value = tf.matmul(self.streamV, self.VW)
-        self.salience = tf.gradients(self.Advantage, self.input_layer) #self.imageIn
+        self.salience = tf.gradients(self.Advantage, self.input_layer)
 
     def predict(self):
          # Combine streams for final prediction value

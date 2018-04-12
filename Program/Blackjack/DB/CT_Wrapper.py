@@ -271,6 +271,12 @@ class CT_Wrapper(DB_Wrapper):
                       WHERE username='{0}';
                       """.format(id)
 
+        combined_q = """
+                     SELECT COUNT(Agents.*) + COUNT(Users.*)
+                     FROM Agents, Users
+                     WHERE Agents.agent_id='{0}' OR Users.username='{0}'
+                     """.format(id)
+
         agents_result = self.execute_queries(query_agents, get_result=True)
         users_result = self.execute_queries(query_users, get_result=True)
 
