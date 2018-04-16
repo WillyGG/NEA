@@ -29,13 +29,13 @@ class Init_Win(Window):
 
         self.rel_comp_btn = tk.Button(fr, text="Relational Comparison",
                                       command=lambda: self.open_win("rel_comp"))
-        self.rel_comp_btn.grid(row=2, column=0)
+        #self.rel_comp_btn.grid(row=2, column=0)
+
+        self.gen_stat_btn = tk.Button(fr, text="General Statistics",
+                                      command=lambda: self.open_win("gen_stat"))
+        self.gen_stat_btn.grid(row=3, column=0)
 
         if self.user_type == "admin":
-            self.gen_stat_btn = tk.Button(fr, text="General Statistics",
-                                          command=lambda: self.open_win("gen_stat"))
-            self.gen_stat_btn.grid(row=3, column=0)
-
             self.data_win_btn = tk.Button(fr, text="Gen Data",
                                   command=lambda: self.open_win("get_data"))
             self.data_win_btn.grid(row=4, column=0)
@@ -44,7 +44,6 @@ class Init_Win(Window):
             self.update_nn_btn.grid(row=5, column=0)
 
             self.nn_update_result_lbl = tk.Label(fr)
-
 
         self.back_btn = tk.Button(fr, text="Back", command=self.back)
         self.back_btn.grid(row=7, column=0)
@@ -57,7 +56,7 @@ class Init_Win(Window):
         elif win_to_open == "rel_comp":
             self.rel_comp = Rel_Win(ct=self.ct, root=self, parent=tk.Toplevel(), user_type=self.user_type)
         elif win_to_open == "gen_stat":
-            self.gen_stat = Gen_Win(ct=self.ct, root=self, parent=tk.Toplevel())
+            self.gen_win = Gen_Win(ct=self.ct, root=self, parent=tk.Toplevel())
         elif win_to_open == "get_data":
             self.data_win = Data_Win(ct=self.ct, root=self, parent=tk.Toplevel())
 
@@ -184,6 +183,16 @@ class Gen_Win(Window):
         self.ct = ct
         self.root = root
 
+        self.output_map = {
+            "hit_dist" : self.ct.output_hit_dist,
+            "stand_dist" : self.ct.output_stand_dist,
+            "stand_win" : self.ct.output_stand_vs_wr,
+            "hit_bust" : self.ct.output_hit_vs_br,
+            "aggr_win" : self.ct.output_aggression_win_relation,
+            "aggr_map" : self.ct.output_aggression_scale,
+            "winM_stand" : self.ct.output_win_margin_at_stand_vs_winrate
+        }
+
     def build_widgets(self, fr):
         self.title = tk.Label(fr, text="General Stats")
         self.title.grid(row=0, column=0)
@@ -208,20 +217,23 @@ class Gen_Win(Window):
                                         command=lambda: self.display_dist_cmd("aggr_win"))
         self.aggr_vs_wr_btn.grid(row=5, column=0)
 
+        # ADD THIS TO WU
+        self.aggr_map_btn = tk.Button(fr, text="Aggression Rating Map",
+                                      command=lambda: self.display_dist_cmd("aggr_map"))
+        self.aggr_map_btn.grid(row=6, column=0)
+
+        # ADD THIS TO WU
+        self.win_margin_btn = tk.Button(fr, text="Win Margin at Stand Distribution",
+                                        command=lambda: self.display_dist_cmd("winM_stand"))
+        self.win_margin_btn.grid(row=7, column=0)
+
         self.back_btn = tk.Button(fr, text="Back", command=self.back)
-        self.back_btn.grid(row=6, column=0)
+        self.back_btn.grid(row=8, column=0)
+
 
     def display_dist_cmd(self, dist_type):
-        if dist_type == "hit_dist":
-            self.ct.output_hit_dist()
-        elif dist_type == "stand_dist":
-            self.ct.output_stand_dist()
-        elif dist_type == "stand_win":
-            self.ct.output_stand_vs_wr()
-        elif dist_type == "hit_bust":
-            self.ct.output_hit_vs_br()
-        elif dist_type == "aggr_win":
-            self.ct.output_aggression_win_relation()
+        if dist_type in self.output_map:
+            self.output_map[dist_type]()
 
     def back(self):
         self.root.show()
@@ -329,12 +341,12 @@ class Login_Win(Window):
         self.title_lbl.grid(row=0, column=0)
 
         self.un_ent = tk.Entry(fr)
-        self.un_ent.insert(0, "admin") # todo CHANGE THIS
+        self.un_ent.insert(0, "username") # todo CHANGE THIS
         self.un_ent.bind("<Button-1>", lambda *args: self.clear_default("un"))
         self.un_ent.grid(row=1, column=0)
 
         self.pw_ent = tk.Entry(fr, show="*")
-        self.pw_ent.insert(0, "Pw1") # TODO CHANGE THIS
+        self.pw_ent.insert(0, "Password") # TODO CHANGE THIS
         self.pw_ent.bind("<Button-1>", lambda *args: self.clear_default("pw"))
         self.pw_ent.grid(row=2, column=0)
 
