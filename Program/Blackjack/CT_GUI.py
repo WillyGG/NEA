@@ -61,10 +61,16 @@ class Init_Win(Window):
             self.data_win = Data_Win(ct=self.ct, root=self, parent=tk.Toplevel())
 
     # command for updating the nn
+    # ADD TO NEA WU
     def update_nn(self):
-        self.ct.update_nn()
+        no_games = self.ct.update_nn()
         self.nn_update_result_lbl.grid(row=7, column=0)
-        self.nn_update_result_lbl.config(text="Done")
+
+        if no_games >= 50:
+            update_txt = "Trained nn with {0} games".format(no_games)
+        else:
+            update_txt = "Need at least 50 new games to train nn"
+        self.nn_update_result_lbl.config(text=update_txt)
 
     # goes back to login screen
     def back(self):

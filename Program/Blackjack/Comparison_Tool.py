@@ -384,7 +384,6 @@ class Comparison_Tool:
     # this average will be the aggression rating: ie if there is 1 chance to win if stood and a 1 chance to go bust
     # if hit, then the aggression will be 1 -> stupidly aggressive
     # hits are always aggressive -> but can have an aggression of 0 ie. hitting with no chance to go bust AND standing would never result in win
-    # TODO ADD A BUTTON IN THE GUI FOR THIS
     def map_hit_val_to_aggression(self):
         zipped_rates = self.get_zipped_aggression_data()
         # init aggr map
@@ -496,7 +495,6 @@ class Comparison_Tool:
 
     # outputs the frequencies of wins from standing at a particular win margin
     # also outputs the win margin stand frequency - NORMAL DISTRIBUTION
-    # TODO ADD A BUTTON FOR THIS
     def output_win_margin_at_stand_vs_winrate(self):
         get_win_margins_which_win = """
                                     SELECT (Moves.hand_val_before - Moves.next_best_val)
@@ -762,13 +760,15 @@ class Comparison_Tool:
         plt.show()
 
     # updates the neural network with new data from games it has played
+    # ADD TO NN WU
     def update_nn(self):
         nn = NN()
-        nn.update_training()
-        nn.stop_session()
+        games_to_train = nn.update_training()
+        if games_to_train >= 50:
+            nn.stop_session()
+        return games_to_train
 
     # outputs the aggression scaled for different moves
-    # TODO add button for this
     def output_aggression_scale(self):
         hit_map = self.map_hit_val_to_aggression()
         stand_map = self.map_stand_val_to_aggression()
@@ -840,6 +840,7 @@ class Comparison_Tool:
         self.plot_2d(x_vals, y_vals, label=id + " Aggression",
                      title="Average Aggression over time", x_lbl="no games", y_lbl="Aggr. Rating")
         plt.show()
+
 
 
 if __name__ == "__main__":
