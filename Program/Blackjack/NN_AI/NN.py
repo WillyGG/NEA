@@ -263,12 +263,17 @@ class NN(CC_Agent):
         self.stop_session()
 
     # runs trainer for new games NN has played in
+    # does not update if there are not more than 50 games ot update from
+    # ADD TO NEA WU
     def update_training(self):
-        self.start_session()
-        self.sess.run(self.init)
         trainer = Batch_Trainer(self, training_params=self.train_params)
-        trainer.train_new_games()
-        self.stop_session()
+        no_games = trainer.get_num_games_to_train()
+        if no_games >= 50:
+            self.start_session()
+            self.sess.run(self.init)
+
+            trainer.train_new_games()
+        return no_games
 
     # Override from CC_Agent
     # exploring relates to the inital part of training when the agent is exploring the environment and takes random actions
