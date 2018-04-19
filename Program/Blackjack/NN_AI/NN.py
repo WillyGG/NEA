@@ -273,6 +273,7 @@ class NN(CC_Agent):
             self.sess.run(self.init)
 
             trainer.train_new_games()
+            print("success")
         return no_games
 
     # Override from CC_Agent
@@ -328,7 +329,9 @@ class NN(CC_Agent):
 
     # stops the tf session - CALL WHEN TF WORK IS COMPLETED
     def stop_session(self):
-        self.sess.close()
+        if self.sess is not None:
+            self.sess.close()
+            self.sess = None
 
     # checkpoints the current model for later use
     # model based-parameterisation
@@ -351,6 +354,7 @@ class NN(CC_Agent):
         ckpt = tf.train.get_checkpoint_state(path) # gets the checkpoint from the last checkpoint file
         #self.saver.restore(self.sess, ckpt.model_checkpoint_path)
         self.saver.restore(self.sess, "NN_AI/nn_data/model.cptk") #NN_AI/nn_data/model.cptk
+        print("model loaded successfully")
 
     # updates the target and the primary network - should be called after game steps reaches its train frequency
     # exp buffer - experience_buffer class used to store game samples in training
@@ -398,6 +402,18 @@ class NN(CC_Agent):
         self.decrement_CC(new_cards)
         self.rnn_state_reset()
 
+    # returns all the values and the names of the trainable variables loaded in the current tf graph
+    def get_trainable_vars(self):
+        if self.sess is None:
+            self.start_session()
+        trainables = tf.trainable_variables()
+        names = [v.name for v in trainables]
+        v = [self.sess.run(v) for v in trainables]
+
+        toReturn = zip(names, v)
+
+        self.stop_session()
+        return toReturn
 
 if __name__ == "__main__":
     nn = NN()

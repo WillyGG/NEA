@@ -264,16 +264,14 @@ class Batch_Trainer(Trainer):
     def get_num_games_to_train(self):
         # cross param sql
         q = """
-            SELECT COUNT(Card_Counter_Record.*)
+            SELECT Card_Counter_Record.*
             FROM Card_Counter_Record, Moves
             WHERE Card_Counter_Record.trained=0 AND Moves.player_id='{0}' AND Moves.game_id=Card_Counter_Record.game_id
                   AND Moves.turn_num=Card_Counter_Record.turn_num;
             """.format(self.NN.ID)
-        games = self.db_wrapper.execute_queries(q, get_result=True)
-        if games == []:
-            return 0
-        else:
-            return games[0][0]
+        games = len(self.db_wrapper.execute_queries(q, get_result=True))
+        print("no games to train:", games)
+        return games
 
     # updates the network with the new games in the db
     def train_new_games(self):

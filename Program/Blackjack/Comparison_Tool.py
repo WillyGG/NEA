@@ -186,7 +186,7 @@ class Comparison_Tool:
 
     # NOT COMPLETED
     # returns a dictionary mapping a parameter (string) to an aggression rating (int)
-    def map_params_aggression(self):
+    def map_params_aggression_simple(self):
         ids = {}
         param_agg = {} # map between parameter type and aggression
         for param in Comparison_Tool.param_types:
