@@ -280,8 +280,15 @@ class NN(CC_Agent):
     def get_move(self, all_players, exploring=False):
         game_state = self.get_state(all_players)
         chances = self.get_chances(game_state)
-        move_next = self.getNextAction(chances, game_state, exploring=exploring)
-        return move_next
+
+        # simple check so the neural network always takes the dominant strategy.
+        if chances["bust"] == 1:
+            return Moves.STAND
+        elif chances["bust"] == 0:
+            return Moves.HIT
+        else:
+            move_next = self.getNextAction(chances, game_state, exploring=exploring)
+            return move_next
 
     # returns the next move of the agent
     # side effect => updated rnn cell state after every move

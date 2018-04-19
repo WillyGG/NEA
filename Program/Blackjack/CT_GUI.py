@@ -315,8 +315,11 @@ class Data_Win(Window):
             return False
 
         self.res_lbl.config(text="Commencing testing for {0} games".format(str(no_games)))
-        self.ct.get_data(agents_playing, no_games=no_games)
-        self.res_lbl.config(text="Data gathered and pushed")
+        game_ids = self.ct.get_data(agents_playing, no_games=no_games, data_get="ids")
+
+        first = game_ids[0]
+        last = game_ids[-1]
+        self.res_lbl.config(text="Data pushed: first_game={0}, last_game={1}".format(first, last))
         return True
 
     def clear_default(self, *args):

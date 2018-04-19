@@ -68,9 +68,9 @@ class Card_Binary_Tree(Binary_Tree):
     def output_tree_console(self, parent):
         if parent == None:
             return False
-        self.in_order_traversal(parent.left)
+        self.output_tree_console(parent.left)
         print(parent.value, parent.countValue)
-        self.in_order_traversal(parent.right)
+        self.output_tree_console(parent.right)
 
 # child class of node.
 # implements additional attribute of countValue

@@ -110,7 +110,7 @@ class Comparison_Tool:
                 print("game_num:", game_num)
             while blackjack.continue_game:
                 turn_num = blackjack.turnNumber
-                ID_current_player = blackjack.get_current_player().id
+                ID_current_player = blackjack.get_current_player()
                 all_hands = blackjack.get_all_hands()
                 agent_current = self.agents[ID_current_player]
 

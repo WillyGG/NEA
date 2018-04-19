@@ -183,7 +183,7 @@ class Card_Counter:
         return exceedChance
 
     def displayCardRecord(self):
-        self.CardRecord.in_order_traversal(self.CardRecord.root)
+        self.CardRecord.output_tree_console(self.CardRecord.root)
 
 # Interface between the game and the counting card AI.
 """
