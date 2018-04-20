@@ -50,7 +50,7 @@ class CT_Wrapper(DB_Wrapper):
     # agents => array of Agents Instances
     # winning_hands => Array of Hand Instances
     # convert winners to text
-    def push_game(self, game_id, winners, winning_hands, num_of_turns, agents):
+    def push_game(self, game_id, winners, winning_hands, num_of_turns, agents, table="Agents"):
         wnr_hands = ""
         wnr_vals = ""
         for hand in winning_hands:
@@ -72,10 +72,11 @@ class CT_Wrapper(DB_Wrapper):
         for agent_id in winners:
             if agent_id == "dealer":
                 continue
-            self.inc_agent_win(agent_id)
+            self.inc_agent_win(agent_id, table=table)
         for agent_id in agents:
-            self.inc_games_played(agent_id)
-            pass
+            if agent_id == "dealer":
+                continue
+            self.inc_games_played(agent_id, table=table)
 
     # pushes the state of the cc at a particular move
     def push_cc(self, game_id, turn_num, bust, blackjack, exceedWinningPlayer, alreadyExceedingWinningPlayer, move):
@@ -125,25 +126,31 @@ class CT_Wrapper(DB_Wrapper):
         return tuple(toReturn)
 
     # abstract method for incrementing a field in the agents table
-    def inc_agent(self, field, agent_id):
-        get_curr_query = "SELECT {0} FROM Agents WHERE agent_id='{1}'".format(field, agent_id)
-        game_data = self.execute_queries(get_curr_query, get_result=True)[0][0]
+    def inc_agent(self, field, agent_id, table="Agents"):
+        name_field = ""
+        if table == "Agents":
+            name_field = "agent_id"
+        elif table == "users":
+            name_field = "username"
+        get_curr_query = "SELECT {0} FROM {1} WHERE {2}='{3}'".format(field, table, name_field, agent_id)
+        game_data = self.execute_queries(get_curr_query, get_result=True)
+        game_data = game_data[0][0]
 
         inc_win_query = """
-                        UPDATE Agents
-                        SET {0}={1}
-                        WHERE agent_id='{2}';
-                        """.format(field, game_data+1, agent_id)
+                        UPDATE {0}
+                        SET {1}={2}
+                        WHERE {3}='{4}';
+                        """.format(table, field, game_data+1, name_field, agent_id)
         self.execute_queries(inc_win_query)
 
     # increments the win field of the passed agent
-    def inc_agent_win(self, agent_id):
-        self.inc_agent("games_won", agent_id)
+    def inc_agent_win(self, agent_id, table="Agents"):
+        self.inc_agent("games_won", agent_id, table)
 
     # increments the games played for each of the agents passed
-    def inc_games_played(self, *args):
+    def inc_games_played(self, *args, table="Agents"):
         for agent_id in args:
-            self.inc_agent("games_played", agent_id)
+            self.inc_agent("games_played", agent_id, table)
 
     # returns the next available game id
     # game id has to exist in both the moves table and the game record table
@@ -207,6 +214,18 @@ class CT_Wrapper(DB_Wrapper):
         query = """
                 SELECT *
                 FROM Agents
+                WHERE agent_id='{0}'
+                """.format(id)
+        result = self.execute_queries(query, get_result=True)
+        if result == []:
+            return False
+        return True
+
+    # returns true if the id exists in the user table
+    def user_exists(self, id):
+        query = """
+                SELECT *
+                FROM users
                 WHERE agent_id='{0}'
                 """.format(id)
         result = self.execute_queries(query, get_result=True)
@@ -284,14 +303,12 @@ class CT_Wrapper(DB_Wrapper):
 
     # gets average winrate for the agents, returns as a decimal
     def get_avg_wr(self):
-        q = """
-            SELECT games_won, games_played, agent_id
-            FROM Agents
-            """
-        res = self.execute_queries(q, get_result=True)
-        print(res)
+        q_agents = """
+                   SELECT games_won, games_played, agent_id
+                   FROM Agents
+                   """
+        res = self.execute_queries(q_agents, get_result=True)
         win_rates = [i[0] / i[1] for i in res]
-        print(win_rates)
         avg_winrate = sum(win_rates) / len(win_rates)
         return avg_winrate
 

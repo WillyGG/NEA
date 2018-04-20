@@ -314,6 +314,10 @@ class Data_Win(Window):
             self.res_lbl.config(text="Please enter a valid number of games")
             return False
 
+        if no_games < 50 or no_games > 1000:
+            self.res_lbl.config(text="Please enter a valid number of games")
+            return False
+
         self.res_lbl.config(text="Commencing testing for {0} games".format(str(no_games)))
         game_ids = self.ct.get_data(agents_playing, no_games=no_games, data_get="ids")
 

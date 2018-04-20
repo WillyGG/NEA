@@ -239,6 +239,19 @@ class T:
         for pw in res:
             print(pw)
 
+    def test_6ei(self):
+        output = []
+        for x in range(3594, 3645):
+            q = """
+                SELECT winner_ids
+                FROM Game_Record
+                WHERE game_id={0}
+                """.format(str(x))
+            res = self.db_wrapper.execute_queries(q, get_result=True)[0]
+            output.append(res)
+        for r in output:
+            print(r)
+
 if __name__ == "__main__":
     t = T()
-    t.test_4f()
+    t.test_6ei()

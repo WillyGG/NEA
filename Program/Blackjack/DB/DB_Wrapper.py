@@ -69,9 +69,6 @@ class DB_Wrapper:
         connection, cursor = self.connect_to_db()  # open connection
         results = []
         for index, query in enumerate(queries):
-            if self.sanitize_query(query) == False:
-                print("unsafe query")
-                continue
             try:
                 # print(query)
                 cursor.execute(query)

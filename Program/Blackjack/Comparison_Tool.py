@@ -388,7 +388,7 @@ class Comparison_Tool:
         zipped_rates = self.get_zipped_aggression_data()
         # init aggr map
         aggr_mapping = {}
-        for i in range(1, 22):
+        for i in range(0, 22):
             aggr_mapping[str(i)] = 0
 
         # add all the decimal rates to the aggression map
@@ -407,7 +407,7 @@ class Comparison_Tool:
         zipped_rates = self.get_zipped_aggression_data()
         # init aggr map
         aggr_mapping = {}
-        for i in range(1, 22):
+        for i in range(0, 22):
             aggr_mapping[str(i)] = 0
         for z in zipped_rates:
             for pair in z:
@@ -596,6 +596,7 @@ class Comparison_Tool:
 
         sorted_ratings = []
         corresp_wr = []
+        print(aggression_ratings)
         for rating in sorted(aggression_ratings):
             as_key = str(rating)
             sorted_ratings.append(rating)

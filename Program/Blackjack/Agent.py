@@ -2,6 +2,9 @@
     - Abstract class implementing and initialise needed properties and methods
     - every agent should inheret from this and overrdide the behaviours implemented in this class
 """
+import os, sys
+sys.path.append(os.path.realpath("./DB"))
+from DB_Wrapper import DB_Wrapper
 from abc import ABC, abstractmethod
 
 class Agent(ABC):
@@ -10,6 +13,7 @@ class Agent(ABC):
     def __init__(self, ID="", type=None):
         self.ID = ID
         self.type = type
+        self.db_wrapper = DB_Wrapper("DB/Blackjack.sqlite")
         super().__init__()
 
 
