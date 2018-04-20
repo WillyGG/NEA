@@ -44,17 +44,24 @@ class DB_Wrapper:
                     query = ""
         return queries
 
-    # returns true if query is safe
-    # add checks for illegal symbols
+        # returns true if query is safe
+        # add checks for illegal symbols
     def sanitize_query(self, query):
-        if "drop" in query:
-            return False
-        else:
-            return True
+        safe = True
+        for char in query:
+            ascii_char = ord(char)
+            if not ((ascii_char >= 65 and ascii_char <= 90) or  # capital letters
+                    (ascii_char >= 97 and ascii_char <= 122) or  # lower case
+                    (ascii_char >= 48 and ascii_char <= 57) or  # numbers
+                    (char == "_")):  # allow underscores
+                safe = False
+                break
+        return safe
 
-    # execute passed query or passed array of queries
-    # keep open determines if connection remains open, if so, returns connection and cursor
-    # get result will return all the results of the queries
+        # execute passed query or passed array of queries
+        # keep open determines if connection remains open, if so, returns connection and cursor
+        # get result will return all the results of the queries
+
     def execute_queries(self, queries, keep_open=False, get_result=False):
         # turns single query into executable form - defensive programming
         if isinstance(queries, str):
@@ -62,6 +69,9 @@ class DB_Wrapper:
         connection, cursor = self.connect_to_db()  # open connection
         results = []
         for index, query in enumerate(queries):
+            if self.sanitize_query(query) == False:
+                print("unsafe query")
+                continue
             try:
                 # print(query)
                 cursor.execute(query)
