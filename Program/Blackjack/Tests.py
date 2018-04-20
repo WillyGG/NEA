@@ -106,24 +106,19 @@ class T:
                 print(move)
             print(end="\n\n")
 
-    #todo come bak to this when you create a console blackjack environment
     def test_1bi(self):
-        query = """
-                UPDATE users
-                SET games_played=1, games_won=1
-                WHERE username="admin";
-                
-                UPDATE users
-                SET games_played=1, games_won=0
-                WHERE username="mr_aqa";
-                """
-        self.db_wrapper.execute_queries(query)
-
         ct = Comparison_Tool()
-        ids = ["nn", "cc_ai", "simple", "mr_aqa", "admin"]
+        ids = ["admin"]
         for id in ids:
             print(id)
             ct.output_player_wr(id)
+
+    def test_1bii(self):
+        ct = Comparison_Tool()
+        ids = ["admin"]
+        for id in ids:
+            print(id)
+            print(ct.get_aggression_rating(id))
 
     def test_2ai(self):
         ct = Comparison_Tool()
@@ -254,4 +249,4 @@ class T:
 
 if __name__ == "__main__":
     t = T()
-    t.test_6ei()
+    t.test_1bii()

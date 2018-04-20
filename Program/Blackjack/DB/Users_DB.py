@@ -66,8 +66,9 @@ class Users_DB(DB_Wrapper):
     # returns true if successful insertion
     def create_new_user(self, username, password, type="user"):
         unique_username = self.check_unique_username(username)
+        safe_username = self.sanitize_query(username)
         acceptable_password = self.check_acceptable_password(password)
-        if not unique_username or not acceptable_password:
+        if not unique_username or not acceptable_password or not safe_username:
             return False
         hashed_password = str(self.hash_password(password))
         query = 'INSERT INTO users (username, password, type) VALUES ("{0}", "{1}", "{2}")'.format(username,

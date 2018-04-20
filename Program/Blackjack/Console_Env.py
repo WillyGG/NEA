@@ -14,12 +14,14 @@ class Console_Env():
         self.usernames = users
         self.hands = self.construct_hands()
 
+    # builds the hands for each user
     def construct_hands(self):
         hands = {}
         for name in self.usernames:
             hands[name] = Hand(name)
         return hands
 
+    # executes teh environemnt
     def play_game(self):
         cc = Card_Counter()
         self.blackjack = Blackjack(self.hands)  # local instance of blackjack
@@ -88,6 +90,7 @@ class Console_Env():
         self.empty_queue_push(cc_q, "cc")
         return game_ids
 
+    # gets input from the console to get user's current move
     def get_move(self, currPlayerID):
         self.blackjack.display_game()
         inp = ""
@@ -139,6 +142,7 @@ class Console_Env():
                                         blackjack=cc_info[3], exceedWinningPlayer=cc_info[4],
                                         alreadyExceedingWinningPlayer=cc_info[5], move=cc_info[6])
 
+    # returns true if the user enters that they want to continue playing
     def get_continue_playing(self):
         inp = ""
         res = None
@@ -152,6 +156,7 @@ class Console_Env():
             res = False
         return res
 
+    # outputs the winners
     def display_winners(self, winning_hands):
         winning_val = winning_hands[0].get_value()
         print("Winners!!", winning_val)
@@ -160,7 +165,8 @@ class Console_Env():
         print()
 
 if __name__ == "__main__":
-    players = ["mr_aqa", "mrs_qaq"]
+    players = ["mr_aqa"]
     ce = Console_Env(players)
-    #ce.play_game()
-    ce.db_wrapper.execute_queries("DELETE FROM users WHERE username='mrs_qaq'")
+    ce.play_game()
+    #ce.db_wrapper.execute_queries("DELETE FROM users WHERE username='Mrs_qaaq'")
+    #ce.db_wrapper.display_all_records("users")

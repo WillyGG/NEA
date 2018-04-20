@@ -23,17 +23,18 @@ class Simple_AI(Agent):
 
     def set_parameters(self, setting="default"):
         if setting == "default":
-            self.bust_threshold = 5
-            self.win_margin_threshold = 5
+            self.win_margin_threshold = 1
+            self.bust_threshold = 3
             self.min_hand_threshold = 15
         elif setting == "aggressive":
-            self.bust_threshold = 3
-            self.win_margin_threshold = 6
+            self.win_margin_threshold = 3
+            self.bust_threshold = 7
             self.min_hand_threshold = 18
         elif setting == "passive":
-            self.bust_threshold = 7
-            self.win_margin_threshold = 3
+            self.win_margin_threshold = 0
+            self.bust_threshold = 1
             self.min_hand_threshold = 13
+
 
     # returns decision to hit or not -> true => hit, false => stand
     # stands if blackjacked or winning by a sufficient amount

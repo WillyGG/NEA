@@ -47,16 +47,18 @@ class DB_Wrapper:
         # returns true if query is safe
         # add checks for illegal symbols
     def sanitize_query(self, query):
-        safe = True
+        key_words = ["INSERT", "UPDATE", "DROP", "SELECT"]
+        for kw in key_words:
+            if kw in query:
+                return False
         for char in query:
             ascii_char = ord(char)
             if not ((ascii_char >= 65 and ascii_char <= 90) or  # capital letters
                     (ascii_char >= 97 and ascii_char <= 122) or  # lower case
                     (ascii_char >= 48 and ascii_char <= 57) or  # numbers
                     (char == "_")):  # allow underscores
-                safe = False
-                break
-        return safe
+                return False
+        return True
 
         # execute passed query or passed array of queries
         # keep open determines if connection remains open, if so, returns connection and cursor

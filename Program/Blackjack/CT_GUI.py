@@ -397,7 +397,10 @@ class Login_Win(Window):
         result = self.db_wrapper.create_new_user(username, password, type="user")
         result_text = ""
         if result == False:
-            result_text = "Signup Unsuccessful"
+            if self.db_wrapper.sanitize_query(username) == False:
+                result_text = "No sql attacks or special characters"
+            else:
+                result_text = "Signup Unsuccessful"
         else:
             result_text = "Signup Successful!"
         self.res_lbl.config(text=result_text)
@@ -411,7 +414,7 @@ class Login_Win(Window):
 if __name__ == "__main__":
     log_win = Login_Win()
     log_win.db_wrapper.create_new_user("admin", "Pw1", type="admin")
-    print(log_win.db_wrapper.create_new_user("mr_aqa", "Pw2"))
+   # print(log_win.db_wrapper.create_new_user("mr_aqa", "Pw2"))
     log_win.run()
 
     #g = Init_Win(tk.Tk())

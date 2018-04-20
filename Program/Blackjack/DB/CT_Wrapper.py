@@ -226,7 +226,7 @@ class CT_Wrapper(DB_Wrapper):
         query = """
                 SELECT *
                 FROM users
-                WHERE agent_id='{0}'
+                WHERE username='{0}'
                 """.format(id)
         result = self.execute_queries(query, get_result=True)
         if result == []:
@@ -311,6 +311,15 @@ class CT_Wrapper(DB_Wrapper):
         win_rates = [i[0] / i[1] for i in res]
         avg_winrate = sum(win_rates) / len(win_rates)
         return avg_winrate
+
+    def has_games(self, id):
+        q = """
+            SELECT COUNT(*)
+            FROM Game_Record
+            WHERE players LIKE '%{0}%'
+            """.format(id)
+        res = self.execute_queries(q, get_result=True)[0][0]
+        return res > 0
 
 
 if __name__ == "__main__":

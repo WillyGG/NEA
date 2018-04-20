@@ -312,6 +312,12 @@ class Comparison_Tool:
     # pass in player id
     # todo change this to getting data, plot in the gui class??
     def output_player_wr(self, id):
+        is_agent = self.db_wrapper.agent_exists(id)
+        is_user = self.db_wrapper.user_exists(id)
+        if not is_agent and not is_user:
+            print("not found, please pass valid id")
+            return False
+
         agent_id_as_text = self.db_wrapper.convert_agents_to_text([id])
         # gets all the game record numbers which the user has played in
         games_query = """
@@ -323,6 +329,10 @@ class Comparison_Tool:
 
         # get the data from the database
         games = self.db_wrapper.execute_queries(games_query, get_result=True)
+        if games == []:
+            print("User has no games on record")
+            return False
+
         d_win_rate = []
         games_won = 0
         win_rate = 0
@@ -341,7 +351,6 @@ class Comparison_Tool:
         else:
             batch_size = 1
 
-        batch_size = 100
         for record in games:
             batch_count += 1
             game_id = record[0]
@@ -442,9 +451,17 @@ class Comparison_Tool:
     # overall aggression rating
     # RELATIVE SCALE -> not as absolute as shown above, ie there will be a move which is rated 1 and another -1
     def get_aggression_rating(self, id):
-        exists = self.db_wrapper.agent_exists(id)
+        exists_as_agent = self.db_wrapper.agent_exists(id)
+        exists_as_user = self.db_wrapper.user_exists(id)
+        exists = exists_as_agent or exists_as_user
         if not exists:
+            print("id does not exist")
             return None
+        has_games = self.db_wrapper.has_games(id)
+        if not has_games:
+            print("user does not have games")
+            return None
+
         aggr_map_hit = self.map_hit_val_to_aggression()
         aggr_map_stand = self.map_stand_val_to_aggression()
         get_all_moves_q = """
@@ -846,7 +863,7 @@ class Comparison_Tool:
 
 if __name__ == "__main__":
     ct = Comparison_Tool()
-    print(ct.map_params_aggression())
+    print(ct.map_params_aggression_simple())
 
     #ct.get_data(Comparison_Tool.ID_NN, Comparison_Tool.ID_CC_AI,Comparison_Tool.ID_SIMPLE, Comparison_Tool.ID_RAND_AI, no_games=2000)
     #ct.output_aggression_over_time("nn")
